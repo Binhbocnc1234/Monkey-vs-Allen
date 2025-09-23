@@ -1,0 +1,27 @@
+# Ignore Unity-generated folders
+/LMIS project/Library/
+/LMIS project/Logs/
+/LMIS project/Temp/
+/LMIS project/Obj/
+/LMIS project/Build/
+/LMIS project/Builds/
+/LMIS project/UserSettings/
+
+# Ignore crash and log files
+/LMIS project/*.pidb
+/LMIS project/*.booproj
+/LMIS project/*.svd
+/LMIS project/*.user
+/LMIS project/*.userprefs
+
+# Ignore local cache
+/LMIS project/.vs/
+/LMIS project/.idea/
+/LMIS project/.gradle/
+
+# Ignore auto-generated asset bundles
+/LMIS project/Assets/AssetStoreTools*
+
+# OS-specific
+.DS_Store
+Thumbs.db
