@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca622ee73dc1464bb70e8df73f0e4d1, type: 3}
+  m_Name: Epic
+  m_EditorClassIdentifier: 
+  id: 59264259-b177-41ad-9fa8-562ff5f308ab
+  rarity: 3
+  frame: {fileID: -1639224812, guid: 7db2278cf2b31af41873987a6f5f8dbb, type: 3}
+  background: {fileID: 1729154140, guid: 7db2278cf2b31af41873987a6f5f8dbb, type: 3}

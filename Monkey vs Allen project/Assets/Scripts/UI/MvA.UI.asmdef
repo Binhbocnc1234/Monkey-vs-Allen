@@ -1,0 +1,19 @@
+{
+    "name": "MvA.UI",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Framework",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

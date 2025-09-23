@@ -1,0 +1,77 @@
+Thông tin về game Monkey vs Allen
+Đây là tài liệu phục vụ cho các developer
+Tổng quan: 
+Màn hình ngang
+Gần giống plant and zombie nhưng sẽ có thêm vài cơ chế mới
+Tuy có cơ chế lá bài nhưng không turn-based như PvZ heroes
+Thay vì chiến đấu trên mặt đất, chúng ta sẽ chiến đấu trên không, vì vậy, sẽ không có sẵn các block đất để người chơi có thể đặt Tower(trong PvZ thì là plants)
+Mục tiêu: phá nhà của địch và dành chiến thắng, để làm được điều đó, người chơi cần đặt các Block để mở rộng lãnh thỗ, đặt Tower, triệu hồi Monkey để chúng chiến đấu cho mình
+Mục tiêu của địch: loại bỏ chướng ngại vật trên đường đi, cụ thể là các Block, Tower, Monkey, phá nhà của người chơi
+Điểm khác so với PvZ:
+-Kinh tế
++Trong PvZ: đơn vị tiền tệ là “Mặt trời”. Có 2 nguồn để người chơi kiếm mặt trời: Từ trên trời rơi xuống và từ Sunflower
++Trong LMIS: đơn vị tiền tệ là “Chuối”. Có duy nhất 1 cách kiếm chuối: giết địch
+-Cơ chế lá bài: mang đầy tính ngẫu nhiên
+-Cơ chế Block:
++Khi mới vào ván đấu, người chơi chỉ được cung cấp 2 hàng block ngay trước nhà, chứ không phải 9 hàng như PvZ
+-Chiều dài sân đấu: có thể lên tới 18 hàng chứ không phải 9 hàng như PvZ
+Các thực thể có trong game:
+-Nhà của người chơi. Mọi người có thể gọi nó với tên khác là phi thuyền bay. Thuộc tính: máu
+-Nhà của kẻ địch: đối diện với nhà người chơi. Thuộc tính: máu
+-Một lưới 2D(Grid), là vật vô hình, hình chữ nhật, nằm giữa nhà của người chơi và kẻ địch. Lưới 2D được lấp đầy bởi các ô(Cell, sẽ được đề cập sau), chiều rộng Lưới 2D thường là 5 ô(một số màn là 6), chiều dài tùy biến theo từng ván đấu. Vì chiều dài tương đối dài thế nên người dùng sẽ cần phải vuốt màn hình theo chiều ngang để xem trận địa của ta và địch. Các khái niệm khác:
++Gốc tọa độ: góc trái-trên
++Hàng: số lượng hàng là chiều rộng của grid(có 5 hoặc 6 hàng)
++Cột: số lượng cột là chiều dài của grid(có rất nhiều cột)
+-Ô(Cell): nằm bên trong grid, các thuộc tính: tọa độ, vật thể phía trên, block đang có
+-Khối hộp(Block): Không có công dụng gì quá đặc biệt ngoài việc giúp Monkey và Tower đứng, cũng không thể bị phá hủy
+-Trụ(Tower): 
++Là vật thể được đặt ở trên Block, công dụng là tấn công kẻ địch từ phía xa. Thường chiếm diện tích 2x1(2 là chiều dài). Các trụ không thể đứng chồng lên nhau
++Một số thuộc tính: máu(đa phần sẽ có máu giống nhau, không quá trâu cũng không quá mỏng), sát thương, tốc độ bắn, tầm đánh(thường là vô cực/toàn bộ chiều dài Lưới 2D) 
++Có nhiều biến thể
+-Khỉ(monkey): là “Tháp biết di chuyển”, luôn di chuyển lên phía trước, nhưng chỉ có thể đi trên block, không thể bay. còn tháp chỉ có thể đứng yên. Khi gặp kẻ địch trong tầm đánh, lập tức dừng lại tại một ô và tấn công, tuyệt nhiên chúng không bao giờ đứng giữa 2 ô, hay đứng lệch, chúng luôn đứng chính diện một ô. Không bao giờ có 2 con khỉ ở cùng một ô, Monkey và Tower cũng không thể đứng chồng lên nhau. Có nhiều biến thể
+-Kẻ Địch(Enemy): Xuất hiện dày đặc, nguyên nhân dẫn đến thua cuộc cho ván đấu của bạn. Khác với Monkey, chúng không chiếm diện tích, thế nên chúng hoàn toàn có thể “stack”, nhiều enemy tụ tập tại một ô. Đa phần bọn này biết bay(có thể đi qua không khí và block của mình). Nói ngắn gọn, chúng có cơ chế tương đồng với zombie trong PvZ, ngoại trừ việc rất nhiều Enemy trong game này có khả năng tấn công tầm xa
++Có nhiều biến thể(Enemy Variants): Đa phần có khả năng tấn công Tower và Monkey, cận chiến hoặc tầm xa(bắn đạn), một số con đặc biệt đi theo để hỗ trợ đồng đội. 
++Thuộc tính: máu, sát thương, tốc đánh, tầm đánh
+-Kho bài(Inventory): chứa danh sách các lá bài kiếm được trong trận đấu
+-Spawner: là một loại Enemy đặc biệt, nó không tấn công nhà chính, thay vào đó, nó triệu hồi các Enemy. Khi máu dưới 20%, chúng di chuyển về một vị trí(sau đây tạm gọi là destination) gần nhà chính của địch, sau khi đến destination, Spawner hồi lượng máu tương ứng 50% máu tối đa trong 5s(những level đầu không có spawner)
+-Lá bài(card): Trong trận đấu, bạn sẽ liên tục thu thập những lá bài rơi ra từ kẻ địch và sử dụng chúng(khi được sử dụng, lá bài sẽ biến mất khỏi Inventory). Mỗi lá bài sẽ có công dụng khác nhau, đa phần là đặt block, đặt Trụ, triệu hồi Monkey, một số là cường hóa, hay đặc biệt là dịch chuyển vị trí tháp, nhân bản lá bài hiện có trong Inventory
++Thuộc tính: 
+Giá(cost): là một số nguyên, đơn vị là chuối(banana)
+Độ hiếm(rarity, đo lường một cách xấp xỉ công sức để kiếm được lá bài đó, không ảnh hưởng đến cơ chế ván đấu, và độ mạnh cũng không hoàn toàn tỉ lệ với độ hiếm của lá bài)
+Loại(type): block, tower, monkey hay là ultility?
+-Lá bài đặt block: vì diện tích sân đấu tương đối rộng, nên việc đặt từng block là một cực hình, vì vậy, lá bài block sẽ đặt block với diện tích 3x3, tức là đặt 9 block cùng một lúc. Khi đặt, người chơi cần kéo thả lá bài vào đúng vị trí cần đặt. Một vị trí đặt block là hợp lệ nếu nó liên kết với các block khác, hay nói cách khác, block đó không được cô lập
+-Lá bài đặt trụ, triệu hồi monkey: bạn chỉ có thể đặt nó trên block, Khi đặt, người chơi cần kéo thả lá bài vào đúng vị trí cần đặt
+-Đạn(bullet): được tạo ra bởi Tower, Monkey và Enemy. Đạn có 1 thuộc tính quan trọng: team - đạn sẽ chỉ tương tác với thực thể khác team và thuộc tính damage
+-Chuối(Banana): đơn vị tiền tệ trong trận đấu
+-Lưu ý: tầm đánh luôn là một thuộc tính số nguyên, đơn vị là ô(Cell)
+Luật chơi trong ván đấu
+Mục tiêu: <đã nói ở phần tổng quan>
+Trước khi chơi
+-Bên người chơi: chọn những lá bài sẽ xuất hiện trong ván đấu(nói gọn: chọn bộ bài). Bộ bài luôn phải có 15 lá bài, thường thì người chơi sẽ chọn sẵn ở lobby, đến ván đấu chỉ việc copy paste chứ không phải mỗi ván đấu chọn đi chọn lại 15 lá bài. Trong suốt ván đấu, người chơi chỉ có thể kiếm được những lá bài xuất hiện trong bộ bài
+-Bên kẻ địch: cho người chơi biết những Enemy sẽ xuất hiện trong ván đấu
+Mở màn:
+-Bên người chơi: Được cung cấp 3 lá bài ngẫu nhiên trong bộ bài và 5 chuối, sân nhà có 2 dàn block có thể đặt được Tower, triệu hồi Monkey. 
+-Bên kẻ địch: Chưa sản sinh Enemy, đợi vài giây để người chơi quan sát trận địa và sử dụng 3 lá bài đầu tiên
+Bắt đầu màn chơi:
+-Bên kẻ địch: bắt đầu với Wave đầu tiên, triệu hồi ra một vài Enemy, bắt đầu di chuyển từ phi thuyền địch, không quá đông
+-Bên người chơi: cần phải giết địch để kiếm chuối và lá bài, dùng các lá bài đó để mở rộng quân đội(tower và monkey) và lãnh thổ(block)
+-Bên kẻ địch: sau khi Enemy trong Wave đầu bị giết hết, chuyển sang Wave thứ 2 với Enemy mạnh hơn so với đợt đầu
+Cuối màn chơi:
+-Bên người chơi:
++Tiếp cận được phi thuyền của địch, hitbox của phi thuyền là ngay sau cột cuối cùng của Grid
++Khi phi thuyền địch hết máu, chúng ta chiến thắng
+Chiến thuật
+Những lá bài rẻ tiền sẽ hữu dụng trong đầu trận đấu nhưng đến cuối sẽ gặp khó khăn vì chúng yếu. Khi về cuối game, những là bài đắt tiền sẽ hỗ trợ bạn rất tốt
+Bộ bài cần phải phù hợp với trận đấu. Ví dụ khi địch nhiều, cần phải chọn ra những lá bài gây sát thương diện rộng, khi địch ít và khỏe, cần chuyển sang những lá bài tập trung sát thương đơn mục tiêu
+Khi phân theo giá trị kinh tế, có 3 kiểu bộ bài mình sẽ đề cập: 
+-Rẻ-trung bình: toàn những lá bài có giá từ 1 chuối đến 7 chuối. Bộ bài này sẽ giúp người chơi thắng rất nhanh nhưng đến cuối game sẽ bị tình trạng dư thừa chuối và dễ bị lật kèo 
+-Rẻ-trung bình-đắt: giá tiền nào cũng có mặt trong bộ bài, nên bộ bài này phù hợp cho những người mới chơi, từ đầu game đến cuối game đều ổn định
+-Trung bình-đắt: không khuyến khích, vì đa phần ván đầu Enemy sẽ được triệu tập ở mọi lane, và bạn sẽ không có đủ lực lượng về đầu game
+Một bộ bài tốt sẽ thường có sự phối hợp tốt giữa các lá bài(Combination). Ví dụ: 
+-Kết hợp lá bài sinh ra Monkey có tốc đánh cao với lá bài tăng sát thương(cộng thẳng vào chỉ số chứ không phải phần trăm)
+-Kết hợp Mortal(cơ chế giống hệt máy bắn dưa trong PvZ) với lá bài làm chậm để có được một Trụ giống hệt dưa băng trong PvZ, có khả năng làm chậm đám đông
+-Kết hợp Imp(khỉ con với nội tại càng đông càng vui: sát thương tỉ lệ với số lượng khỉ con có trên Lưới 2D) với lá bài Duplicate
+
+
+
+

@@ -1,0 +1,17 @@
+{
+    "name": "MvA.Grid",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Framework"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

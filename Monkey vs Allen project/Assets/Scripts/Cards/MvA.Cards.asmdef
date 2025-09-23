@@ -1,0 +1,19 @@
+{
+    "name": "MvA.Cards",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Entities",
+        "MvA.Framework",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

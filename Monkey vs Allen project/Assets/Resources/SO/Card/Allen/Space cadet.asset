@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef00bdbbec229dd4ba639edf479e0282, type: 3}
+  m_Name: Space cadet
+  m_EditorClassIdentifier: 
+  id: c7fef2a8-46b6-4bba-a627-1bee09d27387
+  isPlayerCard: 0
+  cardName: Space cadet
+  cost: 3
+  cooldown: 14
+  sprite: {fileID: 21300000, guid: 04b14aaaab2014e48a8d8706244293f8, type: 3}
+  cardRarity: 0
+  description: bruhhhh
+  prefab: {fileID: 6810458493571691711, guid: 8ca0c9714b3b7644ea0d9b8325e19480, type: 3}
+  condition: 0

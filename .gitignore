@@ -1,26 +1,26 @@
 # Ignore Unity-generated folders
-/LMIS project/Library/
-/LMIS project/Logs/
-/LMIS project/Temp/
-/LMIS project/Obj/
-/LMIS project/Build/
-/LMIS project/Builds/
-/LMIS project/UserSettings/
+/Monkey vs Allen project/Library/
+/Monkey vs Allen project/Logs/
+/Monkey vs Allen project/Temp/
+/Monkey vs Allen project/Obj/
+/Monkey vs Allen project/Build/
+/Monkey vs Allen project/Builds/
+/Monkey vs Allen project/UserSettings/
 
 # Ignore crash and log files
-/LMIS project/*.pidb
-/LMIS project/*.booproj
-/LMIS project/*.svd
-/LMIS project/*.user
-/LMIS project/*.userprefs
+/Monkey vs Allen project/*.pidb
+/Monkey vs Allen project/*.booproj
+/Monkey vs Allen project/*.svd
+/Monkey vs Allen project/*.user
+/Monkey vs Allen project/*.userprefs
 
 # Ignore local cache
-/LMIS project/.vs/
-/LMIS project/.idea/
-/LMIS project/.gradle/
+/Monkey vs Allen project/.vs/
+/Monkey vs Allen project/.idea/
+/Monkey vs Allen project/.gradle/
 
 # Ignore auto-generated asset bundles
-/LMIS project/Assets/AssetStoreTools*
+/Monkey vs Allen project/Assets/AssetStoreTools*
 
 # OS-specific
 .DS_Store

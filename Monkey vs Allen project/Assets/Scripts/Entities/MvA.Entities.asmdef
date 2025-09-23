@@ -1,0 +1,19 @@
+{
+    "name": "MvA.Entities",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Grid",
+        "MvA.Combat",
+        "MvA.Framework"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

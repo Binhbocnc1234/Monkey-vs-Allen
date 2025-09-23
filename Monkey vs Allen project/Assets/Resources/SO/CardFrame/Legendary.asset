@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca622ee73dc1464bb70e8df73f0e4d1, type: 3}
+  m_Name: Legendary
+  m_EditorClassIdentifier: 
+  id: f18d8df2-11e5-4428-bbda-e517efec8f7c
+  rarity: 4
+  frame: {fileID: 1591559508, guid: 51e179d65e839ad489e7ec41ff884ba9, type: 3}
+  background: {fileID: 601001910, guid: 51e179d65e839ad489e7ec41ff884ba9, type: 3}
