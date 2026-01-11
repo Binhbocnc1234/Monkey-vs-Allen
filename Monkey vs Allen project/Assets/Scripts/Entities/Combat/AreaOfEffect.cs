@@ -18,7 +18,7 @@ public class AreaOfEffect : MonoBehaviour
             Entity entity = collider.GetComponent<Entity>();
             if (entity != null && entity.team != team)
             {
-                entity.TakeDamage(damage);
+                // entity.TakeDamage(new DamageContext(damage, ));
             }
         }
         

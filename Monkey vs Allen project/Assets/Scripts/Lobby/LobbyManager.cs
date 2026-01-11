@@ -13,9 +13,9 @@ public class LobbyManager : Singleton<LobbyManager>
         levelCanvas.gameObject.SetActive(false);
         television.OnClick += LoadLevelMenu;
         collection.OnClick += LoadCollection;
-        initialCamPos = MyCamera.Instance.transform.position;
-        // foreach(LobbyLevelUI levelUI in LobbyManagerUI.Instance.levelGrid){
-        //     levelUI.button.onClick.AddListener()
+        initialCamPos = MyCamera.Ins.transform.position;
+        // foreach(LobbyLevelUI levelUI in LobbyManagerUI.Ins.levelGrid){
+        //     levelUI.button.onClick.AddListener(() => GameManager.Ins.StartBattle(levelUI.so));
         // }
     }
 
@@ -31,7 +31,7 @@ public class LobbyManager : Singleton<LobbyManager>
 
     }
     public void Reset(){
-        MyCamera.Instance.transform.position = initialCamPos;
+        MyCamera.Ins.transform.position = initialCamPos;
 
     }
 }

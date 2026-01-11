@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891f675849e956449913a9144c6f8887, type: 3}
+  m_Name: PrefabRegister
+  m_EditorClassIdentifier: 
+  id: 
+  arrowUI: {fileID: 377622939980209042, guid: f5481eb03b1182c478b683d22d9a277d, type: 3}
+  arrow: {fileID: 4232422032490630101, guid: 4beb14f1312e93c42b967931d7432db8, type: 3}
+  builder: {fileID: 11400000, guid: 566f56681e1a4e24ab4a0fb2285758c7, type: 2}
+  loadingUI: {fileID: 1524261055506803271, guid: c2c35be67f673b843b93a6c71c1ad124, type: 3}

@@ -35,29 +35,65 @@
   </PropertyGroup>
   <PropertyGroup>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.23</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.25</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.9f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Framework\HinterManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\GraphicEffect\LightRayManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\MySO\MySO.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\UIGradient.cs" />
+    <Compile Include="Assets\Scripts\Framework\Utility.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\SearchAbleEnum.cs" />
+    <Compile Include="Assets\Scripts\Framework\UDictionary.cs" />
+    <Compile Include="Assets\Scripts\Framework\Editor\ExtendedMonoBehaviour.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\ShowIf.cs" />
+    <Compile Include="Assets\Scripts\Framework\GraphicEffect\LightRay.cs" />
     <Compile Include="Assets\Scripts\Framework\HarmonicOscillation.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\SingletonRegister.cs" />
     <Compile Include="Assets\Scripts\Framework\MoveUI.cs" />
-    <Compile Include="Assets\Scripts\Framework\MySO.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Animation\ButtonEnlarge.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\UpdateManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\UnityExtension.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\SquaredRect.cs" />
     <Compile Include="Assets\Scripts\Framework\Timer.cs" />
-    <Compile Include="Assets\Scripts\Framework\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Tooltip\Tooltip.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\EventBus.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\DestroyHelper.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Animation\IShow.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\HalfWidthGrid.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Animation\IHide.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\MySO\SORegistry.cs" />
     <Compile Include="Assets\Scripts\Framework\MonoBehaviourWithContainer.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\readonly.cs" />
-    <Compile Include="Assets\Scripts\Framework\GameObjectContainer.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\WrapLayoutGroup.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Animation\HideAndShowUI.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Framework\RectTransformExt.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\DirectionEnum.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Tooltip\TooltipTrigger.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\Animation\UIAnimationManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\ActionOriented\UAction.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\UICornersGradient.cs" />
+    <Compile Include="Assets\Scripts\Framework\GraphicEffect\RayDeathHook.cs" />
+    <Compile Include="Assets\Scripts\Framework\Editor\UDictionary.cs" />
+    <Compile Include="Assets\Scripts\Framework\Editor\MissingReferenceScanner.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Framework\AutoSave.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\GeneralUM.cs" />
+    <Compile Include="Assets\Scripts\Framework\Interfaces.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\EventHandler.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\HideAndShowUIManager.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\UIGradientUtils.cs" />
+    <Compile Include="Assets\Scripts\Framework\UI\SceneSwitcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Framework\MvA.Framework.asmdef" />
@@ -927,16 +963,12 @@
       <HintPath>E:\UnityEditor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.TextMeshPro.csproj" />
+    <ProjectReference Include="Plugin.LeanTween.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

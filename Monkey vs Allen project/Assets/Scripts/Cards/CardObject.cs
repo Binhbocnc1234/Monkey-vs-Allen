@@ -8,10 +8,10 @@ public class CardObject : MonoBehaviour
     public static float fallingSpeed = 5f;
     public int landingLane;
     public float finalY;
-    public CardSO so;
+    public MonkeyCardSO so;
     public Transform model;
     public SpriteRenderer rarityFrame, rarityBackground, cardImage;
-    private CardSO card;
+    private MonkeyCardSO card;
 
     void Update(){
         if (Mathf.Abs(finalY - transform.position.y) >= 0.2f){
@@ -23,7 +23,7 @@ public class CardObject : MonoBehaviour
         BattleInfo.playerHand.Add(card);
         Destroy(this.gameObject);
     }
-    public void Initialize(CardSO card, int landingLane){
+    public void Initialize(MonkeyCardSO card, int landingLane){
         so = card;
         this.landingLane = landingLane;
         this.finalY = landingLane * BattleInfo.CELL_SIZE;

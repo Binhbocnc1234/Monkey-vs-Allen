@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyManagerUI : Singleton<LobbyManagerUI>
+public class LobbyManagerUI : ObjectPool<LobbyLevelUI>
 {
-    public RectTransform levelContainer;
     [HideInInspector] public List<LobbyLevelUI> levelGrid;
-    void Start()
-    {
-        foreach(Transform levelUI in levelContainer) {
-            LobbyLevelUI com = levelUI.GetComponent<LobbyLevelUI>();
-            levelGrid.Add(com);
-        }
-        var visibleSOs = LevelSO.GetVisibleSO();
-        for(int i = 0; i < visibleSOs.Count; ++i){
-            levelGrid[i].ApplyLevelSO(visibleSOs[i]);
+    void Start() {
+        foreach(LevelSO so in SORegistry.Get<LevelSO>())
+        {
+            LobbyLevelUI newLevelUI = Get();
+            if(PlayerData.CompletedLevels.Contains(so.id)) {
+                newLevelUI.ApplyLevelSO(so, LobbyLevelUI.State.Completed);
+            }
+            else if(PlayerData.VisibleLevels.Contains(so.id)) {
+                newLevelUI.ApplyLevelSO(so, LobbyLevelUI.State.Visible);
+            }
+            else {
+                newLevelUI.ApplyLevelSO(so, LobbyLevelUI.State.Incompleted);
+            }
         }
     }
     public void Return(){
         this.gameObject.SetActive(false);
-        MyCamera.Instance.Reset();
+        MyCamera.Ins.Reset();
     }
+
 }

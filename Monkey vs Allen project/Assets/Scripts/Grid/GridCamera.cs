@@ -5,23 +5,22 @@ using UnityEngine;
 
 public class GridCamera : MyCamera
 {
-    public static new GridCamera Instance{ get; private set; }
+    public static new GridCamera Ins{ get; private set; }
     public bool canDraging = true;
-    private IGrid grid;
+    private GridSystem grid;
     // Start is called before the first frame update
     protected new void Awake(){
-        Instance = this;
+        Ins = this;
     }
-    protected new void Start()
+    public void Initialize(GridSystem grid)
     {
         base.Start();
-        grid = IGrid.Instance; //Cannot be null because Start() is executed after Awake()
+        this.grid = grid;
         // Calculate bounds of battlefield using GridSystem
-        float battlefieldWidth = grid.width * grid.cellSize;
         float camZ = transform.position.z;
         camHalfWidth = cam.orthographicSize * cam.aspect;
         leftBound = -leftAndRightOffset;
-        rightBound = battlefieldWidth + leftAndRightOffset;
+        rightBound = grid.bounds.right + leftAndRightOffset;
     }
     protected new void Update(){
         base.Update();
@@ -33,6 +32,9 @@ public class GridCamera : MyCamera
         SetTarget(new Vector3(3, 5, -10));
     }
     public void MoveTowardEnemyHouse() {
+        if (grid == null) {
+            Debug.LogError("Grid null");
+        }
         SetTarget(new Vector3(grid.GetCell(grid.width-1, grid.height-1).transform.position.x, 5, -10));
     }
     void HandleScrolling(){

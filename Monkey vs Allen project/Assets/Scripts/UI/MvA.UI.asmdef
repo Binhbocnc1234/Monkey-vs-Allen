@@ -5,7 +5,9 @@
         "MvA.Core",
         "MvA.Framework",
         "Unity.TextMeshPro",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "MvA.Grid",
+        "Plugin.LeanTween"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

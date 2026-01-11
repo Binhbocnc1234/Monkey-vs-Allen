@@ -9,10 +9,10 @@ public class CombatComponent : MonoBehaviour
     public Timer timer;
     public bool isAttacking = false;
     void Start(){
-        timer = new Timer(attackSpeed);
+        timer = new Timer(attackSpeed, true);
     }
     void Update(){
-        if (isAttacking && timer.Count(false)){
+        if (isAttacking && timer.Count()){
             Attack();
         }
     }

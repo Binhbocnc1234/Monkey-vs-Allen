@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02944d39ed6d614a838740b73da5b8b, type: 3}
+  m_Name: Level 1
+  m_EditorClassIdentifier: 
+  id: 1907fafd-9b36-46d2-af11-aa18605b1108
+  difficulty: 0
+  number: 0
+  place: 0
+  thumbnail: {fileID: 1903562048, guid: 201aa13f474ac9841b196fe0bff7f5fc, type: 3}
+  initialBanana: 6
+  allenanaSpawnDelay: 3
+  gridWidth: 12
+  gridHeight: 1
+  isCompleted: 0
+  isVisible: 1
+  enemies:
+  - {fileID: 11400000, guid: 528605dba04758b40a04ab2f062ad11d, type: 2}
+  canChooseCard: 0
+  choosenCardsBySystem:
+  - {fileID: 11400000, guid: 7afebba32b409484d956ce8fc441fb38, type: 2}
+  - {fileID: 11400000, guid: 5c43cdd27ac1d7c439dc1bd05a7724ba, type: 2}
+  rewardables:
+  - rid: 7341421026675523595
+  tutorials:
+  - {fileID: 7741285610544130083, guid: 5181f43f33d3e8b499fdb4bb0aa27a15, type: 3}
+  - {fileID: 6489950921479169237, guid: 3a6ff7dc4055be24087d2c7b3b3fefe9, type: 3}
+  - {fileID: 347807135637743831, guid: 596e4ce49d78b77409563f04eab72ffe, type: 3}
+  - {fileID: 5528535108386670341, guid: e67a379001121fc4da9edb69259ff507, type: 3}
+  - {fileID: 2676038038690524897, guid: 876ae295c13f5c5478b0e7e33db8fd73, type: 3}
+  - {fileID: 2392896967172572149, guid: 267c6699a9f795c44883ad472cf8721a, type: 3}
+  initializer: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 7341421026675523595
+      type: {class: CardReward, ns: , asm: MvA.Core}
+      data:
+        count: 1
+        so: {fileID: 11400000, guid: 5c43cdd27ac1d7c439dc1bd05a7724ba, type: 2}

@@ -4,8 +4,9 @@
     "references": [
         "MvA.Core",
         "MvA.Grid",
-        "MvA.Combat",
-        "MvA.Framework"
+        "MvA.Framework",
+        "MvA.UI",
+        "MvA.Effect"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

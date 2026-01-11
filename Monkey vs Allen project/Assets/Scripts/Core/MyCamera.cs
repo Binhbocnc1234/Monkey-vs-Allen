@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MyCamera : Singleton<MyCamera> {
     //Camera's state
     protected Vector3 lastMousePosition;
     protected bool isDragging = false;
     [ReadOnly] public bool isMoving = false;
+    public Action OnFinishedMoving;
     protected float targetSize;
     protected Vector3 targetPos;
     protected float initDistance, initSize;
@@ -30,8 +32,10 @@ public class MyCamera : Singleton<MyCamera> {
             // if (diff.magnitude <= 5f)
             transform.Translate(diff.normalized*lerpSpeed*Time.deltaTime);
             cam.orthographicSize = (1-diff.magnitude / initDistance) * (targetSize - initSize) + initSize;
-            if (Vector2.Distance(transform.position, targetPos) < 0.1f)
+            if (Vector2.Distance(transform.position, targetPos) < 0.1f) {
                 isMoving = false;
+                OnFinishedMoving?.Invoke();
+            }
         }
     }
     public void SetTarget(Vector3 pos, float zoomUp = 1) {

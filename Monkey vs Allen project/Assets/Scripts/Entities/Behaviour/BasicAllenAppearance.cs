@@ -15,9 +15,8 @@ public class BasicAllenAppearance : IBehaviour
         e = GetComponent<Entity>();
         old_reaction = reaction.sprite;
         old_anten = anten1.sprite;
-        arm.enabled = false;
     }
-    void Update(){
+    protected override void UpdateBehaviour(){
         if (e.state == EntityState.Attacking){
             reaction.sprite = S_attack;
         }
@@ -26,7 +25,7 @@ public class BasicAllenAppearance : IBehaviour
                 reaction.sprite = S_reaction;
                 anten1.sprite = S_anten;
                 isFirstTimeHalfHealth = true;
-                arm.Initialize(e.laneIndex);
+                arm.Initialize(e.laneIndex, 3);
             }
         }
         else{

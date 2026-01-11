@@ -35,34 +35,54 @@
   </PropertyGroup>
   <PropertyGroup>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.23</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.25</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.9f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\UI\BananaUI.cs" />
-    <Compile Include="Assets\Scripts\UI\Card\CardUIAppearance.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaCounterUI.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\UI\MeterorUI.cs" />
-    <Compile Include="Assets\Scripts\UI\CardMenuUI.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUI.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\TraitUIPool.cs" />
+    <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardContainer.cs" />
+    <Compile Include="Assets\Scripts\UI\ArrowUI.cs" />
     <Compile Include="Assets\Scripts\UI\LevelUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Arrow.cs" />
+    <Compile Include="Assets\Scripts\UI\CardUI\CardUIEditor.cs" />
+    <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\CardUI\CardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\StatUIPool.cs" />
+    <Compile Include="Assets\Scripts\UI\CardUI\CardUIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChosenCardManager.cs" />
+    <Compile Include="Assets\Scripts\UI\DeckBuilder\DeckDisplay.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\NewCardUIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\PrepareUI.cs" />
+    <Compile Include="Assets\Scripts\UI\CardUI\CardUIAppearance.cs" />
+    <Compile Include="Assets\Scripts\UI\FlashPanel.cs" />
     <Compile Include="Assets\Scripts\UI\DeckUI.cs" />
-    <Compile Include="Assets\Scripts\UI\HideAndShowUI.cs" />
-    <Compile Include="Assets\Scripts\UI\PointerUI.cs" />
-    <Compile Include="Assets\Scripts\UI\PrepareUI.cs" />
-    <Compile Include="Assets\Scripts\UI\Card\OwnedCardManager.cs" />
-    <Compile Include="Assets\Scripts\UI\Card\CardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\SeeBattleFieldUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Almanac\AlmanacManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\CostInsuffientAnimation.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\PointerUI.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\StatUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Almanac\CategoryButton.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUIEditor.cs" />
+    <Compile Include="Assets\Scripts\UI\MyButton.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\OwnedCardManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\Card\ChosenCardManager.cs" />
-    <Compile Include="Assets\Scripts\UI\Card\CardUIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\TraitUI.cs" />
+    <Compile Include="Assets\Scripts\UI\NewCard\DescriptionHook.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\UI\MvA.UI.asmdef" />
@@ -932,26 +952,16 @@
       <HintPath>E:\UnityEditor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MvA.Core.csproj" />
     <ProjectReference Include="MvA.Framework.csproj" />
+    <ProjectReference Include="Unity.TextMeshPro.csproj" />
+    <ProjectReference Include="Unity.InputSystem.csproj" />
+    <ProjectReference Include="MvA.Grid.csproj" />
+    <ProjectReference Include="Plugin.LeanTween.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

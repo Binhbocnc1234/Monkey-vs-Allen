@@ -35,26 +35,40 @@
   </PropertyGroup>
   <PropertyGroup>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.23</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.25</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.9f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Managers\CustomSceneManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\Tutorial.cs" />
-    <Compile Include="Assets\Scripts\Managers\Prize.cs" />
-    <Compile Include="Assets\Scripts\Managers\BattleManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\LoadingSceneManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\LobbyManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\TutorialManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\LevelInitializer.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\InsuffientBananaTutorial.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\EventManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Prize.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\Level1Initializer.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\SelectBananaTreeTutorial.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\TextTutorial.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\PauseManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\AllenAreComing.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\PlaceMonkeyTutorial.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\GardenInitializer.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\KillAllTarget.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\Tutorial\CollectBananaTutorial.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\Managers\MvA.Managers.asmdef" />
+    <None Include="Assets\Scripts\Battlefield\MvA.Battlefield.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -921,14 +935,6 @@
       <HintPath>E:\UnityEditor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MvA.Core.csproj" />
@@ -937,6 +943,11 @@
     <ProjectReference Include="MvA.Framework.csproj" />
     <ProjectReference Include="MvA.Cards.csproj" />
     <ProjectReference Include="MvA.UI.csproj" />
+    <ProjectReference Include="MvA.Lobby.csproj" />
+    <ProjectReference Include="Unity.TextMeshPro.csproj" />
+    <ProjectReference Include="Plugin.LeanTween.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

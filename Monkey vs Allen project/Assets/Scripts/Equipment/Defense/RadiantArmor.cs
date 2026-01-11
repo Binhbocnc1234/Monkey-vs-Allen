@@ -1,0 +1,1 @@
+// Reduce damage by amount

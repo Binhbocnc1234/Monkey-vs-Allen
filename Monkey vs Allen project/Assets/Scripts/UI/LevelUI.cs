@@ -8,6 +8,7 @@ public class LevelUI : HideAndShowUI
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<TMP_Text>().text = $"{BattleInfo.place} - {BattleInfo.level}";
+        SingletonRegister.Register(this);
+        GetComponent<TMP_Text>().text = $"{BattleInfo.levelSO.place} - {BattleInfo.levelSO.number}";
     }
 }

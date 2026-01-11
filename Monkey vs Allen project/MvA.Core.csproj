@@ -35,32 +35,49 @@
   </PropertyGroup>
   <PropertyGroup>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.23</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.25</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.9f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Core\SO\LevelSO.cs" />
     <Compile Include="Assets\Scripts\Core\IGrid.cs" />
-    <Compile Include="Assets\Scripts\Core\SaveAndLoad\SaveAndLoad.cs" />
-    <Compile Include="Assets\Scripts\Core\EntityContainer.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\GameConfig.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\EntitySO.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\PrefabRegister.cs" />
     <Compile Include="Assets\Scripts\Core\Input\MvA main control.cs" />
     <Compile Include="Assets\Scripts\Core\IBullet.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\MonkeyCardSO.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\GlobalEffect.cs" />
+    <Compile Include="Assets\Scripts\Core\CustomSceneManager.cs" />
     <Compile Include="Assets\Scripts\Core\BattleInfo.cs" />
-    <Compile Include="Assets\Scripts\Core\CardSO.cs" />
-    <Compile Include="Assets\Scripts\Core\CardFrameSO.cs" />
-    <Compile Include="Assets\Scripts\Core\SaveAndLoad\SaveAndLoadMono.cs" />
-    <Compile Include="Assets\Scripts\Core\Interfaces.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\IEffect.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\CardIconMapSO.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\CardSO.cs" />
+    <Compile Include="Assets\Scripts\Core\GameEvent.cs" />
+    <Compile Include="Assets\Scripts\Core\SaveAndLoad\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\Core\Tutorial.cs" />
+    <Compile Include="Assets\Scripts\Core\SaveAndLoad\LevelProgress.cs" />
+    <Compile Include="Assets\Scripts\Core\Reward\IRewardable.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\EffectManager.cs" />
     <Compile Include="Assets\Scripts\Core\IEntity.cs" />
-    <Compile Include="Assets\Scripts\Core\EntitySO.cs" />
+    <Compile Include="Assets\Scripts\Core\SaveAndLoad\PlayerDataEditor.cs" />
+    <Compile Include="Assets\Scripts\Core\IBattleCard.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\EnemyCardSO.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\CardEffect.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\IEffectable.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\MySOReloader.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\CardFrameSO.cs" />
+    <Compile Include="Assets\Scripts\Core\DamageContext.cs" />
     <Compile Include="Assets\Scripts\Core\BulletContainer.cs" />
-    <Compile Include="Assets\Scripts\Core\LevelSO.cs" />
+    <Compile Include="Assets\Scripts\Core\SO\PrefabRegisterSO.cs" />
     <Compile Include="Assets\Scripts\Core\MyCamera.cs" />
     <Compile Include="Assets\Scripts\Core\Enums.cs" />
   </ItemGroup>
@@ -932,21 +949,15 @@
       <HintPath>E:\UnityEditor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MvA.Framework.csproj" />
+    <ProjectReference Include="Unity.InputSystem.csproj" />
+    <ProjectReference Include="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
+    <ProjectReference Include="MackySoft.SerializeReferenceExtensions.csproj" />
+    <ProjectReference Include="Plugin.LeanTween.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

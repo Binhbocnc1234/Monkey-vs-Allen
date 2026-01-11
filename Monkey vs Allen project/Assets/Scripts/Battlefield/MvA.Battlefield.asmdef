@@ -1,0 +1,24 @@
+{
+    "name": "MvA.Battlefield",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Grid",
+        "MvA.Entities",
+        "MvA.Framework",
+        "MvA.Cards",
+        "MvA.UI",
+        "MvA.Lobby",
+        "Unity.TextMeshPro",
+        "Plugin.LeanTween"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

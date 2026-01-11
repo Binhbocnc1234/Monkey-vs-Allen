@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Cell : ICell
 {
-    private SpriteRenderer cellRenderer;
+    // public SpriteRenderer blockRenderer;
+    // private SpriteRenderer cellRenderer;
     void Awake()
     {
-        cellRenderer = GetComponent<SpriteRenderer>();
+        // cellRenderer = GetComponent<SpriteRenderer>();
     }
     
     void Start()
@@ -13,23 +14,18 @@ public class Cell : ICell
         
     }
     
-    public bool CanPlaceBlock()
-    {
-        return !hasBlock && !hasEntity;
-    }
-    
     public bool CanPlaceTower()
     {
-        return hasBlock && !hasEntity;
+        return hasBlock;
     }
-    public override void PlaceBlock(){
-        blockObject = Instantiate(GridSystem.Instance.blockPrefab, transform.position, Quaternion.identity, this.transform);
+    public override void PlaceBlock(Sprite blockSprite){
+        blockObject = Instantiate(GridSystem.Ins.blockPrefab, transform.position, Quaternion.identity, this.transform);
+        blockObject.GetComponent<SpriteRenderer>().sprite = blockSprite;
         hasBlock = true;
     }
     // public void Place
     public override GameObject PlaceObject(GameObject prefab){
         entityObject = Instantiate(prefab, transform.position, Quaternion.identity);
-        hasEntity = true;
         return entityObject;
     }
 }

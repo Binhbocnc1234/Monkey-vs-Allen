@@ -3,160 +3,179 @@ using UnityEngine.Rendering;
 using System;
 using System.Collections.Generic;
 
+
+[System.Serializable]
+public struct EntityData {
+    public string soId;
+    public EntityState state;
+    public float actionElapsedTime;
+    public int lane;
+    public float x;
+    public List<IEffect> effects;
+}
 //Huướng thiết kế tương lai
 //Entity không reference đến Behaviour
 //Behaviour reference đến Entity
 //Entity vẫn sử dụng event để thông báo cho các Behaviour
-public class Entity : MonoBehaviourWithContainer<Entity>
-{
-    public static List<Entity> targetMonkeys = new List<Entity>(), targetEnemies = new List<Entity>();
+public class Entity : IEntity {
     [Header("Statistics")]
-    public Team team;
-    public string entityName;
-    public EntityType entityType;
-    public int laneIndex;
-    public int maxHealth;
-    public int health;
+    [ReadOnly] public string entityName;
+    [ReadOnly] public int laneIndex;
+    [ReadOnly] public int maxHealth;
+    [ReadOnly] public int health;
     public int width = 1, height = 1;
-    public bool canAttack, canMove;
     [ReadOnly] public EntityState state;
-    [Header("Others")]
-    [HideInInspector] public List<IBehaviour> behaviours;
-    protected EntityState entityState;
-    public Animator animator;
+    public EntityState defaultState = EntityState.Idle;
+    [Header("References")]
+    public List<IBehaviour> behaviours;
+    public EffectController effectController;
     public SortingGroup sortingGroup;
     public AnimatorEvent animatorEvent;
+    public Transform model;
     public SpriteRenderer[] sprites;
     public EntitySO so;
     public Action<Entity> OnEntityDeath;
     public Action<int> OnHealthChanged;
     public Action<EntityState> OnStateChanged;
-    private bool isInited = false;
     private Vector2 realPosition;
-    public bool IsDead() => health == 0;
+    // Kiểm tra chết dựa trên máu để giữ nhất quán với TakeDamage/Heal
+    private bool isDead = false;
+    public override bool IsDead() => isDead;
     public float GetHealthPercentage() => (float)health / maxHealth;
-    protected override void Awake(){ //Không gọi khi chưa vào màn chơi
-        base.Awake();
-        sprites = GetComponentsInChildren<SpriteRenderer>();
-        behaviours = new List<IBehaviour>(GetComponents<IBehaviour>());
-        SetEntityState(EntityState.Idle);
-        // if(!isInited) { Initialize(); isInited = true; }
+
+    protected virtual void Awake() { //Không gọi khi chưa vào màn chơi
+        sprites = model.GetComponentsInChildren<SpriteRenderer>();
+        behaviours = new List<IBehaviour>();
+        tribes = new();
+        foreach(IBehaviour behav in GetComponents<IBehaviour>()) {
+            if(behav.enabled == true) {
+                behaviours.Add(behav);
+            }
+        }
     }
-    protected virtual void Update(){
-        IGrid grid = GridSystem.Instance;
+    protected virtual void Update() {
+        IGrid grid = GridSystem.Ins;
         Vector2Int gridPos = grid.WorldToGridPosition(GetWorldPosition());
-        if (!grid.IsValidGridPosition(gridPos.x, gridPos.y)){
+        if(!grid.IsValidGridPosition(gridPos.x, gridPos.y)) {
             Die();
         }
     }
-    public Vector2 GetWorldPosition(){
-        if (entityState == EntityState.Attacking){
+    public override Vector2 GetWorldPosition() {
+        if(state == EntityState.Attacking) {
             return realPosition;
         }
-        else{
+        else {
             return transform.position;
         }
     }
-    
-    public void TakeDamage(int damage)
-    {
-        if (IsDead()) return;
-        health -= damage;
-        OnHealthChanged?.Invoke(-damage);
-        if (health <= 0)
+    public override IEffectable GetEffectController() => effectController;
+    public override void TakeDamage(DamageContext ctx) {
+        if(IsDead()) return;
+        effectController.ProcessDamageInput(ctx);
+        if(ctx.amount <= 0) { return; }
+        health -= ctx.amount;
+        effectController.ProcessDamageTaken(ctx);
+        OnHealthChanged?.Invoke(-ctx.amount);
+        if(health <= 0) {
+            health = 0;
             Die();
+        }
     }
-
-    public void Heal(int healAmount)
-    {
-        if (IsDead()) return;
+    public void Heal(int healAmount) {
+        if(IsDead()) return;
         health = Mathf.Min(health + healAmount, maxHealth);
         OnHealthChanged?.Invoke(healAmount);
     }
 
-    public void Die()
-    {
-        OnEntityDeath?.Invoke(this);
+    public override void Die() {
+        if(IsDead()) { return; }
+        isDead = true;
         SetEntityState(EntityState.Death);
+        OnEntityDeath?.Invoke(this);
     }
-    public virtual void SelfDestroy(){
-        if (!Application.isPlaying)
-        {
-            GameObject.DestroyImmediate(this.gameObject);
-        }
-        else
-        {
-            EContainer.entities[laneIndex].Remove(this);
-            GameObject.Destroy(this.gameObject);
-        }
-    }
+
     /// <summary>
     /// Tranfer data from SO to this Entity
     /// </summary>
-    // [ContextMenu("Add data from SO to Entity")]
-    public void Initialize(){
-        isInited = true;
-        team = so.team; 
-        entityType = so.entityType;
+    public override void Initialize(EntitySO so, Team team) {
+        this.so = so;
+        this.team = team;
+        this.tribes = so.tribes;
         maxHealth = so.health;
         health = so.health;
-        canAttack = so.canAttack;
-        canMove = so.canMove;
         width = so.width; height = so.height;
 
-        Vector2Int gridPos = IGrid.Instance.WorldToGridPosition(this.transform.position);
-        
-        foreach(IBehaviour behav in behaviours){
-            behav.Initialize();
+        Vector2Int gridPos = IGrid.Ins.WorldToGridPosition(this.transform.position);
+        foreach(IBehaviour bev in behaviours) {
+            bev.Initialize();
         }
-        if (Application.isPlaying){
+        foreach(TraitType trait in so.traits) {
+
+        }
+
+        if(Application.isPlaying) {
             laneIndex = gridPos.y; sortingGroup.sortingOrder = height - laneIndex;
-            IGrid grid = GridSystem.Instance;
-            if (width != 1 || height != 1){
+            IGrid grid = GridSystem.Ins;
+            if(width != 1 || height != 1) {
                 //Adjust transform.position so the tower appear behind 
-                transform.position = grid.GridToWorldPosition(gridPos) + (new Vector2(width/2-grid.cellSize/2, height/2-grid.cellSize/2));
+                transform.position = grid.GridToWorldPosition(gridPos) + (new Vector2(width / 2 - grid.cellSize / 2, height / 2 - grid.cellSize / 2));
                 //Add this entity to every lanes it occupy
-                for(int i = laneIndex; i < laneIndex + width; ++i){
-                    EContainer.AddEntity(this, laneIndex);
-                }
+                // for(int i = laneIndex; i < laneIndex + width; ++i){
+                //     EContainer.AddEntity(this, laneIndex);
+                // }
             }
-            EContainer.AddEntity(this, laneIndex);
-            this.transform.SetParent(EntityContainer.Instance.transform);
         }
     }
     public float Distance(Entity other) {
         return Mathf.Abs(this.GetWorldPosition().x - other.GetWorldPosition().x);
     }
-    public void SetEntityState(EntityState state){
+    public override void SetEntityState(EntityState state) {
+        if(this.state == state) { return; }
         this.state = state;
         OnStateChanged?.Invoke(state);
-        if (state == EntityState.Idle){
+        if(state == EntityState.Idle) {
             animator.Play("Idle");
-            foreach(IBehaviour behav in behaviours){
-                behav.enabled = false;
+            foreach(IBehaviour behav in behaviours) {
+                behav.SetBehaviourEnable(true);
             }
-            this.enabled = false;
         }
-        else if (state == EntityState.Walk){
+        else if(state == EntityState.Walk) {
             animator.Play("Walk");
         }
-        else if (state == EntityState.Attacking){
+        else if(state == EntityState.Attacking) {
             animator.Play("Attack", 0, 0f);
             realPosition = transform.position;
         }
-        else if (state == EntityState.Death){
-            foreach(IBehaviour behav in behaviours){
-                behav.enabled = false;
+        else if(state == EntityState.Death) {
+            foreach(IBehaviour behav in behaviours) {
+                behav.SetBehaviourEnable(false);
             }
-            this.enabled = false;
         }
-        else if(state == EntityState.Frozen){
-            foreach(IBehaviour behav in behaviours){
-                behav.enabled = false;
+        else if(state == EntityState.InActive) {
+            animator.Play("Idle");
+            foreach(IBehaviour behav in behaviours) {
+                behav.SetBehaviourEnable(false);
             }
-            this.enabled = false;
+        }
+        else if(state == EntityState.Frozen) {
+            foreach(IBehaviour behav in behaviours) {
+                behav.SetBehaviourEnable(false);
+            }
             animator.enabled = false;
         }
+    }
+    public void ReturnToDefaultState() {
+        SetEntityState(defaultState);
+    }
+    public override EntityState GetEntityState() {
+        return state;
+    }
+    public int GetDangerPoint() {
+        int total = health / 6;
+        foreach(IBehaviour behav in behaviours) {
+            total += behav.dangerPoint;
+        }
+        return total;
     }
 
 }

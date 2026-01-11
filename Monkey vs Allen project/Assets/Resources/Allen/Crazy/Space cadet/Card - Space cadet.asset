@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b43e2518a9041542b3624bd24a1d9a6, type: 3}
+  m_Name: Card - Space cadet
+  m_EditorClassIdentifier: 
+  id: 8385000a-a09e-4cf3-a7a3-9361c0472659
+  cardName: Space cadet
+  entitySO: {fileID: 11400000, guid: d5ef8a2a97ecd2845a0826605910baff, type: 2}
+  cost: 3
+  cooldownType: 1
+  sprite: {fileID: 21300000, guid: 04b14aaaab2014e48a8d8706244293f8, type: 3}
+  cardRarity: 0
+  description: This is Basic Allen

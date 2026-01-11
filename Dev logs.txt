@@ -1,1 +1,25 @@
 Should I merge Grid assembly with Core since every other assemblies reference to Grid?
+
+Things that need to be loaded when Battlefield scene is loaded:
+-Enviroment: grid, cell texture, some other decorations: flower, fence, sky, sun
+
+Cần giải quyết:
+Những Card đặc dụng cho Tower cần reference đến Tower --> Cần phải reference đến Entity
+Entity cũng cần phải reference đến EnemyCard nếu nó
+UI folder chỉ nên chứa những gì được sử dụng chung cho nhiều UI khác hoặc là chỉ phụ thuộc vào Core
+ví dụ: bananaUI, deckUI, 
+
+Effect container: nên ở trong một assembly riêng
+
+Ví dụ: Card và Entity đều là những MonoBehaviour có thể nhận được Effect. Trước khi update, chúng đều phải process qua các event trước. Ví dụ: Debuff tăng giá tiền trong 45s:
+-Khi mới bắt đầu event: setcooldown(oldcooldown + diff)
+-Sau khi kết thúc event : setcooldown(oldcooldown - diff)
+Như vậy thì Card và Entity sẽ không tham chiếu đến nhau nữa nhưng sẽ tham chiếu đến folder Event. Khi cần tác động lẫn nhau, chúng sẽ gửi một Event lên EventManager
+Cấu tạo Event: OnStart(), OnDestroy(), ConditionToDestroy(), WhileActive(), targets: List<IEffectable>
+Câu hỏi: IEffectable sẽ chủ động thực thi các event hay để phần nó trong assembly Effect
+Câu trả lời : nên để trong assembly Event, tránh class Card và Entity bị gánh nặng. Ví dụ: Effect Costly sẽ làm 
+container = new List<T>(Resources.LoadAll<T>("SO"));
+
+Tương lai, có nhiều lý do ko chọn đc thẻ
+Lý do phổ biến: cooldown và InsuffientBanana
+Lý do ít phổ biến: 

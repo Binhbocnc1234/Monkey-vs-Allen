@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonoBehaviourWithContainer<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static List<T> _container = new List<T>();
+    protected static List<T> _container = new List<T>();
     public static List<T> container{
         get{
             ResetContainer();
@@ -13,7 +13,7 @@ public class MonoBehaviourWithContainer<T> : MonoBehaviour where T : MonoBehavio
     }
     static MonoBehaviourWithContainer(){
         ResetContainer();
-        Debug.Log($"Reset container of class {typeof(T).ToString()}, now size of container is {container.Count}");
+        Debug.Log($"Reset container of class {typeof(T)}, now size of container is {container.Count}");
     }
     public static void ResetContainer(){
         _container.RemoveAll(item => item == null);

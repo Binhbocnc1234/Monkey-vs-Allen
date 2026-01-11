@@ -6,12 +6,15 @@ using UnityEngine;
 public class Die : IBehaviour{
     public float duration;
     public Material defaultMaterial;
-    protected override void Awake(){
-        base.Awake();
+    public override void Initialize(){
+        base.Initialize();
         e.OnEntityDeath += OnEntityDeath;
     }
-    void OnEntityDeath(Entity e){
-        StartCoroutine(DeathCoroutine());
+    void OnEntityDeath(Entity e) {
+        e.StartCoroutine(DeathCoroutine());
+    }
+    protected override void UpdateBehaviour() {
+        
     }
     IEnumerator DeathCoroutine()
     {
@@ -41,7 +44,7 @@ public class Die : IBehaviour{
 
             yield return null;
         }
-        e.SelfDestroy();
+        Destroy(e.gameObject);
     }
 
 }

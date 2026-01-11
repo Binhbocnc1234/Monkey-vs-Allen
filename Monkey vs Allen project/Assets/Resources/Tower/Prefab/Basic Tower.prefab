@@ -79,7 +79,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.14, y: 0.62}
+  m_Size: {x: 0.28, y: 1.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -264,7 +264,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 2.1333334, y: 2.1333334}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -372,10 +372,14 @@ MonoBehaviour:
   health: 0
   width: 1
   height: 1
-  canAttack: 0
-  canMove: 0
-  spriteRenderer: {fileID: 0}
+  state: 0
+  defaultState: 0
+  behaviours: []
   animator: {fileID: 0}
+  sortingGroup: {fileID: 0}
+  animatorEvent: {fileID: 0}
+  model: {fileID: 9153281121329365186}
+  sprites: []
   so: {fileID: 11400000, guid: 05337adca100c654cb6610946cd7d9bc, type: 2}
 --- !u!114 &9190550182045754771
 MonoBehaviour:
@@ -389,6 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a7ed9748608df4cb4ec6befa442ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dangerPoint: 0
   damage: 0
   attackSpeed: 0
   attackRange: 0

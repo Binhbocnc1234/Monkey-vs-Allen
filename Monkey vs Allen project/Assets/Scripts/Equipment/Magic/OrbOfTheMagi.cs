@@ -1,0 +1,1 @@
+// After kill or assists an enemy, attacker grants 20% HP and 2 magic attack

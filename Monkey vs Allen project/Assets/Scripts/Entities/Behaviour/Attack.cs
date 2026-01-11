@@ -15,39 +15,29 @@ public class Attack : IBehaviour
         var so = e.so;
         damage = so.damage;
         attackRange = so.attackRange;
-        attackSpeed = so.attackSpeed;
+        attackSpeed = so.attackSpeed*1.35f;
         dangerPoint = damage + attackRange;
-        
-        attackTimer = new Timer(1 / attackSpeed * 1.35f);
-        
-        if (e.animatorEvent != null){
-            e.animatorEvent.OnMakeDamage += MakeDamageInstantly;
-        }
-        attackTimer = new Timer(attackSpeed);
-        attackTimer.Count(false);
+        attackTimer = new Timer(1 / attackSpeed * 1.35f, false);
+        e.animatorEvent.OnMakeDamage += MakeDamageInstantly;
     }
-    protected virtual void Update(){
-        
-        if (attackTimer.Count(false)){
+    protected override void UpdateBehaviour(){
+        if (attackTimer.Count()){
             if (IsTherePreyNearby()){
-                Debug.Log("Attack");
                 attackTimer.Reset();
                 e.SetEntityState(EntityState.Attacking);
             }
             else{
-                e.SetEntityState(EntityState.Walk);
+                e.ReturnToDefaultState();
             }
         }
     }
     protected virtual void MakeDamageInstantly(){
-        Debug.Log("Make damage instantly");
-        var preys = GetPreyNearby();
-        foreach(var prey in preys){
-            prey.TakeDamage(damage);
-        }
+        Entity defender = GetNearestPrey(); 
+        if (defender == null){ return; }
+        defender.TakeDamage(new DamageContext(damage, e, defender));
     }
     protected bool IsTherePreyNearby(){ //Problem This function is duplicated in Monkey, Tower, 
-        List<Entity> entitiesInLane = EContainer.GetEntitiesByLane(e.laneIndex);
+        var entitiesInLane = EContainer.Ins.GetEntitiesByLane(e.laneIndex);
         foreach(Entity entity in entitiesInLane){
             if (IsEnemyInRange(entity, attackRange + 0.4f)){
                 return true;
@@ -55,16 +45,29 @@ public class Attack : IBehaviour
         }
         return false;
     }
-    protected List<Entity> GetPreyNearby(){
-        List<Entity> entitiesInLane = EContainer.GetEntitiesByLane(e.laneIndex);
+    protected List<Entity> GetPreyNearby() {
+        var entitiesInLane = EContainer.Ins.GetEntitiesByLane(e.laneIndex);
         List<Entity> result = new List<Entity>();
-        foreach(Entity entity in entitiesInLane){
-            if (IsEnemyInRange(entity, attackRange + 0.2f)){
+        foreach(Entity entity in entitiesInLane) {
+            if(IsEnemyInRange(entity, attackRange + 0.6f)) {
                 result.Add(entity);
             }
         }
-        if(result.Count == 0) { Debug.LogWarning("No prey nearby"); }
+        // if(result.Count == 0) { Debug.LogWarning("No prey nearby"); }
         return result;
+    }
+    protected Entity GetNearestPrey() {
+        var preys = GetPreyNearby();
+        if(preys.Count == 0) {
+            return null;
+        }
+        Entity ans = preys[0];
+        foreach(Entity prey in preys) {
+            if((prey.GetWorldPosition().x - e.GetWorldPosition().x) <= attackRange) {
+                ans = prey;
+            }
+        }
+        return ans;
     }
     protected bool IsEnemyInRange(Entity entity, float attackRange){
         float entityX = entity.GetWorldPosition().x;

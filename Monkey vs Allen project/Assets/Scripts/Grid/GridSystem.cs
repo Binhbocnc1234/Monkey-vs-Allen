@@ -27,65 +27,50 @@ using UnityEngine.UI;
 /// Layout Flow: Player Ship (left) → Blocks (Defense) → Empty Area → Enemy Spawn (right)
 /// Each row represents a lane where entities move horizontally
 /// </summary>
-public class GridSystem : IGrid{
-    
+public class GridSystem : IGrid {
+    public static new GridSystem Ins { get; private set; }
+
     [Header("Prefabs")]
     public GameObject cellPrefab;   // Prefab for individual grid cells
     public GameObject targetMonkeyPrefab;
     public GameObject targetAllenPrefab;
-    [Header("Grid Data")]
-    private Cell[,] gridCells;      // 2D array storing all grid cells
-    
-    private Vector2 gridOrigin;     // World position of grid origin (top-left corner)
+    public Cell[,] cells { get;  private set;}      // 2D array storing all grid cells
     public int[] headerPosition; //header: lead block for each lane, position follow X-asis
-    
+    protected override void Awake(){
+        base.Awake();
+        Ins = this;
+    }
     public override void Clear(){
         foreach(Transform child in transform){
             DestroyImmediate(child.gameObject);
         }
     }
-    [ContextMenu("Initialize Grid (Call Start)")]
-    public override void Initialize()
+
+    public override void Initialize(LevelSO levelSO)
     {
-        gridCells = new Cell[width, height];
-        headerPosition = new int[height];
-        gridOrigin = transform.position; //Usually (0, 0) in world space
+        Ins = this;
+        this.width = levelSO.gridWidth;
+        this.height = levelSO.gridHeight;
+        cells = new Cell[width, ARRAY_HEIGHT];
+        // headerPosition = new int[];
+        transform.position = new Vector2(0, 0); //Usually (0, 0) in world space
+
+        //Bounds
+        bounds = new GridBound();
+        bounds.left = 0; bounds.bottom = 0;
+        bounds.top = GridToWorldPosition(0, height - 1).y;
+        bounds.right = GridToWorldPosition(width - 1, 0).x;
         
+        //Create cell for entire 2D array
         for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < ARRAY_HEIGHT; y++)
             {
                 CreateCell(x, y);
             }
         }
-        // Placeblock
-        int columns = 0;
-        switch(BattleInfo.place){
-            case Place.Garden: columns = width; break;
-            case Place.Sky : columns = 3; break;
-            default : Debug.LogError("Error: BattleInfo.currentMap == Place.None"); break;
-        }
-        if (BattleInfo.level <= 2){
-            for (int x = 0; x < columns; x++){
-                for (int y = 0; y < height; y++)
-                {
-                    GetCell(x, y).PlaceBlock();
-                }
-            }
-        }
-        else{
-            for (int x = 0; x < columns; x++){
-                for (int y = 0; y < height; y++)
-                {
-                    GetCell(x, y).PlaceBlock();
-                }
-            }
-        }
-        
-        // for(int y = 0; y < height; ++y) {
-        //     headerPosition[y] = 2;
-        // }
         Debug.Log("Successfully initialize Cells");
     }
+
     void CreateCell(int x, int y)
     {
         Vector3 worldPosition = GridToWorldPosition(x, y);
@@ -99,21 +84,21 @@ public class GridSystem : IGrid{
         sortingGroup.sortingOrder = height - y;
 
         cell.name = $"Cell_{x}_{y}";
-        gridCells[x, y] = cell;
+        cells[x, y] = cell;
     }
     public override Vector2 GridToWorldPosition(Vector2Int gridPos)
     {
         return GridToWorldPosition(gridPos.x, gridPos.y);
     }
     public override Vector2 GridToWorldPosition(int x, int y){
-        return gridOrigin + new Vector2(x * cellSize, y * cellSize);
+        return new Vector2(x * cellSize, y * cellSize);
     }
     /// <summary>
     /// Converts Unity world coordinates to grid coordinates. WorldToGridPosition(new Vector3(2.7f, 3.2f, 0)) returns Vector2Int(2, 3)
     /// </summary>
     public override Vector2Int WorldToGridPosition(Vector2 worldPosition)
     {
-        Vector2 localPosition = worldPosition - gridOrigin;
+        Vector2 localPosition = worldPosition;
         Vector2Int ans = new Vector2Int(
             Mathf.FloorToInt(localPosition.x / cellSize),
             Mathf.FloorToInt(localPosition.y / cellSize)
@@ -131,24 +116,25 @@ public class GridSystem : IGrid{
     {
         if (IsValidGridPosition(x, y))
         {
-            return gridCells[x, y];
+            return cells[x, y];
         }
         else{
-                Debug.LogError($"GridSystem:GetCell({x}, {y}): Invalid position");
-                return null;
+            Debug.LogError($"GridSystem:GetCell({x}, {y}): Invalid position");
+            return null;
         }
     }
     public override ICell GetCell(Vector2Int position)
     {
         return GetCell(position.x, position.y);
     }
+
     /// <summary>
     /// Checks if the given grid coordinates are within valid bounds.
     /// </summary>
     /// <example>IsValidGridPosition(5, 3) returns false for a 5x4 grid</example>
     public override bool IsValidGridPosition(int x, int y)
     {
-        return x >= 0 && x < width && y >= 0 && y < height;
+        return x >= 0 && x < width && y >= 0 && y < ARRAY_HEIGHT;
     }
     
     /// <summary>
@@ -159,26 +145,35 @@ public class GridSystem : IGrid{
         return IsValidGridPosition(position.x, position.y);
     }
 
+    public List<int> GetOpenLanes(){
+        List<int> openLanes = new();
+        for(int i = 0; i < GridSystem.Ins.openLanes.Length; ++i) {
+            if(GridSystem.Ins.openLanes[i]) {
+                openLanes.Add(i);
+            }
+        }
+        return openLanes;
+    }
     /// <summary>
     /// Extends a lane by placing a specified number of connected blocks.
     /// The placed blocks must be connected to the previous/left blocks in the lane.
     /// <br/>
     /// Example: PlaceBlockAtLane(2, 3) places 3 blocks in lane 2, starting from the current header position.
     /// </summary>
-    public override void PlaceBlockAtLane(int y, int count = 1)
-    {
-        // Validate lane index
-        if (y < 0 || y >= height || count < 1) Debug.LogWarning("Lane index not valid");
+    // public override void PlaceBlockAtLane(int y, int count = 1)
+    // {
+    //     // Validate lane index
+    //     if (y < 0 || y >= height || count < 1) Debug.LogWarning("Lane index not valid");
 
-        // Start placing from the current header position for this lane
-        int startX = headerPosition[y] + 1;
-        int placed = 0;
-        for (int x = startX; x < width && placed < count; x++)
-        {
-            GetCell(x, y).PlaceBlock();
-            placed++;
-        }
-    }
+    //     // Start placing from the current header position for this lane
+    //     int startX = headerPosition[y] + 1;
+    //     int placed = 0;
+    //     for (int x = startX; x < width && placed < count; x++)
+    //     {
+    //         GetCell(x, y).PlaceBlock();
+    //         placed++;
+    //     }
+    // }
 }
 
 

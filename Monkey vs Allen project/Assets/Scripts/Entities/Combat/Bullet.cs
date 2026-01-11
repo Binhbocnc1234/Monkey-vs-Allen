@@ -1,27 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
     [Header("Bullet Properties")]
-    public float speed = 10f;
-    public int damage = 10;
-    public Team team;
-
+    [ReadOnly] public float speed = 10f;
+    [ReadOnly] public int damage = 10;
     protected Vector3 direction;
-
-    public virtual void Initialize(Vector3 direction, float speed, int damage, Team team)
+    public Entity owner;
+    protected virtual void Initialize(float speed, int damage, Entity owner)
     {
-        this.direction = direction.normalized;
+        this.owner = owner;
         this.speed = speed;
         this.damage = damage;
-        this.team = team;
     }
 
     protected virtual void OnHit(Entity target)
     {
-        if (target != null && target.team != team)
+        if (target != null && target.team != owner.team)
         {
-            target.TakeDamage(damage);
+            DamageContext ctx = new DamageContext(damage, owner, target, false);
+            owner.effectController.ProcessDamageOutput(ctx);
+            target.TakeDamage(ctx);
             DestroyBullet();
         }
     }

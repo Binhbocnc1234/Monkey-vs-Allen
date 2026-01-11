@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Titanium-helmet Allen
+  m_EditorClassIdentifier: 
+  team: 1
+  tribes: 0b000000
+  traits: 
+  health: 50
+  canAttack: 1
+  attackRange: 1
+  damage: 1
+  attackSpeed: 1
+  moveSpeed: 1
+  width: 1
+  height: 1
+  prefab: {fileID: 2742564207549897768, guid: c710fc65d27f01e48b5b1bf5298db7c4, type: 3}

@@ -35,14 +35,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.23</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.25</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.9f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\2022.3.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -50,24 +50,41 @@
     <Compile Include="Assets\Scripts\Entities\Behaviour\BasicAllenAppearance.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\RangedAttack.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
-    <Compile Include="Assets\Scripts\Entities\Base.cs" />
+    <Compile Include="Assets\Scripts\Entities\Behaviour\StraightMove.cs" />
+    <Compile Include="Assets\Scripts\Entities\DropBodyPart.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\Watermelon\WatermelonRangedAttack.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\TreeEvent.cs" />
+    <Compile Include="Assets\Scripts\Entities\Allen\Dollar.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\Watermelon\Watermelon.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\Die.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\Melee.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\Banana.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\AnimatorEvent.cs" />
-    <Compile Include="Assets\Scripts\Entities\Behaviour\DropBodyPart.cs" />
+    <Compile Include="Assets\Scripts\Entities\Behaviour\Flicker.cs" />
+    <Compile Include="Assets\Scripts\Entities\Behaviour\EffectController.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\CollisionBullet.cs" />
+    <Compile Include="Assets\Scripts\Entities\Allen\DonaldTrump.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\AreaOfEffect.cs" />
+    <Compile Include="Assets\Scripts\Entities\Behaviour\PreciseRangedAttack.cs" />
+    <Compile Include="Assets\Scripts\Entities\ShadowContainer.cs" />
+    <Compile Include="Assets\Scripts\Entities\Allen\Allen.cs" />
     <Compile Include="Assets\Scripts\Entities\IBehaviour.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\FlashWhite.cs" />
-    <Compile Include="Assets\Scripts\Entities\Banana Tree.cs" />
+    <Compile Include="Assets\Scripts\Entities\DeadlyManager.cs" />
+    <Compile Include="Assets\Scripts\Entities\Skill.cs" />
+    <Compile Include="Assets\Scripts\Entities\Allen\StatueOfLiberty.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\Crazy\BinaryStar.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\Move.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\AimBullet.cs" />
     <Compile Include="Assets\Scripts\Entities\Target.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\CombatComponent.cs" />
+    <Compile Include="Assets\Scripts\Entities\Behaviour\Rotater.cs" />
     <Compile Include="Assets\Scripts\Entities\Builder.cs" />
+    <Compile Include="Assets\Scripts\Entities\Shadow.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\BasicAllenMove.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\Attack.cs" />
+    <Compile Include="Assets\Scripts\Entities\Monkey\Banana Tree.cs" />
     <Compile Include="Assets\Scripts\Entities\EContainer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -938,19 +955,15 @@
       <HintPath>E:\UnityEditor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MvA.Core.csproj" />
     <ProjectReference Include="MvA.Grid.csproj" />
     <ProjectReference Include="MvA.Framework.csproj" />
+    <ProjectReference Include="MvA.UI.csproj" />
+    <ProjectReference Include="MvA.Effect.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

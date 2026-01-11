@@ -22,10 +22,11 @@ public class FlashWhite : IBehaviour
             
         e.OnHealthChanged += Flash;
     }
-
+    protected override void UpdateBehaviour() {
+        
+    }
     public void Flash(int diff)
     {
-        Debug.Log("Flash");
         StopAllCoroutines();
         if (diff > 0){
             StartCoroutine(FlashRoutine(healColor));
@@ -41,6 +42,7 @@ public class FlashWhite : IBehaviour
     }
     IEnumerator FlashRoutine(Color color)
     {
+        sprites = e.model.GetComponentsInChildren<SpriteRenderer>();
         foreach (var s in sprites)
             s.color = color;
 

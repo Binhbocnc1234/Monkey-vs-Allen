@@ -5,43 +5,56 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-//UI assembly contains: bananaUI --> core, CardUI --> CardSO -> core
+//UI assembly contains: BananaCounterUI --> core, CardUI --> CardSO -> core
 //UIManager born to solve UI's reference all 
 public class UIManager : Singleton<UIManager>
 {
-
-    private CardUIManager ownedCards, chosenCards;
-    public HideAndShowUI levelUI, letsRockUI;
-    public HideAndShowUI ownedCardsTrans, chosenCardsTrans;
+    public HideAndShowUIManager hideShowManager;
     public Scrollbar selectedCardScrollbar;
-    public Image flashPanel;
+    public FlashPanel flashPanel;
     public GameObject loseText;
     public RectTransform tryAgainUI;
 
     void Start(){
-        ownedCards = OwnedCardManager.Instance;
-        chosenCards = ChosenCardManager.Instance;
         loseText.gameObject.SetActive(false);
         tryAgainUI.gameObject.SetActive(false);
     }
     public void InitChoosingCard(){
-        BananaUI.Instance.Initialize();
-        HideAndShowUI.HideAllImmediately();
-        levelUI.ShowCoroutine();
+        StartCoroutine(InitChoosingCardCoroutine());
+    }
+    public IEnumerator InitChoosingCardCoroutine(){
+        BananaCounterUI.Ins.Initialize();
+        PrepareUI.Ins.gameObject.SetActive(false);
+        hideShowManager.HideAllImmediately();
+        hideShowManager.Show("level");
         selectedCardScrollbar.value = 0;
-        // chosenCards.SetReferencedList()
-        PrepareUI.Instance.gameObject.SetActive(false);
-    }
-    public void Prepare(){
-        levelUI.Hide();
-        letsRockUI.Hide();
-        StartCoroutine(ownedCardsTrans.HideCoroutine());
-        StartCoroutine(chosenCardsTrans.ShowCoroutine());
-        foreach(CardUI cardUI in chosenCards.cardUIs){
-            cardUI.haveCooldown = true;
+        GridCamera.Ins.canDraging = false;
+        yield return new WaitForSeconds(1f);
+        GridCamera.Ins.MoveTowardEnemyHouse();
+        yield return new WaitWhile(() => GridCamera.Ins.isMoving);
+        if (BattleInfo.levelSO.canChooseCard){
+            hideShowManager.ShowAll();
         }
-        
+        else{
+            hideShowManager.Show("chosenCardContainer");
+            hideShowManager.Show("pause");
+            hideShowManager.Show("letsrock");
+        }
     }
+
+    public void PrepareForBattle(){
+        StartCoroutine(PrepareForBattleCoroutine());
+    }
+    public IEnumerator PrepareForBattleCoroutine() {
+        hideShowManager.Hide("level");
+        hideShowManager.Hide("letsrock");
+        hideShowManager.Hide("ownedCardContainer");
+        hideShowManager.Show("chosenCardContainer");
+        GridCamera.Ins.MoveTowardPlayerHouse();
+        yield return new WaitWhile(() => GridCamera.Ins.isMoving);
+        yield return StartCoroutine(PrepareUI.Ins.Act());
+    }
+
     public IEnumerator Lose(){
         loseText.transform.localScale = Vector3.zero;
         float t = 0;
@@ -57,32 +70,21 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
-    public IEnumerator Flash(){
-        Color white = Color.white;
-        while(true){
-            white.a += Time.deltaTime;
-            if (white.a >= 1){
-                break;
-            }
-            else{
-                flashPanel.color = white;
-                yield return null;
-            }
-            
-        }   
+    public void AddUI(RectTransform child, RectTransform parent, Vector3 worldPos){
+        Canvas canvas = GetComponent<Canvas>();
+        Camera cam = canvas.worldCamera; // the camera assigned to the canvas
+
+        // Convert world → screen → canvas local position
+        Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parent,
+            screenPos,
+            cam,
+            out Vector2 anchoredPos
+        );
+
+        child.SetParent(parent, false);
+        child.anchoredPosition = anchoredPos;
     }
-    // public IEnumerator DeFlash(){
-    //     Color white = Color.white;
-    //     while(true){
-    //         white.a -= Time.deltaTime;
-    //         if (white.a <= 0){
-    //             break;
-    //         }
-    //         else{
-    //             flashPanel.color = white;
-    //             yield return null;
-    //         }
-            
-    //     }  
-    // }
+    
 }

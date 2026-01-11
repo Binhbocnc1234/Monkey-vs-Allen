@@ -5,17 +5,13 @@ public class AimBullet : Bullet
     [Header("Aim Settings")]
     public float hitDistance = 0.5f;
     public float turnSpeed = 5f;
-
     private Entity target;
     private Vector3 targetPosition;
 
-    public void Initialize(float speed, int damage, Team team, Entity target)
+    public void Initialize(float speed, int damage, Entity owner, Entity target)
     {
-        this.speed = speed;
-        this.damage = damage;
-        this.team = team;
-        this.target = target;
-        this.targetPosition = ((MonoBehaviour)target).transform.position;
+        base.Initialize(speed, damage, owner);
+        targetPosition = target.transform.position;
     }
 
     void Update()
