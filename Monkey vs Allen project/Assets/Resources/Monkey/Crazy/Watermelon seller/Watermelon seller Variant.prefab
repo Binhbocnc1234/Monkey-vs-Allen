@@ -1394,6 +1394,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8371015439997836216, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371015439997836216, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
@@ -1434,3 +1438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2de94671a8e014aa443d688a8ca8c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dangerPoint: 0
+  damage: 0
+  attackSpeed: 0
+  attackRange: 0
+  bulletSpeed: 1
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}

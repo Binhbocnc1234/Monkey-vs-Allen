@@ -361,11 +361,13 @@ GameObject:
   - component: {fileID: 4835022742594733043}
   - component: {fileID: 2318974807195246646}
   - component: {fileID: 8178116233779810405}
+  - component: {fileID: 4355747680425163997}
   - component: {fileID: 4831466468473858848}
   - component: {fileID: 722212559405958959}
   - component: {fileID: 8781521823059567769}
   - component: {fileID: 4662299654937808257}
   - component: {fileID: 6541117696065218770}
+  - component: {fileID: 4921776487787485755}
   m_Layer: 0
   m_Name: Basic Allen
   m_TagString: Untagged
@@ -454,6 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
+  animator: {fileID: 2254435818894348868}
   entityName: 
   laneIndex: 0
   maxHealth: 10
@@ -463,12 +466,24 @@ MonoBehaviour:
   state: 0
   defaultState: 0
   behaviours: []
-  animator: {fileID: 2254435818894348868}
+  effectController: {fileID: 4355747680425163997}
   sortingGroup: {fileID: 8757267419325822777}
   animatorEvent: {fileID: 6424185752659612394}
   model: {fileID: 8932923076511771393}
   sprites: []
   so: {fileID: 11400000, guid: 7c8dbbb86002b984597700da909c9c98, type: 2}
+--- !u!114 &4355747680425163997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4243784536699012920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a333032aa3c669b45a8fd57f3846d2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4831466468473858848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +572,19 @@ MonoBehaviour:
   dangerPoint: 0
   duration: 0.4
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &4921776487787485755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4243784536699012920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc68c77461701ae459d201b3c76ee76f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dangerPoint: 0
 --- !u!1 &4260719792826898460
 GameObject:
   m_ObjectHideFlags: 0

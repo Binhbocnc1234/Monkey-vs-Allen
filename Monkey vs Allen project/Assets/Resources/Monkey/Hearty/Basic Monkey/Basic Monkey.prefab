@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7779817159606823549}
   - component: {fileID: 7693580086204686991}
   - component: {fileID: 27912438379280153}
+  - component: {fileID: 8356788636549523183}
+  - component: {fileID: 4035948017933172144}
   m_Layer: 0
   m_Name: Basic Monkey
   m_TagString: Untagged
@@ -50,16 +52,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  animator: {fileID: 2641791976453141688}
   entityName: 
-  entityType: 3
   laneIndex: 0
   maxHealth: 10
   health: 10
   width: 1
   height: 1
   state: 0
+  defaultState: 0
   behaviours: []
-  animator: {fileID: 2641791976453141688}
+  effectController: {fileID: 4035948017933172144}
   sortingGroup: {fileID: 1012923506787708539}
   animatorEvent: {fileID: 574371075522425224}
   model: {fileID: 8371015439997836216}
@@ -128,6 +131,31 @@ MonoBehaviour:
   dangerPoint: 0
   duration: 0.4
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &8356788636549523183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898314983252595580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc68c77461701ae459d201b3c76ee76f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dangerPoint: 0
+--- !u!114 &4035948017933172144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898314983252595580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a333032aa3c669b45a8fd57f3846d2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7040609575162946510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1557848736211449974, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 1557848736211449974, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_LocalPosition.z

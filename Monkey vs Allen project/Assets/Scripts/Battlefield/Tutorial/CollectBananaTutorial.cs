@@ -6,24 +6,24 @@ using TMPro;
 
 public class CollectBananaTutorial : Tutorial
 {
-    public override void Initialize() {
-        base.Initialize();
-        StartTutorial();
-        foreach(Entity e in EContainer.Ins.GetEntitiesByLane(2)) {
-            BananaTree tree = e.GetComponent<BananaTree>();
-            if(tree != null) {
-                tree.SetBehaviourEnable(true);
-                tree.cooldownTimer.SetCurTime(tree.cooldown * 0.85f);
-                tree.OnBananaGenerated += (info) => {
-                    if(this == null) return;
-                    StartTutorial();
-                };
+    private BananaTree tree;
+    void Awake() {
+        foreach (Entity e in EContainer.Ins.GetEntitiesByLane(2))
+        {
+            tree = e.GetComponent<BananaTree>();
+            if (tree != null) {
                 break;
             }
         }
     }
-    void Update() {
-        
+    public override void Initialize() {
+        base.Initialize();
+        tree.SetBehaviourEnable(true);
+        tree.cooldownTimer.SetCurTime(tree.cooldownTimer.totalTime * 0.85f);
+        tree.OnStateChanged += (state) => {
+            if (this == null || state == BananaTree.State.Growing) return;
+            StartTutorial();
+        };
     }
     public override void StartTutorial() {
         base.StartTutorial();
@@ -33,7 +33,6 @@ public class CollectBananaTutorial : Tutorial
     public override void CompleteTutorial() {
         base.CompleteTutorial();
         BattleInfo.OnBananaChange -= CompleteTutorial;
-        PauseManager.Ins.DePause();
     }
 
 }

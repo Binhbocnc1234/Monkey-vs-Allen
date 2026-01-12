@@ -15,15 +15,11 @@ public class DropBodyPart : MonoBehaviour{
     public Vector2 velocity;
     public float groundPos = 5;
     public bool canFadeOut = false;
-    private float idleDuration = -1;
     private Timer idleTimer;
     void Awake(){
         enabled = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    // public static DropBodyPart Instantiate(int initX, int laneIndex, float duration){
-
-    // }
     public void Initialize(int laneIndex){
         state = DropPartState.Falling;
         groundPos = IGrid.Ins.GridToWorldPosition(1, laneIndex).y;
@@ -37,7 +33,6 @@ public class DropBodyPart : MonoBehaviour{
     }
     protected void SetIdleTime(float duration){
         canFadeOut = true;
-        idleDuration = duration;
         idleTimer = new Timer(duration, true);
     }
     protected virtual void Update(){
@@ -62,19 +57,4 @@ public class DropBodyPart : MonoBehaviour{
             }
         }
     }
-    IEnumerator FadeOut(float duration) {
-        Color c = spriteRenderer.color;
-        float startAlpha = c.a;
-        float t = 0f;
-        while (t < duration) {
-            t += Time.deltaTime;
-            c.a = Mathf.Lerp(startAlpha, 0f, t / duration);
-            spriteRenderer.color = c;
-            yield return null;
-        }
-        c.a = 0f;
-        spriteRenderer.color = c;
-    }
-
-
 }

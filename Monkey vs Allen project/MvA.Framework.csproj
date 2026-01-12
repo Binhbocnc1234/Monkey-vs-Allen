@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Framework\UI\HalfWidthGrid.cs" />
     <Compile Include="Assets\Scripts\Framework\UI\Animation\IHide.cs" />
     <Compile Include="Assets\Scripts\Framework\Design Pattern\MySO\SORegistry.cs" />
+    <Compile Include="Assets\Scripts\Framework\Design Pattern\AdvancedTimer.cs" />
     <Compile Include="Assets\Scripts\Framework\MonoBehaviourWithContainer.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\readonly.cs" />
     <Compile Include="Assets\Scripts\Framework\UI\WrapLayoutGroup.cs" />

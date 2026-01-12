@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class Banana: DropBodyPart{
     [ReadOnly] public bool isDisappearing = false;
-    private bool isReceivedBanana = false;
-    void Start(){
-        
+    int count;
+    void Awake() {
+        canFadeOut = false;
     }
-    protected override void Update(){
+    public void SetBananaCount(int count) {
+        this.count = count;
+    }
+    protected override void Update() {
         base.Update();
-        if (state == DropPartState.FadeOut){
-            if (isReceivedBanana == false){
-                BattleInfo.ChangeBananaCnt(1);
-                isReceivedBanana = true;
-            }
-            transform.Translate(new Vector2(0, Time.deltaTime*5));
+        if(state == DropPartState.FadeOut) {
+            transform.Translate(new Vector2(0, Time.deltaTime * 5));
         }
     }
-    // void OnMouseDown(){
-    //     //Collect banana
-    //     BattleInfo.ChangeBananaCnt(1);
-    //     state = DropPartState.FadeOut;
-    // }
+    void OnMouseUp() {
+        state = DropPartState.FadeOut;
+        BattleInfo.ChangeBananaCnt(count);
+    }
 
 }

@@ -10,8 +10,7 @@ public class EnemyManager: Singleton<EnemyManager>{
     // private Timer meteoriteTimer;
     // private float coolDownFactor = 1f;
     private List<Entity> demoEnemies = new List<Entity>();
-    void Start(){
-        // meteoriteTimer = new Timer(meteoriteUpgradeDelay);
+    public void Initialize(){
         spawnTimer = new Timer(BattleInfo.levelSO.allenanaSpawnDelay, true);
         grid = GridSystem.Ins;
         foreach(EnemyCardSO so in BattleInfo.levelSO.enemies){

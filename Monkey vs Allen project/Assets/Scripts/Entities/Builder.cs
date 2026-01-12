@@ -19,9 +19,9 @@ public class Builder : IBehaviour {
     public static void CreateBuilder(EntitySO tower, Vector2Int dest, Team team) {
         int startX = team == Team.Player ? 0 : GridSystem.Ins.width - 1;
         Builder newBuilder = EContainer.Ins.CreateEntity(
-            PrefabRegister.Ins.builder, new Vector2Int(startX, dest.y), team).GetComponent<Builder>();
+            SingletonRegister.Get<PrefabRegisterSO>().builder, new Vector2Int(startX, dest.y), team).GetComponent<Builder>();
         Builder newBuilder_2 = EContainer.Ins.CreateEntity(
-            PrefabRegister.Ins.builder, new Vector2Int(startX, dest.y), team).GetComponent<Builder>();
+            SingletonRegister.Get<PrefabRegisterSO>().builder, new Vector2Int(startX, dest.y), team).GetComponent<Builder>();
         newBuilder.dest = dest;
         newBuilder.tower = tower;
         newBuilder.diff = team == Team.Player ? 1 : -1;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2253121190933677041}
   - component: {fileID: 2392896967172572149}
   m_Layer: 0
-  m_Name: KillAllTarget
+  m_Name: KillTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

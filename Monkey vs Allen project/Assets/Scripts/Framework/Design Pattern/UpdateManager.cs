@@ -20,10 +20,10 @@ public class UpdateManager<T> : MonoBehaviour where T : IUpdatePerFrame
             }
         }
     }
-    public virtual void AddElement(T element){
+    protected virtual void AddElement(T element){
         pendingAdded.Add(element);
     }
-    public virtual void RemoveElement(T element) {
+    protected virtual void RemoveElement(T element) {
         if(element is IOnDestroy destroy) {
             destroy.OnDestroy();
         }
@@ -33,6 +33,11 @@ public class UpdateManager<T> : MonoBehaviour where T : IUpdatePerFrame
         return container.AsReadOnly();
     }
     public void Reset() {
+        foreach(T element in container) {
+            if (element is IOnDestroy destroy) {
+                destroy.OnDestroy();
+            }
+        }
         container.Clear();
         pendingAdded.Clear();
         pendingRemoved.Clear();

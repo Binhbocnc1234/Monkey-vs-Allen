@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9d20dd68f1f99418eff9add5b313e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: "Don\u2019t worry, Monkey King, the bananas are ripe. Just shake that banana
-    tree like your life depends on it"
+  text: "Don\u2019t worry, Monkey King, the bananas are ripe. Click at the banana
+    bunch to collect it"

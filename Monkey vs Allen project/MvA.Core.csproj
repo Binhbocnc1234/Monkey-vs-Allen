@@ -54,6 +54,7 @@
     <Compile Include="Assets\Scripts\Core\SO\PrefabRegister.cs" />
     <Compile Include="Assets\Scripts\Core\Input\MvA main control.cs" />
     <Compile Include="Assets\Scripts\Core\IBullet.cs" />
+    <Compile Include="Assets\Scripts\Core\GeneralPurposeContainer.cs" />
     <Compile Include="Assets\Scripts\Core\SO\MonkeyCardSO.cs" />
     <Compile Include="Assets\Scripts\Core\Effect\GlobalEffect.cs" />
     <Compile Include="Assets\Scripts\Core\CustomSceneManager.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets\Scripts\Core\Reward\IRewardable.cs" />
     <Compile Include="Assets\Scripts\Core\Effect\EffectManager.cs" />
     <Compile Include="Assets\Scripts\Core\IEntity.cs" />
+    <Compile Include="Assets\Scripts\Core\Effect\GlobalEffectManager.cs" />
     <Compile Include="Assets\Scripts\Core\SaveAndLoad\PlayerDataEditor.cs" />
     <Compile Include="Assets\Scripts\Core\IBattleCard.cs" />
     <Compile Include="Assets\Scripts\Core\SO\EnemyCardSO.cs" />

@@ -175,6 +175,7 @@ public class Entity : IEntity {
         foreach(IBehaviour behav in behaviours) {
             total += behav.dangerPoint;
         }
+        total += effectController.GetDangerPoint();
         return total;
     }
 

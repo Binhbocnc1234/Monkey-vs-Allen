@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Entities\Monkey\Watermelon\Watermelon.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\Die.cs" />
     <Compile Include="Assets\Scripts\Entities\Combat\Melee.cs" />
+    <Compile Include="Assets\Scripts\Entities\DangerReport.cs" />
     <Compile Include="Assets\Scripts\Entities\Monkey\Banana.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\AnimatorEvent.cs" />
     <Compile Include="Assets\Scripts\Entities\Behaviour\Flicker.cs" />

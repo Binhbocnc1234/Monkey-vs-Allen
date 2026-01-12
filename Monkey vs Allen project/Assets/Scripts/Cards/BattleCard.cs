@@ -79,7 +79,7 @@ public class BattleCard : IBattleCard
             else {
                 BattleInfo.ChangeAllenanaCnt(-cost);
             }
-            EContainer.Ins.CreateEntity(PrefabRegister.Ins.builder, new Vector2Int(0, gridPos.y), team);
+            EContainer.Ins.CreateEntity(SingletonRegister.Get<PrefabRegisterSO>().builder, new Vector2Int(0, gridPos.y), team);
         }
         else {
             if(so is MonkeyCardSO) {

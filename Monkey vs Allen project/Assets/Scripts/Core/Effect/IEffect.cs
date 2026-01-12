@@ -68,6 +68,7 @@ public abstract class IEffect : IUpdatePerFrame, IDestroyable {
             DestroyThis();
         }
     }
+    public virtual int GetDangerPoint(){ return 0; }
     public void DestroyThis() {
         isDead = true;
     }

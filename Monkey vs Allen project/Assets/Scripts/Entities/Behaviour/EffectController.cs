@@ -39,5 +39,11 @@ public class EffectController : UpdateManager<IEffect>, IEffectable {
             }
         }
     }
-
+    public int GetDangerPoint() {
+        int totalDangerPoint = 0;
+        foreach(IEffect effect in container) {
+            totalDangerPoint += effect.GetDangerPoint();
+        }
+        return totalDangerPoint;
+    }
 }

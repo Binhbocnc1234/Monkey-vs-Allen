@@ -5,7 +5,7 @@ public class CostInsuffientAnimation : IUpdatePerFrame {
     private float sizeMultiplier = 15f;
     private float duration = 0.35f;
     public static void Instantiate(BattleCardUI cardUI) {
-        SingletonRegister.Get<GeneralUM>().AddElement(new CostInsuffientAnimation(cardUI.appearance.cost));
+        GeneralUM.Ins.AddElement(new CostInsuffientAnimation(cardUI.appearance.cost));
     }
     private CostInsuffientAnimation(TMPro.TMP_Text text) {
         this.text = text;
@@ -22,7 +22,7 @@ public class CostInsuffientAnimation : IUpdatePerFrame {
         }
         else {
             text.color = Color.white;
-            SingletonRegister.Get<GeneralUM>().RemoveElement(this);
+            GeneralUM.Ins.RemoveElement(this);
         }
     }
 }

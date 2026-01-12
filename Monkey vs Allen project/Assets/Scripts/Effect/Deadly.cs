@@ -5,4 +5,9 @@ public class Deadly : IEffect, IDamageOutputModifier {
     public void ModifyDamage(DamageContext ctx) {
         ctx.defender.GetEffectController().ApplyEffect(new DeadlyMark(ctx.defender));
     }
+
+    public override int GetDangerPoint() {
+        int total = 0;
+        return total;
+    }
 }

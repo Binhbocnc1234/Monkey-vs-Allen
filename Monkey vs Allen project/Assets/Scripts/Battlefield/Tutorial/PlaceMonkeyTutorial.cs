@@ -15,7 +15,7 @@ public class PlaceMonkeyTutorial : Tutorial{
     HinterManager hinterManager;
     public override void Initialize(){
         base.Initialize();
-        hinterManager = GetComponent<HinterManager>();
+        hinterManager = SingletonRegister.Get<HinterManager>();
         foreach(BattleCard card in BattleInfo.chosenAllies){
             BattleCardUI cardUI = card.cardUI;
             if (card.GetSO() == basicMonkeySO){
@@ -41,11 +41,11 @@ public class PlaceMonkeyTutorial : Tutorial{
     public override void StartTutorial() {
         base.StartTutorial();
         arrowUI = ArrowUI.Instantiate(Direction.Left, basicMonkeyCardUI.rect, basicMonkeyCardUI.transform);
-        EContainer.Ins.InActiveAll();
+        PauseManager.Ins.Pause();
     }
     public override void CompleteTutorial() {
         base.CompleteTutorial();
-        EContainer.Ins.IdleAll();
+        PauseManager.Ins.DePause();
         PointerUI.Ins.OnReleaseCard -= CompleteTutorial;
         hinterManager.Reset();
     }

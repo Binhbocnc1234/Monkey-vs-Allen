@@ -61,7 +61,7 @@ public class BattleManager : Singleton<BattleManager> {
             StartCoroutine(Prepare());
         }
         else if (state == GameState.Fighting){
-            gameObject.GetComponent<EnemyManager>().enabled = true;
+            gameObject.GetComponent<EnemyManager>().Initialize();
             gameObject.GetComponent<PlayerCardManager>().Initialize();
             EnemyManager.Ins.ClearDemoEnemy();
             GridCamera.Ins.canDraging = true;

@@ -23,7 +23,7 @@ public class BasicAllenMove : Move {
         pauseTimer.Reset(); // start initial pause
         jumping = false;
     }
-
+    
     protected override void UpdateBehaviour() { //pauseTimer null reference vi initialize() chua duoc goi
         // waiting (pause) state
         if (!jumping) {

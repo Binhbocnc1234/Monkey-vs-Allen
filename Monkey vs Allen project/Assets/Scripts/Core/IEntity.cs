@@ -6,7 +6,7 @@ public abstract class IEntity : MonoBehaviour
 {
     public List<Tribe> tribes { get; protected set; }
     public Team team = Team.Default;
-    public Animator animator{ get; protected set; }
+    public Animator animator;
     public abstract IEffectable GetEffectController();
     public abstract void Initialize(EntitySO so, Team team);
     public abstract bool IsDead();

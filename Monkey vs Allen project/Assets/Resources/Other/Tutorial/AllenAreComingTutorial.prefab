@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d569b40c396625c4b91e688479320fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: '"Oh no, a boxy monster is approaching my house. What should we do now :(("'
+  text: '"A boxy monster is approaching my house. What should we do now :(("'
   basicAllenSO: {fileID: 11400000, guid: 7c8dbbb86002b984597700da909c9c98, type: 2}
   duration: 2

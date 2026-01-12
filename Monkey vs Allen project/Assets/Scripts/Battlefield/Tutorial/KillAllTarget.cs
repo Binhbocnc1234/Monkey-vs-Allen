@@ -12,7 +12,6 @@ public class KillAllTarget : Tutorial
     }
     public override void StartTutorial() {
         base.StartTutorial();
-        GridCamera.Ins.MoveTowardEnemyHouse();
         GridCamera.Ins.OnFinishedMoving += ShowArrow;
     }
     void ShowArrow(){
@@ -35,8 +34,6 @@ public class KillAllTarget : Tutorial
                 yield return null;
             }
         }
-        GridCamera.Ins.MoveTowardPlayerHouse();
-        yield return new WaitWhile(() => GridCamera.Ins.isMoving);
         CompleteTutorial();
     }
     public override void CompleteTutorial() {

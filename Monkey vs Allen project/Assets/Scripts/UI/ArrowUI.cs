@@ -21,7 +21,7 @@ public class ArrowUI : MonoBehaviour
         rect = GetComponent<RectTransform>();
     }
     public static ArrowUI Instantiate(Direction direction, RectTransform pointingTarget, Transform parent){
-        RectTransform newInstance = Instantiate(PrefabRegister.Ins.arrowUI, parent);
+        RectTransform newInstance = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().arrowUI, parent);
         ArrowUI arrowUI = newInstance.GetComponent<ArrowUI>();
         newInstance.gameObject.SetActive(true);
         

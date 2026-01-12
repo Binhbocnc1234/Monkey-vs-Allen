@@ -8,10 +8,10 @@ public class DoubleDamageEffect : GlobalEffect, IDamageOutputModifier {
 public class BinaryStar : Entity {
     private DoubleDamageEffect globalEffect;
     void Start() {
-        GlobalEffectManager.Ins.AddEffect(globalEffect);
+        SingletonRegister.Get<GlobalEffectManager>().AddEffect(globalEffect);
     }
     public override void Die() {
         base.Die();
-        GlobalEffectManager.Ins.RemoveEffect(globalEffect);
+        SingletonRegister.Get<GlobalEffectManager>().RemoveEffect(globalEffect);
     }
 }

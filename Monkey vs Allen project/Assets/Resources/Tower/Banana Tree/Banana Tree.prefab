@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 8870163216820528763}
   - component: {fileID: 7398560976209806101}
   - component: {fileID: 1856857441735261718}
+  - component: {fileID: 2515461023450957666}
   - component: {fileID: 553360609639678212}
   - component: {fileID: 5175134284407554059}
   - component: {fileID: 2458561098314570308}
@@ -306,8 +307,8 @@ MonoBehaviour:
   rawBanana: {fileID: 1344623148, guid: 39347468543a8924ea60f7d87370b080, type: 3}
   bananaRenderer: {fileID: 1114828412827565929}
   cooldown: 2.5
-  amount: 1
-  initialized: 0
+  stack: 0
+  maxStack: 4
 --- !u!114 &1856857441735261718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,21 +322,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  animator: {fileID: 6862229183926657216}
   entityName: 
-  entityType: 2
   laneIndex: 0
   maxHealth: 100
   health: 100
   width: 1
   height: 1
   state: 0
+  defaultState: 0
   behaviours: []
-  animator: {fileID: 6862229183926657216}
+  effectController: {fileID: 2515461023450957666}
   sortingGroup: {fileID: 2145074518908075579}
   animatorEvent: {fileID: 5977996858017606994}
   model: {fileID: 8098784387976038929}
   sprites: []
   so: {fileID: 11400000, guid: 20bbef675d6f12f44a0c22b9d4a443a0, type: 2}
+--- !u!114 &2515461023450957666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943976062345127126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a333032aa3c669b45a8fd57f3846d2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &553360609639678212
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,7 +34,6 @@ public partial class LevelInitializer
         GeneralInit(levelSO, grid, new List<int>() {0, 1, 3, 4});
         Entity newBananaTree = EContainer.Ins.CreateEntity(bananaTreeSO, new Vector2Int(2, 2), Team.Player);
         BananaTree com = newBananaTree.GetComponent<BananaTree>();
-        com.cooldown = 2.5f;
         com.SetBehaviourEnable(false);
 
         float middle = grid.GridToWorldPosition(0, 2).y;

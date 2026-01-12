@@ -76,6 +76,7 @@ public static class PlayerData{
         monkeyCards = new();
         enemyCards = new();
         completedLevels = new();
+        visibleLevels = new();
         foreach(MonkeyCardSO so in SORegistry.Get<MonkeyCardSO>()) {
             monkeyCards.Add(new CardData(so.id));
         }

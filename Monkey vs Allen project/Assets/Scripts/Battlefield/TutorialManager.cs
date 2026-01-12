@@ -21,7 +21,6 @@ public class TutorialManager : Singleton<TutorialManager>{
             newTutor.OnTutorialComplete += CompleteTutorial;
             newTutor.OnTutorialActivate += () => { 
                 ShowText(GetActiveTutorial().text);
-                GridCamera.Ins.canDraging = false;
             };
         }
         tutorialLineWrapper.gameObject.SetActive(false);
@@ -32,15 +31,14 @@ public class TutorialManager : Singleton<TutorialManager>{
     }
     void CompleteTutorial(){
         HideText();
-        GridCamera.Ins.canDraging = true;
+        Destroy(GetActiveTutorial().gameObject);
         NextTutorial();
     }
     void NextTutorial(){
         activeTutorialIndex++;
-        
         if (activeTutorialIndex == tutorials.Count){
             TechnicalInfo.isTutorial = false;
-            Debug.Log("Finish tutorial");
+            Debug.Log("Congratulation, You finish all tutorials");
             return;
         }
         Debug.Log($"Next tutorial {activeTutorialIndex}, {GetActiveTutorial().gameObject.name}");

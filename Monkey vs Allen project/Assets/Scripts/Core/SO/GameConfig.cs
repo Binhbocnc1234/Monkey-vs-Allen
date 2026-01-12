@@ -14,6 +14,7 @@ public class GameConfig {
         SingletonRegister.Reset();
         CustomSceneManager.Reset();
         SORegistry.Initialize();
+        SingletonRegister.Register(SORegistry.Get<PrefabRegisterSO>()[0]);
         PlayerData.Initialize();
         PlayerData.Load();
         LeanTween.reset();
