@@ -5,7 +5,7 @@ using UnityEditor;
 
 [CreateAssetMenu(fileName = "NewEnemyCardSO", menuName = "ScriptableObject/EnemyCardSO")]
 public class EnemyCardSO : CardSO {
-
+    public int maxStack = 1;
 }
 
 #if UNITY_EDITOR

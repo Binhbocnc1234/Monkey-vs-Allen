@@ -9,6 +9,6 @@ public class LevelUI : HideAndShowUI
     void Start()
     {
         SingletonRegister.Register(this);
-        GetComponent<TMP_Text>().text = $"{BattleInfo.levelSO.place} - {BattleInfo.levelSO.number}";
+        GetComponent<TMP_Text>().text = $"{BattleInfo.levelSO.place} - {BattleInfo.levelSO.number + 1}";
     }
 }

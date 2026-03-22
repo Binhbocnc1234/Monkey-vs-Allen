@@ -8,17 +8,15 @@ public class Shadow : MonoBehaviour
     private int lane;
     public void Initialize(Entity e, int lane){
         this.gameObject.SetActive(true);
-        e.OnEntityDeath += (e) => {
-            SingletonRegister.Get<ShadowContainer>().Release(this);
-        };
+        e.OnEntityDeath += () => SingletonRegister.Get<ShadowContainer>().Release(this);
         this.linkedEntity = e;
         this.lane = lane;
-        transform.position = GridSystem.Ins.GridToWorldPosition(2, lane) - new Vector2(0, 0.5f);
+        transform.position = e.transform.position - new Vector3(0, 0.5f);
     }
 
     // Di chuyển Shadow bám theo Entity, chỉ thay đổi tọa độ x, tọa độ y giữ nguyên
     void Update()
     {
-        transform.position = new Vector2(linkedEntity.GetWorldPosition().x, transform.position.y);
+        transform.position = new Vector2(linkedEntity.model.transform.position.x, transform.position.y);
     }
 }

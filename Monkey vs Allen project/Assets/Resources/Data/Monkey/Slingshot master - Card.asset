@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef00bdbbec229dd4ba639edf479e0282, type: 3}
+  m_Name: Slingshot master - Card
+  m_EditorClassIdentifier: 
+  id: b58ad90a-1b97-4a73-86d9-10cda8969601
+  cardName: Slingshot master
+  entitySO: {fileID: 11400000, guid: 1acf97d2fa22fae49ba41c81161823ae, type: 2}
+  cost: 3
+  cooldownType: 1
+  sprite: {fileID: 1045722217, guid: 7e0be8246ad454643a7f0c43df74988b, type: 3}
+  cardRarity: 0
+  description:
+    English: He is a famous TikTok idol known for his ability to wield a Y-shaped
+      slingshot and repeatedly hit a distant target with a 100% accuracy rate. Today,
+      he received an invitation to fight alongside his teammates.
+    Vietnamese: "Anh ta l\xE0 m\u1ED9t idol tiktok n\u1ED5i ti\u1EBFng v\u1EDBi kh\u1EA3
+      n\u0103ng c\u1EA7m n\u1ECF ch\u1EEF Y b\u1EAFn li\xEAn ti\u1EBFp v\xE0o m\u1ED9t
+      v\u1EADt th\u1EC3 t\u1EEB xa v\u1EDBi t\u1EC9 l\u1EC7 tr\xFAng 100%. H\xF4m
+      nay anh nh\u1EADn \u0111\u01B0\u1EE3c l\u1EDDi m\u1EDDi chi\u1EBFn \u0111\u1EA5u
+      t\u1EEB nh\u1EEFng ng\u01B0\u1EDDi \u0111\u1ED3ng \u0111\u1ED9i"
+    Poturgese: 

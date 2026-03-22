@@ -1,10 +1,10 @@
-public class AntiTower : IEffect, IDamageOutputModifier {
-    public AntiTower(IEntity owner, int duration) : base(owner, duration) {
+public class AntiTower : Effect, IDamageOutputModifier {
+    public AntiTower(int duration) : base(duration) {
 
     }
     public void ModifyDamage(DamageContext ctx) {
-        if(ctx.defender.tribes.Contains(Tribe.Tower)) {
-            ctx.amount *= 2;
+        if(ctx.defender.GetSO().tribes.Contains(Tribe.Tower)) {
+            ctx.damageMultiplier *= 2;
         }
     }
 }

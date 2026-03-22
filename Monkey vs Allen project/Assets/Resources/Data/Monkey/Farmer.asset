@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Farmer
+  m_EditorClassIdentifier: 
+  id: 04d0e52f-db0e-401e-8100-ee25cc388369
+  gameClass: 0
+  tribes: 0a000000
+  health: 350
+  canAttack: 1
+  attackRange: 1
+  damage: 30
+  attackSpeed: 1.3
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 6137507549654740682, guid: a0d8cd38ee928a7499adf91999f98aeb, type: 3}
+  unlockedSkillInFirstLevel:
+  - {fileID: 11400000, guid: 01c3d3ae9a24bb448b0c91f8a8ec434f, type: 2}
+  level_2:
+    stat: 0
+    amount: 50
+  unlockedSkillInLevel3: {fileID: 11400000, guid: 4307901f99b99ce40b831b3187621011, type: 2}
+  level_4:
+    stat: 7
+    amount: 12

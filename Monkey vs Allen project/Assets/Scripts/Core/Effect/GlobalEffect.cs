@@ -24,7 +24,7 @@ public abstract class GlobalEffect : IUpdatePerFrame, IDestroyable {
         isDead = true;
     }
     public bool IsDead() => isDead;
-    public virtual bool IsIdentical(IEffect effect) {
+    public virtual bool IsIdentical(Effect effect) {
         return this.GetType() == effect.GetType();
     }
     public void ResetDuration() {

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Banana Generator
+  m_EditorClassIdentifier: 
+  id: f0c09781-8374-4a83-b223-6d0f4a404c7c
+  isActiveSkill: 0
+  haveNameAndIcon: 0
+  skillName: 
+  thumbnail: {fileID: 0}
+  skillStats:
+    keys: []
+    values: 
+  description:
+    English: 
+    Vietnamese: 
+    Poturgese: 
+  skillUp:
+    statName: 
+    changeAmount: 0

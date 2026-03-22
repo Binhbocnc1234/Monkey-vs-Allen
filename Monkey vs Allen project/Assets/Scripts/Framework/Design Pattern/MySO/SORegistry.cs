@@ -4,26 +4,26 @@ using System;
 using System.Linq;
 using UnityEditor;
 
-internal class SOReloader : AssetPostprocessor {
-    public static bool isLoaded = false;
-    static void OnPostprocessAllAssets(string[] imported, string[] deleted,
-        string[] moved, string[] movedFromPaths) {
+// internal class SOReloader : AssetPostprocessor {
+//     public static bool isLoaded = false;
+//     static void OnPostprocessAllAssets(string[] imported, string[] deleted,
+//         string[] moved, string[] movedFromPaths) {
             
-        foreach (string path in imported) {
-            var obj = AssetDatabase.LoadAssetAtPath<MySO>(path);
-            if (obj != null) {
-                isLoaded = false;
-            }
-        }
+//         foreach (string path in imported) {
+//             var obj = AssetDatabase.LoadAssetAtPath<MySO>(path);
+//             if (obj != null) {
+//                 isLoaded = false;
+//             }
+//         }
 
-        foreach (string path in deleted) {
-            var obj = AssetDatabase.LoadAssetAtPath<MySO>(path);
-            if (obj != null) {
-                isLoaded = false;
-            }
-        }
-    }
-}
+//         foreach (string path in deleted) {
+//             var obj = AssetDatabase.LoadAssetAtPath<MySO>(path);
+//             if (obj != null) {
+//                 isLoaded = false;
+//             }
+//         }
+//     }
+// }
 public static class SORegistry {
     private static readonly Dictionary<Type, HashSet<MySO>> _instanceMap = new();
     public static void Initialize() {
@@ -57,7 +57,22 @@ public static class SORegistry {
                 return soInstance;
             }
         }
-        
+
+        Debug.LogError($"[SOContainer] Attempted to get instance of Type: '{type.Name}' but id does not exist");
+        return null;
+    }
+    public static T GetSOByName<T>(string name) where T : MySO {
+        Type type = typeof(T);
+        if(!_instanceMap.TryGetValue(type, out HashSet<MySO> returnedList)) {
+            Debug.LogError($"[SOContainer] Attempted to get unregistered Type: '{type.Name}'");
+        }
+
+        foreach(T soInstance in returnedList) {
+            if(soInstance.name == name) {
+                return soInstance;
+            }
+        }
+
         Debug.LogError($"[SOContainer] Attempted to get instance of Type: '{type.Name}' but id does not exist");
         return null;
     }

@@ -6,25 +6,18 @@ public class EnemyManager: Singleton<EnemyManager>{
     private IGrid grid;
     private Timer spawnTimer;
     [ReadOnly] public int meteorIndex = 0;
-    // public float meteoriteUpgradeDelay = 100, meteoriteUpgradeDiff = 60;
-    // private Timer meteoriteTimer;
-    // private float coolDownFactor = 1f;
     private List<Entity> demoEnemies = new List<Entity>();
     public void Initialize(){
         spawnTimer = new Timer(BattleInfo.levelSO.allenanaSpawnDelay, true);
         grid = GridSystem.Ins;
-        foreach(EnemyCardSO so in BattleInfo.levelSO.enemies){
-            BattleCard newCard = new BattleCard(so, Team.Enemy);
-            BattleInfo.choosenEnemies.Add(newCard);
-        }
     }
     void Update(){
         if(BattleInfo.gameState != GameState.Fighting) { return; }
         if(spawnTimer.Count()) {
-            BattleInfo.ChangeAllenanaCnt(1);
+            BattleInfo.teamDict[Team.Enemy].resource += 1;
         }
-        for(int i = 0; i < BattleInfo.choosenEnemies.Count; ++i) {
-            IBattleCard card = BattleInfo.choosenEnemies[i];
+        for(int i = 0; i < BattleInfo.teamDict[Team.Enemy].cards.Count; ++i) {
+            IBattleCard card = BattleInfo.teamDict[Team.Enemy].cards[i];
             card.Update();
             if(card.CanUseCard(new Vector2Int(0, 0))) {
                 card.UseCard(new Vector2Int(grid.width - 1, PickLane(card)));
@@ -41,16 +34,19 @@ public class EnemyManager: Singleton<EnemyManager>{
         for(int i = 0; i < grid.height; ++i) {
             if(GridSystem.Ins.openLanes[i] == false) { continue; }
             var entities = EContainer.Ins.GetEntitiesByLane(i);
-            if(entities.Count == 0) { continue; }
+            if(entities.Length == 0) { continue; }
             float danger = 0;
             distances[i] = 999f;
             foreach(Entity e in entities) {
                 if(e.team == Team.Player) {
-                    float dis = e.Distance(EContainer.Ins.GetTargetEnemy()[i]);
-                    if(e.so.tribes.Contains(Tribe.Monkey)) {
+                    if (EContainer.Ins.GetTargetEnemy(i) == null) {
+                        continue;
+                    }
+                    float dis = e.DistanceTo(EContainer.Ins.GetTargetEnemy(i));
+                    if(e.GetSO().tribes.Contains(Tribe.Monkey)) {
                         danger += e.GetDangerPoint();
                     }
-                    distances[i] = Mathf.Min(distances[i], dis) / grid.cellSize;
+                    distances[i] = Mathf.Min(distances[i], dis);
                 }
                 else if(e.team == Team.Enemy) {
                     danger -= e.GetDangerPoint();
@@ -65,27 +61,16 @@ public class EnemyManager: Singleton<EnemyManager>{
         }
         return res;
     }
-    // void CreateEnemy(Entity prefab, int lane){
-    //     Entity newEnemy = grid.GetCell(grid.width-1, lane).PlaceObject(prefab.gameObject).GetComponent<Entity>();
-    //     newEnemy.Initialize();
-    //     newEnemy.SetEntityState(EntityState.Walk);
-    // }
     public void ShowEnemy(){
-        float upperBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width - 1, IGrid.Ins.height - 1).y;
-        float lowerBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width - 1, 0).y;
         float leftBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width, 0).x;
-        float rightBound = leftBound + GridSystem.Ins.cellSize*2;
-        Vector2 RandomPosInBound(){
-            return new Vector2(Random.Range(leftBound, rightBound), Random.Range(lowerBound, upperBound));
-        }
+        float rightBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width + 3, 0).x;
         // const float minDemoEnem
-        foreach(IBattleCard card in BattleInfo.choosenEnemies){
+        foreach(IBattleCard card in BattleInfo.teamDict[Team.Enemy].cards){
             for(int i = 0; i < 2; ++i){
-                GameObject newEnemy = Instantiate(card.GetSO().entitySO.prefab, RandomPosInBound(), Quaternion.identity);
-                Entity e = newEnemy.GetComponent<Entity>();
-                e.SetEntityState(EntityState.InActive);
-                SingletonRegister.Get<ShadowContainer>().Get().Initialize(e, e.laneIndex);
-                demoEnemies.Add(newEnemy.GetComponent<Entity>());
+                IEntity e = EContainer.Ins.CreateEntity(card.GetSO().entitySO,
+                    Random.Range(leftBound, rightBound), Random.Range(0, IGrid.Ins.width), Team.Enemy, 1);
+                e.BecomeInActive();
+                demoEnemies.Add(e.GetComponent<Entity>());
             }
         }
     }

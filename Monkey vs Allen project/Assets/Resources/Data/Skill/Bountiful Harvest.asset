@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Bountiful Harvest
+  m_EditorClassIdentifier: 
+  id: e367d19a-4785-4a57-ae90-9da89f0f09b1
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: Bountiful Harvest
+  thumbnail: {fileID: 0}
+  skillStats:
+    keys:
+    - Chance
+    values: 08000000
+  description:
+    English: Each time you hit an enemy, there is a [Chance]% chance to give player
+      a banana
+    Vietnamese: "M\u1ED7i l\u1EA7n \u0111\xE1nh tr\xFAng k\u1EBB \u0111\u1ECBch c\xF3
+      [Chance]% c\u01A1 h\u1ED9i t\u1EA1o ra chu\u1ED1i cho ng\u01B0\u1EDDi ch\u01A1i"
+    Poturgese: 
+  skillUp:
+    statName: Chance
+    changeAmount: 5

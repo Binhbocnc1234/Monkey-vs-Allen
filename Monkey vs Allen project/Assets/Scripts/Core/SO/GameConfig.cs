@@ -6,6 +6,8 @@ public class GameConfig {
     // Những thiết lập dưới đây được sử dụng khi mà việc test thủ công quá khó mà
     // cần có sự can thiệp sâu vào hệ thống
     public static bool unlockFullCards = true;
+    public static bool givePlayerShard = true;
+    public static int overrideCampainProgress = 10;
     // public static bool isInitialized{ get; private set; }
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void PlayModeInitialize() {
@@ -17,6 +19,11 @@ public class GameConfig {
         SingletonRegister.Register(SORegistry.Get<PrefabRegisterSO>()[0]);
         PlayerData.Initialize();
         PlayerData.Load();
+        if (overrideCampainProgress != -1) {
+            for(int i = 0; i < overrideCampainProgress; ++i) {
+                PlayerData.CompleteCampainLevel(i);
+            }
+        }
         LeanTween.reset();
         // BattleInfo.Initialize(LevelSO.GetLevelSO(Place.Garden, 1));
         if(unlockFullCards) {
@@ -26,7 +33,15 @@ public class GameConfig {
             foreach(EnemyCardSO so in SORegistry.Get<EnemyCardSO>()) {
                 PlayerData.GetCardDataById(so.id).Unlock();
             }
-            
+
+        }
+        if(givePlayerShard) {
+            foreach(MonkeyCardSO so in SORegistry.Get<MonkeyCardSO>()) {
+                PlayerData.GetCardDataById(so.id).shards = 200;
+            }
+            foreach(EnemyCardSO so in SORegistry.Get<EnemyCardSO>()) {
+                PlayerData.GetCardDataById(so.id).shards = 200;
+            }
         }
     }
 }

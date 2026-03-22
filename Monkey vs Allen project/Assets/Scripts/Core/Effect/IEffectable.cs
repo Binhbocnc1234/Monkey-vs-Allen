@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-
+using System;
 public interface IEffectable{
-    public void ApplyEffect(IEffect effect);
-    public void RemoveEffect(IEffect effect);
+    public void ApplyEffect(Effect effect);
+    public void RemoveEffect(Effect effect);
+    public bool HaveEffect(Type type);
 }

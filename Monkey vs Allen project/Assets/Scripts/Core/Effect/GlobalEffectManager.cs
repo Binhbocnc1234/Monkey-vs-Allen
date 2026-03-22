@@ -2,9 +2,10 @@
 using System.Collections.ObjectModel;
 
 public class GlobalEffectManager : UpdateManager<GlobalEffect> {
+    public static GlobalEffectManager Ins{ get; protected set; }
     public ReadOnlyCollection<GlobalEffect> GlobalEffects => container.AsReadOnly();
     void Awake() {
-        SingletonRegister.Register(this);
+        Ins = this;
     }
     public void AddEffect(GlobalEffect addedGle) {
         foreach(GlobalEffect gle in container) {

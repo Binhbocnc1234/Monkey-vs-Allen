@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ca8c14c0d463641bb4c77d9a744209, type: 3}
+  m_Name: OnFire
+  m_EditorClassIdentifier: 
+  id: abbc70a8-643e-4e28-9263-6e57d70e30d4
+  thumbnail: {fileID: 0}
+  description:
+    English: When ignited, the entity will burn for 3 seconds. The entity takes 20
+      damage per second.
+    Vietnamese: "Khi b\u1ECB b\u1EAFt l\u1EEDa, th\u1EF1c th\u1EC3 s\u1EBD ch\xE1y
+      trong v\xF2ng 3 gi\xE2y. M\u1ED7i gi\xE2y nh\u1EADn 20 s\xE1t th\u01B0\u01A1ng"
+    Poturgese: 

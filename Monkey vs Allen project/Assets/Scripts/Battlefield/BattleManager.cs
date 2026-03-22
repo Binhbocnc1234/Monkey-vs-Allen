@@ -11,6 +11,7 @@ public enum CardSystemType {
 
 public class BattleManager : Singleton<BattleManager> {
     public LevelSO defaultLevelSO;
+    [SerializeField] private EntitySO targetMonkey, targetAllen;
     public Entity targetMonkeyPrefab, targetAllenPrefab;
     public UIManager uiManager;
     private GridSystem grid;
@@ -25,25 +26,34 @@ public class BattleManager : Singleton<BattleManager> {
             Debug.Log("[BattleManager] Using defaultLevelSO");
             BattleInfo.Initialize(defaultLevelSO);
         }
-        EContainer.Ins.Initialize();
-        EContainer.Ins.ClearEntity();
-        //Initialize grid: 2D array and fill array with cells
         grid = GridSystem.Ins;
-        uiManager = UIManager.Ins;
         grid.Clear();
         grid.Initialize(BattleInfo.levelSO);
+
+        EContainer.Ins.Initialize();
+        EContainer.Ins.ClearEntity();
+
+        uiManager = UIManager.Ins;
         GridCamera.Ins.Initialize(grid);
-        //Place blocks and targetMonkeys, targetAllens
-        LevelInitializer.Ins.Initialize(BattleInfo.levelSO, GridSystem.Ins);
-        foreach(Entity targetMonkey in EContainer.Ins.GetTargetMonkey()){
-            targetMonkey.OnEntityDeath += CheckLose;
+        // Initialize enviroment
+        PlaceInitializerMapSO placeMap = SORegistry.Get<PlaceInitializerMapSO>()[0];
+        placeMap.initializers[BattleInfo.levelSO.place].Execute(BattleInfo.levelSO);
+        // Place targetMonkeys, targetAliens
+        for(int y = 0; y < IGrid.Ins.height; ++y) {
+            if(IGrid.Ins.openLanes[y] == false) continue;
+            IEntity tM = EContainer.Ins.CreateEntity(targetMonkey, 1, y, Team.Player, 1);
+            tM.OnEntityDeath += () => CheckLose(tM);
+            IEntity tA = EContainer.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 2, y, Team.Enemy, 1);
+            tA.OnEntityDeath += () => CheckWin(tA);
         }
-        foreach(Entity targetEnemy in EContainer.Ins.GetTargetEnemy()){
-            targetEnemy.OnEntityDeath += CheckWin;
+
+        foreach(LevelInitializerSO initializerSO in BattleInfo.levelSO.levelInitializerSOs) {
+            initializerSO.Execute(BattleInfo.levelSO);
         }
+
+        Instantiate(BattleInfo.levelSO.modifier);
         //Prize: reward after finishing level
         Prize.Ins.gameObject.SetActive(false);
-        SingletonRegister.Register(new DeadlyManager());
         BattleInfo.OnStateChanged += () => ChangeState(BattleInfo.gameState);
         BattleInfo.ChangeState(GameState.ChoosingCard);
     }
@@ -61,8 +71,9 @@ public class BattleManager : Singleton<BattleManager> {
             StartCoroutine(Prepare());
         }
         else if (state == GameState.Fighting){
-            gameObject.GetComponent<EnemyManager>().Initialize();
-            gameObject.GetComponent<PlayerCardManager>().Initialize();
+            GetComponent<EnemyManager>().Initialize();
+            GetComponent<PlayerCardManager>().InitializeForEnemy();
+            GetComponent<PlayerCardManager>().InitializeForPlayer();
             EnemyManager.Ins.ClearDemoEnemy();
             GridCamera.Ins.canDraging = true;
             GetComponent<TutorialManager>().Initialize();
@@ -83,18 +94,20 @@ public class BattleManager : Singleton<BattleManager> {
         BattleInfo.ChangeState(GameState.Fighting);
         yield return StartCoroutine(PrepareUI.Ins.Fighting());
     }
-    void CheckLose(Entity e){
-        if (EContainer.Ins.GetTargetMonkey().Count == 0){
+    void CheckLose(IEntity e){
+        // if (BattleInfo.levelSO.le)
+        if (EContainer.Ins.GetTargetCount(Team.Player) == 0){
             BattleInfo.ChangeState(GameState.GameOver);
         }
     }
-    void CheckWin(Entity e){
-        if(EContainer.Ins.GetTargetEnemy().Count == 0){
+    void CheckWin(IEntity e){
+        if(EContainer.Ins.GetTargetCount(Team.Enemy) == 0){
             BattleInfo.ChangeState(GameState.Victory);
-            Prize.Ins.Initialize(e.GetWorldPosition());
+            Prize.Ins.Initialize(e.transform.position);
             UIManager.Ins.gameObject.SetActive(false);
             // PlayerData handling
-            PlayerData.CompleteLevel(BattleInfo.levelSO);
+            LevelSO so = BattleInfo.levelSO;
+            PlayerData.CompleteCampainLevel(so.number);
         }
     }
     IEnumerator GameOver(){

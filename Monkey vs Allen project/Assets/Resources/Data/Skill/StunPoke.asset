@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: StunPoke
+  m_EditorClassIdentifier: 
+  id: 8cb1ee67-f25d-43e6-8184-1e356777b8a9
+  isActiveSkill: 0
+  haveNameAndIcon: 0
+  skillName: 
+  thumbnail: {fileID: 0}
+  skillStats:
+    keys:
+    - Chance
+    - Duration
+    values: 0a00000004000000
+  description:
+    English: Slimz has a [Chance]% chance to throw a Poke, which will stun an enemy
+      for [Duration] seconds after hitting them.
+    Vietnamese: "Slimz s\u1EDF h\u1EEFu [Chance]% c\u01A1 h\u1ED9i n\xE9m Poke, th\u1EE9
+      s\u1EBD g\xE2y cho\xE1ng trong v\xF2ng [Duration] gi\xE2y sau khi tr\xFAng
+      k\u1EBB \u0111\u1ECBch"
+    Poturgese: 
+  skillUp:
+    statName: 
+    changeAmount: 0

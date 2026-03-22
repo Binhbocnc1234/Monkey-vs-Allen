@@ -1,43 +1,38 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+public class TeamData {
+    private int _resource;
+    public event Action OnResourceChange;
+    public int resource {
+        get { return _resource; }
+        set {
+            _resource = value;
+            OnResourceChange?.Invoke();
+        }
+    } 
+    public List<IBattleCard> cards = new();
+}
 public static class BattleInfo {
     public static GameState gameState{get; private set;}
     public static LevelSO levelSO{ get; private set; }
     public const float CELL_SIZE = 2f;
-    public static int PlayerBaseHealth;
-    public static int EnemyBaseHealth;
-    public static int BananaCnt { get; private set; }
-    public static int AllenanaCnt { get; private set; }
+    public static Dictionary<Team, TeamData> teamDict;
     public static List<CardSO> choosenCardSOs = new List<CardSO>();
-    public static readonly List<IBattleCard> choosenEnemies = new (), chosenAllies = new();
     public static List<MonkeyCardSO> playerHand = new List<MonkeyCardSO>(); //for other mode
-    public static event Action OnBananaChange;
     public static event Action OnStateChanged;
+    // public static 
     public static void Initialize(LevelSO so){
-        OnBananaChange = null;
         OnStateChanged = null;
-        choosenEnemies.Clear();
-        chosenAllies.Clear();
+        teamDict = new();
+        teamDict[Team.Player] = new();
+        teamDict[Team.Enemy] = new();
         choosenCardSOs = new List<CardSO>();
-        // playerHand = new List<MonkeyCardSO>();
-        BananaCnt = 0;
-        AllenanaCnt = 0;
-
         levelSO = so;
-        if (!so.canChooseCard){
+        if(!so.canChooseCard) {
             BattleInfo.choosenCardSOs = new List<CardSO>(so.choosenCardsBySystem);
         }
-        ChangeBananaCnt(6);
-    }
-    public static void ChangeBananaCnt(int diff) {
-        BananaCnt += diff;
-        if(BananaCnt < 0) { BananaCnt = 0; }
-        OnBananaChange?.Invoke();
-    }
-    public static void ChangeAllenanaCnt(int diff) {
-        AllenanaCnt += diff;
-        if (AllenanaCnt < 0){ AllenanaCnt = 0; }
+        teamDict[Team.Player].resource = so.initialBanana;
     }
     public static void ChangeState(GameState newState){
         Debug.Log($"BattleInfo::ChangeState: to {newState}");
@@ -47,6 +42,7 @@ public static class BattleInfo {
 }
 public static class TechnicalInfo{
     public static float gravity = 10f;
+    public const float speedMultiplier = 1.5f;
     public static bool isTutorial = false;
     public static MvAInputSystem controls;
     

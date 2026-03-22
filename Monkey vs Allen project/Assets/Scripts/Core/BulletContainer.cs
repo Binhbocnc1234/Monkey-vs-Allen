@@ -2,5 +2,5 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BulletContainer: Singleton<BulletContainer>{
-    // public 
+    // public void CreateBullet(GameObject prefab, )
 }

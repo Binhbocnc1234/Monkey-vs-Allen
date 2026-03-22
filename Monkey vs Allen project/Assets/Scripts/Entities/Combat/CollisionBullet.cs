@@ -1,29 +1,31 @@
+using System.Linq;
 using UnityEngine;
 
-public class CollisionBullet : Bullet
-{
-    public new void Initialize(float speed, int damage, Entity owner) {
-        base.Initialize(speed, damage, owner);
-        if(owner.team == Team.Player) {
-            direction = Vector3.right;
+[RequireComponent(typeof(BoxCollider2D))]
+public abstract class CollisionBullet : Bullet {
+    protected virtual void Update() {
+        foreach(IEntity e in EContainer.Ins.GetEntitiesByLane(this.lane)) {
+            if(e.team == this.team) continue;
+            if(IsCollidedWith(transform.position, e.model.boxCollider.bounds)) {
+                OnHit(e);
+            }
+        }
+    }
+    protected bool IsCollidedWith(Vector3 pos, Bounds bounds) {
+        return GetDiffToBounds(pos, bounds) <= (0.1f * speed);
+    }
+    protected float GetDiffToBounds(Vector3 pos, Bounds bounds) {
+        if(bounds.Contains(pos)) {
+            return 0;
         }
         else {
-            direction = Vector3.left;
-        }
-    }
-    protected virtual void Update()
-    {
-        // Di chuyển theo đường thẳng
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        // Kiểm tra va chạm với Enemy
-        Entity target = other.GetComponent<Entity>();
-        if (target != null)
-        {
-            OnHit(target);
+            float[] dist = new float[4]{
+                Mathf.Abs(pos.x - bounds.max.x),
+                Mathf.Abs(pos.x - bounds.min.x),
+                Mathf.Abs(pos.y - bounds.max.y),
+                Mathf.Abs(pos.x - bounds.min.x)
+            };
+            return dist.Min();
         }
     }
 }

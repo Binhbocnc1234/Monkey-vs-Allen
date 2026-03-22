@@ -5,15 +5,17 @@ using System.IO;
 using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 [System.Serializable]
-public class PlayerDataRaw {
+internal class PlayerDataRaw {
     public List<CardData> monkeyCards = new List<CardData>(), enemyCards = new List<CardData>();
     /* Cấu trúc của rawDecks chứa:
         - Phần tử bắt đầu với kí tự '#' là tên deck
         - Những phần tử sau tên deck là id của các lá bài*/
     public List<string> rawDecks = new List<string>();
     public string playerName = "User2175162#";
+    public bool[] campainProgress;
     public List<string> completedLevels;
 }
 [System.Serializable]
@@ -62,21 +64,25 @@ public class CardData {
 public static class PlayerData{
     static string path = Path.Combine(Application.persistentDataPath, "playerdata.json");
     public static string playerName = "User2175162#";
-    private static HashSet<string> completedLevels, visibleLevels;
+    private static bool[] campainProgress;
+    // private static HashSet<string> completedLevels;
     private static List<CardData> monkeyCards, enemyCards;
-
-    public static ReadOnlyCollection<string> CompletedLevels => completedLevels.ToList().AsReadOnly();
-    public static ReadOnlyCollection<string> VisibleLevels => visibleLevels.ToList().AsReadOnly();
+    // public static ReadOnlyCollection<string> CompletedLevels => completedLevels.ToList().AsReadOnly();
+    // public static ReadOnlyCollection<string> VisibleLevels => visibleLevels.ToList().AsReadOnly();
     public static ReadOnlyCollection<CardData> MonkeyCards => monkeyCards.AsReadOnly();
     public static ReadOnlyCollection<CardData> EnemyCards => enemyCards.AsReadOnly();
     private static int ownedCoins = 0;
-    public static List<Deck> decks{ get; private set; }
+    public static Language UserLanguage = Language.English;
+    public static List<Deck> decks { get; private set; }
     public static void Initialize() {
         decks = new();
         monkeyCards = new();
         enemyCards = new();
-        completedLevels = new();
-        visibleLevels = new();
+        campainProgress = new bool[100];
+        // visibleLevels = new() {
+        //     SORegistry.Get<LevelSO>().
+        //     First(e => e.place == Place.Garden && e.number == 1).id
+        // }; 
         foreach(MonkeyCardSO so in SORegistry.Get<MonkeyCardSO>()) {
             monkeyCards.Add(new CardData(so.id));
         }
@@ -84,7 +90,6 @@ public static class PlayerData{
             enemyCards.Add(new CardData(so.id));
         }
         Debug.Log($"[PlayerData] Finish initialization, datapath is {path}//playerdata.json");
-        Debug.Log(monkeyCards.Count);
     }
 
     public static List<MonkeyCardSO> GetOwnedCard() {
@@ -122,8 +127,20 @@ public static class PlayerData{
     public static int GetOwnedCoins() {
         return ownedCoins;
     }
-    public static void CompleteLevel(LevelSO so) {
-        completedLevels.Add(so.id);
+    // public static void CompleteCampainLevel(int difficulty, Place place, int num) {
+    //     int index = ((int)place) * LevelSO.COUNT_FOREACH_PLACE + num;
+    //     campainProgress[index] = true;
+    // }
+    public static void CompleteCampainLevel(int index) {
+        campainProgress[index] = true;
+    }
+    public static bool[] GetProgress(Place place) {
+        int startIndex = ((int)place) * LevelSO.COUNT_FOREACH_PLACE;
+        bool[] answer = new bool[LevelSO.COUNT_FOREACH_PLACE];
+        for(int i = 0; i < LevelSO.COUNT_FOREACH_PLACE; ++i) {
+            answer[i] = campainProgress[startIndex + i];
+        }
+        return answer;
     }
     /// <summary>
     /// Move data from PlayerData to hard memory
@@ -133,8 +150,8 @@ public static class PlayerData{
         //Create PlayerDataRaw instance: contain infomation that can be saved
         PlayerDataRaw rawData = new PlayerDataRaw();
         //Convert from complex data to prime data types: string, int, list
-        rawData.completedLevels = completedLevels.ToList();
         rawData.playerName = playerName;
+        rawData.campainProgress = campainProgress;
         // Add created decks
         foreach(Deck deck in decks) {
             rawData.rawDecks.Add('#' + deck.deckName);
@@ -179,9 +196,10 @@ public static class PlayerData{
             }
         }
 
-        foreach(string id in rawData.completedLevels) {
-            PlayerData.completedLevels.Add(id);
+        for(int i = 0; i < rawData.campainProgress.Length; ++i) {
+            campainProgress[i] = rawData.campainProgress[i];
         }
+
         PlayerData.playerName = rawData.playerName;
         Debug.Log("Load data success!");
     }

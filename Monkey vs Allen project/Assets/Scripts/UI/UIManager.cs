@@ -38,6 +38,7 @@ public class UIManager : Singleton<UIManager>
         else{
             hideShowManager.Show("chosenCardContainer");
             hideShowManager.Show("pause");
+            hideShowManager.Show("banana");
             hideShowManager.Show("letsrock");
         }
     }

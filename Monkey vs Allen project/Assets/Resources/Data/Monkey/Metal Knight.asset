@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Metal Knight
+  m_EditorClassIdentifier: 
+  id: 1a4b822a-1df3-4c65-8c17-1f71e246bcd4
+  gameClass: 0
+  tribes: 0d000000
+  health: 400
+  canAttack: 1
+  attackRange: 1
+  damage: 60
+  attackSpeed: 0.5
+  moveSpeed: 1
+  otherStats:
+  - statType: 8
+    amount: 20
+    multiplier: 1
+  traits: 
+  prefab: {fileID: 0}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 1
+    amount: 70
+  unlockedSkillInLevel3: {fileID: 11400000, guid: d96741b56210fe747ba843075e0bcf26, type: 2}
+  level_4:
+    stat: 8
+    amount: 15
+  upgradedSkillAtLv5: {fileID: 11400000, guid: d96741b56210fe747ba843075e0bcf26, type: 2}
+  references:
+    version: 2
+    RefIds: []

@@ -12,15 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
   m_Name: Target Monkey
   m_EditorClassIdentifier: 
-  team: 0
+  id: 775410f5-3dd6-4bb5-9578-d883bc8e90c0
+  gameClass: 0
   tribes: 010000000a000000
-  traits: 
-  health: 50
+  health: 800
   canAttack: 1
   attackRange: 1
   damage: 1
   attackSpeed: 1
   moveSpeed: 1
-  width: 1
-  height: 1
+  otherStats: []
+  traits: 
   prefab: {fileID: 5716675111369502733, guid: f50dedfd451a1e443bc36c5084f5eb9a, type: 3}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 0
+    amount: -1
+  unlockedSkillInLevel3: {fileID: 0}
+  level_4:
+    stat: 0
+    amount: -1
+  upgradedSkillAtLv5: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

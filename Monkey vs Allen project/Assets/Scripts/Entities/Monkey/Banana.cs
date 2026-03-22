@@ -19,7 +19,7 @@ public class Banana: DropBodyPart{
     }
     void OnMouseUp() {
         state = DropPartState.FadeOut;
-        BattleInfo.ChangeBananaCnt(count);
+        BattleInfo.teamDict[Team.Player].resource += count;
     }
 
 }

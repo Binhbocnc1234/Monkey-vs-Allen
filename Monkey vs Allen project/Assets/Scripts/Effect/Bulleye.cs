@@ -1,5 +1,5 @@
-public class BullEye : IEffect, IDamageOutputModifier {
-    public BullEye(IEntity owner, int duration) : base(owner, duration) {
+public class BullEye : Effect, IDamageOutputModifier {
+    public BullEye(int duration) : base(duration) {
 
     }
     public void ModifyDamage(DamageContext ctx) {

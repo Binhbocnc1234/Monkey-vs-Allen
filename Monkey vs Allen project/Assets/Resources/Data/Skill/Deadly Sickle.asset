@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Deadly Sickle
+  m_EditorClassIdentifier: 
+  id: 5b9597e4-7a3b-4e2d-986f-9a542703860d
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: Deadly Sickle
+  thumbnail: {fileID: 0}
+  skillStats:
+    keys:
+    - Chance
+    - Duration
+    values: 0a00000005000000
+  description:
+    English: Basic attacks have [Chance]% chance to apply Bleeding effect in [Duration]
+      seconds
+    Vietnamese: "\u0110\xF2n \u0111\xE1nh th\u01B0\u1EDDng c\xF3 [Chance]% c\u01A1
+      h\u1ED9i g\xE2y hi\u1EC7u \u1EE9ng Bleeding trong v\xF2ng [Duration] gi\xE2y"
+    Poturgese: 
+  skillUp:
+    statName: Duration
+    changeAmount: 4

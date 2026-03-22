@@ -21,13 +21,7 @@ public class LobbyLevelUI : MonoBehaviour {
         this.so = so;
         this.state = state;
         thumbnail.sprite = so.thumbnail;
-        levelName.text = $"{so.place} - Level {so.number}";
-        // if (so.isVisible == false){
-        //     mask.gameObject.SetActive(true);
-        // }
-        // else{
-        //     mask.gameObject.SetActive(false);
-        // }
+        levelName.text = $"{so.place} - Level {so.number + 1}";
         if(state == State.Completed) {
             background.color = completeColor;
             underbackground.color = darkCompleteColor;

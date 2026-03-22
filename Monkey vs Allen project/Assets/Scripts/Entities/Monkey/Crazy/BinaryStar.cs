@@ -1,17 +1,12 @@
 using UnityEngine;
 
-public class DoubleDamageEffect : GlobalEffect, IDamageOutputModifier {
-    public void ModifyDamage(DamageContext ctx) {
-        ctx.amount *= 2;
-    }
-}
-public class BinaryStar : Entity {
+
+public class BinaryStar : MonoBehaviour, IInitialize {
     private DoubleDamageEffect globalEffect;
-    void Start() {
-        SingletonRegister.Get<GlobalEffectManager>().AddEffect(globalEffect);
-    }
-    public override void Die() {
-        base.Die();
-        SingletonRegister.Get<GlobalEffectManager>().RemoveEffect(globalEffect);
+    public void Initialize() {
+        IEntity e = GetComponent<IEntity>();
+        globalEffect = new DoubleDamageEffect();
+        GlobalEffectManager.Ins.AddEffect(globalEffect);
+        e.OnEntityDeath += () => GlobalEffectManager.Ins.RemoveEffect(globalEffect);
     }
 }

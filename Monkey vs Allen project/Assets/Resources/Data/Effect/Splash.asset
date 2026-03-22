@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ca8c14c0d463641bb4c77d9a744209, type: 3}
+  m_Name: Splash
+  m_EditorClassIdentifier: 
+  id: d45e9a3b-a833-4574-a83f-592f92cf1c1e
+  thumbnail: {fileID: -1811060180, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+  description:
+    English: After the bullet explodes, it deals 50% more damage to nearby targets.
+    Vietnamese: "Sau khi vi\xEAn \u0111\u1EA1n ph\xE1t n\u1ED5, g\xE2y th\xEAm 50%
+      s\xE1t th\u01B0\u01A1ng cho c\xE1c m\u1EE5c ti\xEAu l\xE2n c\u1EADn"
+    Poturgese: 

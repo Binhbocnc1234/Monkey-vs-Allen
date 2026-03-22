@@ -29,7 +29,7 @@ public class PauseManager : Singleton<PauseManager>{
         foreach(GameObject parent in pauseParent){
             foreach (var comp in parent.GetComponents<Behaviour>())
             {
-                if (comp.enabled == false || comp is IPausable || comp == this || comp is Image || comp is TMP_Text || comp is Button) 
+                if (comp == null || comp.enabled == false || comp is IPausable || comp == this || comp is Image || comp is TMP_Text || comp is Button) 
                     continue;
 
                 pauseList.Add(comp);
@@ -38,7 +38,7 @@ public class PauseManager : Singleton<PauseManager>{
             {
                 foreach (var comp in go.GetComponents<Behaviour>())
                 {
-                    if (comp.enabled == false || comp == this || comp is Image || comp is TMP_Text || comp is Button) 
+                    if (comp == null || comp.enabled == false || comp == this || comp is Image || comp is TMP_Text || comp is Button) 
                         continue;
 
                     pauseList.Add(comp);

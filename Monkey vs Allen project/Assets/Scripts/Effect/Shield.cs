@@ -2,26 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : IEffect, IOnDamageTaken
+public class Shield : Effect, IOnDamageTaken
 {
-    int amount;
-    public Shield(IEntity owner, int amount) : base(owner, 5) {
-        this.amount = amount;
+    public Shield(int amount) : base(5) {
+        this.strength = amount;
     }
     public void OnDamageTaken(DamageContext ctx) {
         if (ctx.defender != owner) {
             return;
         }
-        if(ctx.amount >= amount) {
-            ctx.amount -= amount;
+        if(ctx.amount >= strength) {
+            ctx.amount -= strength;
             DestroyThis();
         }
         else {
-            amount -= ctx.amount;
+            strength -= (int)ctx.amount;
             ctx.amount = 0;
         }
     }
-    public override bool IsIdentical(IEffect effect) {
+    public override bool IsIdentical(Effect effect) {
         return false;
     }
 }

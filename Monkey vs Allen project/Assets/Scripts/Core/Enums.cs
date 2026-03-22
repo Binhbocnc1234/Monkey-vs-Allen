@@ -56,48 +56,32 @@ public static class EnumConverter{
         }
     }
 }
-public enum Place{
-    Garden,
-    Sky,
+public enum Place {
+    LovelyHouse,
+    PrimalBreach,
+    RampurVillage,
+    BodiamCastle,
     Villa,
-    HauntedVilla,
-    None
+    FormusaFactory,
+    CrystyCave,
+    SkyCity,
 }
-public enum EntityState {
-    Idle,
-    Walk,
-    Attacking,
-    Death,
-    Frozen,
-    InActive,
-    ActivateSkill
-}
-// public static class EntityStatePriority {
-//     public static int Get(EntityState state) {
-//         int result = state switch {
-//             EntityState.Idle => 0,
-//             EntityState.Move => 1,
-//             EntityState.
-//             _ => -1
-//         };
-//         return result;
-//     }
-// }
+
 public enum AttackType
 {
     Melee,
     Ranged,
     Area
 }
-
-public enum WaveState
-{
-    Pause,
-    Active
+public enum GameClass {
+    Hearty,
+    Crazy,
+    Brainy,
+    Swarmy,
+    Sneaky,
 }
 public enum Tribe {
     Basic,
-
     Target,
     Pet,
     Mechanic,
@@ -110,5 +94,40 @@ public enum Tribe {
     Monkey,
     Allen,
     Tower,
+    Medieval,
+    Arrowy,
+    Speary,
+    Plant,
+    Feral,
+    JadeEmpire,
+    Fruit,
+    
+}
+public enum ST {
+    Health,
+    MaxHealth,
+    Strength,
+    MagicPower,
+    Range,
+    AttackSpeed,
+    MoveSpeed, // How many cells can the Entity pass through in 1 second?
+    LifeSteal,
+    Armor,
+    MagicResistance,
+    Penetration,
+    MagicPenetration,
+    MoveSM, // MoveSpeedMultiplier
+}
+public enum Language {
+    English,
+    Vietnamese,
+    Spanish,
+    Portuguese,
+    Indonesian,
 }
 
+public enum Operator {
+    Addition,
+    Multiply,
+    Override,
+}

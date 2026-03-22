@@ -27,7 +27,7 @@ public class BattleCardUI : CardUI {
 
     }
     public void UpdateBattleCard(IBattleCard card) {
-        RectTransformExtensions.SetTop(cooldownMaskRect, initialCooldownHeight * card.GetCooldownPercent());
+        RectTransformExtensions.SetTop(cooldownMaskRect, initialCooldownHeight * card.cooldownTimer.GetPercent());
         if(card.originalCost == card.cost) {
             appearance.cost.color = Color.white;
         }

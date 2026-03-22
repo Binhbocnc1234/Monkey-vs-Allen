@@ -12,15 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
   m_Name: Watermelon seller 1
   m_EditorClassIdentifier: 
-  team: 0
-  tribes: 0a00000007000000
-  traits: 08000000
-  health: 20
+  id: 876ad69c-09aa-48d2-826a-26f525ea89f0
+  gameClass: 1
+  tribes: 070000000a000000
+  health: 200
   canAttack: 1
   attackRange: 6
-  damage: 8
+  damage: 80
   attackSpeed: 0.5
   moveSpeed: 2
-  width: 1
-  height: 1
-  prefab: {fileID: 0}
+  otherStats: []
+  traits: 08000000
+  prefab: {fileID: 7029487976330865866, guid: efbeef22678bbcb4fa92a96cacf5e443, type: 3}
+  unlockedSkillInFirstLevel: []
+  level_2:
+    stat: 2
+    amount: 10
+  unlockedSkillInLevel3: {fileID: 11400000, guid: ae8430b003b9af546902693ffeb60904, type: 2}
+  level_4:
+    stat: 8
+    amount: 20
+  upgradedSkillAtLv5: {fileID: 11400000, guid: ae8430b003b9af546902693ffeb60904, type: 2}

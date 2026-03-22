@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Slingshot master
+  m_EditorClassIdentifier: 
+  id: 12c5d8b3-6baf-4763-9f43-bf0e8335dc78
+  gameClass: 1
+  tribes: 
+  health: 120
+  canAttack: 1
+  attackRange: 5
+  damage: 15
+  attackSpeed: 1.3
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 2211719451317403175, guid: 56f46dc2cfaa030488b551133dfbedc2, type: 3}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 5
+    amount: 0.15
+  unlockedSkillInLevel3: {fileID: 11400000, guid: 2e36518a9f19fd2488345fa67d10501a, type: 2}
+  level_4:
+    stat: 4
+    amount: 1
+  upgradedSkillAtLv5: {fileID: 11400000, guid: 2e36518a9f19fd2488345fa67d10501a, type: 2}
+  references:
+    version: 2
+    RefIds: []

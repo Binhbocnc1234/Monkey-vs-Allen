@@ -1,6 +1,6 @@
-public class Poisoning : IEffect {
+public class Poisoning : Effect {
     private readonly Timer delayTimer;
-    public Poisoning(IEntity owner) : base(owner, -1) {
+    public Poisoning(IEntity owner) : base(-1) {
         delayTimer = new Timer(3, reset: true);
     }
     public override void Update() {

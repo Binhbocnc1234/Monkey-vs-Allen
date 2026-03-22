@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Boxer Alien
+  m_EditorClassIdentifier: 
+  id: 9ec5ae90-a192-469e-8891-7fa535dd57f4
+  gameClass: 1
+  tribes: 0b000000
+  health: 300
+  canAttack: 1
+  attackRange: 1
+  damage: 20
+  attackSpeed: 3
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 0}
+  unlockedSkillInFirstLevel:
+  - {fileID: 11400000, guid: 0c61993157677fd42a311576e2bb606f, type: 2}
+  upgrades:
+  - rid: 8753124315890188290
+  - rid: 8753124315890188295
+  - rid: 8753124315890188296
+  - rid: 8753124315890188297
+  usingOldUpgradeSystem: 0
+  level_2:
+    stat: 0
+    amount: 40
+  unlockedSkillInLevel3: {fileID: 0}
+  level_4:
+    stat: 2
+    amount: 3
+  upgradedSkillAtLv5: {fileID: 11400000, guid: 0c61993157677fd42a311576e2bb606f, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8753124315890188290
+      type: {class: StatUpgrade, ns: , asm: MvA.Core}
+      data:
+        stat: 0
+        amount: 40
+    - rid: 8753124315890188295
+      type: {class: SkillUpgrade, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: 0c61993157677fd42a311576e2bb606f, type: 2}
+    - rid: 8753124315890188296
+      type: {class: StatUpgrade, ns: , asm: MvA.Core}
+      data:
+        stat: 2
+        amount: 3
+    - rid: 8753124315890188297
+      type: {class: SkillUpgrade, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: 0c61993157677fd42a311576e2bb606f, type: 2}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ca8c14c0d463641bb4c77d9a744209, type: 3}
+  m_Name: Deadly
+  m_EditorClassIdentifier: 
+  id: dddc1904-1cd6-4ead-a8c0-48d8ccab9f7c
+  thumbnail: {fileID: -1509370391, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+  description:
+    English: The attack will apply the Deadly Mark to the enemy. If the enemy accumulates
+      7 Deadly Marks, they will consume all of them and lose half of their maximum
+      health
+    Vietnamese: "\u0110\xF2n t\u1EA5n c\xF4ng s\u1EBD t\xEDch d\u1EA5u \u1EA5n Deadly
+      l\xEAn k\u1EBB \u0111\u1ECBch. N\u1EBFu n\xF3 d\xEDnh \u0111\u1EE7 7 d\u1EA5u
+      \u1EA5n Deadly, k\u1EBB \u0111\u1ECBch s\u1EBD ti\xEAu th\u1EE5 to\xE0n b\u1ED9
+      d\u1EA5u \u1EA5n v\xE0 m\u1EA5t m\xF4t n\u1EEDa m\xE1u t\u1ED1i \u0111a"
+    Poturgese: 

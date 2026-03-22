@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using System.Linq;
 
 public class CardDescriptionUI : Singleton<CardDescriptionUI> {
     public CardSO so;
@@ -12,64 +14,94 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
     [SerializeField] private Image model;
     [SerializeField] private StatUI statUIPrefab;
     [SerializeField] private TraitUI traitUIPrefab;
+    [SerializeField] private SkillUI skillUIPrefab;
     [SerializeField] private Transform traitText;
-    [SerializeField] private CardIconMapSO iconMap;
     [SerializeField] public HideAndShowUIManager hideAndShowManager;
     [SerializeField] private StatUIPool statUIPool;
     [SerializeField] private TraitUIPool traitUIPool;
+    [SerializeField] private Transform skillContainer;
     [SerializeField] private Image shardProgress;
     [SerializeField] private TMP_Text shardCount;
+    [SerializeField] private ScrollResetter scrollResetter;
+    [SerializeField] private TMP_Text upgradePrefab;
+    [SerializeField] private Transform upgradeContainer;
     protected override void Awake() {
         base.Awake();
         hideAndShowManager.HideAllImmediately();
         panel.alpha = 0;
     }
     public void Initialize(CardSO so) {
+        Initialize(so, PlayerData.GetCardDataById(so.id).level);
+    }
+    public void Initialize(CardSO so, int level) {
         Show();
-        if (this.so == so) {
+        if(this.so == so) {
             return;
         }
+        EntitySO enSO = so.entitySO;
+        UDictionary<ST, float> stats = enSO.GetEntityStats(level);
         this.so = so;
         cardName.text = so.cardName;
         cardName.color = EnumConverter.FromRarityToColor(so.cardRarity);
         model.sprite = so.sprite;
         string tribeText = "- ";
         // Tribe
-        foreach(Tribe tribe in so.entitySO.tribes) {
+        foreach(Tribe tribe in enSO.tribes) {
             tribeText += tribe.ToString() + ' ';
         }
         tribeText += " -";
         tribeTMP.text = tribeText;
 
-        // Clear using pool-aware release
+        // Stat container
         statUIPool.Clear();
-        StatUI healthUI = GetStatUI();
-        healthUI.Initialize(iconMap.healthIcon, so.entitySO.health);
-
-        if(so.entitySO.canAttack) {
-            StatUI damageUI = GetStatUI();
-            StatUI attackRangeUI = GetStatUI();
-            StatUI attackSpeedUI = GetStatUI();
-            damageUI.Initialize(iconMap.damageIcon, so.entitySO.damage);
-            attackRangeUI.Initialize(iconMap.attackRangeIcon, so.entitySO.attackRange);
-            attackSpeedUI.Initialize(iconMap.attackSpeedIcon, so.entitySO.attackSpeed);
+        foreach(var stat in enSO.GetEntityStats(level)) {
+            StatUI statUI = GetStatUI();
+            statUI.Initialize(stat.Key, stat.Value);
         }
-        if(!so.entitySO.tribes.Contains(Tribe.Tower)) {
-            StatUI moveSpeedUI = GetStatUI();
-            moveSpeedUI.Initialize(iconMap.moveSpeedIcon, so.entitySO.moveSpeed);
-        }
-        if(so.entitySO.traits.Count > 0) {
+        // Trait container
+        if(enSO.traits.Count > 0) {
             traitText.gameObject.SetActive(true);
             traitUIPool.Clear();
-            foreach(TraitType traitType in so.entitySO.traits) {
+            foreach(EffectType traitType in enSO.traits) {
                 TraitUI traitUI = GetTraitUI();
-                traitUI.Initialize(iconMap.GetIconByEnum(traitType), traitType.ToString());
+                traitUI.Initialize(traitType);
             }
         }
         else {
             traitText.gameObject.SetActive(false);
         }
-        description.text = "Description: " + so.description;
+        // Skills
+        skillContainer.DestroyAllChildren();
+        List<Upgrade> upgrades = enSO.GetUpgrades();
+        List<SkillSO> skillSOs = new List<SkillSO>(enSO.unlockedSkillInFirstLevel);
+        SkillSO lockedSkill = null;
+        for(int i = 0; i < level - 1; ++i) {
+            Upgrade up = upgrades[i];
+            if(up is UnlockSkill unlockSkill) {
+                lockedSkill = unlockSkill.skillSO;
+            }
+        }
+        foreach(SkillSO skillSO in skillSOs) {
+            int upgradeCount = 0;
+            for(int i = 0; i < level - 1; ++i) {
+                Upgrade upgrade = upgrades[i];
+                if(upgrade is SkillUpgrade skillUp && skillUp.skillSO == skillSO) {
+                    upgradeCount++;
+                }
+            }
+            Instantiate(skillUIPrefab, skillContainer).UpdateInfo(skillSO, true, upgradeCount);
+        }
+        if (lockedSkill != null) {
+            Instantiate(skillUIPrefab, skillContainer).UpdateInfo(lockedSkill, false, 0);
+        }
+        // Upgrades
+        upgradeContainer.DestroyAllChildren();
+        CreateStatUpgradeText(enSO.level_2.stat, enSO.level_2.amount, level >= 2);
+        CreateUpgradeText("Unlock skill: " + enSO.unlockedSkillInLevel3.skillName, level >= 3);
+        CreateStatUpgradeText(enSO.level_4.stat, enSO.level_4.amount, level >= 4);
+        CreateUpgradeText($"Better {enSO.upgradedSkillAtLv5.skillName}", level >= 5);
+
+        description.text = "Description: " + so.description.GetString();
         if(Application.isPlaying) {
             CardData cardData = PlayerData.GetCardDataById(so.id);
             shardCount.text = $"{cardData.shards}/{CardSO.UPGRADE_THRESHOLD[cardData.level]}";
@@ -88,6 +120,7 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
         LeanTween.cancel(panel.gameObject);
         panel.LeanAlpha(1, 0.25f);
         hideAndShowManager.ShowAll();
+        scrollResetter.OpenScrollRect();
     }
     // Pool-aware helpers
     private StatUI GetStatUI() {
@@ -102,4 +135,18 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
         return ui;
     }
 
+    private void CreateStatUpgradeText(ST stat, float value, bool unlocked) {
+        TMP_Text text = Instantiate(upgradePrefab, upgradeContainer);
+        text.text = $"{stat} increases by {value}";
+        if(!unlocked) {
+            text.color = Color.gray;
+        }
+    }
+    private void CreateUpgradeText(string content, bool unlocked) {
+        TMP_Text text = Instantiate(upgradePrefab, upgradeContainer);
+        text.text = content;
+        if(!unlocked) {
+            text.color = Color.gray;
+        }
+    }
 }

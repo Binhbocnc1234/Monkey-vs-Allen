@@ -5,16 +5,18 @@ public class AimBullet : Bullet
     [Header("Aim Settings")]
     public float hitDistance = 0.5f;
     public float turnSpeed = 5f;
-    private Entity target;
+    private IEntity target;
     private Vector3 targetPosition;
+    private Vector3 direction;
 
-    public void Initialize(float speed, int damage, Entity owner, Entity target)
+    public void Initialize(float damage, IEntity owner, IEntity target)
     {
-        base.Initialize(speed, damage, owner);
+        base.Initialize(damage, owner);
+        this.target = target;
         targetPosition = target.transform.position;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (target != null && !target.IsDead())
         {

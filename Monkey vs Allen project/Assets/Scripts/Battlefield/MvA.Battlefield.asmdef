@@ -10,7 +10,8 @@
         "MvA.UI",
         "MvA.Lobby",
         "Unity.TextMeshPro",
-        "Plugin.LeanTween"
+        "Plugin.LeanTween",
+        "MvA.Effect"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

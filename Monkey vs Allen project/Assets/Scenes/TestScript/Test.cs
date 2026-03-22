@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public GameObject prefab;
-    public TestScriptableObject testSO;
-    void Start()
-    {
-        Instantiate(prefab, this.transform);
+    public Animator animator;
+    public  
+    void Awake() {
+        Debug.Log("[Test] Awake");
+        animator.CrossFade("Idle", 0.25f, 0, 0);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        if(animator.IsInTransition(0)) {
+            Debug.Log("Animator in transition");
+        }
     }
 }

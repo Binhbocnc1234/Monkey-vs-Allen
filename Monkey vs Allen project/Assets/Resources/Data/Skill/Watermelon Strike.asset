@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Watermelon Strike
+  m_EditorClassIdentifier: 
+  id: 2012f91b-8718-4243-bac5-8e5b9c9dbe37
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: Watermelon Strike
+  thumbnail: {fileID: 21300000, guid: 91574fbec00643244b37497b2cd3c2fe, type: 3}
+  skillStats:
+    keys:
+    - Damage
+    - Cooldown
+    values: 780000000c000000
+  description:
+    English: 'The watermelon seller throws a watermelon into the air. Upon landing,
+      the watermelon deals [Damage] damage. It prioritizes attacking enemies with
+      the lowest health. Cooldown: [Cooldown] seconds.'
+    Vietnamese: "Kh\u1EC9 b\xE1n d\u01B0a n\xE9m m\u1ED9t qu\u1EA3 d\u01B0a h\u1EA5u
+      l\xEAn kh\xF4ng trung. Sau khi r\u01A1i xu\u1ED1ng, qu\u1EA3 d\u01B0a g\xE2y
+      [Damage] s\xE1t th\u01B0\u01A1ng. \u01AFu ti\xEAn t\u1EA5n c\xF4ng k\u1EBB
+      \u0111\u1ECBch c\xF3 l\u01B0\u1EE3ng m\xE1u th\u1EA5p nh\u1EA5t. H\u1ED3i chi\xEAu:
+      [Cooldown] gi\xE2y."
+    Poturgese: 
+  skillUp:
+    statName: Damage
+    changeAmount: 90

@@ -4,14 +4,16 @@ using UnityEngine.SceneManagement;
 public class NewCardUIManager : Singleton<NewCardUIManager>{
     public CardSO newCardSO;
     public CardUIAppearance cardUI;
+    public FlashPanel flashPanel;
     private CardDescriptionUI description;
     void Start() {
-        if (CustomSceneManager.newCardSO != null) {
+        if(CustomSceneManager.newCardSO != null) {
             Initialize(CustomSceneManager.newCardSO);
         }
         else {
             Initialize(newCardSO);
         }
+        StartCoroutine(flashPanel.DeflashCorou());
     }
     public void Initialize(CardSO so) {
         description = CardDescriptionUI.Ins;

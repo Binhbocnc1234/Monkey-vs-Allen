@@ -12,13 +12,13 @@ public class BananaCounterUI : MonoBehaviour
         Ins = this;
     }
     public void Initialize(){
-        tmp.text = BattleInfo.BananaCnt.ToString();
-        BattleInfo.OnBananaChange += BananaUpdate;
+        tmp.text = BattleInfo.teamDict[Team.Player].resource.ToString();
+        BattleInfo.teamDict[Team.Player].OnResourceChange += BananaUpdate;
         animation = null;
     }
 
     void BananaUpdate() {
-        tmp.text = BattleInfo.BananaCnt.ToString();
+        tmp.text = BattleInfo.teamDict[Team.Player].resource.ToString();
 
         if(animation != null && gameObject != null && this != null) {
             StopCoroutine(animation);

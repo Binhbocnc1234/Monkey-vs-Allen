@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Basic Alien
+  m_EditorClassIdentifier: 
+  id: 214ef9f9-3658-42f5-890e-5cf9346410e5
+  gameClass: 0
+  tribes: 0b000000
+  health: 200
+  canAttack: 1
+  attackRange: 1
+  damage: 30
+  attackSpeed: 1
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 4243784536699012920, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+  skillStats:
+    keys: []
+    values: []
+  skillSOs:
+  - {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}

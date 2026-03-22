@@ -14,7 +14,7 @@ public class SelectBananaTreeTutorial : Tutorial{
     public override void Initialize(){
         base.Initialize();
         bool foundBananaCard = false;
-        foreach(BattleCard card in BattleInfo.chosenAllies){
+        foreach(BattleCard card in BattleInfo.teamDict[Team.Player].cards){
             BattleCardUI cardUI = card.cardUI;
             if (card.GetSO() == bananaTreeSO){
                 bananaTreeCardUI = cardUI;

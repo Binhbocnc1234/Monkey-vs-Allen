@@ -13,6 +13,7 @@ public class ObjectPool<T> : MonoBehaviour
 
     protected virtual void Awake()
     {
+        parent.DestroyAllChildren();
         // Tạo sẵn vài gameObject
         for (int i = 0; i < initialSize; i++)
         {

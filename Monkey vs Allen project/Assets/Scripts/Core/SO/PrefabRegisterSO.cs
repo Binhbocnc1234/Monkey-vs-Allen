@@ -9,7 +9,11 @@ public class PrefabRegisterSO : MySO {
     public RectTransform arrowUI;
     public GameObject arrow;
     public EntitySO builder;
+    public GameObject unfinishedTower;
     public GameObject loadingUI;
     public GameObject dollarGameObject;
     public GameObject bananaBunch;
+    public GameObject emptyGameObject;
+    public GameObject alienSpawningEffect;
+    public UDictionary<ST, Sprite> statIconMap;
 }

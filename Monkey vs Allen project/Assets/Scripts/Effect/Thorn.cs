@@ -1,5 +1,5 @@
-public class Thorn : IEffect, IOnDamageTaken {
-    public Thorn(IEntity owner, int duration, int reflectPercent) : base(owner, duration, reflectPercent) {
+public class Thorn : Effect, IOnDamageTaken {
+    public Thorn(int duration, int reflectPercent) : base(duration, reflectPercent) {
         
     }
     public void OnDamageTaken(DamageContext ctx) {

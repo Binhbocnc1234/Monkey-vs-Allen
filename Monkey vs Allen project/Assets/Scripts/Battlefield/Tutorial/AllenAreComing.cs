@@ -6,7 +6,7 @@ public class AllenAreComing : Tutorial
 {
     public EntitySO basicAllenSO;
     public float duration;
-    private Entity demoEntity;
+    private IEntity demoEntity;
     public override void Initialize() {
         base.Initialize();
         StartTutorial();
@@ -19,7 +19,7 @@ public class AllenAreComing : Tutorial
     IEnumerator CountdownFinished(float duration){
         IGrid grid = GridSystem.Ins;
         GridCamera.Ins.MoveTowardEnemyHouse();
-        demoEntity = EContainer.Ins.CreateEntity(basicAllenSO, new Vector2Int(grid.width - 2, 2), Team.Enemy);
+        demoEntity = IEntityRegistry.Ins.CreateEntity(basicAllenSO, grid.width - 2, 2, Team.Enemy);
         yield return new WaitWhile(() => GridCamera.Ins.isMoving == true);
         Timer timer = new Timer(duration, true);
         while(true){
@@ -34,8 +34,4 @@ public class AllenAreComing : Tutorial
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);
         CompleteTutorial();
     }
-    public override void CompleteTutorial() {
-        base.CompleteTutorial();
-    }
-
 }

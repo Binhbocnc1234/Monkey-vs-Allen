@@ -19,3 +19,16 @@ MonoBehaviour:
   loadingUI: {fileID: 1524261055506803271, guid: c2c35be67f673b843b93a6c71c1ad124, type: 3}
   dollarGameObject: {fileID: 0}
   bananaBunch: {fileID: 4127722128111617080, guid: 42fb33219fadd5140947caee7aa6792f, type: 3}
+  emptyGameObject: {fileID: 5499267492144331048, guid: 7dfc7abe295d46f4aa590dbeecf09a5d, type: 3}
+  alienSpawningEffect: {fileID: 198021989046576033, guid: ba7f045030beaf9458d8e597d48b232b, type: 3}
+  statIconMap:
+    keys: 01000000020000000300000004000000050000000a0000000800000006000000
+    values:
+    - {fileID: -827799462, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 672021292, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 0}
+    - {fileID: -773728577, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 1147489191, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 380657036, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 1866689053, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: -628785214, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}

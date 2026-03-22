@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02944d39ed6d614a838740b73da5b8b, type: 3}
+  m_Name: Level 11
+  m_EditorClassIdentifier: 
+  id: a3fa04bb-80d3-45db-83e1-760e38d89129
+  number: 10
+  place: 0
+  thumbnail: {fileID: 21300000, guid: 9445cdba9fdbf5d438b7394c17cf8de9, type: 3}
+  initialBanana: 6
+  allenanaSpawnDelay: 1
+  gridWidth: 18
+  openLanes: 000101010000
+  enemies: []
+  canChooseCard: 1
+  choosenCardsBySystem: []
+  rewardables: []
+  tutorials: []
+  levelInitializerSOs: []
+  references:
+    version: 2
+    RefIds: []

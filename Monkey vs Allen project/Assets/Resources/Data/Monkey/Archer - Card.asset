@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef00bdbbec229dd4ba639edf479e0282, type: 3}
+  m_Name: Archer - Card
+  m_EditorClassIdentifier: 
+  id: 24c386ba-0562-4f52-9d16-3ef0369c13be
+  cardName: Archer
+  entitySO: {fileID: 11400000, guid: 917d22ea489787840bfc0c357449caea, type: 2}
+  cost: 6
+  cooldownType: 1
+  sprite: {fileID: 21300000, guid: 1b60c322ea613c74ea11832a9e1cfa82, type: 3}
+  cardRarity: 0
+  level_1:
+    stat: 2
+  level_3:
+    stat: 4
+  level_4:
+    skillStatName: Chance
+    changeAmount: 10
+  description:
+    English: 
+    Vietnamese: "Anh c\u1EA7m ki\u1EBFm, c\xF2n em c\u1EA7m cung"
+    Poturgese: 

@@ -36,7 +36,7 @@ public class PointerUI : Singleton<PointerUI>
         Vector2 tmp = Camera.main.ScreenToWorldPoint(mousePos);
         transform.position = tmp;
         //Get pointed cell in grid
-        pointedGridPosition = grid.WorldToGridPosition(transform.position);
+        pointedGridPosition = grid.WorldToGridPosRounded(transform.position);
         delayAction.Count();
         if (card.CanUseCard(pointedGridPosition)){
             transparentModel.enabled = true;

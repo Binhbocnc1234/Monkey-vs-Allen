@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef00bdbbec229dd4ba639edf479e0282, type: 3}
+  m_Name: Card - Flourish
+  m_EditorClassIdentifier: 
+  id: d36d89c1-f4d8-4da2-99fa-7493267ae10d
+  cardName: Flourish
+  entitySO: {fileID: 11400000, guid: 917d22ea489787840bfc0c357449caea, type: 2}
+  cost: 6
+  cooldownType: 1
+  sprite: {fileID: 21300000, guid: c0d730829fa516e4d91632255d6a96c0, type: 3}
+  cardRarity: 0
+  description:
+    English: 
+    Vietnamese: 
+    Poturgese: 

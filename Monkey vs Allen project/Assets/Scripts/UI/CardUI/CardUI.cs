@@ -24,7 +24,6 @@ public class CardUI : MonoBehaviour,
     [ShowIf("haveAppearanceIfEmpty")] public RectTransform emptyRect;
     // public TMP_Text cost;
     public event Action<CardUI> OnClickEvent;
-    public EventChannel channel = new();
     protected virtual void Start()
     {
         rect = GetComponent<RectTransform>();
@@ -94,7 +93,6 @@ public class CardUI : MonoBehaviour,
     public void OnPointerClick(PointerEventData eventData) {
         if(isGreyOut || !HaveCardAttached()) { return; }
         OnClickEvent?.Invoke(this);
-        channel.Invoke(new OnCardClick(this));
     }
     public void Validate() {
         if(so != null) {

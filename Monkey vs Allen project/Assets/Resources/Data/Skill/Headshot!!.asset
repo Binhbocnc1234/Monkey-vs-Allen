@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Headshot!!
+  m_EditorClassIdentifier: 
+  id: 03f62e42-0b68-4d48-8bc3-388336257003
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: Headshot!!
+  thumbnail: {fileID: 21300000, guid: 04b14aaaab2014e48a8d8706244293f8, type: 3}
+  skillStats:
+    keys:
+    - Duration
+    values: 02000000
+  description:
+    English: The master pulled out his slingshot and fired directly at the enemy's
+      head, dealing true damage and stunning them for [Duration] seconds.
+    Vietnamese: "Th\u1EA7y l\xF4i n\xE1 cao su v\xE0 b\u1EAFn th\u1EB3ng v\xE0o \u0111\u1EA7u
+      k\u1EBB \u0111\u1ECBch, g\xE2y s\xE1t th\u01B0\u01A1ng chu\u1EA9n v\xE0 l\xE0m
+      k\u1EBB \u0111\u1ECBch b\u1ECB cho\xE1ng trong v\xF2ng [Duration] gi\xE2y"
+    Poturgese: 
+  skillUp:
+    statName: Duration
+    changeAmount: 2

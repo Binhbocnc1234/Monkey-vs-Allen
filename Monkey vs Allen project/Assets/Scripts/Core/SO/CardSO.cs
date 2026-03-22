@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 public abstract class CardSO : MySO{
@@ -12,11 +13,9 @@ public abstract class CardSO : MySO{
     public CoolDownType cooldownType;
     [FormerlySerializedAs("sprite")]
     public Sprite sprite;
-
     [FormerlySerializedAs("cardRarity")]
     public CardRarity cardRarity;
+    [Header("Upgrades")]
+    public LocalizedDescription description;
 
-    [FormerlySerializedAs("description")]
-    [TextArea(3, 5)]
-    public string description;
 }

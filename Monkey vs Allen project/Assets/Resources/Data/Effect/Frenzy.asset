@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ca8c14c0d463641bb4c77d9a744209, type: 3}
+  m_Name: Frenzy
+  m_EditorClassIdentifier: 
+  id: 2056e1fa-8efc-4425-bb9b-f20e8363a231
+  thumbnail: {fileID: 21300000, guid: 526ab4ca2841e3447b9159882de9e6af, type: 3}
+  description:
+    English: After assisting (dealing 70% of the damage to the enemy) or successfully
+      killing an enemy, the entity will enter a rage state for 3 seconds. In this
+      state, its movement speed and attack speed are increased by 70%.
+    Vietnamese: "Sau khi h\u1ED7 tr\u1EE3(s\xE1t th\u01B0\u01A1ng g\xE2y l\xEAn k\u1EBB
+      \u0111\u1ECBch chi\u1EBFm 70%) ho\u1EB7c gi\u1EBFt th\xE0nh c\xF4ng m\u1ED9t
+      k\u1EBB \u0111\u1ECBch, th\u1EF1c th\u1EC3 s\u1EBD r\u01A1i v\xE0o c\u01A1n
+      cu\u1ED3ng n\u1ED9 trong 3 gi\xE2y. Trong tr\u1EA1ng th\xE1i n\xE0y, n\xF3
+      \u0111\u01B0\u1EE3c t\u0103ng 70% t\u1ED1c ch\u1EA1y ch\xF9ng 70% t\u1ED1c
+      \u0111\xE1nh"
+    Poturgese: 

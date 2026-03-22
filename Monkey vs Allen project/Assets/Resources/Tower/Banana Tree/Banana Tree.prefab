@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2145074518908075579}
   - component: {fileID: 6862229183926657216}
   - component: {fileID: 5977996858017606994}
+  - component: {fileID: 3770337720531066553}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -80,6 +81,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbbd120a1b5c7943ae20f165c6e1892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  completionPercent: 0
+--- !u!114 &3770337720531066553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439341526369559607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d52e747c21ffd4d9860503cfe4c228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionTime: 0
+  entity: {fileID: 0}
+  sortingGroup: {fileID: 2145074518908075579}
+  animator: {fileID: 6862229183926657216}
+  Event: {fileID: 0}
+  boxCollider: {fileID: 0}
+  speedMultiplier: 0
+  isFadeOut: 0
 --- !u!1 &764377225480935000
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,11 +282,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8870163216820528763}
   - component: {fileID: 7398560976209806101}
-  - component: {fileID: 1856857441735261718}
   - component: {fileID: 2515461023450957666}
   - component: {fileID: 553360609639678212}
   - component: {fileID: 5175134284407554059}
   - component: {fileID: 2458561098314570308}
+  - component: {fileID: 5529380063019488992}
+  - component: {fileID: 154283279298890789}
   m_Layer: 0
   m_Name: Banana Tree
   m_TagString: Untagged
@@ -300,44 +323,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53ed4a29fe92e46b97e99a44232de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dangerPoint: 0
   state: 0
   bananaPrefab: {fileID: 5694907663605422085, guid: 42fb33219fadd5140947caee7aa6792f, type: 3}
-  fineBanana: {fileID: 1344623148, guid: 39347468543a8924ea60f7d87370b080, type: 3}
-  rawBanana: {fileID: 1344623148, guid: 39347468543a8924ea60f7d87370b080, type: 3}
   bananaRenderer: {fileID: 1114828412827565929}
-  cooldown: 2.5
-  stack: 0
-  maxStack: 4
---- !u!114 &1856857441735261718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2943976062345127126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78aef684f72d0df4a81c9ed9bb8a73f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  animator: {fileID: 6862229183926657216}
-  entityName: 
-  laneIndex: 0
-  maxHealth: 100
-  health: 100
-  width: 1
-  height: 1
-  state: 0
-  defaultState: 0
-  behaviours: []
-  effectController: {fileID: 2515461023450957666}
-  sortingGroup: {fileID: 2145074518908075579}
-  animatorEvent: {fileID: 5977996858017606994}
-  model: {fileID: 8098784387976038929}
-  sprites: []
-  so: {fileID: 11400000, guid: 20bbef675d6f12f44a0c22b9d4a443a0, type: 2}
+  bananaCount: 3
+  cooldownTimer:
+    remainingTime: 0
+    totalTime: 0
+    isEnd: 0
+    isReset: 0
+  shakingTimer:
+    remainingTime: 0
+    totalTime: 0
+    isEnd: 0
+    isReset: 0
 --- !u!114 &2515461023450957666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0163816955b6c448810aa7d5a4e4f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dangerPoint: 0
   material: {fileID: 2100000, guid: 0cfcc9d17ec407c428df3ae06d4a2348, type: 2}
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   healColor: {r: 0, g: 1, b: 0, a: 1}
@@ -379,7 +377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8e096abd81cb842bce8a1e5a971302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dangerPoint: 0
   duration: 0.4
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!61 &2458561098314570308
@@ -427,6 +424,45 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9196191, y: 2.7264543}
   m_EdgeRadius: 0
+--- !u!114 &5529380063019488992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943976062345127126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78aef684f72d0df4a81c9ed9bb8a73f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yAxisAdjustment: 0
+  lane: 0
+  isTargetable: 1
+  width: 1
+  height: 1
+  soId: 
+  level: 0
+  isDead: 0
+  actionElapsedTime: 0
+  Stats:
+    keys: 
+    values: []
+  model: {fileID: 3770337720531066553}
+  activeBehaviourName: 
+  effectController: {fileID: 2515461023450957666}
+--- !u!114 &154283279298890789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943976062345127126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47780f8d9aa21964baa3d38a25bd557a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3423837575540497579
 GameObject:
   m_ObjectHideFlags: 0

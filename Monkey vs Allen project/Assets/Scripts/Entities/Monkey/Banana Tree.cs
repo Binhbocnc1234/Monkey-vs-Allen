@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Playables;
 
 
 //Những cây sau sẽ có giá tiền tăng thêm 1
@@ -14,19 +15,22 @@ public class BananaTree : IBehaviour
     public State state = State.Growing;
     public Banana bananaPrefab;
     public SpriteRenderer bananaRenderer;
-    public int bananaCount = 4;
+    public int bananaCount = 3;
     public Action<State> OnStateChanged;
     public Timer cooldownTimer, shakingTimer;
     public EventChannel channel = new();
-    public override void Initialize() {
-        base.Initialize();
+    void Awake() {
         cooldownTimer = new Timer(7, true);
         shakingTimer = new Timer(1, true);
-        dangerPoint = 1;
+    }
+    public override void Initialize() {
+        base.Initialize();
         ChangeState(State.Growing);
     }
-    
-    protected override void UpdateBehaviour() {
+    public override bool CanActive() {
+        return true;
+    }
+    public override void UpdateBehaviour() {
         if(state == State.Growing) { //Growing
             bananaRenderer.transform.localScale = Vector3.one * cooldownTimer.GetPercent();
             if(cooldownTimer.Count()) {
@@ -44,15 +48,16 @@ public class BananaTree : IBehaviour
         this.state = state;
         OnStateChanged?.Invoke(state);
         if(state == State.Growing) {
-            e.animator.Play("Idle");
+            e.model.PlayAnimation("Idle");
         }
         else if (state == State.Generating) {
-            e.animator.Play("Shake");
+            e.model.PlayAnimation("Shake");
         }
     }
-    public void CreateBananas(){
+    public void CreateBananas() {
         Banana bananaBunch = GeneralPurposeContainer.Ins.CreateInstance(SingletonRegister.Get<PrefabRegisterSO>().bananaBunch.GetComponent<Banana>(), transform.position);
-        bananaBunch.Initialize(e.laneIndex);
+        bananaBunch.Initialize(e.lane);
         bananaBunch.SetBananaCount(bananaCount);
     }
+    public override int GetPriority() => 1;
 }

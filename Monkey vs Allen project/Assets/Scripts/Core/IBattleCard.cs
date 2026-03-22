@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public abstract class IBattleCard : IUpdatePerFrame {
+public abstract class IBattleCard : MonoBehaviour {
     public enum SelectMessage {
         InsuffientBanana,
         Recovering,
         CanSelect
     }
+    // public static 
     public bool isActive = true;
     public int cost;
     public int originalCost;
@@ -19,15 +20,10 @@ public abstract class IBattleCard : IUpdatePerFrame {
     public abstract void UseCard(Vector2Int gridPosition);
     public abstract void Update();
     public abstract SelectMessage CanSelectCard();
-    public virtual float GetCooldownPercent() {
-        return cooldownTimer.GetCurTime() / cooldownTimer.totalTime;
-    }
     public bool IsFinishedCooldown() {
         return cooldownTimer.isEnd;
     }
-    public virtual void SetCoolDown(float newCoolDown) {
-        cooldownTimer = new Timer(newCoolDown, false);
-    }
+    public abstract void SetCoolDown(float newCoolDown);
     public float GetCoolDown() => cooldownTimer.totalTime;
     public virtual CardSO GetSO() {
         return so;

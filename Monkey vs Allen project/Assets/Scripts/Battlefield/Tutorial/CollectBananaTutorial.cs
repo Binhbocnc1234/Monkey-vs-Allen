@@ -11,15 +11,17 @@ public class CollectBananaTutorial : Tutorial
         foreach (Entity e in EContainer.Ins.GetEntitiesByLane(2))
         {
             tree = e.GetComponent<BananaTree>();
-            if (tree != null) {
+            if(tree != null) {
+                tree.enabled = false;
+                e.ReturnToIdleBehaviour();
                 break;
             }
         }
     }
     public override void Initialize() {
         base.Initialize();
-        tree.SetBehaviourEnable(true);
-        tree.cooldownTimer.SetCurTime(tree.cooldownTimer.totalTime * 0.85f);
+        tree.enabled = true;
+        tree.cooldownTimer.SetCurTime(tree.cooldownTimer.totalTime * 0.1f);
         tree.OnStateChanged += (state) => {
             if (this == null || state == BananaTree.State.Growing) return;
             StartTutorial();
@@ -28,11 +30,11 @@ public class CollectBananaTutorial : Tutorial
     public override void StartTutorial() {
         base.StartTutorial();
         GridCamera.Ins.MoveTowardPlayerHouse();
-        BattleInfo.OnBananaChange += CompleteTutorial;
+        BattleInfo.teamDict[Team.Player].OnResourceChange += CompleteTutorial;
     }
     public override void CompleteTutorial() {
         base.CompleteTutorial();
-        BattleInfo.OnBananaChange -= CompleteTutorial;
+        BattleInfo.teamDict[Team.Player].OnResourceChange -= CompleteTutorial;
     }
 
 }

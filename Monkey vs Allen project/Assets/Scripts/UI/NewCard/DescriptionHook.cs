@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DescriptionHook : MonoBehaviour
+public class DescriptionHook : MonoBehaviour, IPointerClickHandler
 {
-    public void OnClick() {
+    public void OnPointerClick(PointerEventData eventData) {
+        Debug.Log("[DescriptionHook] Triggered");
         CardDescriptionUI.Ins.Initialize(NewCardUIManager.Ins.newCardSO);
     }
 }

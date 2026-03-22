@@ -16,7 +16,7 @@ public class PlaceMonkeyTutorial : Tutorial{
     public override void Initialize(){
         base.Initialize();
         hinterManager = SingletonRegister.Get<HinterManager>();
-        foreach(BattleCard card in BattleInfo.chosenAllies){
+        foreach(BattleCard card in BattleInfo.teamDict[Team.Player].cards){
             BattleCardUI cardUI = card.cardUI;
             if (card.GetSO() == basicMonkeySO){
                 basicMonkeyCardUI = cardUI;
@@ -26,7 +26,7 @@ public class PlaceMonkeyTutorial : Tutorial{
                 handler = (cardUI) => {
                     arrowUI.gameObject.SetActive(false);
                     for(int i = 0; i < GridSystem.Ins.width; ++i) {
-                        hinterManager.NewHinter(GridSystem.Ins.cells[i, 2].blockObject);
+                        hinterManager.NewHinter(GridSystem.Ins.cells[i, 2].gameObject);
                     }
                     card.cooldownTimer.FinishCooldown();
                     cardUI.OnClickEvent -= handler;

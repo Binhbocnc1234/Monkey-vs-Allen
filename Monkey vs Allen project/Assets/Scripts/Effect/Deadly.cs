@@ -1,9 +1,9 @@
-public class Deadly : IEffect, IDamageOutputModifier {
-    public Deadly(IEntity owner, int duration = -1) : base(owner, duration) {
+public class Deadly : Effect, IDamageOutputModifier {
+    public Deadly(int duration = -1) : base(duration) {
         
     }
     public void ModifyDamage(DamageContext ctx) {
-        ctx.defender.GetEffectController().ApplyEffect(new DeadlyMark(ctx.defender));
+        ctx.defender.GetEffectable().ApplyEffect(new DeadlyMark());
     }
 
     public override int GetDangerPoint() {

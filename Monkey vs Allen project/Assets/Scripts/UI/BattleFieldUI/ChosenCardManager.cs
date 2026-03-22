@@ -34,9 +34,9 @@ public class ChosenCardManager : CardUIManager<BattleCardUI>
             BattleInfo.choosenCardSOs.Remove(_chosenCardUI.so);
             CardUI correspondingOwnedCardUI = SingletonRegister.Get<OwnedCardManager>().FindCardUIBySO(chosenCardUI.so);
             correspondingOwnedCardUI.RemoveGreyOut(); 
-            chosenCardUI.RemoveCardSO(); 
+            chosenCardUI.RemoveCardSO();
             //If removed card is from middle, push the CardUIs behind forward 1 step to fill the gap
-            for(int i = chosenCardUI.index + 1; i <= lastActiveCardIndex; ++i){
+            for(int i = chosenCardUI.index + 1; i <= lastActiveCardIndex; ++i) {
                 cardUIs[i - 1].ApplyCardSO(cardUIs[i].so);
             }
             cardUIs[lastActiveCardIndex].RemoveCardSO();

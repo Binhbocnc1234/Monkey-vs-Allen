@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public struct EnumAndIcon {
-    public TraitType trait;
+    public EffectType trait;
     public Sprite icon;
 
 }
@@ -13,7 +13,7 @@ public class CardIconMapSO : ScriptableObject {
     public Sprite attackRangeIcon;
     public Sprite costIcon;
     [SerializeField] private List<EnumAndIcon> iconMap;
-    public Sprite GetIconByEnum(TraitType trait) {
+    public Sprite GetIconByEnum(EffectType trait) {
         foreach(EnumAndIcon ei in iconMap) {
             if(ei.trait == trait) {
                 return ei.icon;

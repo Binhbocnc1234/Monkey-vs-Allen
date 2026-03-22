@@ -12,7 +12,7 @@ public class GridCamera : MyCamera
     protected new void Awake(){
         Ins = this;
     }
-    public void Initialize(GridSystem grid)
+    public void Initialize(GridSystem grid, int laneNumber = 5)
     {
         base.Start();
         this.grid = grid;
@@ -35,7 +35,7 @@ public class GridCamera : MyCamera
         if (grid == null) {
             Debug.LogError("Grid null");
         }
-        SetTarget(new Vector3(grid.GetCell(grid.width-1, grid.height-1).transform.position.x, 5, -10));
+        SetTarget(new Vector3(grid.GetCell(grid.width-1, 0).transform.position.x, 5, -10));
     }
     void HandleScrolling(){
         Vector3? dragDelta = null;

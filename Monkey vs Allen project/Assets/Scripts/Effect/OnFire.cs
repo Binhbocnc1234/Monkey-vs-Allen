@@ -1,6 +1,6 @@
-public class OnFire : IEffect {
+public class OnFire : Effect {
     private readonly Timer delayTimer;
-    public OnFire(IEntity owner) : base(owner, 3) {
+    public OnFire(IEntity owner) : base(3) {
         isDebuff = true;
         delayTimer = new Timer(1, true);
     }

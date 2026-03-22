@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Master Chef
+  m_EditorClassIdentifier: 
+  id: a45c1c3c-05c5-4230-9483-391c6c4f1d99
+  gameClass: 2
+  tribes: 
+  health: 200
+  canAttack: 1
+  attackRange: 1
+  damage: 15
+  attackSpeed: 1
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 8557656158230800094, guid: fd53d36e10c224e48b63b4a717075930, type: 3}
+  unlockedSkillInFirstLevel:
+  - {fileID: 11400000, guid: c522d875fd2a71845938bbb7cb817025, type: 2}
+  upgrades:
+  - rid: 8753124187151269890
+  - rid: 8753124187151269891
+  - rid: 8753124187151269893
+  - rid: 8753124187151269894
+  usingOldUpgradeSystem: 0
+  level_2:
+    stat: 0
+    amount: -1
+  unlockedSkillInLevel3: {fileID: 0}
+  level_4:
+    stat: 0
+    amount: -1
+  upgradedSkillAtLv5: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8753124187151269890
+      type: {class: SkillUpgrade, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: c522d875fd2a71845938bbb7cb817025, type: 2}
+    - rid: 8753124187151269891
+      type: {class: UnlockSkill, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: fe393d173547c4d4dbcddc557a0bd5f2, type: 2}
+    - rid: 8753124187151269893
+      type: {class: StatUpgrade, ns: , asm: MvA.Core}
+      data:
+        stat: 0
+        amount: 30
+    - rid: 8753124187151269894
+      type: {class: SkillUpgrade, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: fe393d173547c4d4dbcddc557a0bd5f2, type: 2}
