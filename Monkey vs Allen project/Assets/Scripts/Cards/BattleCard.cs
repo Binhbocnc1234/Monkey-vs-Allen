@@ -53,7 +53,6 @@ public class BattleCard : IBattleCard
             }
         }
     }
-
     public override void SetCoolDown(float newCoolDown) {
         cooldownTimer = new Timer(newCoolDown, false);
     }
@@ -79,6 +78,7 @@ public class BattleCard : IBattleCard
         else {
             e = EContainer.Ins.CreateEntity(so.entitySO, startX, gridPos.y, team);
         }
+        PlayerData.GetCardDataById(so.id).discovered = true;
         cooldownTimer.Reset();
         stack--;
     }

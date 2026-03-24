@@ -7,7 +7,6 @@ public abstract class CardUIManager<T> : MonoBehaviour where T : CardUI {
     public List<T> cardUIs = new List<T>(); 
     public T prefab;
     public int count = 10;
-    // public event
     protected virtual void Awake(){
         if(container == null) {
             container = this.transform;

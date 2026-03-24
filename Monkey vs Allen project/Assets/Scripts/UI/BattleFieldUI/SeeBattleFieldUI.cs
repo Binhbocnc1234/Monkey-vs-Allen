@@ -14,27 +14,27 @@ public class SeeBattleFieldUI : HideAndShowUI {
     }
     void Start() {
         hideShowManager = SingletonRegister.Get<UIManager>().hideShowManager;
+        GridCamera.Ins.OnFinishedMoving += () => SlidingCamera.Ins.enable = isSeeingBattleField;
     }
     public void OnClick() {
-        if(!isSeeingBattleField) {
-            hideShowManager.Show("level");
-            hideShowManager.Hide("ownedCardContainer");
-            hideShowManager.Hide("chosenCardContainer");
-            hideShowManager.Hide("letsrock");
+        isSeeingBattleField = !isSeeingBattleField;
+        if(isSeeingBattleField) {
             GridCamera.Ins.MoveTowardPlayerHouse();
-            GridCamera.Ins.OnFinishedMoving += () => {
-                GridCamera.Ins.canDraging = true;
-            };
+            hideShowManager.Hide("ownedCardContainer");
+            hideShowManager.Hide("letsrock");
+            hideShowManager.Show("level");
         }
         else {
-            hideShowManager.Hide("level");
-            hideShowManager.Show("ownedCardContainer");
-            hideShowManager.Show("chosenCardContainer");
-            hideShowManager.Show("letsrock");
             GridCamera.Ins.MoveTowardEnemyHouse();
-            GridCamera.Ins.canDraging = false;
+            hideShowManager.Show("ownedCardContainer");
+            hideShowManager.Show("letsrock");
+            hideShowManager.Hide("level");
         }
+        
     }
+    // void ToggleSliding(bool value) {
+    //     SlidingCamera.Ins.enable = value;
+    // }
     void Update() {
         button.interactable = !GridCamera.Ins.isMoving;
     }

@@ -47,14 +47,13 @@ public class GridSystem : IGrid {
     /// <summary>
     /// Hàm này chỉ tạo cell trống, không thực sự tạo battlefield bài bản cho từng level
     /// </summary>
-    /// <param name="levelSO"></param>
-    public override void Initialize(LevelSO levelSO)
+    public void Initialize(int width, bool[] openLanes)
     {
         Ins = this;
-        width = levelSO.gridWidth;
-        height = levelSO.openLanes.Length;
+        this.width = width;
+        height = openLanes.Length;
         cells = new Cell[width, height];
-        openLanes = (bool[])levelSO.openLanes.Clone();
+        this.openLanes = (bool[])openLanes.Clone();
         //Bounds
         bounds = new Bound(0, GridToWorldPosition(0, height - 1).y, 0, GridToWorldPosition(width - 1, 0).x);
         //Create cell for entire 2D array 
@@ -63,6 +62,7 @@ public class GridSystem : IGrid {
                 CreateCell(cellPrefab, i, j);
             }
         }
+        SlidingCamera.Ins.Initialize(bounds.right, bounds.left);
         Debug.Log("Successfully initialize Cells");
     }
 

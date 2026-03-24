@@ -6,9 +6,11 @@ using TMPro;
 public class LevelUI : HideAndShowUI
 {
     // Start is called before the first frame update
-    void Start()
+    public void InitializeFreePlay() {
+        GetComponent<TMP_Text>().text = "Free Play Mode";
+    }
+    public void Initialize(Place place, int levelNumber)
     {
-        SingletonRegister.Register(this);
-        GetComponent<TMP_Text>().text = $"{BattleInfo.levelSO.place} - {BattleInfo.levelSO.number + 1}";
+        GetComponent<TMP_Text>().text = $"{place} - {levelNumber + 1}";
     }
 }

@@ -80,6 +80,9 @@ public enum GameClass {
     Swarmy,
     Sneaky,
 }
+public enum Faction {
+    Alien, Monkey
+}
 public enum Tribe {
     Basic,
     Target,
@@ -101,7 +104,6 @@ public enum Tribe {
     Feral,
     JadeEmpire,
     Fruit,
-    
 }
 public enum ST {
     Health,

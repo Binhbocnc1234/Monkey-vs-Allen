@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
     public void SaveAndReturn() {
-        CustomSceneManager.ChangeScene(SceneEnum.Lobby);
+        CustomSceneManager.ToLobby();
     }
     public void Resign() {
         BattleInfo.ChangeState(GameState.GameOver);

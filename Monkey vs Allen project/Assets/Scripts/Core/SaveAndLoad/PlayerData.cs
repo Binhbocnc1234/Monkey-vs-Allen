@@ -66,18 +66,18 @@ public static class PlayerData{
     public static string playerName = "User2175162#";
     private static bool[] campainProgress;
     // private static HashSet<string> completedLevels;
-    private static List<CardData> monkeyCards, enemyCards;
+    private static List<CardData> monkeyCards, alienCards;
     // public static ReadOnlyCollection<string> CompletedLevels => completedLevels.ToList().AsReadOnly();
     // public static ReadOnlyCollection<string> VisibleLevels => visibleLevels.ToList().AsReadOnly();
     public static ReadOnlyCollection<CardData> MonkeyCards => monkeyCards.AsReadOnly();
-    public static ReadOnlyCollection<CardData> EnemyCards => enemyCards.AsReadOnly();
+    public static ReadOnlyCollection<CardData> EnemyCards => alienCards.AsReadOnly();
     private static int ownedCoins = 0;
     public static Language UserLanguage = Language.English;
     public static List<Deck> decks { get; private set; }
     public static void Initialize() {
         decks = new();
         monkeyCards = new();
-        enemyCards = new();
+        alienCards = new();
         campainProgress = new bool[100];
         // visibleLevels = new() {
         //     SORegistry.Get<LevelSO>().
@@ -87,12 +87,31 @@ public static class PlayerData{
             monkeyCards.Add(new CardData(so.id));
         }
         foreach(EnemyCardSO so in SORegistry.Get<EnemyCardSO>()) {
-            enemyCards.Add(new CardData(so.id));
+            alienCards.Add(new CardData(so.id));
         }
         Debug.Log($"[PlayerData] Finish initialization, datapath is {path}//playerdata.json");
     }
 
-    public static List<MonkeyCardSO> GetOwnedCard() {
+    public static List<CardSO> GetOwnedCard(bool isMonkey = true) {
+        List<CardSO> ans = new();
+        if(isMonkey) {
+            foreach(CardData data in monkeyCards) {
+                if(data.level > 0) {
+                    ans.Add(SORegistry.Get<MonkeyCardSO>(data.id));
+                }
+            }
+
+        }
+        else {
+            foreach(CardData data in alienCards) {
+                if(data.level > 0) {
+                    ans.Add(SORegistry.Get<EnemyCardSO>(data.id));
+                }
+            }
+        }
+        return ans;
+    }
+    public static List<MonkeyCardSO> GetAlienOwnedCard() {
         List<MonkeyCardSO> monkeyCardSOs = new();
         foreach(CardData data in monkeyCards) {
             if(data.level > 0) {
@@ -105,7 +124,7 @@ public static class PlayerData{
         foreach(CardData data in monkeyCards) {
             if(data.id == id) { return data; }
         }
-        foreach(CardData data in enemyCards) {
+        foreach(CardData data in alienCards) {
             if(data.id == id) {
                 return data;
             }
@@ -181,7 +200,7 @@ public static class PlayerData{
         PlayerDataRaw rawData = JsonUtility.FromJson<PlayerDataRaw>(json);
 
         monkeyCards = rawData.monkeyCards;
-        enemyCards = rawData.enemyCards;
+        alienCards = rawData.enemyCards;
         
         Deck newDeck = new Deck("empty deck");
         foreach(string id in rawData.rawDecks) {

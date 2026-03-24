@@ -18,7 +18,7 @@ public static class BattleInfo {
     public static LevelSO levelSO{ get; private set; }
     public const float CELL_SIZE = 2f;
     public static Dictionary<Team, TeamData> teamDict;
-    public static List<CardSO> choosenCardSOs = new List<CardSO>();
+    public static List<CardSO> choosenCardSOs = new List<CardSO>(); // problem
     public static List<MonkeyCardSO> playerHand = new List<MonkeyCardSO>(); //for other mode
     public static event Action OnStateChanged;
     // public static 

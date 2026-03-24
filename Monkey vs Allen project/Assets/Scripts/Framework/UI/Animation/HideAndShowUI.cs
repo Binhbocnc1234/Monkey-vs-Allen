@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(RectTransform), typeof(IShow), typeof(IHide))]
+[RequireComponent(typeof(RectTransform))]
 public class HideAndShowUI : MonoBehaviour, IShow, IHide  {
     public enum State { Show, Hide}
     [ReadOnly] public bool isAnimating = false;
@@ -28,7 +28,7 @@ public class HideAndShowUI : MonoBehaviour, IShow, IHide  {
         StartCoroutine(ShowCoroutine());
     }
     public void Hide(){
-        if(state == State.Hide) { return; }
+        if(state == State.Hide || gameObject.activeInHierarchy == false) { return; }
         StopAllCoroutines();
         StartCoroutine(HideCoroutine());
     }

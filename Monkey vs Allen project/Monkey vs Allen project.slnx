@@ -74,12 +74,12 @@
   <Project Path="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
   <Project Path="Nobi.UiRoundedCorners.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
+  <Project Path="MvA.Grid.csproj" />
   <Project Path="MvA.Cards.csproj" />
   <Project Path="Unity.Mathematics.Editor.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.csproj" />
   <Project Path="MackySoft.SerializeReferenceExtensions.csproj" />
   <Project Path="MvA.Lobby.csproj" />
-  <Project Path="MvA.Grid.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Nobi.UiRoundedCorners.Editor.csproj" />

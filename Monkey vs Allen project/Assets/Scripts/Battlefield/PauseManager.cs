@@ -13,14 +13,14 @@ public class PauseManager : Singleton<PauseManager>{
     /// Executed when players press Pause button, everything is paused, except: UI, 
     /// </summary>
     public void Pause(){
-        GridCamera.Ins.canDraging = false;
+        SlidingCamera.Ins.enable = false;
         GetPauseList();
         foreach(var comp in pauseList){
             comp.enabled = false;
         }
     }
     public void DePause(){
-        GridCamera.Ins.canDraging = true;
+        SlidingCamera.Ins.enable = true;
         foreach(var comp in pauseList){
             if (comp != null) comp.enabled = true;
         }

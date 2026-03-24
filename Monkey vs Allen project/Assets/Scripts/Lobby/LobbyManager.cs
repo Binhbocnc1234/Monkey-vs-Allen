@@ -5,15 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : Singleton<LobbyManager>
 {
-    public Interactable television, collection;
+    public Interactable television, collection, freePlayMode;
     public Canvas levelCanvas;
-    private Vector2 initialCamPos;
+    public Vector3 initialCamPos;
     void Start()
     {
         levelCanvas.gameObject.SetActive(false);
-        television.OnClick += LoadLevelMenu;
-        collection.OnClick += LoadCollection;
+        television.OnClick += () => levelCanvas.gameObject.SetActive(true);;
+        collection.OnClick += () => CustomSceneManager.ToCollection();
+        freePlayMode.OnClick += () => CustomSceneManager.ToFreePlay();
         initialCamPos = MyCamera.Ins.transform.position;
+        Reset();
         // foreach(LobbyLevelUI levelUI in LobbyManagerUI.Ins.levelGrid){
         //     levelUI.button.onClick.AddListener(() => GameManager.Ins.StartBattle(levelUI.so));
         // }
@@ -26,9 +28,6 @@ public class LobbyManager : Singleton<LobbyManager>
     }
     public void LoadLevelMenu(){
         levelCanvas.gameObject.SetActive(true);
-    }
-    public void LoadCollection(){
-
     }
     public void Reset(){
         MyCamera.Ins.transform.position = initialCamPos;

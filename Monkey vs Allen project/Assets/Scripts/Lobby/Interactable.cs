@@ -13,7 +13,8 @@ public class Interactable : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
     }
     public IEnumerator LoadCoroutine(){
-        MyCamera.Ins.SetTarget(this.transform.position, 2);
+        MyCamera.Ins.SetTarget(this.transform.position);
+        MyCamera.Ins.ZoomUp(1.5f);
         yield return new WaitWhile(() => MyCamera.Ins.isMoving);
         yield return new WaitForSeconds(0.5f);
         OnClick?.Invoke();

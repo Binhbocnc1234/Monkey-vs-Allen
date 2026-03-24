@@ -16,8 +16,6 @@ public abstract class IGrid : Singleton<IGrid>{
     public abstract ICell GetCell(Vector2Int gridPos);
     public abstract ICell GetCell(int x, int y);
     public abstract void CreateCell(ICell cellPrefab, int x, int y);
-    // public abstract void PlaceBlockAtLane(int y, int count = 1);
-    public abstract void Initialize(LevelSO so);
     public abstract void Clear();
 }
 public abstract class ICell : MonoBehaviour {

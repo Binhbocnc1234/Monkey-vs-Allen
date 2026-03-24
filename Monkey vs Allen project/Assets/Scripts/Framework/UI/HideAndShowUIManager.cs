@@ -6,6 +6,7 @@ using System.Linq;
 
 public class HideAndShowUIManager : MonoBehaviour {
     [SerializeField] private UDictionary<string, HideAndShowUI> container;
+    private HashSet<string> disableUI = new();
     void Awake() {
         UDictionary<string, HideAndShowUI> new_container = new();
         foreach(var pair in container) {
@@ -15,7 +16,17 @@ public class HideAndShowUIManager : MonoBehaviour {
         }
         container = new_container;
     }
+    public HideAndShowUI GetObject(string name) {
+        if(container.TryGetValue(name, out var value)) {
+            return container[name];
+        }
+        else {
+            Debug.LogError($"[HideAndShowUIManager] Cannot find HideAndShowUI named {name}");
+            return null;
+        }
+    }
     public void Show(string name) {
+        if(disableUI.Contains(name)) return;
         if(container.TryGetValue(name, out var value)) {
             value.Show();
         }
@@ -32,8 +43,9 @@ public class HideAndShowUIManager : MonoBehaviour {
         }
     }
     public void ShowAll(){
-        foreach(HideAndShowUI ui in container.Values){
-            ui.Show();
+        foreach(var pair in container){
+            if (disableUI.Contains(pair.Key)){ continue; }
+            pair.Value.Show();
         }
     }
     public void HideAll(){
@@ -41,9 +53,13 @@ public class HideAndShowUIManager : MonoBehaviour {
             ui.Hide();
         }
     }
-    public void HideAllImmediately(){
-        foreach(HideAndShowUI ui in container.Values){
+    public void HideAllImmediately() {
+        foreach(HideAndShowUI ui in container.Values) {
             ui.HideImmediately();
         }
+    }
+    public void Disable(string name) {
+        disableUI.Add(name);
+        container[name].Hide();
     }
 }

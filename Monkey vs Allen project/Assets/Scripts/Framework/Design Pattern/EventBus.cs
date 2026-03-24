@@ -25,7 +25,7 @@ public class EventChannel {
     /// Tham số evt chứa thông tin về event
     /// Các Subscription sau đó cũng được thông báo
     /// </summary>
-    public void Invoke<T>(T evt) {
+    public void Invoke<T>(T eventInfo) {
         var type = typeof(T);
         if(!_table.ContainsKey(type)) return;
 
@@ -33,7 +33,7 @@ public class EventChannel {
         var toInvoke = new List<Subscription>(subs);
 
         foreach(var s in toInvoke) {
-            s.Callback?.Invoke(evt);
+            s.Callback?.Invoke(eventInfo);
             if(s.OneTime) subs.Remove(s);
         }
 

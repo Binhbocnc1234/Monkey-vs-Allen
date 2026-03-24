@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a45c1c3c-05c5-4230-9483-391c6c4f1d99
   gameClass: 2
-  tribes: 
+  tribes: 070000000a000000
   health: 200
   canAttack: 1
   attackRange: 1

@@ -5,45 +5,46 @@ using System;
 
 public class MyCamera : Singleton<MyCamera> {
     //Camera's state
-    protected Vector3 lastMousePosition;
-    protected bool isDragging = false;
-    [ReadOnly] public bool isMoving = false;
-    public Action OnFinishedMoving;
-    protected float targetSize;
+    [ReadOnly] public bool isMoving = false, isZoomUp = false;
+    public Action OnFinishedMoving, OnFinishedZoomUp;
+    public EventChannel eventChannel = new();
+    protected float targetSize, targetZoomUp;
     protected Vector3 targetPos;
-    protected float initDistance, initSize;
-    protected Vector3 initPos;
-    //Technical stats
-    public int lerpSpeed = 5;
-    public float leftAndRightOffset;
-    protected float leftBound;
-    [ReadOnly] public float rightBound;
-    protected float camHalfWidth;
-    //References
+    [ReadOnly] public float initSize;
+    [ReadOnly] public Vector3 initPos;
+    public int moveSpeed = 5, zoomSpeed = 2;
     protected Camera cam;
-    protected void Start() {
+    protected virtual void Start() {
         cam = Camera.main;
         initPos = transform.position;
+        initSize = cam.orthographicSize;
     }
 
     protected void Update() {
         if(isMoving) {
-            Vector2 diff = (targetPos - this.transform.position);
-            // if (diff.magnitude <= 5f)
-            transform.Translate(diff.normalized*lerpSpeed*Time.deltaTime);
-            cam.orthographicSize = (1-diff.magnitude / initDistance) * (targetSize - initSize) + initSize;
-            if (Vector2.Distance(transform.position, targetPos) < 0.1f) {
+            Vector2 diff = targetPos - this.transform.position;
+            transform.Translate(diff.normalized * moveSpeed * Time.deltaTime);
+            if(Vector2.Distance(transform.position, targetPos) < 0.1f) {
                 isMoving = false;
                 OnFinishedMoving?.Invoke();
             }
         }
+        if(isZoomUp) {
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * zoomSpeed);
+            if (Mathf.Abs(cam.orthographicSize - targetSize) < 0.1f) {
+                isZoomUp = false;
+                OnFinishedZoomUp?.Invoke();
+            }
+        }
     }
-    public void SetTarget(Vector3 pos, float zoomUp = 1) {
+    public void SetTarget(Vector3 pos) {
         isMoving = true;
         targetPos = pos;
-        targetSize = Camera.main.orthographicSize/zoomUp;
-        initDistance = (pos - transform.position).magnitude;
         initSize = cam.orthographicSize;
+    }
+    public void ZoomUp(float amount) {
+        targetSize = initSize * amount;
+        isZoomUp = true;
     }
     public void Reset(){
         cam.orthographicSize = initSize;

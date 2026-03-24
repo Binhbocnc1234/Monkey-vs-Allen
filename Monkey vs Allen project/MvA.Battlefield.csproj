@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\Battlefield\GameManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\LovelyHouseInitializerSO.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\CloudManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\FreePlayManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\GameWorld.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\SelectBananaTreeTutorial.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\TextTutorial.cs" />

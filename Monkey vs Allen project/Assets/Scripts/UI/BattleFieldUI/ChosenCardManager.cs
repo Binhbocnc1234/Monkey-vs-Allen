@@ -23,6 +23,7 @@ public class ChosenCardManager : CardUIManager<BattleCardUI>
     public override void SetReferencedList(List<CardSO> cardSOs) {
         base.SetReferencedList(cardSOs);
         lastActiveCardIndex = cardSOs.Count - 1;
+        // Bôi đen những Card đã được chọn
         foreach(CardSO so in cardSOs) {
             SingletonRegister.Get<OwnedCardManager>().FindCardUIBySO(so).SetGreyOut();
         }

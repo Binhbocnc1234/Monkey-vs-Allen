@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChooseCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUIPool.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIManager.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChosenCardManager.cs" />
@@ -70,9 +71,11 @@
     <Compile Include="Assets\Scripts\UI\FlashPanel.cs" />
     <Compile Include="Assets\Scripts\UI\DeckUI.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\SeeBattleFieldUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\LetsRockUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacManager.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\CostInsuffientAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\PointerUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChangeFactionUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\CategoryButton.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUIEditor.cs" />
@@ -84,6 +87,7 @@
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\TraitUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\DescriptionHook.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\MagnifyUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\UI\MvA.UI.asmdef" />

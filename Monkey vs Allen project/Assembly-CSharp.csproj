@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Equipment\Defense\MaleOfPain.cs" />
     <Compile Include="Assets\Scripts\Equipment\Magic\TomeOfTheReaper.cs" />
     <Compile Include="Assets\Scripts\Equipment\Defense\MantleOfRa.cs" />
+    <Compile Include="Assets\Scripts\Other\CustomPrefab.cs" />
     <Compile Include="Assets\Scripts\Equipment\Attack\Haas&apos; Claws.cs" />
     <Compile Include="Assets\Scripts\Equipment\Defense\AntiqueCurias.cs" />
     <Compile Include="Assets\Scripts\Equipment\Magic\OrbOfTheMagi.cs" />

@@ -10,11 +10,13 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     public HideAndShowUIManager hideShowManager;
+    public GameObject freePlayUI;
+    public GameObject letsRockUI;
+    public LevelUI levelUI;
     public Scrollbar selectedCardScrollbar;
     public FlashPanel flashPanel;
     public GameObject loseText;
     public RectTransform tryAgainUI;
-
     void Start(){
         loseText.gameObject.SetActive(false);
         tryAgainUI.gameObject.SetActive(false);
@@ -23,34 +25,47 @@ public class UIManager : Singleton<UIManager>
         StartCoroutine(InitChoosingCardCoroutine());
     }
     public IEnumerator InitChoosingCardCoroutine(){
+        freePlayUI.gameObject.SetActive(false);
+        levelUI.Initialize(BattleInfo.levelSO.place, BattleInfo.levelSO.number);
         BananaCounterUI.Ins.Initialize();
         PrepareUI.Ins.gameObject.SetActive(false);
         hideShowManager.HideAllImmediately();
-        hideShowManager.Show("level");
         selectedCardScrollbar.value = 0;
-        GridCamera.Ins.canDraging = false;
+        SlidingCamera.Ins.enable = false;
         yield return new WaitForSeconds(1f);
         GridCamera.Ins.MoveTowardEnemyHouse();
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);
-        if (BattleInfo.levelSO.canChooseCard){
-            hideShowManager.ShowAll();
-        }
-        else{
-            hideShowManager.Show("chosenCardContainer");
-            hideShowManager.Show("pause");
-            hideShowManager.Show("banana");
-            hideShowManager.Show("letsrock");
-        }
-    }
 
+        if(!BattleInfo.levelSO.canChooseCard) {
+            hideShowManager.Disable("ownedCardContainer");
+        }
+        hideShowManager.Disable("changeFaction");
+        hideShowManager.ShowAll();
+    }
+    // public void ToggleChoosingCardPanel(bool value) {
+    //     if(value) {
+    //         if(BattleInfo.levelSO.canChooseCard) {
+    //             hideShowManager.Show("ownedCardContainer");
+    //         }
+    //         hideShowManager.Show("letsrock");
+    //         hideShowManager.Show("changeFaction");
+    //         hideShowManager.Hide("level");
+    //     }
+    //     else {
+    //         hideShowManager.Hide("ownedCardContainer");
+    //         hideShowManager.Hide("changeFaction");
+    //         hideShowManager.Hide("letsrock");
+    //         hideShowManager.Show("level");
+    //     }
+    // }
     public void PrepareForBattle(){
         StartCoroutine(PrepareForBattleCoroutine());
     }
     public IEnumerator PrepareForBattleCoroutine() {
         hideShowManager.Hide("level");
         hideShowManager.Hide("letsrock");
+        hideShowManager.Hide("seeBattlefield");
         hideShowManager.Hide("ownedCardContainer");
-        hideShowManager.Show("chosenCardContainer");
         GridCamera.Ins.MoveTowardPlayerHouse();
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);
         yield return StartCoroutine(PrepareUI.Ins.Act());
