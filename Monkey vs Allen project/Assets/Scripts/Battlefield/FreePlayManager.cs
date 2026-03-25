@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FreePlayManager : Singleton<FreePlayManager>{
     public GameObject freePlayUI;
+    public ChangeFactionUI changeFactionUI;
     public LevelSO levelSO;
     public void Initialize() {
         BattleInfo.Initialize(levelSO);
@@ -37,6 +38,6 @@ public class FreePlayManager : Singleton<FreePlayManager>{
         hideShowManager.ShowAll();
         hideShowManager.Disable("seeBattlefield");
         hideShowManager.Hide("level");
-        BattleInfo.ChangeState(GameState.Fighting);
+        BattleInfo.ChangeState(GameState.ChoosingCard);
     }
 }

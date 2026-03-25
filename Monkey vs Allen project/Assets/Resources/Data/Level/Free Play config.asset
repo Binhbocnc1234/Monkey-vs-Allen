@@ -20,8 +20,7 @@ MonoBehaviour:
   allenanaSpawnDelay: 3.5
   gridWidth: 9
   openLanes: 0101010101
-  enemies:
-  - {fileID: 11400000, guid: 528605dba04758b40a04ab2f062ad11d, type: 2}
+  enemies: []
   canChooseCard: 1
   choosenCardsBySystem: []
   rewardables: []

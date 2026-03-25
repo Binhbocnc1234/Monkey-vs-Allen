@@ -23,16 +23,12 @@ public class ChosenCardManager : CardUIManager<BattleCardUI>
     public override void SetReferencedList(List<CardSO> cardSOs) {
         base.SetReferencedList(cardSOs);
         lastActiveCardIndex = cardSOs.Count - 1;
-        // Bôi đen những Card đã được chọn
-        foreach(CardSO so in cardSOs) {
-            SingletonRegister.Get<OwnedCardManager>().FindCardUIBySO(so).SetGreyOut();
-        }
     }
     protected override void OnCardClicked(CardUI _chosenCardUI) {
         BattleCardUI chosenCardUI = _chosenCardUI.GetComponent<BattleCardUI>();
         if (BattleInfo.gameState == GameState.ChoosingCard){
             if (BattleInfo.levelSO.choosenCardsBySystem.Contains(_chosenCardUI.so)){ return; }
-            BattleInfo.choosenCardSOs.Remove(_chosenCardUI.so);
+            BattleInfo.GetChosenCardSOs().Remove(_chosenCardUI.so);
             CardUI correspondingOwnedCardUI = SingletonRegister.Get<OwnedCardManager>().FindCardUIBySO(chosenCardUI.so);
             correspondingOwnedCardUI.RemoveGreyOut(); 
             chosenCardUI.RemoveCardSO();

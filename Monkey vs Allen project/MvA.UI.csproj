@@ -47,7 +47,6 @@
     <Analyzer Include="D:\UnityEditor\2022.3 LTS\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaCounterUI.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\UI\MeterorUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUI.cs" />
@@ -60,34 +59,21 @@
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChooseCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUIPool.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIManager.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChosenCardManager.cs" />
     <Compile Include="Assets\Scripts\UI\DeckBuilder\DeckDisplay.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\NewCardUIManager.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\PrepareUI.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIAppearance.cs" />
     <Compile Include="Assets\Scripts\UI\FlashPanel.cs" />
     <Compile Include="Assets\Scripts\UI\DeckUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\SeeBattleFieldUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\LetsRockUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacManager.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\CostInsuffientAnimation.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\PointerUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChangeFactionUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\CategoryButton.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\MyButton.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\OwnedCardManager.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaUI.cs" />
-    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\TraitUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\DescriptionHook.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\MagnifyUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\UI\MvA.UI.asmdef" />

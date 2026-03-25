@@ -41,7 +41,7 @@ public class BattleCard : IBattleCard
         cardLevel = PlayerData.GetCardDataById(so.id).level;
     }
     public override void Update() {
-        if(isActive) {
+        if(BattleInfo.gameState == GameState.Fighting) {
             if(cooldownTimer.Count() && stack < maxStack) {
                 stack++;
                 if (stack < maxStack) {

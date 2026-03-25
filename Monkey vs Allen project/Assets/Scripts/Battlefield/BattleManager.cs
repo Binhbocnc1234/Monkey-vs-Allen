@@ -76,8 +76,7 @@ public class BattleManager : Singleton<BattleManager> {
     public void ChangeState(GameState state){
         if (state == GameState.Fighting){
             GetComponent<EnemyManager>().Initialize();
-            GetComponent<PlayerCardManager>().InitializeForEnemy();
-            GetComponent<PlayerCardManager>().InitializeForPlayer();
+            GetComponent<PlayerCardManager>().Initialize();
             EnemyManager.Ins.ClearDemoEnemy();
             SlidingCamera.Ins.enable = true;
             GetComponent<TutorialManager>().Initialize();

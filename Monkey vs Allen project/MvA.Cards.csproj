@@ -50,8 +50,11 @@
     <Compile Include="Assets\Scripts\Cards\Trick\Flourish.cs" />
     <Compile Include="Assets\Scripts\Cards\AlienSpawningEffect.cs" />
     <Compile Include="Assets\Scripts\Cards\CardAppearance.cs" />
+    <Compile Include="Assets\Scripts\Cards\UI\PointerUI.cs" />
     <Compile Include="Assets\Scripts\Cards\PlayerCardManager.cs" />
+    <Compile Include="Assets\Scripts\Cards\UI\CostInsuffientAnimation.cs" />
     <Compile Include="Assets\Scripts\Cards\CardObject.cs" />
+    <Compile Include="Assets\Scripts\Cards\UI\BattleCardUI.cs" />
     <Compile Include="Assets\Scripts\Cards\Pointer.cs" />
     <Compile Include="Assets\Scripts\Cards\BattleCard.cs" />
     <Compile Include="Assets\Scripts\Cards\TowerCard.cs" />

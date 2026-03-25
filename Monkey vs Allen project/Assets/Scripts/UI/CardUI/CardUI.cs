@@ -92,6 +92,7 @@ public class CardUI : MonoBehaviour,
 
     public void OnPointerClick(PointerEventData eventData) {
         if(isGreyOut || !HaveCardAttached()) { return; }
+        Debug.Log("Card clicked");
         OnClickEvent?.Invoke(this);
     }
     public void Validate() {
