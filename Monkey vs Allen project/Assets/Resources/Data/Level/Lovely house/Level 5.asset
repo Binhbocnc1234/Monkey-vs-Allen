@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Level 5
   m_EditorClassIdentifier: 
   id: 1907fafd-9b36-46d2-af11-aa18605b1108
+  difficulty: 1
   number: 4
   place: 0
   thumbnail: {fileID: 1932424979, guid: d89f9a7afd0d17b4383dae7cab72f275, type: 3}
-  initialBanana: 6
-  allenanaSpawnDelay: 1
+  initialBanana: 60
   gridWidth: 12
+  alienMaximumUpgradeCnt: -1
   openLanes: 0101010101
   enemies:
   - {fileID: 11400000, guid: 528605dba04758b40a04ab2f062ad11d, type: 2}
-  - {fileID: 11400000, guid: aff6d6fb45faf0240ba89326bcd2daa4, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: a2c25f54d775a624593f756fcf9cb3dd, type: 2}
   canChooseCard: 1
   choosenCardsBySystem:
@@ -32,6 +33,7 @@ MonoBehaviour:
   - rid: 8753124179020087308
   tutorials: []
   levelInitializerSOs: []
+  modifier: {fileID: 0}
   references:
     version: 2
     RefIds:

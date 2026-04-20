@@ -20,42 +20,33 @@ public static class CustomSceneManager
         targetScene = "";
         newCardSO = null;
         rewardables = null;
+        isFreePlay = false;
     }
-    /// <summary>
-    /// Currently not used
-    /// </summary>
-    /// <param name="sceneType"></param>
-    // public static void ChangeScene(SceneEnum sceneType) {
-    //     switch(sceneType) {
-    //         case SceneEnum.Lobby:
-    //             ChangeScene("Lobby"); break;
-    //         case SceneEnum.Collections:
-    //             ChangeScene("Collections"); break;
-    //         case SceneEnum.Battlefield:
-    //             ChangeScene("Battlefield"); break;
-    //         default:
-    //             Debug.LogError("CustomSceneManager::ChangeScene: Invalid parameter sceneType"); break;
-    //     }
-    // }
     public static void ToLobby() {
+        Reset();
         ChangeScene("Lobby");
     }
     public static void ToBattleField(LevelSO so) {
+        Reset();
         BattleInfo.Initialize(so);
         ChangeScene("Battlefield");
     }
     public static void ToFreePlay() {
+        Reset();
         isFreePlay = true;
         ChangeScene("BattleField");
     }
     public static void ToNewCard(CardSO so) {
+        Reset();
         newCardSO = so;
         ChangeScene("NewCard");
     }
     public static void ToCollection() {
+        Reset();
         ChangeScene("Collection");
     }
     public static void ToPrize(List<Rewardable> rwd) {
+        Reset();
         rewardables = rwd;
         ChangeScene("Prize");
     }

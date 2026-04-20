@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6862229183926657216}
   - component: {fileID: 5977996858017606994}
   - component: {fileID: 3770337720531066553}
+  - component: {fileID: 49283747656815974}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -98,10 +99,55 @@ MonoBehaviour:
   entity: {fileID: 0}
   sortingGroup: {fileID: 2145074518908075579}
   animator: {fileID: 6862229183926657216}
-  Event: {fileID: 0}
-  boxCollider: {fileID: 0}
+  Event: {fileID: 5977996858017606994}
+  boxCollider: {fileID: 49283747656815974}
   speedMultiplier: 0
   isFadeOut: 0
+--- !u!61 &49283747656815974
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439341526369559607}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.9653461}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.6506515}
+  m_EdgeRadius: 0
 --- !u!1 &764377225480935000
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +331,6 @@ GameObject:
   - component: {fileID: 2515461023450957666}
   - component: {fileID: 553360609639678212}
   - component: {fileID: 5175134284407554059}
-  - component: {fileID: 2458561098314570308}
   - component: {fileID: 5529380063019488992}
   - component: {fileID: 154283279298890789}
   m_Layer: 0
@@ -323,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53ed4a29fe92e46b97e99a44232de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActive: 0
   state: 0
   bananaPrefab: {fileID: 5694907663605422085, guid: 42fb33219fadd5140947caee7aa6792f, type: 3}
   bananaRenderer: {fileID: 1114828412827565929}
@@ -349,6 +395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a333032aa3c669b45a8fd57f3846d2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  container: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &553360609639678212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,9 +412,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 0cfcc9d17ec407c428df3ae06d4a2348, type: 2}
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  healColor: {r: 0, g: 1, b: 0, a: 1}
-  flashDuration: 0.1
 --- !u!114 &5175134284407554059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,51 +426,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.4
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
---- !u!61 &2458561098314570308
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2943976062345127126}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.008675575, y: 0.8632271}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.9196191, y: 2.7264543}
-  m_EdgeRadius: 0
 --- !u!114 &5529380063019488992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,20 +439,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yAxisAdjustment: 0
+  so: {fileID: 11400000, guid: 20bbef675d6f12f44a0c22b9d4a443a0, type: 2}
   lane: 0
   isTargetable: 1
   width: 1
   height: 1
-  soId: 
+  soId: 8da33873-388a-4032-aa00-7ac53f854667
   level: 0
+  _team: 0
   isDead: 0
   actionElapsedTime: 0
   Stats:
-    keys: 
-    values: []
+    keys: 010000000600000000000000
+    values:
+    - 200
+    - 1
+    - 200
   model: {fileID: 3770337720531066553}
   activeBehaviourName: 
   effectController: {fileID: 2515461023450957666}
+  statLerpSpeed: 10
 --- !u!114 &154283279298890789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,6 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47780f8d9aa21964baa3d38a25bd557a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActive: 0
 --- !u!1 &3423837575540497579
 GameObject:
   m_ObjectHideFlags: 0

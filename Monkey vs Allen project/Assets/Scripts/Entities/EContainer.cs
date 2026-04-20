@@ -7,6 +7,7 @@ using UnityEngine;
 public class EContainer : IEntityRegistry{
     public new static EContainer Ins{ get; private set; }
     public Transform holder;
+    public EntitySO constructionMonkey, constructionAlien;
     // List of entities for each lane (lane count: GameConstants.GRID_HEIGHT)
     private List<List<Entity>> entities = new List<List<Entity>>();
     private List<Entity> targetMonkeys = new List<Entity>(), targetEnemies = new List<Entity>();
@@ -26,8 +27,22 @@ public class EContainer : IEntityRegistry{
             entities[i].RemoveAll(e => e == null || e.IsDead());
         }
     }
+    public override void CreateBuilder(EntitySetting set) {
+        CreateBuilder(set.so, new Vector2Int((int)set.x, set.lane), set.team, set.level);
+    }
     public override IEntity CreateEntity(EntitySetting set) {
         return CreateEntity(set.so, set.x, set.lane, set.team, set.level);
+    }
+    private void CreateBuilder(EntitySO tower, Vector2Int dest, Team team, int level) {
+        EntitySO chosenBuilder = BattleInfo.chosenTeam == BattleInfo.monkeyInTeam ? constructionMonkey : constructionAlien;
+        BuildBehaviour newBuilder = CreateEntity(
+            chosenBuilder, team == Team.Player ? -1 : GridSystem.Ins.width, dest.y, team).GetComponent<BuildBehaviour>();
+        // BuildBehaviour newBuilder_2 = CreateEntity(
+        //     chosenBuilder, team == Team.Player ? -2 : GridSystem.Ins.width + 1, dest.y, team).GetComponent<BuildBehaviour>();
+        UnfinishedTower unfinishedTower = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().unfinishedTower).GetComponent<UnfinishedTower>();
+        unfinishedTower.Initialize(new EntitySetting { so = tower, lane = dest.y, x = dest.x, level = level });
+        newBuilder.Initialize(unfinishedTower, false);
+        // newBuilder_2.Initialize(unfinishedTower, true);
     }
     public override IEntity CreateEntity(EntitySO so, float x, int lane, Team team, int level = 1) {
         if(so == null) {
@@ -40,7 +55,7 @@ public class EContainer : IEntityRegistry{
         }
         Vector3 worldPos = IGrid.Ins.GridToWorldPosition(x, lane);
         Entity e = Instantiate(so.prefab.GetComponent<Entity>(), worldPos, Quaternion.identity, holder);
-        List<string> unlockedSkills = so.unlockedSkillInFirstLevel.Select(e => e.name).ToList();
+        // List<string> unlockedSkills = so.unlockedSkillInFirstLevel.Select(e => e.name).ToList();
         e.Initialize(so, team, x, lane, level);
         entities[lane].Add(e);
         if(e.GetSO().tribes.Contains(Tribe.Target)) {

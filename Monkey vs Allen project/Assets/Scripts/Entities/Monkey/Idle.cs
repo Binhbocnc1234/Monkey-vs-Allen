@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class Idle : IBehaviour, IOnApply, IInterruptable {
 
-    public override void Initialize() {
-        base.Initialize();
-    }
     public override bool CanActive() {
         return true;
     }

@@ -1,4 +1,4 @@
-public class Thorn : Effect, IOnDamageTaken {
+public class Thorn : Effect, IAfterTakenDamage {
     public Thorn(int duration, int reflectPercent) : base(duration, reflectPercent) {
         
     }

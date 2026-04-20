@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Entity))]
-public class Attack : IBehaviour, IOnApply
+public class Attack : IBehaviour, IOnApply, IInitialize
 {
     /// <summary>
     /// Chỉ định thời gian để hành động tấn công kết thúc, không ảnh hưởng tới thời gian của animation
@@ -12,13 +12,15 @@ public class Attack : IBehaviour, IOnApply
     [SerializeField] protected Timer attackTimer;
     [SerializeField] protected Timer animationTimer;
     protected Entity defender;
-    public override void Initialize() {
-        base.Initialize();
-        e = GetComponent<Entity>();
-        var so = e.GetSO();
+    public virtual void Initialize() {
+        EntitySO so = e.so;
         attackTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
         animationTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
         e.GetAnimatorEvent().OnMakeDamage += MakeDamageInstantly;
+        e.OnHealthChanged += (diff) => {
+            if(diff >= 0) return;
+            // if ()
+        };
     }
     void Update() {
         attackTimer.Count();
@@ -49,7 +51,7 @@ public class Attack : IBehaviour, IOnApply
     }
     protected Entity GetNearestPreyInRange() {
         var container = EContainer.Ins.GetEntitiesByLane(e.lane);
-        if (container.Length == 1) {
+        if(container.Length == 1) {
             // Vì chỉ có mỗi bản thân entity ở lane đó nên không có địch thủ
             return null;
         }
@@ -63,11 +65,16 @@ public class Attack : IBehaviour, IOnApply
                 result = otherE;
             }
         }
-        if (result == null){ return null; }
-        if (result.DistanceTo(e) > e[ST.Range]) {
+        if(result == null) { return null; }
+        if(result.DistanceTo(e) > e[ST.Range]) {
             return null;
         }
         return result.GetComponent<Entity>();
     }
-    public override int GetPriority() => 2;
+    public override List<APModifier> GetAssessPoint() {
+        return new() { new APModifier(Operator.Addition, APType.Danger,
+            value: (0.9f + e[ST.Range] / 10) * e[ST.AttackSpeed] * e[ST.Strength])};
+        // Ví dụ với Basic Alien thì giá trị này sẽ khoảng 30
+    }
+    public override int GetPriority() => 3;
 }

@@ -11,3 +11,21 @@ public class EntityStat {
     }
     public ST GetStatType() => statType;
 }
+
+public enum ST {
+    Health,
+    MaxHealth,
+    Strength,
+    MagicPower,
+    Range,
+    AttackSpeed,
+    MoveSpeed, // How many cells can the Entity pass through in 1 second?
+    LifeSteal, // Unit: percent
+    Armor,
+    MagicResistance,
+    Penetration,
+    MagicPenetration,
+    MoveSM, // MoveSpeedMultiplier
+    CriticalChance,
+    VirtualHealth,
+}

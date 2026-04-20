@@ -11,6 +11,7 @@ public class Poke : CollisionBullet
     public void Initialize(IEntity e, float damage, float stunDuration, bool isDebuffApplied) {
         base.Initialize(damage, e);
         this.isDebuffApplied = isDebuffApplied;
+        this.stunDuration = stunDuration;
     }
     protected override void Update() {
         base.Update();

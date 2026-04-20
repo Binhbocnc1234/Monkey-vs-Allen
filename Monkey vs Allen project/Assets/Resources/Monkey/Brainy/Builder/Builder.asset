@@ -12,14 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
   m_Name: Builder
   m_EditorClassIdentifier: 
+  id: a498bed3-3a8d-45d3-98ee-8a8e4420a5b1
+  gameClass: 0
   tribes: 0a000000
-  traits: 
-  health: 20
+  health: 200
   canAttack: 0
   attackRange: 1
   damage: 1
   attackSpeed: 1
   moveSpeed: 2
-  width: 1
-  height: 1
+  otherStats: []
+  traits: 
   prefab: {fileID: 1898314983252595580, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 0
+    amount: -1
+  unlockedSkillInLevel3: {fileID: 0}
+  level_4:
+    stat: 0
+    amount: -1
+  upgradedSkillAtLv5: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

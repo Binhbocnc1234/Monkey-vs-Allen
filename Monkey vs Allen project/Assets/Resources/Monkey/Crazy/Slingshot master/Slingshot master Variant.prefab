@@ -675,6 +675,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: so
+      value: 
+      objectReference: {fileID: 11400000, guid: 1acf97d2fa22fae49ba41c81161823ae, type: 2}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: soId
+      value: 12c5d8b3-6baf-4763-9f43-bf0e8335dc78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[0]
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[1]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[2]
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[5]
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
     m_RemovedGameObjects: []
@@ -726,15 +754,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e44fd40b69182044bcca86b23eba75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationTimePercentage: 0.5
+  canActive: 0
   attackTimer:
-    remainingTime: 0
-    totalTime: 0
+    remainingTime: 1.125
+    totalTime: 1.125
     isEnd: 0
     isReset: 0
   animationTimer:
-    remainingTime: 0
-    totalTime: 0
+    remainingTime: 1.125
+    totalTime: 1.125
     isEnd: 0
     isReset: 0
   bulletPrefab: {fileID: 3566881901387696735, guid: 53ce9b9035c39e3489669c1050e0dc9e, type: 3}

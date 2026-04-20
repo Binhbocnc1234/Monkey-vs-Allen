@@ -292,7 +292,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3223705281946765534, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+    - {fileID: 2694080629936875904, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 460192196236737559, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
@@ -301,13 +303,39 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3847828049414088395, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5629589146811693938}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4243784536699012920, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3233791753993162680}
   m_SourcePrefab: {fileID: 100100000, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
 --- !u!4 &1326462699300277012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3847828049414088395, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
   m_PrefabInstance: {fileID: 2814382484681469407}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2155608456167992039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4243784536699012920, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+  m_PrefabInstance: {fileID: 2814382484681469407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3233791753993162680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155608456167992039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10473ae7d5116de4f9860a6117c73559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canActive: 0
+  state: 0
+  isSecondBuilder: 0
+  dest: {x: 0, y: 0}
+  diff: 0
+  unfinishedTower: {fileID: 0}
 --- !u!4 &2408405076509839816 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 460192196236737559, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}

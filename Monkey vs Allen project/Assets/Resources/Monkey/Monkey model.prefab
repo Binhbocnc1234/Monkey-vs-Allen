@@ -188,7 +188,7 @@ MonoBehaviour:
   sortingGroup: {fileID: 8051281144411606453}
   animator: {fileID: 4980069509646407542}
   Event: {fileID: 7371783907979088454}
-  boxCollider: {fileID: 0}
+  boxCollider: {fileID: 1483744545845802059}
   speedMultiplier: 0
   isFadeOut: 0
 --- !u!61 &1483744545845802059
@@ -198,7 +198,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843304347767724812}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

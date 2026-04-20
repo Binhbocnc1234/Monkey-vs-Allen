@@ -16,9 +16,23 @@ public class Banana: DropBodyPart{
         if(state == DropPartState.FadeOut) {
             transform.Translate(new Vector2(0, Time.deltaTime * 5));
         }
+        if (Input.GetMouseButtonUp(0))
+        {
+            BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+            Camera cam = Camera.main;
+            if(boxCollider == null || cam == null) return;
+
+            Vector3 clickPos = cam.ScreenToWorldPoint(Input.mousePosition);
+            clickPos.z = transform.position.z;
+
+            if(boxCollider.bounds.Contains(clickPos)) {
+                BananaOnClick();
+            }
+        }
     }
-    void OnMouseUp() {
+    void BananaOnClick() {
         state = DropPartState.FadeOut;
+        Destroy(GetComponent<BlinkEffect>());
         BattleInfo.teamDict[Team.Player].resource += count;
     }
 

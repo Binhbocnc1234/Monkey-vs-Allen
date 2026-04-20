@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
+using System;
 using UnityEngine.Playables;
 
 
 //Những cây sau sẽ có giá tiền tăng thêm 1
-public class BananaTree : IBehaviour
+public class BananaTree : IBehaviour, IOnApply
 {
     public enum State {
         Growing,
@@ -15,16 +15,17 @@ public class BananaTree : IBehaviour
     public State state = State.Growing;
     public Banana bananaPrefab;
     public SpriteRenderer bananaRenderer;
-    public int bananaCount = 3;
+    public int bananaCount;
     public Action<State> OnStateChanged;
     public Timer cooldownTimer, shakingTimer;
     public EventChannel channel = new();
     void Awake() {
-        cooldownTimer = new Timer(7, true);
+        cooldownTimer = new Timer(BattleInfo.resourceDelay, true);
+        cooldownTimer.SetCurTime(UnityEngine.Random.Range(BattleInfo.resourceDelay/2 - 3, BattleInfo.resourceDelay/2 + 3));
         shakingTimer = new Timer(1, true);
+        bananaCount = BattleInfo.resourcePerGeneration;
     }
-    public override void Initialize() {
-        base.Initialize();
+    public void OnApply() {
         ChangeState(State.Growing);
     }
     public override bool CanActive() {
@@ -60,4 +61,7 @@ public class BananaTree : IBehaviour
         bananaBunch.SetBananaCount(bananaCount);
     }
     public override int GetPriority() => 1;
+    public override List<APModifier> GetAssessPoint() {
+        return new(){new APModifier(Operator.Addition, APType.NeedProtection, 50)};
+    }
 }

@@ -7,14 +7,13 @@ using Unity.IO.LowLevel.Unsafe;
 /// Skill is executed after timer is end
 /// </summary>
 [RequireComponent(typeof(Entity))]
-public abstract class Skill : IBehaviour, IOnApply{
+public abstract class Skill : IBehaviour, IOnApply, IInitialize{
     protected float cooldown;
     public SkillSO so;
     public int skillIndex = 1;
     protected Timer cooldownTimer;
     public StunImmunity stunImmunity; 
-    public override void Initialize() {
-        base.Initialize();
+    public virtual void Initialize() {
         cooldownTimer = new Timer(e.GetSkillStat(so, "Cooldown"), reset: false);
         e.model.Event.OnAnimationFinished += (info) => {
             if (info.IsName($"Skill {skillIndex}")) {
@@ -35,5 +34,5 @@ public abstract class Skill : IBehaviour, IOnApply{
     // public virtual void AfterFinishAnimation() {
         
     // }
-    public override int GetPriority() => 2;
+    public override int GetPriority() => 4;
 }

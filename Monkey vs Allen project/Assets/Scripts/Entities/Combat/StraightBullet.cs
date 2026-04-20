@@ -4,10 +4,10 @@ public class StraightBullet : CollisionBullet {
     private Vector3 direction;
     private float disappearRange;
     private float startX;
-    private bool isFading = false;
+    public bool isFading = false;
     public new void Initialize(float damage, IEntity owner) {
         base.Initialize(damage, owner);
-        this.disappearRange = owner[ST.Range];
+        this.disappearRange = owner[ST.Range]*1.2f;
         startX = this.transform.position.x;
         if(owner.team == Team.Player) {
             direction = Vector3.right;
@@ -30,8 +30,9 @@ public class StraightBullet : CollisionBullet {
         else {
             base.Update();
             transform.position += direction * speed * Time.deltaTime;
-            if(Mathf.Abs(transform.position.x - startX) >= disappearRange * IGrid.CELL_SIZE - 0.5f) {
+            if(Mathf.Abs(transform.position.x - startX) >= disappearRange * IGrid.CELL_SIZE) {
                 isFading = true;
+                Destroy(this.gameObject);
             }
         }
         

@@ -17,9 +17,10 @@ public class LevelSO : MySO {
     public int number;
     public Place place;
     public Sprite thumbnail;
-    public int initialBanana = 6;
-    public float allenanaSpawnDelay = 1;
+    public int initialBanana = 30;
     public int gridWidth = 18;
+    public int alienMaximumUpgradeCnt = -1;
+    public float alienWaitingTime = 0;
     public bool[] openLanes = new bool[6];
     public List<EnemyCardSO> enemies;
     public bool canChooseCard = true;

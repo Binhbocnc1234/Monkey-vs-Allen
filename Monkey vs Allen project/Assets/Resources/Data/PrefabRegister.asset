@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891f675849e956449913a9144c6f8887, type: 3}
+  m_Name: PrefabRegister
+  m_EditorClassIdentifier: 
+  id: 2c65da8e-536a-4475-ba5f-9ed366bf78b7
+  arrowUI: {fileID: 377622939980209042, guid: f5481eb03b1182c478b683d22d9a277d, type: 3}
+  arrow: {fileID: 4232422032490630101, guid: 4beb14f1312e93c42b967931d7432db8, type: 3}
+  unfinishedTower: {fileID: 301048399066625804, guid: 033839c74cbcf7f41b8a4e32b1be215d, type: 3}
+  loadingUI: {fileID: 1524261055506803271, guid: c2c35be67f673b843b93a6c71c1ad124, type: 3}
+  dollarGameObject: {fileID: 0}
+  bananaBunch: {fileID: 4127722128111617080, guid: 42fb33219fadd5140947caee7aa6792f, type: 3}
+  emptyGameObject: {fileID: 5499267492144331048, guid: 7dfc7abe295d46f4aa590dbeecf09a5d, type: 3}
+  alienSpawningEffect: {fileID: 198021989046576033, guid: ba7f045030beaf9458d8e597d48b232b, type: 3}
+  statIconMap:
+    keys: 01000000020000000300000004000000050000000a0000000800000006000000
+    values:
+    - {fileID: -827799462, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 672021292, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 0}
+    - {fileID: -773728577, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 1147489191, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 380657036, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: 1866689053, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}
+    - {fileID: -628785214, guid: 96718ea19b4179142b6aa29c83e61216, type: 3}

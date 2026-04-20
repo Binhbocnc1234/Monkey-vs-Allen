@@ -24,7 +24,7 @@ public class DropBodyPart : MonoBehaviour{
         state = DropPartState.Falling;
         groundPos = IGrid.Ins.GridToWorldPosition(1, laneIndex).y;
         velocity = new Vector2(Random.Range(-3, 3), Random.Range(0, 3));
-        this.transform.SetParent(null);
+        this.transform.SetParent(GeneralPurposeContainer.Ins.transform);
         this.enabled = true;
     }
     public void Initialize(int laneIndex, float duration){

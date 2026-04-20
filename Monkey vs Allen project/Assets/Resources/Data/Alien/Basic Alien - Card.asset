@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Basic Alien - Card
   m_EditorClassIdentifier: 
   id: c3cabd50-8756-4306-8250-6d674652dfca
-  cardName: Basic Allen
+  cardName: Basic Alien
   entitySO: {fileID: 11400000, guid: 7c8dbbb86002b984597700da909c9c98, type: 2}
-  cost: 3
+  cost: 23
   cooldownType: 1
   sprite: {fileID: 1903562048, guid: 201aa13f474ac9841b196fe0bff7f5fc, type: 3}
   cardRarity: 0
-  description: This is Basic Allen
+  description:
+    English: 
+    Vietnamese: 
+    Poturgese: 
+  maxStack: 1

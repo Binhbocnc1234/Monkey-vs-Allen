@@ -1,5 +1,10 @@
-public class DoubleDamageEffect : GlobalEffect, IDamageOutputModifier {
+using System.Collections.Generic;
+
+public class DoubleDamageEffect : Effect, IDamageOutputModifier {
     public void ModifyDamage(DamageContext ctx) {
-        ctx.damageMultiplier *= 2;
+        ctx.AddModifier(new DamageModifier(Operator.Multiply, 2));
+    }
+    public override List<APModifier> GetAssessPoint() {
+        return new() { new APModifier(Operator.Addition, APType.Buff, 30) };
     }
 }

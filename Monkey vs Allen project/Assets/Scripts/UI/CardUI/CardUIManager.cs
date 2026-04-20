@@ -16,7 +16,8 @@ public abstract class CardUIManager<T> : MonoBehaviour where T : CardUI {
         }
         for(int i = 0; i < 10; ++i){
             cardUIs.Add(Instantiate(prefab, transform.position, Quaternion.identity, container));
-            cardUIs[i].OnClickEvent += OnCardClicked;
+            int index = i;
+            cardUIs[i].OnClickEvent += () => OnCardClicked(cardUIs[index]);
             cardUIs[i].index = i;
         }
     }

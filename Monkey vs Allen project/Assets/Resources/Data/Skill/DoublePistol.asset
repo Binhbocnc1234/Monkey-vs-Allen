@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: DoublePistol
+  m_EditorClassIdentifier: 
+  id: 0766245a-885b-4815-9bee-349e10b54c2d
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: Double pistol
+  thumbnail: {fileID: 21300000, guid: 04b14aaaab2014e48a8d8706244293f8, type: 3}
+  skillStats:
+    keys:
+    - Cooldown
+    - Duration
+    values: 0700000002000000
+  description:
+    English: 'Blaster Goo pulls out two guns and fires, increasing attack speed,
+      last for [Duration] seconds. Cooldown: [Cooldown] seconds'
+    Vietnamese: "Blaster Goo r\xFAt ra hai kh\u1EA9u s\xFAng v\xE0 khai h\u1ECFa,
+      t\u0103ng t\u1ED1c \u0111\u1ED9 t\u1EA5n c\xF4ng, k\xE9o d\xE0i trong [Duration]
+      gi\xE2y. Th\u1EDDi gian h\u1ED3i chi\xEAu: [Cooldown] gi\xE2y"
+    Poturgese: 
+  skillUp:
+    statName: Duration
+    changeAmount: 2

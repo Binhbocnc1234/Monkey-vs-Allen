@@ -15,8 +15,12 @@ MonoBehaviour:
   id: 8ea85ad4-db9c-4fec-9082-73b0d7149651
   cardName: Space sniper
   entitySO: {fileID: 11400000, guid: c94b1bf6f0f749c4ba157184f53401fc, type: 2}
-  cost: 3
+  cost: 70
   cooldownType: 2
   sprite: {fileID: 1001938399, guid: 3bd749810327c904db6e93128c0d1ec9, type: 3}
   cardRarity: 2
-  description: This is Basic Allen
+  description:
+    English: 
+    Vietnamese: 
+    Poturgese: 
+  maxStack: 1

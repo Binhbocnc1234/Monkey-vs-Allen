@@ -213,8 +213,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3bbcc394e8293df4b960fdb4abeee09a, type: 2}
     - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: soId
+      value: 775410f5-3dd6-4bb5-9578-d883bc8e90c0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
       propertyPath: entityType
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[0]
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[4]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[5]
+      value: 800
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
@@ -273,3 +293,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47780f8d9aa21964baa3d38a25bd557a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActive: 0

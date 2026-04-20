@@ -20,7 +20,7 @@ public class SelectBananaTreeTutorial : Tutorial{
                 bananaTreeCardUI = cardUI;
                 card.cooldownTimer.SetCurTime(card.cooldownTimer.totalTime);
                 card.Update();
-                cardUI.OnClickEvent += NextInstruction;
+                cardUI.OnClickEvent +=  NextInstruction;
                 foundBananaCard = true;
             }
         }
@@ -47,7 +47,7 @@ public class SelectBananaTreeTutorial : Tutorial{
     /// Place card at designated cell
     /// </summary>
     /// <param name="cardUI"></param>
-    void NextInstruction(CardUI cardUI){
+    void NextInstruction(){
         arrowUI.gameObject.SetActive(false);
         Vector3 cellPos = GridSystem.Ins.GridToWorldPosition(2, 2);
         arrow = Instantiate(arrowPrefab, cellPos, Quaternion.identity, this.transform);

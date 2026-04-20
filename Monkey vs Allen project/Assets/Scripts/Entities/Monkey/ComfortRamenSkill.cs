@@ -41,4 +41,8 @@ public class ComfortRamenSkill : Skill
         ComfortRamen newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity, GeneralPurposeContainer.Ins.transform);
         newBullet.Initialize(e, bestCandidate, (int)e.GetSkillStat(so, "HealingPercent")/2);
     }
+
+    public override List<APModifier> GetAssessPoint() {
+        return new(){new APModifier(Operator.Addition, APType.Buff, 100)};
+    }
 }

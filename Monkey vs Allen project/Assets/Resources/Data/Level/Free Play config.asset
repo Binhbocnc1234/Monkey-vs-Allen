@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Free Play config
   m_EditorClassIdentifier: 
   id: 1907fafd-9b36-46d2-af11-aa18605b1108
-  number: 0
+  number: 99
   place: 0
   thumbnail: {fileID: 1903562048, guid: 201aa13f474ac9841b196fe0bff7f5fc, type: 3}
   initialBanana: 3

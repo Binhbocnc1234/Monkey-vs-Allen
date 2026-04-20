@@ -12,15 +12,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
   m_Name: Cranium-helmet Alien
   m_EditorClassIdentifier: 
-  team: 1
+  id: fa10cce4-4038-4370-ba67-6550d458e5b6
+  gameClass: 0
   tribes: 0b000000
-  traits: 
-  health: 50
+  health: 200
   canAttack: 1
   attackRange: 1
-  damage: 3
+  damage: 30
   attackSpeed: 1
   moveSpeed: 1
-  width: 1
-  height: 1
+  otherStats: []
+  traits: 
   prefab: {fileID: 5220850563733247115, guid: 8ccc15dec83ba8842a31d69ebbc62e87, type: 3}
+  unlockedSkillInFirstLevel:
+  - {fileID: 11400000, guid: 30bd34c80d63204458617d4cc8041a53, type: 2}
+  upgrades:
+  - rid: 8753124747102388227
+  - rid: 8753124747102388228
+  - rid: 8753124747102388229
+  - rid: 8753124774826999810
+  usingOldUpgradeSystem: 0
+  level_2:
+    stat: 0
+    amount: 60
+  unlockedSkillInLevel3: {fileID: 0}
+  level_4:
+    stat: 8
+    amount: 15
+  upgradedSkillAtLv5: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8753124747102388227
+      type: {class: StatUpgrade, ns: , asm: MvA.Core}
+      data:
+        stat: 1
+        amount: 60
+    - rid: 8753124747102388228
+      type: {class: UnlockSkill, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: 2f1bd3074f6f68241833755e4f60c50a, type: 2}
+    - rid: 8753124747102388229
+      type: {class: StatUpgrade, ns: , asm: MvA.Core}
+      data:
+        stat: 8
+        amount: 15
+    - rid: 8753124774826999810
+      type: {class: SkillUpgrade, ns: , asm: MvA.Core}
+      data:
+        skillSO: {fileID: 11400000, guid: 30bd34c80d63204458617d4cc8041a53, type: 2}

@@ -2,23 +2,20 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class BananaCounterUI : MonoBehaviour
+public class BananaCounterUI : Singleton<BananaCounterUI>
 {
-    public static BananaCounterUI Ins;
     public TMP_Text tmp;
     private new Coroutine animation = null;
 
-    protected void Awake() {
-        Ins = this;
-    }
-    public void Initialize(){
-        tmp.text = BattleInfo.teamDict[Team.Player].resource.ToString();
-        BattleInfo.teamDict[Team.Player].OnResourceChange += BananaUpdate;
+    public void Initialize() {
         animation = null;
+        BattleInfo.teamDict[Team.Player].OnResourceChange += () => ResourceUpdate(Team.Player);
+        BattleInfo.teamDict[Team.Enemy].OnResourceChange += () => ResourceUpdate(Team.Enemy);
+        tmp.text = BattleInfo.teamDict[BattleInfo.chosenTeam].resource.ToString();
     }
-
-    void BananaUpdate() {
-        tmp.text = BattleInfo.teamDict[Team.Player].resource.ToString();
+    public void ResourceUpdate(Team updatedTeam) {
+        if (updatedTeam != BattleInfo.chosenTeam){ return; }
+        tmp.text = BattleInfo.teamDict[updatedTeam].resource.ToString();
 
         if(animation != null && gameObject != null && this != null) {
             StopCoroutine(animation);

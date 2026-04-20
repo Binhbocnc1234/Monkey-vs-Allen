@@ -176,6 +176,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: attackTimer.totalTime
+      value: 1.0384616
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: animationTimer.totalTime
+      value: 1.0384616
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: attackTimer.remainingTime
+      value: 1.0384616
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042716992699391195, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: animationTimer.remainingTime
+      value: 1.0384616
+      objectReference: {fileID: 0}
     - target: {fileID: 1588487594872289053, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -327,6 +343,30 @@ PrefabInstance:
     - target: {fileID: 8035989742993022087, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: so
+      value: 
+      objectReference: {fileID: 11400000, guid: d419ac0c8ae73eb44aa7116ad807d937, type: 2}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: soId
+      value: 04d0e52f-db0e-401e-8100-ee25cc388369
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[0]
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[2]
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[4]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282464988646889226, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+      propertyPath: Stats.values.Array.data[5]
+      value: 350
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

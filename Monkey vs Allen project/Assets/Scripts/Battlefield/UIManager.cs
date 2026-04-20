@@ -26,10 +26,11 @@ public class UIManager : Singleton<UIManager>
     }
     public IEnumerator InitChoosingCardCoroutine(){
         freePlayUI.gameObject.SetActive(false);
-        levelUI.Initialize(BattleInfo.levelSO.place, BattleInfo.levelSO.number);
         BananaCounterUI.Ins.Initialize();
+        levelUI.Initialize(BattleInfo.levelSO.place, BattleInfo.levelSO.number);
         PrepareUI.Ins.gameObject.SetActive(false);
         hideShowManager.HideAllImmediately();
+        hideShowManager.Show("level");
         selectedCardScrollbar.value = 0;
         SlidingCamera.Ins.enable = false;
         yield return new WaitForSeconds(1f);
@@ -42,29 +43,13 @@ public class UIManager : Singleton<UIManager>
         hideShowManager.Disable("changeFaction");
         hideShowManager.ShowAll();
     }
-    // public void ToggleChoosingCardPanel(bool value) {
-    //     if(value) {
-    //         if(BattleInfo.levelSO.canChooseCard) {
-    //             hideShowManager.Show("ownedCardContainer");
-    //         }
-    //         hideShowManager.Show("letsrock");
-    //         hideShowManager.Show("changeFaction");
-    //         hideShowManager.Hide("level");
-    //     }
-    //     else {
-    //         hideShowManager.Hide("ownedCardContainer");
-    //         hideShowManager.Hide("changeFaction");
-    //         hideShowManager.Hide("letsrock");
-    //         hideShowManager.Show("level");
-    //     }
-    // }
     public void PrepareForBattle(){
         StartCoroutine(PrepareForBattleCoroutine());
     }
     public IEnumerator PrepareForBattleCoroutine() {
         hideShowManager.Hide("level");
         hideShowManager.Hide("letsrock");
-        hideShowManager.Hide("seeBattlefield");
+        SeeBattleFieldUI.Ins.gameObject.SetActive(false);
         hideShowManager.Hide("ownedCardContainer");
         GridCamera.Ins.MoveTowardPlayerHouse();
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);

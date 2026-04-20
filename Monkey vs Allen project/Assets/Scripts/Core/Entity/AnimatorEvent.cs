@@ -9,6 +9,9 @@ public class AnimatorEvent : MonoBehaviour
     [Range(0f, 1f), SerializeField] private float completionPercent;
     void Awake() {
         animator = GetComponent<Animator>();
+        OnMakeDamage = null;
+        EndDeathClip = null;
+        OnAnimationFinished = null;
     }
     // void Update() {
     //     AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);

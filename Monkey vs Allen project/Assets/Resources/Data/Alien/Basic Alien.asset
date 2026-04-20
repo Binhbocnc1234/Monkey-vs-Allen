@@ -24,8 +24,17 @@ MonoBehaviour:
   otherStats: []
   traits: 
   prefab: {fileID: 4243784536699012920, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
-  skillStats:
-    keys: []
-    values: []
-  skillSOs:
-  - {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 0
+    amount: 25
+  unlockedSkillInLevel3: {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}
+  level_4:
+    stat: 7
+    amount: 13
+  upgradedSkillAtLv5: {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}
+  references:
+    version: 2
+    RefIds: []

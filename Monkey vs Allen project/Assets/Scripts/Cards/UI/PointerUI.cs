@@ -31,6 +31,7 @@ public class PointerUI : Singleton<PointerUI>
     // Update is called once per frame
     void Update()
     {
+        if(state == PointerState.InActive) return;
         //Make object stick to pointer
         Vector3 mousePos = Pointer.current.position.ReadValue();
         Vector2 tmp = Camera.main.ScreenToWorldPoint(mousePos);
@@ -59,11 +60,11 @@ public class PointerUI : Singleton<PointerUI>
         
     }
 
-    public void SetHoldingCard(IBattleCard monkeyCard){
+    public void Initialize(IBattleCard card){
         this.gameObject.SetActive(true);
-        this.card = monkeyCard;
-        spriteRenderer.sprite = monkeyCard.GetSO().sprite;
-        transparentModel.sprite = monkeyCard.GetSO().sprite;
+        this.card = card;
+        spriteRenderer.sprite = card.GetSO().sprite;
+        transparentModel.sprite = card.GetSO().sprite;
         delayAction.Reset();
         state = PointerState.HoldingCard;
     }
@@ -72,9 +73,6 @@ public class PointerUI : Singleton<PointerUI>
         transparentModel.enabled = false;
         state = PointerState.InActive;
     }
-    // void SetPointerState(PointerState state){
-    //     this.state = state;
-    // }
 
     
 

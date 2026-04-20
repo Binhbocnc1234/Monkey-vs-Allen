@@ -51,3 +51,4 @@ MonoBehaviour:
   emergencyCnt: 2
   armyLevel: 1
   isCalled: 0
+  activeAfterTargetNumber: 0

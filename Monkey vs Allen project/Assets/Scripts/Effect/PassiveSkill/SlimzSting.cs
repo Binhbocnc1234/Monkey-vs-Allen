@@ -1,8 +1,8 @@
-public class SlimzSting : Effect, IDamageOutputModifier {
+public class SlimzSting : Effect, IDamageInputModifier {
     public SlimzSting(float duration) : base(duration) {
 
     }
     public void ModifyDamage(DamageContext ctx) {
-        ctx.damageMultiplier *= 1.25f;
+        ctx.AddModifier(new DamageModifier(Operator.Multiply, 1.25f));
     }
 }

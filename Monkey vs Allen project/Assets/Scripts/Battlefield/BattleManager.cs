@@ -10,20 +10,25 @@ public enum CardSystemType {
 }
 
 public class BattleManager : Singleton<BattleManager> {
-    public bool isFreePlay = false;
     public LevelSO defaultLevelSO;
     [SerializeField] private EntitySO targetMonkey, targetAllen;
     public Entity targetMonkeyPrefab, targetAllenPrefab;
     public UIManager uiManager;
     public GameObject freePlayUI;
     private GridSystem grid;
-    void Start(){
-        if(isFreePlay) {
+    private List<Entity> demoEnemies = new List<Entity>();
+    void Start() {
+        if(CustomSceneManager.isFreePlay) {
             this.enabled = false;
             FreePlayManager.Ins.Initialize();
         }
         else {
             Initialize();
+        }
+    }
+    void Update() {
+        if (BattleInfo.gameState == GameState.Fighting) {
+            BattleInfo.timeElapsed += Time.deltaTime;
         }
     }
     public void Initialize() {
@@ -33,7 +38,6 @@ public class BattleManager : Singleton<BattleManager> {
             BattleInfo.Initialize(defaultLevelSO);
             levelSO = defaultLevelSO;
         }
-        
 
         grid = GridSystem.Ins;
         grid.Clear();
@@ -49,9 +53,9 @@ public class BattleManager : Singleton<BattleManager> {
         // Place targetMonkeys, targetAliens
         for(int y = 0; y < IGrid.Ins.height; ++y) {
             if(IGrid.Ins.openLanes[y] == false) continue;
-            IEntity tM = EContainer.Ins.CreateEntity(targetMonkey, 1, y, Team.Player, 1);
+            IEntity tM = EContainer.Ins.CreateEntity(targetMonkey, 0, y, Team.Player, 1);
             tM.OnEntityDeath += () => CheckLose(tM);
-            IEntity tA = EContainer.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 2, y, Team.Enemy, 1);
+            IEntity tA = EContainer.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 1, y, Team.Enemy, 1);
             tA.OnEntityDeath += () => CheckWin(tA);
         }
 
@@ -62,10 +66,10 @@ public class BattleManager : Singleton<BattleManager> {
         if (levelSO.modifier != null) {
             Instantiate(levelSO.modifier);
         }
-
+    
         //Prize: reward after finishing level
         Prize.Ins.gameObject.SetActive(false);
-        GetComponent<EnemyManager>().ShowEnemy();
+        ShowEnemy();
         SingletonRegister.Get<OwnedCardManager>().SetReferencedList(PlayerData.GetOwnedCard());
         SingletonRegister.Get<ChosenCardManager>().SetReferencedList(BattleInfo.levelSO.choosenCardsBySystem);
         uiManager.InitChoosingCard();
@@ -75,11 +79,12 @@ public class BattleManager : Singleton<BattleManager> {
     }
     public void ChangeState(GameState state){
         if (state == GameState.Fighting){
-            GetComponent<EnemyManager>().Initialize();
-            GetComponent<PlayerCardManager>().Initialize();
-            EnemyManager.Ins.ClearDemoEnemy();
+            GetComponent<CardManager>().Initialize();
+            GetComponent<CardManager>().SetControlTeam(Team.Player);
+            EnemyManager.Ins.Initialize();
+            ClearDemoEnemy();
             SlidingCamera.Ins.enable = true;
-            GetComponent<TutorialManager>().Initialize();
+            TutorialManager.Ins.Initialize();
         }
         else if (state == GameState.Victory){
             EContainer.Ins.InActiveAll();
@@ -114,13 +119,32 @@ public class BattleManager : Singleton<BattleManager> {
             PlayerData.CompleteCampainLevel(so.number);
         }
     }
-    IEnumerator GameOver(){
+    IEnumerator GameOver() {
         uiManager.gameObject.SetActive(false);
-        EContainer.Ins.InActiveAll(); 
+        EContainer.Ins.InActiveAll();
         yield return new WaitForSeconds(0.5f);
         GridCamera.Ins.SetTarget(grid.GetCell(2, 2).transform.position);
         GridCamera.Ins.ZoomUp(1.5f);
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);
         StartCoroutine(uiManager.Lose());
+    }
+    public void ShowEnemy() {
+        float leftBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width, 0).x;
+        float rightBound = IGrid.Ins.GridToWorldPosition(IGrid.Ins.width + 3, 0).x;
+        // const float minDemoEnem
+        foreach(IBattleCard card in BattleInfo.teamDict[Team.Enemy].cards) {
+            for(int i = 0; i < 2; ++i) {
+                IEntity e = EContainer.Ins.CreateEntity(card.GetSO().entitySO,
+                    Random.Range(leftBound, rightBound), Random.Range(0, IGrid.Ins.width), Team.Enemy, 1);
+                e.BecomeInActive();
+                demoEnemies.Add(e.GetComponent<Entity>());
+            }
+        }
+    }
+    public void ClearDemoEnemy() {
+        foreach(Entity e in demoEnemies) {
+            e.Die();
+        }
+        demoEnemies.Clear();
     }
 }

@@ -1,7 +1,6 @@
-public class Farmer : Entity {
-    protected override void Awake() {
-        base.Awake();
-        GetEffectable().ApplyEffect(new BountifulHarvest(this));
+public class Farmer : EntityBehaviour, IInitialize {
+    public void Initialize() {
+        e.GetEffectable().ApplyEffect(new BountifulHarvest(e));
     }
 }
 

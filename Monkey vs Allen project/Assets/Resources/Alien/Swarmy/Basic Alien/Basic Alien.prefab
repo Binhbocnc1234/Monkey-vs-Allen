@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6071985966265643834}
   - component: {fileID: -3223705281946765534}
   - component: {fileID: 6743780126816111120}
+  - component: {fileID: 2694080629936875904}
   m_Layer: 0
   m_Name: Basic Alien
   m_TagString: Untagged
@@ -54,20 +55,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yAxisAdjustment: -0.48
+  so: {fileID: 11400000, guid: 7c8dbbb86002b984597700da909c9c98, type: 2}
   lane: 0
   isTargetable: 1
   width: 1
   height: 1
-  soId: 
+  soId: 214ef9f9-3658-42f5-890e-5cf9346410e5
   level: 0
   isDead: 0
   actionElapsedTime: 0
   Stats:
-    keys: 
-    values: []
+    keys: 01000000020000000500000004000000060000000100000002000000050000000400000006000000
+    values:
+    - 200
+    - 30
+    - 1
+    - 1
+    - 1
+    - 200
+    - 30
+    - 1
+    - 1
+    - 1
   model: {fileID: 5210672867283526718}
   activeBehaviourName: 
   effectController: {fileID: 4355747680425163997}
+  statLerpSpeed: 10
 --- !u!114 &4355747680425163997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a7ed9748608df4cb4ec6befa442ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActive: 0
   attackTimer:
     remainingTime: 0
     totalTime: 0
@@ -116,8 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arm: {fileID: 7720245924420388289}
   reaction: {fileID: 6379381604984662289}
-  anten1: {fileID: 159063053198460744}
-  anten2: {fileID: 1863600839813105714}
   S_reaction: {fileID: -706111725, guid: 44a55be1f54b0414d96dffa0b5667047, type: 3}
   S_anten: {fileID: -1373786509, guid: 0dc66af9eade02a4eae86b28668a906a, type: 3}
   S_attack: {fileID: 21300000, guid: d48bfb07036c77a4aa2fef4366b882ef, type: 3}
@@ -135,9 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 0cfcc9d17ec407c428df3ae06d4a2348, type: 2}
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  healColor: {r: 0, g: 1, b: 0, a: 1}
-  flashDuration: 0.1
 --- !u!114 &6541117696065218770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47780f8d9aa21964baa3d38a25bd557a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActive: 0
 --- !u!114 &-3223705281946765534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,8 +199,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c4684f1a3a52b4b8b158905a3695df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strideLength: 2.362
+  canActive: 0
+  strideLength: 2.051
   walkClip: {fileID: 7400000, guid: f49c0be7bec54f246b79575a46dc6841, type: 2}
+--- !u!114 &2694080629936875904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4243784536699012920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e3991ab62cab24cac4155922edc0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anten1: {fileID: 159063053198460744}
+  anten2: {fileID: 1863600839813105714}
+  S_anten: {fileID: -1373786509, guid: 0dc66af9eade02a4eae86b28668a906a, type: 3}
 --- !u!1001 &2938604020875308604
 PrefabInstance:
   m_ObjectHideFlags: 0

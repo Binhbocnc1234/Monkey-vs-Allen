@@ -28,4 +28,6 @@ EditorBuildSettings:
     guid: e06b65895813eb04c9ef0676ec128e08
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 3b362e6eb3029a54d856c98353f25f46, type: 2}
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 07d8796c7fcefbb4fbad6d12ecc6c028, type: 2}
+  m_UseUCBPForAssetBundles: 0

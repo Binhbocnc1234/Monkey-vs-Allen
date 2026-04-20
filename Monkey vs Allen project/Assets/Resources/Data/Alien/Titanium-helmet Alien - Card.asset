@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b43e2518a9041542b3624bd24a1d9a6, type: 3}
   m_Name: Titanium-helmet Alien - Card
   m_EditorClassIdentifier: 
-  id: 
+  id: ab998a47-b229-4bde-aa77-e5edd6ba3f5a
   cardName: Titanium-helmet Allen
   entitySO: {fileID: 11400000, guid: f9960b4f5b0503143a00e6555a91534f, type: 2}
-  cost: 10
+  cost: 150
   cooldownType: 2
   sprite: {fileID: 21300000, guid: e9e4aa9ed1e05a94687555c6f7ddddb0, type: 3}
   cardRarity: 2
-  description: 
+  description:
+    English: 
+    Vietnamese: 
+    Poturgese: 
+  maxStack: 1

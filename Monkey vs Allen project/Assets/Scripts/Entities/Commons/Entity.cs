@@ -8,35 +8,40 @@ using Newtonsoft.Json;
 
 public class Entity : IEntity {
     private IBehaviour activeBehavior;
+    private EntitySO previousAssignedSO;
     [ReadOnly] public string activeBehaviourName;
     [Header("References")]
     private IBehaviour[] behaviours;
     private IInitialize[] initializes;
+    private IAssessable[] assessables;
     [SerializeField] private EffectController effectController;
+    [SerializeField, Min(0f)] private float statLerpSpeed = 10f;
     private IBehaviour idleBehaviour;
+    private readonly Dictionary<ST, float> statTargets = new();
+    private readonly List<ST> completedStatTargets = new();
     private bool isPaused = true;
     public override bool IsDead() => isDead;
     public override Animator GetAnimator() => model.animator;
     public override AnimatorEvent GetAnimatorEvent() => model.Event;
     public override EntitySO GetSO() => SORegistry.Get<EntitySO>(soId);
     public override float GetHealthPercentage() => Stats[ST.Health] / Stats[ST.MaxHealth];
-    public override float GetRealMoveSpeed() => Stats[ST.MoveSpeed] * IGrid.CELL_SIZE / 3;
+    public override float GetRealMoveSpeed() => Stats[ST.MoveSpeed] * IGrid.CELL_SIZE / 4;
     protected virtual void Awake() { //Không gọi khi chưa vào màn chơi
         tribes = new();
         model.entity = this;
         initializes = GetComponents<IInitialize>();
+        assessables = GetComponents<IAssessable>();
         behaviours = GetComponents<IBehaviour>().OrderBy(b => -b.GetPriority()).ToArray();
         idleBehaviour = GetComponent<Idle>();
-        OnEntityDeath = null;
-        OnHealthChanged = null;
     }
     protected virtual void Update() {
         if (BattleInfo.gameState != GameState.Fighting){ return; }
         if((team == Team.Player && gridPos.x >= IGrid.Ins.width) || (team == Team.Enemy && gridPos.x <= -1)) {
             Die();
         }
+        UpdateStatTargets();
         if(isPaused) { return; }
-        if(activeBehavior is IInterruptable) {
+        if(activeBehavior is IInterruptable || activeBehavior.CanActive() == false) {
             foreach(IBehaviour behav in behaviours) {
                 if(activeBehavior == behav) { break; }
                 if(behav.enabled && behav.CanActive()) {
@@ -76,8 +81,53 @@ public class Entity : IEntity {
             }
         }
         set {
+            // if(!Stats.ContainsKey(st)) {
+            //     Stats[st] = value;
+            //     statTargets.Remove(st);
+            //     return;
+            // }
+
+            // if(Mathf.Approximately(Stats[st], value)) {
+            //     Stats[st] = value;
+            //     statTargets.Remove(st);
+            //     return;
+            // }
+
             Stats[st] = value;
         }
+    }
+    private void UpdateStatTargets() {
+        return;
+        // if(statTargets.Count == 0) {
+        //     return;
+        // }
+
+        // completedStatTargets.Clear();
+
+        // foreach(var entry in statTargets) {
+        //     ST stat = entry.Key;
+        //     float target = entry.Value;
+
+        //     if(!Stats.ContainsKey(stat)) {
+        //         completedStatTargets.Add(stat);
+        //         continue;
+        //     }
+
+        //     float current = Stats[stat];
+        //     float next = Mathf.Lerp(current, target, statLerpSpeed * Time.deltaTime);
+
+        //     if(Mathf.Abs(target - next) <= 0.01f) {
+        //         Stats[stat] = target;
+        //         completedStatTargets.Add(stat);
+        //     }
+        //     else {
+        //         Stats[stat] = next;
+        //     }
+        // }
+
+        // foreach(ST stat in completedStatTargets) {
+        //     statTargets.Remove(stat);
+        // }
     }
     public override void TakeDamage(DamageContext ctx) {
         if(IsDead()) return;
@@ -94,11 +144,10 @@ public class Entity : IEntity {
         }
         model.animator.SetLayerWeight(1, weight);
         model.animator.Play("Hurt Layer.Hurt");
-        Stats[ST.Health] -= ctx.amount;
+        Stats[ST.Health] = Mathf.Max(Stats[ST.Health] - ctx.amount, 0);
         effectController.ProcessDamageTaken(ctx);
         OnHealthChanged?.Invoke(-ctx.amount);
-        if(Stats[ST.Health] <= 0) {
-            Stats[ST.Health] = 0;
+        if(Stats[ST.Health] == 0) {
             Die();
         }
     }
@@ -118,44 +167,56 @@ public class Entity : IEntity {
     /// Tranfer data from SO to this Entity
     /// </summary>
     public virtual void Initialize(EntitySO so, Team team, float x, int laneIndex, int level) {
-        this.soId = so.id;
         this.level = level;
-        this.team = team;
-        tribes = so.tribes;
         this.lane = laneIndex;
-
-        foreach(var stat in so.GetEntityStats(level)) {
-            Stats.Add(stat.Key, stat.Value);
-        }
-        Stats.Add(ST.Health, this[ST.MaxHealth]);
-        
-        foreach(IBehaviour bev in behaviours) {
-            bev.Initialize();
-        }
+        this.team = team;
+        UpdateSO(so);
         model.sortingGroup.sortingOrder = 1 - laneIndex;
         if(team == Team.Enemy) {
             model.transform.FlipLocalScaleX();
         }
-        transform.Translate(new Vector2(0, yAxisAdjustment + UnityEngine.Random.Range(-0.2f, 0.2f)));
         if(width != 1 || height != 1) {
             //Adjust transform.position so the tower appear behind 
             // transform.position += (new Vector2(width / 2 - grid.cellSize / 2, height / 2 - grid.cellSize / 2));
         }
+        if(CustomSceneManager.isFreePlay) {
+            FillBarManager.Ins.CreateHealthBar(this);
+        }
         isPaused = false;
         ChangeBehaviour(idleBehaviour);
-        foreach(IInitialize init in initializes) {
+        transform.Translate(new Vector2(0, yAxisAdjustment + UnityEngine.Random.Range(-0.2f, 0.2f)));
+    }
+    internal void UpdateSO(EntitySO so) {
+        this.so = so;
+        this.soId = so.id;
+        tribes = so.tribes;
+        Stats = new();
+        effectController.Reset();
+        //gg
+        foreach(var stat in so.GetEntityStats(level)) {
+            Stats.Add(stat.Key, stat.Value);
+        }
+        Stats.Add(ST.Health, Stats[ST.MaxHealth]);
+        foreach(IInitialize init in GetComponents<IInitialize>()) {
             init.Initialize();
         }
+        effectController.Flush();
     }
     public override float DistanceTo(IEntity other) {
         return Mathf.Abs(this.gridPos.x - other.gridPos.x);
     }
     public override float DistanceToBase() {
-        if(team == Team.Player) {
+        return DistanceTo(this.team);
+    }
+    public override float DistanceToOpponentBase() {
+        return DistanceTo(EnumConverter.GetOppositeTeam(this.team));
+    }
+    private float DistanceTo(Team baseTeam = Team.Player) {
+        if(baseTeam == Team.Player) {
             return gridPos.x + 1;
         }
         else {
-            return IGrid.Ins.height - gridPos.x;
+            return IGrid.Ins.width - gridPos.x;
         }
     }
     public override void TogglePause(bool toggle) {
@@ -167,16 +228,44 @@ public class Entity : IEntity {
             behav.enabled = false;
         }
     }
-    public override float GetDangerPoint() {
-        float total = Stats[ST.Health] / 6;
-        foreach(IBehaviour behav in behaviours) {
-            total += behav.GetDangerPoint();
+    [ContextMenu("GetAssessPoint")]
+    public void OutputAssessPoint(){
+        Debug.Log($"DangerPoint for {gameObject.name} is {GetAssessPoint(APType.Danger)}");
+        Debug.Log($"DefendPoint for {gameObject.name} is {GetAssessPoint(APType.Defend)}");
+    }
+    public override float GetAssessPoint(APType type) {
+        List<APModifier> modifiers = new();
+        if(type == APType.Defend) {
+            modifiers.Add(new APModifier(Operator.Addition, APType.Defend,
+            this[ST.Health] / (1 - this[ST.Armor] / 100f) / 7 + (GetAssessPoint(APType.Danger) * this[ST.LifeSteal] / 100)));
         }
-        total += effectController.GetDangerPoint();
-        return total;
+        else if (type == APType.NeedProtection) {
+            return GetAssessPoint(APType.Danger);
+        }
+        foreach(IAssessable behav in GetComponents<IAssessable>()) {
+            var point = behav.GetAssessPoint().FirstOrDefault(a => a.type == type);
+            if(point != null) { modifiers.Add(point); }
+        }
+        modifiers.Sort((a, b) => a.op.CompareTo(b.op));
+        // foreach(GlobalEffect gbEffect in GlobalEffectManager.Ins.GlobalEffects) {
+        //     var point = gbEffect.GetAssessPoint().FirstOrDefault(a => a.type == type);
+        //     modifiers.Add(point);
+        // }
+        float finalValue = 0;
+        foreach(var mod in modifiers) {
+            if(mod.op == Operator.Addition) {
+                finalValue += mod.value;
+            }
+            else if(mod.op == Operator.Multiply) {
+                finalValue *= mod.value;
+            }
+            else {
+                Debug.LogError("[Entity] unhandled Operator");
+            }
+        }
+        return finalValue;
     }
     public override float GetSkillStat(SkillSO skillSO, string name) {
-
         return skillSO.GetStat(name, 0);
     }
     public override void ReturnToIdleBehaviour() {

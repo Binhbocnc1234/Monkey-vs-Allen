@@ -23,9 +23,6 @@ public class BattleCardUI : CardUI {
             }
         };
     }
-    protected void Update() {
-
-    }
     public void UpdateBattleCard(IBattleCard card) {
         RectTransformExtensions.SetTop(cooldownMaskRect, initialCooldownHeight * card.cooldownTimer.GetPercent());
         if(card.originalCost == card.cost) {

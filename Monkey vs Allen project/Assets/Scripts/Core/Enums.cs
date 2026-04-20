@@ -37,7 +37,9 @@ public static class EnumConverter{
     }
     public static int Convert(CoolDownType coolDownType) {
         switch(coolDownType) {
-            case CoolDownType.None: return 0;
+            case CoolDownType.None:
+                Debug.LogError("[EnumConverter] cooldownType == None");
+                return 0;
             case CoolDownType.Low: return 7;
             case CoolDownType.Medium: return 20;
             case CoolDownType.High: return 60;
@@ -46,14 +48,18 @@ public static class EnumConverter{
     }
     public static Color FromRarityToColor(CardRarity rarity) {
         switch(rarity) {
-            case CardRarity.Common : return Color.white;
-            case CardRarity.Occasional : return Color.green;
-            case CardRarity.Rare : return Color.blue;
-            case CardRarity.Epic : return Color.magenta;
-            case CardRarity.Legendary : return Color.red;
-            case CardRarity.Exotic : return Color.yellow;
-            default : return Color.white;
+            case CardRarity.Common: return Color.white;
+            case CardRarity.Occasional: return Color.green;
+            case CardRarity.Rare: return Color.blue;
+            case CardRarity.Epic: return Color.magenta;
+            case CardRarity.Legendary: return Color.red;
+            case CardRarity.Exotic: return Color.yellow;
+            default: return Color.white;
         }
+    }
+    public static Team GetOppositeTeam(Team team) {
+        if(team == Team.Player) return Team.Enemy;
+        else{ return Team.Player; }
     }
 }
 public enum Place {
@@ -66,7 +72,16 @@ public enum Place {
     CrystyCave,
     SkyCity,
 }
-
+/// <summary>
+/// Là một thuộc tính của Entity, team quyết định xem Entity sẽ spawn ở bên trái hay bên phải camera 
+/// và di chuyển theo hướng nào. 
+/// Ở chế độ chơi với máy, người chơi sẽ luôn điều khiển phe Player, còn Enemy sẽ được điều khiển bởi AI
+/// Nhưng ở chế độ Multiplayer, mỗi người chơi sẽ điều khiển 1 phe
+/// </summary>
+public enum Team {
+    Player,
+    Enemy,
+}
 public enum AttackType
 {
     Melee,
@@ -81,7 +96,7 @@ public enum GameClass {
     Sneaky,
 }
 public enum Faction {
-    Alien, Monkey
+    Alien, Monkey, Tower
 }
 public enum Tribe {
     Basic,
@@ -105,21 +120,7 @@ public enum Tribe {
     JadeEmpire,
     Fruit,
 }
-public enum ST {
-    Health,
-    MaxHealth,
-    Strength,
-    MagicPower,
-    Range,
-    AttackSpeed,
-    MoveSpeed, // How many cells can the Entity pass through in 1 second?
-    LifeSteal,
-    Armor,
-    MagicResistance,
-    Penetration,
-    MagicPenetration,
-    MoveSM, // MoveSpeedMultiplier
-}
+
 public enum Language {
     English,
     Vietnamese,
@@ -129,7 +130,12 @@ public enum Language {
 }
 
 public enum Operator {
-    Addition,
     Multiply,
+    Addition,
     Override,
+}
+
+public enum BuildTime {
+    Low,
+    High
 }

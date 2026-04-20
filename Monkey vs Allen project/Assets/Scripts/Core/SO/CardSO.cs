@@ -17,5 +17,4 @@ public abstract class CardSO : MySO{
     public CardRarity cardRarity;
     [Header("Upgrades")]
     public LocalizedDescription description;
-
 }

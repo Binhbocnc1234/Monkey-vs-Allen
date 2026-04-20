@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b43e2518a9041542b3624bd24a1d9a6, type: 3}
+  m_Name: Blaster Goo - Card
+  m_EditorClassIdentifier: 
+  id: 4f56c2b6-3efb-4f5d-a9b4-55580ca70d47
+  cardName: Blaster Goo
+  entitySO: {fileID: 11400000, guid: e0e904137d0988f4a8496cf92010956a, type: 2}
+  cost: 30
+  cooldownType: 1
+  sprite: {fileID: 21300000, guid: 04b14aaaab2014e48a8d8706244293f8, type: 3}
+  cardRarity: 0
+  description:
+    English: "It waddles into battle, poking at buttons and pulling triggers like
+      it\u2019s playing with a new toy"
+    Vietnamese: "N\xF3 l\u1EA1ch b\u1EA1ch lao v\xE0o tr\u1EADn chi\u1EBFn, ch\u1ECDc
+      ngo\xE1y c\xE1c n\xFAt b\u1EA5m v\xE0 b\xF3p c\xF2 nh\u01B0 th\u1EC3 \u0111ang
+      ch\u01A1i v\u1EDBi m\u1ED9t m\xF3n \u0111\u1ED3 ch\u01A1i m\u1EDBi"
+    Poturgese: 
+  maxStack: 1

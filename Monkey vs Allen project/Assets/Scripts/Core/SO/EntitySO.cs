@@ -4,11 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Team {
-    Player,
-    Enemy,
-    Default
-}
 
 
 [CreateAssetMenu(fileName = "NewEntitySO", menuName = "ScriptableObject/Entity")]
@@ -39,6 +34,14 @@ public class EntitySO : MySO {
             }
         }
         return true;
+    }
+    public bool AnyTribes(List<Tribe> lst) {
+        foreach(Tribe tribe in lst) {
+            if(tribes.Contains(tribe)) {
+                return true;
+            }
+        }
+        return false;
     }
     public UDictionary<ST, float> GetEntityStats(int level) {
         UDictionary<ST, float> total = new();

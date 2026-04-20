@@ -8,7 +8,6 @@ using UnityEngine;
 public class PrefabRegisterSO : MySO {
     public RectTransform arrowUI;
     public GameObject arrow;
-    public EntitySO builder;
     public GameObject unfinishedTower;
     public GameObject loadingUI;
     public GameObject dollarGameObject;

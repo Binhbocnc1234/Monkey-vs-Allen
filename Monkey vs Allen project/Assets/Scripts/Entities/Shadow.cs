@@ -11,7 +11,7 @@ public class Shadow : MonoBehaviour
         e.OnEntityDeath += () => SingletonRegister.Get<ShadowContainer>().Release(this);
         this.linkedEntity = e;
         this.lane = lane;
-        transform.position = e.transform.position - new Vector3(0, 0.5f);
+        transform.position = e.transform.position;
     }
 
     // Di chuyển Shadow bám theo Entity, chỉ thay đổi tọa độ x, tọa độ y giữ nguyên

@@ -4,7 +4,7 @@ public class AlmanacCardUI : CardUI {
     // public 
     protected override void Start() {
         base.Start();
-        OnClickEvent += (ui) => {
+        OnClickEvent += () => {
             SingletonRegister.Get<CardDescriptionUI>().Initialize(so);
         };
     }

@@ -14,7 +14,7 @@ using System.Linq;
 public class Model : MonoBehaviour {
     [Range(0f, 1f)]
     public float transitionTime;
-    public IEntity entity;
+    [ReadOnly] public IEntity entity;
     public SortingGroup sortingGroup;
     public Animator animator;
     public AnimatorEvent Event;
@@ -23,12 +23,19 @@ public class Model : MonoBehaviour {
     public float speedMultiplier = -1;
     public bool isFadeOut = false;
     public string currentStateName { get; private set; }
+    private Vector3 initPosition;
     void Awake() {
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
+        initPosition = transform.position;
     }
     public void SetColor(Color color) {
         foreach(var s in sprites) {
             s.color = color;
+        }
+        if(transform.hasChanged) {
+            if (transform.position != initPosition) {
+                Debug.LogError("[Model] Do not change transform.position at runtime");
+            }
         }
     }
     void Update() {
@@ -62,5 +69,8 @@ public class Model : MonoBehaviour {
     public SpriteRenderer[] GetSprites() {
         sprites.RemoveAll(s => s == null);
         return sprites.ToArray();
+    }
+    void OnValidate() {
+        
     }
 }

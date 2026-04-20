@@ -22,8 +22,8 @@ public class PlaceMonkeyTutorial : Tutorial{
                 basicMonkeyCardUI = cardUI;
                 card.cooldownTimer.FinishCooldown();
                 card.Update();
-                Action<CardUI> handler = null;
-                handler = (cardUI) => {
+                Action handler = null;
+                handler = () => {
                     arrowUI.gameObject.SetActive(false);
                     for(int i = 0; i < GridSystem.Ins.width; ++i) {
                         hinterManager.NewHinter(GridSystem.Ins.cells[i, 2].gameObject);

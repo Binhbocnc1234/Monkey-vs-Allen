@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: Shockwave
+  m_EditorClassIdentifier: 
+  id: 3f4d8b1b-22d3-4fe0-9443-305efab28ccb
+  isActiveSkill: 0
+  haveNameAndIcon: 1
+  skillName: 
+  thumbnail: {fileID: 21300000, guid: 252b20e8832e83a48b8fcad192e49329, type: 3}
+  skillStats:
+    keys:
+    - Damage
+    values: 0a000000
+  description:
+    English: When the helmet shatters, it creates a shockwave that pushes nearby
+      enemies away and deals [Damage] damage for them.
+    Vietnamese: "Khi chi\u1EBFc m\u0169 b\u1ECB v\u1EE1, g\xE2y ra l\xE0n s\xF3ng
+      xung k\xEDch \u0111\u1EA9y l\xF9i k\u1EBB \u0111\u1ECBch l\xE2n c\u1EADn ra
+      xa v\xE0 g\xE2y [Damage] s\xE1t th\u01B0\u01A1ng cho ch\xFAng"
+    Poturgese: 
+  skillUp:
+    statName: Damage
+    changeAmount: 30

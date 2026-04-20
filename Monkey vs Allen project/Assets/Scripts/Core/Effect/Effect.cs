@@ -47,27 +47,34 @@ public enum EffectType {
 /// Có những hiệu ứng là Tốt, có những hiệu ứng là Xấu(Debuff) <br\>
 /// Mỗi effect có biểu hiện cụ thể trên Entity
 /// </summary>
-public abstract class Effect : IUpdatePerFrame, IDestroyable {
+[System.Serializable]
+public abstract class Effect : IUpdatePerFrame, IDestroyable, IAssessable {
     public bool isDebuff { get; protected set; }
-    public bool priority { get; protected set; }
     public int strength;
     public IEntity owner;
-    [JsonProperty] protected Timer lifeTimer;
+    public bool HaveDuration = false;
+    [JsonProperty] public Timer lifeTimer;
     private bool isDead;
+    public event Action OnDeath;
     public Effect(float duration = -1, int strength = 1) {
         this.strength = strength;
         isDebuff = true;
         if(duration != -1) {
             lifeTimer = new Timer(duration, false);
+            HaveDuration = true;
+        }
+        else {
+            HaveDuration = false;
         }
     }
     public virtual void Update() {
-        if(lifeTimer != null && lifeTimer.Count()) {
+        if(HaveDuration && lifeTimer.Count()) {
             DestroyThis();
         }
     }
     public virtual int GetDangerPoint() { return 0; }
     public void DestroyThis() {
+        OnDeath?.Invoke();
         isDead = true;
     }
     public bool IsDead() => isDead;
@@ -75,9 +82,12 @@ public abstract class Effect : IUpdatePerFrame, IDestroyable {
         return this.GetType() == effect.GetType();
     }
     public void ResetDuration() {
-        if(lifeTimer != null) {
+        if(HaveDuration) {
             lifeTimer.Reset();
         }
+    }
+    public virtual List<APModifier> GetAssessPoint() {
+        return new();
     }
 }
 public abstract class PassiveSkill : Effect, IOnApply {
@@ -106,10 +116,10 @@ public interface IOnApply {
 public interface IOnOtherEffectApply {
     public void OnApply(Effect effect);
 }
-public interface IOnDamageTaken {
+public interface IAfterTakenDamage {
     public void OnDamageTaken(DamageContext ctx);
 }
-public interface IOnDefenderDamageTaken {
+public interface IAfterDefenderTakenDamage {
     public void OnDefenderDamageTaken(DamageContext ctx);
 }
 public interface IDamageInputModifier {

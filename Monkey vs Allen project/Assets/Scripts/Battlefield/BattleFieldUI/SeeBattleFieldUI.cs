@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class SeeBattleFieldUI : HideAndShowUI {
+    public static SeeBattleFieldUI Ins;
     private bool isSeeingBattleField;
     private Button button;
     private HideAndShowUIManager hideShowManager;
     protected override void Awake() {
         base.Awake();
+        Ins = this;
         button = GetComponent<Button>();
     }
     void Start() {

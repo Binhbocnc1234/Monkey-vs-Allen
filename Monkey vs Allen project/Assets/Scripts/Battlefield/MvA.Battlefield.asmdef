@@ -11,7 +11,9 @@
         "MvA.Lobby",
         "Unity.TextMeshPro",
         "Plugin.LeanTween",
-        "MvA.Effect"
+        "MvA.Effect",
+        "MackySoft.SerializeReferenceExtensions",
+        "MackySoft.SerializeReferenceExtensions.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

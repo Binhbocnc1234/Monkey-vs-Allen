@@ -3,6 +3,6 @@ public class IronBody : Effect, IDamageInputModifier {
 
     }
     public void ModifyDamage(DamageContext ctx) {
-        ctx.amount -= strength;
+        ctx.AddModifier(new DamageModifier(Operator.Addition, -strength));
     }
 }

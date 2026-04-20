@@ -26,13 +26,10 @@ using UnityEditor;
 // }
 public static class SORegistry {
     private static readonly Dictionary<Type, HashSet<MySO>> _instanceMap = new();
-    public static void Initialize() {
-        _instanceMap.Clear();
-        MySO[] mySOs = Resources.LoadAll<MySO>("");
-        foreach(MySO so in mySOs) {
-            var t = so.GetType();
-            if (!_instanceMap.ContainsKey(t))
-                _instanceMap[t] = new();
+    public static void Register<T>() where T : MySO {
+        Type t = typeof(T);
+        _instanceMap[t] = new();
+        foreach(var so in Resources.LoadAll<T>("Data")) {
             _instanceMap[t].Add(so);
         }
     }
@@ -49,6 +46,7 @@ public static class SORegistry {
     public static T Get<T>(string id) where T : MySO {
         Type type = typeof(T);
         if(!_instanceMap.TryGetValue(type, out HashSet<MySO> returnedList)) {
+            // Register<T>();
             Debug.LogError($"[SOContainer] Attempted to get unregistered Type: '{type.Name}'");
         }
 

@@ -6,19 +6,25 @@ using UnityEngine.PlayerLoop;
 
 public class UpdateManager<T> : MonoBehaviour where T : IUpdatePerFrame
 {
-    protected readonly List<T> container = new();
-    protected readonly List<T> pendingRemoved = new(), pendingAdded = new();
-    protected virtual void Update(){
+    [SerializeReference] protected List<T> container = new();
+    protected List<T> pendingRemoved = new(), pendingAdded = new();
+    protected virtual void Update() {
         container.RemoveAll(u => u == null || pendingRemoved.Contains(u));
         pendingRemoved.Clear();
         container.AddRange(pendingAdded);
         pendingAdded.Clear();
         foreach(T element in container) {
             element.Update();
-            if (element is IDestroyable destroyable && destroyable.IsDead()) {
+            if(element is IDestroyable destroyable && destroyable.IsDead()) {
                 pendingRemoved.Add(element);
             }
         }
+    }
+    public void Flush() {
+        container.RemoveAll(u => u == null || pendingRemoved.Contains(u));
+        pendingRemoved.Clear();
+        container.AddRange(pendingAdded);
+        pendingAdded.Clear();
     }
     protected virtual void AddElement(T element){
         pendingAdded.Add(element);

@@ -7,13 +7,9 @@ public class RangedAttack : Attack {
     public StraightBullet bulletPrefab;
     public Transform firePoint;
     protected Entity target;
-    public override void Initialize() {
-        base.Initialize();
-        bulletPrefab.gameObject.SetActive(false);
-    }
     protected override void MakeDamageInstantly() {
         StraightBullet newBullet = Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
+        Debug.Log($"Bullet spawned at {newBullet.transform.position}");
         newBullet.Initialize(e[ST.Strength], e);
     }
-
 }

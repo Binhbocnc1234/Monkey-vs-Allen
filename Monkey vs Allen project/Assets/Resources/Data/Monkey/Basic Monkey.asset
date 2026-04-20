@@ -25,6 +25,8 @@ MonoBehaviour:
   traits: 
   prefab: {fileID: 1898314983252595580, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
   unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
   level_2:
     stat: 2
     amount: 5
@@ -32,3 +34,7 @@ MonoBehaviour:
   level_4:
     stat: 1
     amount: 35
+  upgradedSkillAtLv5: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

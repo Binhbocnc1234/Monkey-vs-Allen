@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcd3797310da524993db5b8990f58a9, type: 3}
+  m_Name: Blaster Goo
+  m_EditorClassIdentifier: 
+  id: 607fe4ec-5642-4072-ad44-5d04bf83a346
+  gameClass: 1
+  tribes: 0b000000
+  health: 200
+  canAttack: 1
+  attackRange: 5
+  damage: 20
+  attackSpeed: 0.8
+  moveSpeed: 1
+  otherStats: []
+  traits: 
+  prefab: {fileID: 6810458493571691711, guid: 8ca0c9714b3b7644ea0d9b8325e19480, type: 3}
+  unlockedSkillInFirstLevel: []
+  upgrades: []
+  usingOldUpgradeSystem: 1
+  level_2:
+    stat: 2
+    amount: 3
+  unlockedSkillInLevel3: {fileID: 11400000, guid: bc12d975a1d6a9144916715e5732cf6f, type: 2}
+  level_4:
+    stat: 5
+    amount: 0.13
+  upgradedSkillAtLv5: {fileID: 11400000, guid: bc12d975a1d6a9144916715e5732cf6f, type: 2}
+  references:
+    version: 2
+    RefIds: []

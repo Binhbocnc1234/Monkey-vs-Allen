@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 // Kế hoạch: toàn bộ hàm ưới đây sẽ di chuyển lại vào Entity
-public class EffectController : UpdateManager<Effect>, IEffectable {
-    Entity e;
+public class EffectController : UpdateManager<Effect>, IEffectable, IAssessable {
+    private Entity _e;
+    protected Entity e {
+        get {
+            if(_e == null) _e = GetComponent<Entity>();
+            return _e;
+        }
+    }
     Dictionary<IEntity, float> damageContributors = new();
     void Awake() {
-        e = GetComponent<Entity>();
         e.OnEntityDeath += NotifyAttacker;
     }
     public void ApplyEffect(Effect addedEffect) {
@@ -22,15 +26,18 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
                 }
                 return;
             }
-            else if (effect is IOnOtherEffectApply effWithInterface) {
+            else if(effect is IOnOtherEffectApply effWithInterface) {
                 effWithInterface.OnApply(addedEffect);
             }
         }
         if(addedEffect.IsDead()) return;
-        if (addedEffect is IOnApply onApplyEffect) {
+        if(addedEffect is IOnApply onApplyEffect) {
             onApplyEffect.OnApply();
         }
         base.AddElement(addedEffect);
+        // container.Sort((a, b) => {
+
+        // });
     }
     public void RemoveEffect(Effect element) {
         base.RemoveElement(element);
@@ -49,6 +56,7 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
                 modifier.ModifyDamage(ctx);
             }
         }
+        ctx.Flush();
     }
     public void ProcessDamageInput(DamageContext ctx) {
         foreach(Effect effect in container) {
@@ -56,21 +64,22 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
                 modifier.ModifyDamage(ctx);
             }
         }
-        
+
         if(!ctx.isMagicalDamage) {
-            ctx.amount -= ctx.amount * Math.Max(0f, e[ST.Armor] - ctx.penetrationAmount) / 100f;
+            ctx.AddModifier(new DamageModifier(Operator.Multiply, 1 - (e[ST.Armor] - ctx.penetrationAmount) / 100f));
         }
         else {
-            ctx.amount -= ctx.amount * Math.Max(0f, e[ST.MagicResistance] - ctx.penetrationAmount) / 100f;
+            ctx.AddModifier(new DamageModifier(Operator.Multiply, 1 - (e[ST.MagicResistance] - ctx.penetrationAmount) / 100f));
         }
+        ctx.Flush();
     }
     public void ProcessDamageTaken(DamageContext ctx) {
         damageContributors[ctx.attacker] = damageContributors.GetValueOrDefault(ctx.attacker) + ctx.amount;
         foreach(Effect effect in container) {
-            if(effect is IOnDamageTaken odt) {
+            if(effect is IAfterTakenDamage odt) {
                 odt.OnDamageTaken(ctx);
             }
-            else if(effect is IOnDefenderDamageTaken oddt) {
+            else if(effect is IAfterDefenderTakenDamage oddt) {
                 oddt.OnDefenderDamageTaken(ctx);
             }
         }
@@ -103,6 +112,9 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
         return totalDangerPoint;
     }
     public float GetFinalStat(ST stat) {
+        if(e.Stats == null) {
+            Debug.Log("[EffectController] Null Stats");
+        }
         float valueAfterAddition = e.Stats[stat];
         float multiplier = 1;
         foreach(Effect effect in container) {
@@ -110,6 +122,9 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
                 StatModifier modifier = modifyStatEff.ModifyStat().FirstOrDefault(e => e.st == stat);
                 if(modifier != null) {
                     if(modifier.op == Operator.Addition) {
+                        if(stat == ST.AttackSpeed) {
+                            Debug.LogError("[EffectController] AttackSpeed should not have additions, multipliers only");
+                        }
                         valueAfterAddition += modifier.value;
                     }
                     else {
@@ -119,5 +134,12 @@ public class EffectController : UpdateManager<Effect>, IEffectable {
             }
         }
         return valueAfterAddition * multiplier;
+    }
+    public List<APModifier> GetAssessPoint() {
+        List<APModifier> ans = new();
+        foreach(Effect eff in container) {
+            ans.AddRange(eff.GetAssessPoint());
+        }
+        return ans;
     }
 }

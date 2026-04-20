@@ -23,7 +23,7 @@ public class CardUI : MonoBehaviour,
     public CardUIAppearance appearance;
     [ShowIf("haveAppearanceIfEmpty")] public RectTransform emptyRect;
     // public TMP_Text cost;
-    public event Action<CardUI> OnClickEvent;
+    public event Action OnClickEvent;
     protected virtual void Start()
     {
         rect = GetComponent<RectTransform>();
@@ -90,10 +90,9 @@ public class CardUI : MonoBehaviour,
 
     }
 
-    public void OnPointerClick(PointerEventData eventData) {
+    public virtual void OnPointerClick(PointerEventData eventData) {
         if(isGreyOut || !HaveCardAttached()) { return; }
-        Debug.Log("Card clicked");
-        OnClickEvent?.Invoke(this);
+        OnClickEvent?.Invoke();
     }
     public void Validate() {
         if(so != null) {

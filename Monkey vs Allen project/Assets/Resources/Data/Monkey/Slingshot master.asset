@@ -19,8 +19,8 @@ MonoBehaviour:
   canAttack: 1
   attackRange: 5
   damage: 15
-  attackSpeed: 1.3
-  moveSpeed: 1
+  attackSpeed: 1.2
+  moveSpeed: 2
   otherStats: []
   traits: 
   prefab: {fileID: 2211719451317403175, guid: 56f46dc2cfaa030488b551133dfbedc2, type: 3}

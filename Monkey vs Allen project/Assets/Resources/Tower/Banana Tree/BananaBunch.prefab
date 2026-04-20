@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4831099981718434443}
   - component: {fileID: 5694907663605422085}
   - component: {fileID: 1742048464712681078}
+  - component: {fileID: 2890413549394495104}
   m_Layer: 0
   m_Name: BananaBunch
   m_TagString: Untagged
@@ -72,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 140686963
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1344623148, guid: 39347468543a8924ea60f7d87370b080, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,7 +133,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.13095629, y: -0.29512048}
@@ -148,3 +149,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9681268, y: 1.6067312}
   m_EdgeRadius: 0
+--- !u!114 &2890413549394495104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127722128111617080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce98f33b52d8d9547a797544c247fcaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blinkInterval: 0.5
+  semiBlackColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}

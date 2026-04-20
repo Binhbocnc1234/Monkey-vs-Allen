@@ -25,8 +25,7 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
     [SerializeField] private ScrollResetter scrollResetter;
     [SerializeField] private TMP_Text upgradePrefab;
     [SerializeField] private Transform upgradeContainer;
-    protected override void Awake() {
-        base.Awake();
+    void Start() {
         hideAndShowManager.HideAllImmediately();
         panel.alpha = 0;
     }
@@ -35,9 +34,6 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
     }
     public void Initialize(CardSO so, int level) {
         Show();
-        if(this.so == so) {
-            return;
-        }
         EntitySO enSO = so.entitySO;
         UDictionary<ST, float> stats = enSO.GetEntityStats(level);
         this.so = so;
@@ -96,17 +92,27 @@ public class CardDescriptionUI : Singleton<CardDescriptionUI> {
         }
         // Upgrades
         upgradeContainer.DestroyAllChildren();
-        CreateStatUpgradeText(enSO.level_2.stat, enSO.level_2.amount, level >= 2);
-        CreateUpgradeText("Unlock skill: " + enSO.unlockedSkillInLevel3.skillName, level >= 3);
-        CreateStatUpgradeText(enSO.level_4.stat, enSO.level_4.amount, level >= 4);
-        CreateUpgradeText($"Better {enSO.upgradedSkillAtLv5.skillName}", level >= 5);
+        foreach(Upgrade up in upgrades) {
+            if(up is StatUpgrade statUp) {
+                CreateStatUpgradeText(statUp.stat, statUp.amount, level >= 2);
+            }
+            else if(up is UnlockSkill unlockSkill) {
+                CreateUpgradeText("Unlock skill: " + unlockSkill.skillSO.skillName, level >= 3);
+            }
+            else if(up is SkillUpgrade skillUpgrade) {
+                CreateUpgradeText($"Better {skillUpgrade.skillSO.skillName}", level >= 5);
+            }
+        }
 
-        description.text = "Description: " + so.description.GetString();
+        // Upgrade shards 
         if(Application.isPlaying) {
             CardData cardData = PlayerData.GetCardDataById(so.id);
             shardCount.text = $"{cardData.shards}/{CardSO.UPGRADE_THRESHOLD[cardData.level]}";
             shardProgress.fillAmount = cardData.shards / (float)CardSO.UPGRADE_THRESHOLD[cardData.level];
         }
+
+        // Description
+        description.text = "Description: " + so.description.GetString();
         Debug.Log("[CardDescriptionUI] Finish Initialization");
     }
     public void Close() {

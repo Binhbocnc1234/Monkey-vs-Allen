@@ -7,14 +7,15 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     new BoxCollider2D collider;
+    public Vector3 zoomOffset = Vector3.zero;
     public event Action OnClick;
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();
     }
     public IEnumerator LoadCoroutine(){
-        MyCamera.Ins.SetTarget(this.transform.position);
-        MyCamera.Ins.ZoomUp(1.5f);
+        MyCamera.Ins.SetTarget(this.transform.position + zoomOffset);
+        MyCamera.Ins.ZoomUp(0.75f);
         yield return new WaitWhile(() => MyCamera.Ins.isMoving);
         yield return new WaitForSeconds(0.5f);
         OnClick?.Invoke();

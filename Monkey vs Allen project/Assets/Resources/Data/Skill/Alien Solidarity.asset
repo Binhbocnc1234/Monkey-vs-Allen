@@ -20,7 +20,7 @@ MonoBehaviour:
   skillStats:
     keys:
     - ArmorIncreasedAmount
-    values: 04000000
+    values: 02000000
   description:
     English: For each Alien in the battlefield(include itself), armor increases by
       [ArmorIncreasedAmount]
@@ -28,5 +28,5 @@ MonoBehaviour:
       l\u01B0\u1EE3ng gi\xE1p t\u0103ng th\xEAm [ArmorIncreasedAmount]"
     Poturgese: 
   skillUp:
-    statName: 
-    changeAmount: 0
+    statName: ArmorIncreasedAmount
+    changeAmount: 2

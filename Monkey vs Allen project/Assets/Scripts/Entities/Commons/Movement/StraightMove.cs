@@ -6,6 +6,7 @@ using UnityEngine;
 public class StraightMove : Move
 {
     public override void UpdateBehaviour() {
+        base.UpdateBehaviour();
         e.model.transform.Translate(new Vector2(e.GetRealMoveSpeed() * Time.deltaTime * GetNormalizedDirection(), 0));
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public abstract class IEntityRegistry : Singleton<IEntityRegistry> {
+    public abstract void CreateBuilder(EntitySetting towerSetting);
     public abstract IEntity CreateEntity(EntitySetting setting);
     public abstract IEntity CreateEntity(EntitySO so, float x, int lane, Team team, int level = 1);
     public abstract IEntity CreateEntity(EntitySO so, Vector2Int gridPos, Team team, int level = 1);

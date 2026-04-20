@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d7ee16add8c46a42a39631905dc6, type: 3}
+  m_Name: CraniumHelmet
+  m_EditorClassIdentifier: 
+  id: 1d8507bb-e8e6-42e1-aaed-b7dc725c5d7b
+  isActiveSkill: 0
+  haveNameAndIcon: 0
+  skillName: 
+  thumbnail: {fileID: 0}
+  skillStats:
+    keys:
+    - Shield
+    values: 2c010000
+  description:
+    English: The helmet gives him extra [Shield] virtual health.
+    Vietnamese: "Chi\u1EBFc m\u0169 b\u1EA3o hi\u1EC3m gi\xFAp anh ta c\xF3 th\xEAm
+      [Shield] m\xE1u \u1EA3o"
+    Poturgese: 
+  skillUp:
+    statName: Shield
+    changeAmount: 50

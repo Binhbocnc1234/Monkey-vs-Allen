@@ -14,9 +14,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
     public void SaveAndReturn() {
+        DeActivate();
         CustomSceneManager.ToLobby();
     }
     public void Resign() {
+        DeActivate();
         BattleInfo.ChangeState(GameState.GameOver);
     }
 }

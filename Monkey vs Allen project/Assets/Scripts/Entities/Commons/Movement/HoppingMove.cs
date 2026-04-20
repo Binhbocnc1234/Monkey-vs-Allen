@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoppingMove : Move {
+public class HoppingMove : Move, IInitialize {
     public Transform targetAllen;
     public float hopHeight = 0.25f;
     [ReadOnly] public float hopDistance = 1f;
@@ -13,8 +13,7 @@ public class HoppingMove : Move {
     float groundY;
     Vector2 startPos;
     Timer pauseTimer;
-    public override void Initialize() {
-        base.Initialize();
+    public void Initialize() {
         startPos = e.gridPos;
         groundY = startPos.y;
         hopDistance = e.GetRealMoveSpeed() * (hopDuration + pauseBetweenHops);
