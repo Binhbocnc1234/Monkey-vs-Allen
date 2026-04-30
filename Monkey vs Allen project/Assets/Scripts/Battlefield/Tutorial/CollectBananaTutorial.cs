@@ -30,11 +30,11 @@ public class CollectBananaTutorial : Tutorial
     public override void StartTutorial() {
         base.StartTutorial();
         GridCamera.Ins.MoveTowardPlayerHouse();
-        BattleInfo.teamDict[Team.Player].OnResourceChange += CompleteTutorial;
+        BattleInfo.teamDict[Team.Left].OnResourceChange += CompleteTutorial;
     }
     public override void CompleteTutorial() {
         base.CompleteTutorial();
-        BattleInfo.teamDict[Team.Player].OnResourceChange -= CompleteTutorial;
+        BattleInfo.teamDict[Team.Left].OnResourceChange -= CompleteTutorial;
     }
 
 }

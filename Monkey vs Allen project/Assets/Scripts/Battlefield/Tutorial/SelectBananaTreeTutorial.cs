@@ -14,13 +14,12 @@ public class SelectBananaTreeTutorial : Tutorial{
     public override void Initialize(){
         base.Initialize();
         bool foundBananaCard = false;
-        foreach(BattleCard card in BattleInfo.teamDict[Team.Player].cards){
-            BattleCardUI cardUI = card.cardUI;
+        foreach(BattleCard card in BattleInfo.teamDict[Team.Left].cards){
             if (card.GetSO() == bananaTreeSO){
-                bananaTreeCardUI = cardUI;
+                bananaTreeCardUI = SingletonRegister.Get<ChosenCardManager>().FindCardUIBySO(card.GetSO());
                 card.cooldownTimer.SetCurTime(card.cooldownTimer.totalTime);
                 card.Update();
-                cardUI.OnClickEvent +=  NextInstruction;
+                bananaTreeCardUI.OnClickEvent +=  NextInstruction;
                 foundBananaCard = true;
             }
         }

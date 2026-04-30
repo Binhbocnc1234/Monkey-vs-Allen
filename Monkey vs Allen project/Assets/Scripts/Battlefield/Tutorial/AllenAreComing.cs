@@ -19,7 +19,7 @@ public class AllenAreComing : Tutorial
     IEnumerator CountdownFinished(float duration){
         IGrid grid = GridSystem.Ins;
         GridCamera.Ins.MoveTowardEnemyHouse();
-        demoEntity = IEntityRegistry.Ins.CreateEntity(basicAllenSO, grid.width - 2, 2, Team.Enemy);
+        demoEntity = IEntityRegistry.Ins.CreateEntity(basicAllenSO, grid.width - 2, 2, Team.Right);
         yield return new WaitWhile(() => GridCamera.Ins.isMoving == true);
         Timer timer = new Timer(duration, true);
         while(true){

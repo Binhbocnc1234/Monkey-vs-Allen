@@ -3,7 +3,7 @@
     "rootNamespace": "",
     "references": [
         "MvA.Core",
-        "MvA.Framework"
+        "MvA.Framework.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

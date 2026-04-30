@@ -43,7 +43,7 @@
   <Project Path="Unity.InputSystem.csproj" />
   <Project Path="PPv2URPConverters.csproj" />
   <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
-  <Project Path="MvA.Framework.csproj" />
+  <Project Path="MvA.Framework.GraphicEffect.csproj" />
   <Project Path="Unity.AI.Assistant.Editor.csproj" />
   <Project Path="Unity.VisualScripting.Flow.csproj" />
   <Project Path="UnityEngine.TestRunner.csproj" />
@@ -80,6 +80,7 @@
   <Project Path="glTFast.Newtonsoft.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.2D.Editor.Overrides.csproj" />
+  <Project Path="MvA.Framework.UI.csproj" />
   <Project Path="Unity.VisualScripting.State.csproj" />
   <Project Path="Unity.AI.Generators.Redux.csproj" />
   <Project Path="Unity.AI.Toolkit.Accounts.csproj" />
@@ -87,7 +88,7 @@
   <Project Path="Unity.2D.Animation.Editor.csproj" />
   <Project Path="Unity.2D.Common.Path.Editor.csproj" />
   <Project Path="Unity.InternalAPIEditorBridge.013.csproj" />
-  <Project Path="MvA.Battlefield.csproj" />
+  <Project Path="MvA.AI.csproj" />
   <Project Path="Unity.Timeline.csproj" />
   <Project Path="Unity.AppUI.MVVM.csproj" />
   <Project Path="Unity.AutoGroupGenerator.Editor.csproj" />
@@ -98,6 +99,7 @@
   <Project Path="MvA.Core.csproj" />
   <Project Path="glTFast.Documentation.Examples.csproj" />
   <Project Path="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
+  <Project Path="MvA.Battlefield.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.Editor.csproj" />
   <Project Path="Unity.2D.Sprite.Editor.csproj" />
   <Project Path="Unity.AppUI.Navigation.csproj" />
@@ -117,6 +119,7 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.AI.Assistant.API.Editor.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
+  <Project Path="MvA.Framework.Core.csproj" />
   <Project Path="Unity.AI.Generators.Tools.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
   <Project Path="Unity.AppUI.Redux.Editor.csproj" />
@@ -131,7 +134,6 @@
   <Project Path="Unity.InferenceEngine.Editor.Visualizer.csproj" />
   <Project Path="Unity.Mathematics.Editor.csproj" />
   <Project Path="Unity.CollabProxy.Editor.csproj" />
-  <Project Path="MvA.Cards.csproj" />
   <Project Path="MackySoft.SerializeReferenceExtensions.csproj" />
   <Project Path="Unity.2D.Common.Runtime.csproj" />
   <Project Path="Unity.AI.Assistant.Bridge.Editor.csproj" />
@@ -154,6 +156,8 @@
   <Project Path="Unity.AI.Generators.Contexts.csproj" />
   <Project Path="Unity.AI.Generators.IO.Srp.csproj" />
   <Project Path="Unity.AI.Animate.Motion.Runtime.csproj" />
+  <Project Path="MvA.Cards.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.Rendering.LightTransport.Editor.csproj" />
   <Project Path="Unity.Collections.Editor.csproj" />
   <Project Path="Unity.VisualScripting.DocCodeExamples.csproj" />

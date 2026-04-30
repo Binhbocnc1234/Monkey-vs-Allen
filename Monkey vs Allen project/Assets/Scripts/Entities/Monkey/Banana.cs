@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Banana: DropBodyPart{
     [ReadOnly] public bool isDisappearing = false;
+    public MonoBehaviour blinkEffect; 
     int count;
     void Awake() {
         canFadeOut = false;
@@ -32,8 +33,8 @@ public class Banana: DropBodyPart{
     }
     void BananaOnClick() {
         state = DropPartState.FadeOut;
-        Destroy(GetComponent<BlinkEffect>());
-        BattleInfo.teamDict[Team.Player].resource += count;
+        Destroy(blinkEffect);
+        BattleInfo.teamDict[Team.Left].resource += count;
     }
 
 }

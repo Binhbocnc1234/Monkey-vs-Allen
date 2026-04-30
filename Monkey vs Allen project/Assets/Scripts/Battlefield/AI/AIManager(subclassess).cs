@@ -3,31 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LaneAssessmentDetail {
-    public int lane;
-    public IEntity leader;
-    public IEntity enemyLeader;
-
-    // Player-side snapshot/forecast metrics in this lane.
-    public float playerDanger = 0, playerSurvivability = 0, playerPower = 0;
-    // Enemy-side snapshot/forecast metrics in this lane.
-    public float enemyDanger = 0, enemySurvivability = 0, enemyPower = 0;
-
-    // Backward-compatible aliases used by existing scoring code.
-    public float danger = 0, survivability = 0;
-    // Count of Player units that contribute to lane pressure.
-    public int opponentCount = 0;
-    // Raw weighted NeedProtection sum, reused by global urgency.
+public class TeamSnapshot {
+    public float actualFocusPoint;
+    public float attackFocusPoint;
+    public float danger;
+    public float survivability;
+    public int unitCount;
     public float totalNeedProtection = 0;
-    // Source of this penalty: balance heuristic for formation fragility.
-    // With equal total danger/defend, many small units are weaker than one consolidated unit
-    // because a single death drops the total lane power quickly.
-    public float power = 0;
+    public float avgMoveSpeed;
+    private float _power = -1;
+    public float power {
+        get {
+            if(_power == -1) {
+                _power = danger * survivability * GetUnitCountDebuff();
+            }
+            return _power;
+        }
+        set {
+            _power = value;
+        }
+    }
+    public static float GetUnitCountDebuff(int specifiedUnitcount) => Mathf.Max(1.1f - 0.1f * specifiedUnitcount, 0.5f);
+    public float GetUnitCountDebuff() => Mathf.Max(1.1f - 0.1f * unitCount, 0.5f);
+}
 
-    public void SyncLegacyFieldsFromPlayerMetrics() {
-        danger = playerDanger;
-        survivability = playerSurvivability;
-        power = playerPower;
+[System.Serializable]
+public class LaneAssessment {
+    public int lane;
+    public float lookAhead;
+    public TeamSnapshot leftSide = new(), rightSide = new();
+    public TeamSnapshot this[Team team] {
+        get {
+            return team == Team.Left ? leftSide : rightSide;
+        }
+        set {
+            if(team == Team.Left) leftSide = value;
+            else { rightSide = value; }
+        }
     }
 }
 

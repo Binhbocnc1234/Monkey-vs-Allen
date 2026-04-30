@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //Xử lý toàn bộ những tác vụ liên quan đến UI, ví dụ:
@@ -28,9 +27,6 @@ public class CardUI : MonoBehaviour,
     {
         rect = GetComponent<RectTransform>();
         RemoveGreyOut();
-    }
-    public class OnCardClick : MyEvent<CardUI>{
-        public OnCardClick(CardUI caller) : base(caller){}
     }
     public virtual void ApplyCardSO(CardSO cardSO){
         if(cardSO == null) { Debug.LogError("cardSO is null"); }

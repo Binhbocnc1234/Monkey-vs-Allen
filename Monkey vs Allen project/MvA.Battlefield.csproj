@@ -43,41 +43,26 @@
     <UnityVersion>6000.3.11f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(subclassess).cs" />
     <Compile Include="Assets\Scripts\Battlefield\CardManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\InsuffientBananaTutorial.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\Cloud.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\BananaCounterUI.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\CloudManager.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(Upgrade).cs" />
-    <Compile Include="Assets\Scripts\Battlefield\GameWorld.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\ReinforcementModifer.cs" />
     <Compile Include="Assets\Scripts\Battlefield\FreePlay\ControlPanel.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\ChooseCardUI.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\PrimalBreachInitialierSO.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\KillAllTarget.cs" />
     <Compile Include="Assets\Scripts\Battlefield\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\FreePlay\FreePlayManager.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(Editor).cs" />
     <Compile Include="Assets\Scripts\Battlefield\GameConfig.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\AI\AlienResourceManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Prize.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\MagnifyUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\SpeedUpUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\OwnedCardManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\TextTutorial.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\LetsRockUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\SeeBattleFieldUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\ChangeFactionUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\ChosenCardManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LoadingSceneManager.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\AI\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\SOAdjuster.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\PrimalBreachEnviroment.cs" />
     <Compile Include="Assets\Scripts\Battlefield\EventManager.cs" />
@@ -87,13 +72,9 @@
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\CollectBananaTutorial.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\WeirdTatooSO.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\RampurVillageInitializerSO.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\BananaUI.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\AI\AITraceBuffer.cs" />
     <Compile Include="Assets\Scripts\Battlefield\BattleModifier\BattleModifier.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\UIManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\PlaceInitializerMapSO.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\CreateBananaTreeSO.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\BattleFieldUI\PrepareUI.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\SelectBananaTreeTutorial.cs" />
     <Compile Include="Assets\Scripts\Battlefield\BattleManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\PauseManager.cs" />
@@ -1192,7 +1173,6 @@
     <ProjectReference Include="MvA.Core.csproj" />
     <ProjectReference Include="MvA.Grid.csproj" />
     <ProjectReference Include="MvA.Entities.csproj" />
-    <ProjectReference Include="MvA.Framework.csproj" />
     <ProjectReference Include="MvA.Cards.csproj" />
     <ProjectReference Include="MvA.UI.csproj" />
     <ProjectReference Include="MvA.Lobby.csproj" />
@@ -1201,6 +1181,10 @@
     <ProjectReference Include="MvA.Effect.csproj" />
     <ProjectReference Include="MackySoft.SerializeReferenceExtensions.csproj" />
     <ProjectReference Include="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
+    <ProjectReference Include="MvA.Framework.Core.csproj" />
+    <ProjectReference Include="MvA.AI.csproj" />
+    <ProjectReference Include="MvA.Framework.GraphicEffect.csproj" />
+    <ProjectReference Include="MvA.Framework.UI.csproj" />
     <ProjectReference Include="UnityEditor.UI.csproj" />
     <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>

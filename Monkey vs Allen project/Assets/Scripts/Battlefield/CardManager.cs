@@ -10,33 +10,38 @@ public class CardManager : Singleton<CardManager>, ICardContainer
     protected override void Awake() {
         base.Awake();
         ICardContainer.Ins = this;
+        BattleInfo.OnChosenTeamChanged += () => {
+            if (BattleInfo.gameState == GameState.Fighting) {
+                SetControlTeam(BattleInfo.chosenTeam);
+            }
+        };
     }
     public void Initialize() {
         container.DestroyAllChildren();
         enemyContainer.DestroyAllChildren();
-        foreach(CardSO so in BattleInfo.teamDict[Team.Player].chosenCardSOs) {
+        foreach(CardSO so in BattleInfo.teamDict[Team.Left].chosenCardSOs) {
             GameObject newObj = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().emptyGameObject, container);
             newObj.name = $"Battle Card - {so.name}";
             BattleCard battleCard = newObj.AddComponent<BattleCard>();
-            battleCard.Initialize(so, Team.Player);
-            BattleInfo.teamDict[Team.Player].cards.Add(battleCard);
+            battleCard.Initialize(so, Team.Left, PlayerData.GetCardDataById(so.id).level);
+            BattleInfo.teamDict[Team.Left].cards.Add(battleCard);
         }
-        foreach(CardSO so in BattleInfo.teamDict[Team.Enemy].chosenCardSOs) {
+        foreach(CardSO so in BattleInfo.teamDict[Team.Right].chosenCardSOs) {
             GameObject newObj = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().emptyGameObject, enemyContainer);
             newObj.name = $"Battle Card - {so.name}";
             BattleCard battleCard = newObj.AddComponent<BattleCard>();
-            battleCard.Initialize(so, Team.Enemy);
-            BattleInfo.teamDict[Team.Enemy].cards.Add(battleCard);
+            battleCard.Initialize(so, Team.Right, PlayerData.GetCardDataById(so.id).level);
+            BattleInfo.teamDict[Team.Right].cards.Add(battleCard);
         }
     }
     public void SetControlTeam(Team team) {
         foreach(Transform tr in GetContainer(team)) {
             BattleCard card = tr.GetComponent<BattleCard>();
-            card.SetCardUI(SingletonRegister.Get<ChosenCardManager>().FindCardUIBySO(card.GetSO()));
+            SingletonRegister.Get<ChosenCardManager>().FindCardUIBySO(card.GetSO()).card = card;
         }
     }
     Transform GetContainer(Team team) {
-        return team == Team.Player ? container : enemyContainer;
+        return team == Team.Left ? container : enemyContainer;
     }
     public List<IBattleCard> GetBattleCards(Team team) {
         List<IBattleCard> battleCards = new();

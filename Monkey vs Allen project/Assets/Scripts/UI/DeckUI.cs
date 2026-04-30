@@ -12,7 +12,7 @@ public class DeckUI : Singleton<DeckUI> {
         DeckPreview,
         DeckEditor,
     }
-    [ReadOnly] public State state;
+    public State state;
     public Deck openedDeck;
     public TMP_InputField deckName;
     [SerializeField] private RectTransform header_1, header_2;

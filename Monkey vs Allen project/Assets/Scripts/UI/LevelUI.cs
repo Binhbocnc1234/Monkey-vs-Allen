@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LevelUI : HideAndShowUI
+public class LevelUI : MonoBehaviour
 {
     // Start is called before the first frame update
     public void InitializeFreePlay() {

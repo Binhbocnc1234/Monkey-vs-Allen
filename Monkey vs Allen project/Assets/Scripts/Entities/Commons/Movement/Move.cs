@@ -7,7 +7,7 @@ public abstract class Move : IBehaviour, IInterruptable, IOnApply {
         e.model.PlayAnimation("Walk");
     }
     protected int GetNormalizedDirection() {
-        return e.team == Team.Player ? 1 : -1;
+        return e.team == Team.Left ? 1 : -1;
     }
     public override void UpdateBehaviour() {
         if(CheckNearbyAllies()) e.ReturnToIdleBehaviour();

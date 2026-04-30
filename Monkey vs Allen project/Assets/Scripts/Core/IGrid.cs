@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class IGrid : Singleton<IGrid>{
@@ -17,6 +18,7 @@ public abstract class IGrid : Singleton<IGrid>{
     public abstract ICell GetCell(int x, int y);
     public abstract void CreateCell(ICell cellPrefab, int x, int y);
     public abstract void Clear();
+    public abstract List<int> GetOpenLanes();
 }
 public abstract class ICell : MonoBehaviour {
     public Vector2Int gridPosition { get; protected set; }

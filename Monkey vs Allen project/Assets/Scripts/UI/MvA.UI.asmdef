@@ -3,11 +3,12 @@
     "rootNamespace": "",
     "references": [
         "MvA.Core",
-        "MvA.Framework",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "MvA.Grid",
-        "Plugin.LeanTween"
+        "Plugin.LeanTween",
+        "MvA.Framework.Core",
+        "MvA.Framework.UI",
+        "MvA.Grid"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

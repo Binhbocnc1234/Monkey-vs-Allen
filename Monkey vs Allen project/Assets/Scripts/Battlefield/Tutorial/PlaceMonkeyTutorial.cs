@@ -16,10 +16,10 @@ public class PlaceMonkeyTutorial : Tutorial{
     public override void Initialize(){
         base.Initialize();
         hinterManager = SingletonRegister.Get<HinterManager>();
-        foreach(BattleCard card in BattleInfo.teamDict[Team.Player].cards){
-            BattleCardUI cardUI = card.cardUI;
+        // Need adjustment
+        foreach(BattleCard card in BattleInfo.teamDict[Team.Left].cards){
             if (card.GetSO() == basicMonkeySO){
-                basicMonkeyCardUI = cardUI;
+                basicMonkeyCardUI = SingletonRegister.Get<ChosenCardManager>().FindCardUIBySO(card.GetSO());
                 card.cooldownTimer.FinishCooldown();
                 card.Update();
                 Action handler = null;
@@ -29,9 +29,9 @@ public class PlaceMonkeyTutorial : Tutorial{
                         hinterManager.NewHinter(GridSystem.Ins.cells[i, 2].gameObject);
                     }
                     card.cooldownTimer.FinishCooldown();
-                    cardUI.OnClickEvent -= handler;
+                    basicMonkeyCardUI.OnClickEvent -= handler;
                 };
-                cardUI.OnClickEvent += handler;
+                basicMonkeyCardUI.OnClickEvent += handler;
             }
         }
 

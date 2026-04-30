@@ -2,14 +2,9 @@
     "name": "MvA.Cards",
     "rootNamespace": "",
     "references": [
-        "MvA.Core",
-        "MvA.Framework",
-        "Unity.TextMeshPro",
-        "MvA.UI",
-        "Unity.InputSystem",
-        "MvA.Entities",
-        "MvA.Grid",
-        "Plugin.LeanTween"
+        "GUID:f3c21096a6bfe9c4fa2784b75aa17080",
+        "GUID:aa56d522ddacf8b45b8321ff1c9bb1ed",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

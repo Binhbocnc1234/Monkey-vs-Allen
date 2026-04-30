@@ -1,0 +1,19 @@
+{
+    "name": "MvA.AI",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Core",
+        "MvA.Framework.Core",
+        "MackySoft.SerializeReferenceExtensions",
+        "MackySoft.SerializeReferenceExtensions.Editor"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

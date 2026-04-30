@@ -1,0 +1,118 @@
+Player Click Card
+    ↓
+CardView (MonoBehaviour)
+    ↓
+SpawnUnitPresenter
+    ↓
+SpawnUnitUseCase
+    ↓
+GameState / Economy check
+    ↓
+IUnitFactory.Create()
+    ↓
+UnityUnitFactory
+    ↓
+Instantiate(prefab)
+    ↓
+UnitView.Init(UnitEntity)
+
+
+public class CardView : MonoBehaviour
+{
+    [SerializeField] private UnitType unitType;
+    private SpawnUnitPresenter presenter;
+
+    public void Init(SpawnUnitPresenter presenter)
+    {
+        this.presenter = presenter;
+    }
+
+    public void OnClick()
+    {
+        presenter.OnCardClicked(unitType);
+    }
+}
+
+public class SpawnUnitPresenter 
+{
+    private readonly SpawnUnitUseCase spawnUnitUseCase;
+
+    public SpawnUnitPresenter(SpawnUnitUseCase spawnUnitUseCase)
+    {
+        this.spawnUnitUseCase = spawnUnitUseCase;
+    }
+
+    public void OnCardClicked(UnitType unitType)
+    {
+        spawnUnitUseCase.Execute(unitType);
+    }
+}
+
+public class SpawnUnitUseCase (Application layer)
+{
+    private readonly PlayerEntity player;
+    private readonly IUnitFactory unitFactory;
+
+    public SpawnUnitUseCase(PlayerEntity player, IUnitFactory unitFactory)
+    {
+        this.player = player;
+        this.unitFactory = unitFactory;
+    }
+
+    public void Execute(UnitType unitType)
+    {
+        var cost = UnitDatabase.GetCost(unitType);
+
+        if (player.Money < cost) return;
+
+        player.Money -= cost;
+
+        var unit = new UnitEntity(unitType);
+        unitFactory.Create(unit);
+    }
+}
+
+public interface IUnitFactory (interface in inner layer)
+{
+    void Create(UnitEntity entity);
+}
+
+public class UnityUnitFactory : IUnitFactory 
+{
+    public void Create(UnitEntity entity)
+    {
+        var prefab = PrefabDatabase.GetPrefab(entity.Type);
+        var obj = Object.Instantiate(prefab);
+
+        obj.GetComponent<UnitView>().Init(entity);
+    }
+}
+
+public class UnitView : MonoBehaviour
+{
+    private UnitEntity entity;
+
+    public void Init(UnitEntity entity)
+    {
+        this.entity = entity;
+    }
+
+    private void Update()
+    {
+        transform.position = entity.Position;
+    }
+}
+
+What happen when alien's helmet is broken:
+
+Business Layer (MvA.Entities, stays pure):
+- ShieldComponent fires event: OnShieldBroken(position, level)
+- ShockWaveEffect subscribes → resolves knockback damage
+- Pure C#, no Transform/SpriteRenderer/AddComponent
+
+Presentation Layer (MvA.UI or separate assembly):
+- ShieldBreakPresenter subscribes to OnShieldBroken
+- When triggered: animate helmet drop, play VFX, flash effect
+- Uses Transform, SpriteRenderer, Animator
+
+

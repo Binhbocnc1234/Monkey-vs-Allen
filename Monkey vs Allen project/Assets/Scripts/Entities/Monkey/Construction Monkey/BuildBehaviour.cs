@@ -8,10 +8,10 @@ public class BuildBehaviour : IBehaviour, IOnApply {
     public UnfinishedTower unfinishedTower;
     public void Initialize(UnfinishedTower unfinishedTower, bool isSecondBuilder) {
         if(isSecondBuilder) {
-            diff = e.team == Team.Player ? 1 : -1;
+            diff = e.team == Team.Left ? 1 : -1;
         }
         else {
-            diff = e.team == Team.Player ? -1 : 1;
+            diff = e.team == Team.Left ? -1 : 1;
         }
         this.dest = unfinishedTower.transform.position/IGrid.CELL_SIZE;
         e.model.Event.OnAnimationFinished += (AnimatorStateInfo info) => {

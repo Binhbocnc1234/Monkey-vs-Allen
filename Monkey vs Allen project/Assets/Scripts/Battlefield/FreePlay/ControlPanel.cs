@@ -12,7 +12,7 @@ public class ControlPanel : MonoBehaviour
         BattleInfo.ToggleCooldown(toggle);
     }
     public void ClearEntity() {
-        foreach(IEntity e in EContainer.Ins.GetEntities()) {
+        foreach(IEntity e in IEntityRegistry.Ins.GetEntities()) {
             e.Die();
         }
     }

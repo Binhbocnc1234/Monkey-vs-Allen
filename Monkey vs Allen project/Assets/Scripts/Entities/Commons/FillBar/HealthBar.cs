@@ -3,7 +3,6 @@ public class HealthBar : FillBar {
     private IEntity e;
     public void BindEntity(IEntity e) {
         this.e = e;
-        // e.OnHealthChanged += (info) => { this.SetValue(info / e[ST.MaxHealth]); };
         e.OnEntityDeath += () => Destroy(this.gameObject);
         
     }

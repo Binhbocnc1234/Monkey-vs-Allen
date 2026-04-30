@@ -6,33 +6,11 @@ using UnityEngine;
 //Card không nên là một thực thể
 public class BattleCard : IBattleCard
 {
-    public BattleCardUI cardUI;
     public Team team;
     public int cardLevel;
     int maxStack = 1;
     int stack = 0;
-    public void Initialize(CardSO so, Team team, BattleCardUI cardUI) {
-        Initialize(so, team);
-        this.cardUI = cardUI;
-    }
-    public void SetCardUI(BattleCardUI cardUI) {
-        if (this.cardUI != null) {
-            cardUI.OnClickEvent -= OnClickEvent;
-        }
-        this.cardUI = cardUI;
-        cardUI.OnClickEvent += OnClickEvent;
-    }
-    public void OnClickEvent() {
-        if (BattleInfo.gameState != GameState.Fighting){ return; }
-        SelectMessage selectMessage = CanSelectCard();
-        if(selectMessage == SelectMessage.InsuffientBanana) {
-            CostInsuffientAnimation.Instantiate(cardUI);
-        }
-        else if(selectMessage == SelectMessage.CanSelect) {
-            PointerUI.Ins.Initialize(this);
-        }
-    }
-    public void Initialize(CardSO so, Team team) {
+    public void Initialize(CardSO so, Team team, int level) {
         if(so == null) {
             Debug.LogError("ApplyCardSO : so is null");
             return;
@@ -46,7 +24,7 @@ public class BattleCard : IBattleCard
         if(so is EnemyCardSO enemyCardSO) {
             this.maxStack = enemyCardSO.maxStack;
         }
-        cardLevel = PlayerData.GetCardDataById(so.id).level;
+        cardLevel = level;
     }
     public override void Update() {
         if(BattleInfo.gameState == GameState.Fighting) {
@@ -55,9 +33,6 @@ public class BattleCard : IBattleCard
                 if (stack < maxStack) {
                     cooldownTimer.Reset();
                 }
-            }
-            if(cardUI != null) {
-                cardUI.UpdateBattleCard(this);
             }
         }
     }
@@ -85,11 +60,11 @@ public class BattleCard : IBattleCard
         return SelectMessage.CanSelect;
     }
     public override void UseCard(Vector2Int gridPos) {
-        int startX = team == Team.Player ? -1 : GridSystem.Ins.width;
+        int startX = team == Team.Left ? -1 : IGrid.Ins.width;
         IEntity e;
         BattleInfo.teamDict[team].resource -= cost;
         if(so.entitySO.IsContainTribes(new List<Tribe>() { Tribe.Tower })) {
-            EContainer.Ins.CreateBuilder(new EntitySetting {
+            IEntityRegistry.Ins.CreateBuilder(new EntitySetting {
                 so = this.so.entitySO,
                 lane = gridPos.y,
                 x = gridPos.x,
@@ -99,7 +74,7 @@ public class BattleCard : IBattleCard
             // e = EContainer.Ins.CreateEntity(so.entitySO, gridPos.x, gridPos.y, team);
         }
         else {
-            e = EContainer.Ins.CreateEntity(so.entitySO, startX, gridPos.y, team);
+            e = IEntityRegistry.Ins.CreateEntity(so.entitySO, startX, gridPos.y, team);
         }
         PlayerData.GetCardDataById(so.id).discovered = true;
         if (!BattleInfo.noCooldown) cooldownTimer.Reset();

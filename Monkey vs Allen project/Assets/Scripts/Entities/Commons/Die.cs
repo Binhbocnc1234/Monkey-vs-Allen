@@ -19,7 +19,7 @@ public class Die : MonoBehaviour{
         float elapsed = 0f;
 
         Vector3 startPos = transform.position;
-        Vector3 targetPos = startPos + (e.team == Team.Player ? Vector3.left : Vector3.right) * 2f; // move left by 2 units
+        Vector3 targetPos = startPos + (e.team == Team.Left ? Vector3.left : Vector3.right) * 2f; // move left by 2 units
         foreach(var renderer in e.model.GetSprites()){
             renderer.material = defaultMaterial;
         }

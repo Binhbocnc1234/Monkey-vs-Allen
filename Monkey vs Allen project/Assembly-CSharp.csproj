@@ -43,7 +43,7 @@
     <UnityVersion>6000.3.11f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -90,6 +90,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\SoftwareDevelopmentProcess.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -97,9 +98,11 @@
     <None Include="Assets\Scripts\about MvA.txt" />
     <None Include="Assets\Resources\Materials\Flash shader.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Architecture.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Some concrete applications.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
@@ -1170,6 +1173,7 @@
     <ProjectReference Include="Unity.RenderPipelines.Universal.2D.Runtime.csproj" />
     <ProjectReference Include="Unity.AI.Assistant.Tools.Editor.csproj" />
     <ProjectReference Include="MvA.Core.csproj" />
+    <ProjectReference Include="MvA.Framework.GraphicEffect.csproj" />
     <ProjectReference Include="Unity.AppUI.Undo.csproj" />
     <ProjectReference Include="Unity.AI.MCP.Runtime.csproj" />
     <ProjectReference Include="Unity.UnifiedRayTracing.Runtime.csproj" />
@@ -1186,11 +1190,13 @@
     <ProjectReference Include="Unity.2D.Tilemap.Extras.Editor.csproj" />
     <ProjectReference Include="glTFast.dots.csproj" />
     <ProjectReference Include="Unity.VisualStudio.Editor.csproj" />
+    <ProjectReference Include="MvA.Framework.UI.csproj" />
     <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj" />
     <ProjectReference Include="Unity.InputSystem.ForUI.csproj" />
     <ProjectReference Include="Unity.Profiling.Core.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.GPUDriven.Runtime.csproj" />
     <ProjectReference Include="Unity.VisualScripting.State.Editor.csproj" />
+    <ProjectReference Include="MvA.AI.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Universal.Shaders.csproj" />
     <ProjectReference Include="UnityEngine.UI.csproj" />
     <ProjectReference Include="MvA.Grid.csproj" />
@@ -1211,6 +1217,7 @@
     <ProjectReference Include="MvA.Event.csproj" />
     <ProjectReference Include="Plugin.LeanTween.csproj" />
     <ProjectReference Include="UnityEditor.UI.Analytics.csproj" />
+    <ProjectReference Include="MvA.Framework.Core.csproj" />
     <ProjectReference Include="MvA.Effect.csproj" />
     <ProjectReference Include="glTFast.Editor.csproj" />
     <ProjectReference Include="Unity.2D.IK.Runtime.csproj" />
@@ -1234,7 +1241,6 @@
     <ProjectReference Include="Unity.VisualScripting.Core.csproj" />
     <ProjectReference Include="Unity.Mathematics.Editor.csproj" />
     <ProjectReference Include="MackySoft.SerializeReferenceExtensions.csproj" />
-    <ProjectReference Include="MvA.Framework.csproj" />
     <ProjectReference Include="Unity.2D.Psdimporter.Editor.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj" />
     <ProjectReference Include="Unity.AI.Assistant.Annotations.Editor.csproj" />

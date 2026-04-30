@@ -5,7 +5,6 @@
         "MvA.Core",
         "MvA.Grid",
         "MvA.Entities",
-        "MvA.Framework",
         "MvA.Cards",
         "MvA.UI",
         "MvA.Lobby",
@@ -13,7 +12,11 @@
         "Plugin.LeanTween",
         "MvA.Effect",
         "MackySoft.SerializeReferenceExtensions",
-        "MackySoft.SerializeReferenceExtensions.Editor"
+        "MackySoft.SerializeReferenceExtensions.Editor",
+        "MvA.Framework.Core",
+        "MvA.AI",
+        "MvA.Framework.GraphicEffect",
+        "MvA.Framework.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

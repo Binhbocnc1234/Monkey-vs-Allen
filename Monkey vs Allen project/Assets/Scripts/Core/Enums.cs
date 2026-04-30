@@ -57,9 +57,12 @@ public static class EnumConverter{
             default: return Color.white;
         }
     }
-    public static Team GetOppositeTeam(Team team) {
-        if(team == Team.Player) return Team.Enemy;
-        else{ return Team.Player; }
+    public static Team GetOppositeSide(Team team) {
+        if(team == Team.Left) return Team.Right;
+        else { return Team.Left; }
+    }
+    public static float GetBasePosition(Team team) {
+        return team == Team.Right ? IGrid.Ins.width : -1;
     }
 }
 public enum Place {
@@ -79,8 +82,8 @@ public enum Place {
 /// Nhưng ở chế độ Multiplayer, mỗi người chơi sẽ điều khiển 1 phe
 /// </summary>
 public enum Team {
-    Player,
-    Enemy,
+    Left,
+    Right,
 }
 public enum AttackType
 {

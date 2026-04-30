@@ -43,7 +43,7 @@
     <UnityVersion>6000.3.11f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -55,25 +55,41 @@
     <Compile Include="Assets\Scripts\UI\DeckBuilder\DeckDisplay.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\NewCardUIManager.cs" />
     <Compile Include="Assets\Scripts\UI\FlashPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\SeeBattleFieldUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUI.cs" />
+    <Compile Include="Assets\Scripts\UI\CardUI\CardAppearance.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\OwnedCardManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaUI.cs" />
     <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\SpeedUpUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\SkillUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChooseCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUIPool.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIAppearance.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI\BattleCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\CategoryButton.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\MyButton.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI\PointerUI.cs" />
     <Compile Include="Assets\Scripts\UI\Arrow.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUI.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI\CostInsuffientAnimation.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\PrepareUI.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChangeFactionUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\MagnifyUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\BananaCounterUI.cs" />
     <Compile Include="Assets\Scripts\UI\MeterorUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\CardDescriptionUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\TraitUIPool.cs" />
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChosenCardManager.cs" />
     <Compile Include="Assets\Scripts\UI\DeckUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\LetsRockUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\TraitUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\DescriptionHook.cs" />
   </ItemGroup>
@@ -1168,11 +1184,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MvA.Core.csproj" />
-    <ProjectReference Include="MvA.Framework.csproj" />
     <ProjectReference Include="Unity.TextMeshPro.csproj" />
     <ProjectReference Include="Unity.InputSystem.csproj" />
-    <ProjectReference Include="MvA.Grid.csproj" />
     <ProjectReference Include="Plugin.LeanTween.csproj" />
+    <ProjectReference Include="MvA.Framework.Core.csproj" />
+    <ProjectReference Include="MvA.Framework.UI.csproj" />
+    <ProjectReference Include="MvA.Grid.csproj" />
     <ProjectReference Include="UnityEditor.UI.csproj" />
     <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>

@@ -8,7 +8,7 @@ public class ReinforcementModifier : MonoBehaviour {
     public bool isCalled = false;
     public int activeAfterTargetNumber;
     void Awake() {
-        if(IEntityRegistry.Ins.GetTargetCount(Team.Enemy) >= 3) {
+        if(IEntityRegistry.Ins.GetTargetCount(Team.Right) >= 3) {
             activeAfterTargetNumber = Random.Range(1, 4);
         }
         else {
@@ -17,11 +17,11 @@ public class ReinforcementModifier : MonoBehaviour {
     }
     
     void Update() {
-        if(!isCalled && IEntityRegistry.Ins.GetTargetCount(Team.Enemy) == activeAfterTargetNumber) {
+        if(!isCalled && IEntityRegistry.Ins.GetTargetCount(Team.Right) == activeAfterTargetNumber) {
             foreach(IEntity e in IEntityRegistry.Ins.GetEntities()) {
                 bool con1 = e.GetSO().IsContainTribes(new List<Tribe>() { Tribe.Target });
                 float con2 = e.GetHealthPercentage();
-                if(e.team == Team.Enemy && e.GetSO().IsContainTribes(new List<Tribe>() { Tribe.Target }) && e.GetHealthPercentage() <= 0.5f) {
+                if(e.team == Team.Right && e.GetSO().IsContainTribes(new List<Tribe>() { Tribe.Target }) && e.GetHealthPercentage() <= 0.5f) {
                     isCalled = true;
                     SpawnReinforcement(e.lane);
                     e.GetEffectable().ApplyEffect(new GeneralStatEffect(new() {
@@ -48,7 +48,7 @@ public class ReinforcementModifier : MonoBehaviour {
                     x = IGrid.Ins.width,
                     level = armyLevel,
                     so = pair.Key,
-                    team = Team.Enemy
+                    team = Team.Right
                 };
                 if(spawnedInEmergencyLane < emergencyCnt) {
                     spawnedInEmergencyLane++;

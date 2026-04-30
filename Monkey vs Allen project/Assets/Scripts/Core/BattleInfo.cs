@@ -30,9 +30,18 @@ public static class BattleInfo {
     public static LevelSO levelSO { get; private set; }
     public const float CELL_SIZE = 2f;
     public static UDictionary<Team, TeamData> teamDict;
-    public static Team chosenTeam = Team.Player;
-    public static Team monkeyInTeam = Team.Player;
-    public static List<CardSO> choosenCardSOs = new List<CardSO>(); // problem
+    private static Team _chosenTeam = Team.Left;
+    public static event Action OnChosenTeamChanged;
+    public static Team chosenTeam {
+        get {
+            return _chosenTeam;
+        }
+        set {
+            _chosenTeam = value;
+            OnChosenTeamChanged?.Invoke();
+        }
+    } // other meaning: controlled team by Player
+    public static Team monkeyInTeam = Team.Left;
     public static List<MonkeyCardSO> playerHand = new List<MonkeyCardSO>(); //for other mode
     public static bool unlimitedBanana { get; private set; }
     public static bool noCooldown;
@@ -44,26 +53,25 @@ public static class BattleInfo {
         Reset();
         levelSO = so;
         if(!so.canChooseCard) {
-            teamDict[Team.Player].chosenCardSOs = new List<CardSO>(so.choosenCardsBySystem);
+            teamDict[Team.Left].chosenCardSOs = new List<CardSO>(so.choosenCardsBySystem);
         }
-        teamDict[Team.Player].resource = so.initialBanana;
-        teamDict[Team.Enemy].resource = so.initialBanana;
-        teamDict[Team.Enemy].chosenCardSOs = so.enemies.ToList<CardSO>();
+        teamDict[Team.Left].resource = so.initialBanana;
+        teamDict[Team.Right].resource = so.initialBanana;
+        teamDict[Team.Right].chosenCardSOs = so.enemies.ToList<CardSO>();
     }
     public static void Reset() {
         levelSO = null;
         OnStateChanged = null;
         teamDict = new();
-        teamDict[Team.Player] = new(Team.Player);
-        teamDict[Team.Enemy] = new(Team.Enemy);
-        chosenTeam = Team.Player;
-        choosenCardSOs = new List<CardSO>();
+        teamDict[Team.Left] = new(Team.Left);
+        teamDict[Team.Right] = new(Team.Right);
+        chosenTeam = Team.Left;
         unlimitedBanana = false;
         noCooldown = false;
         timeElapsed = 0;
     }
     public static void ChangeState(GameState newState) {
-        Debug.Log($"BattleInfo::ChangeState: to {newState}");
+        Debug.Log($"[BattleInfo] Change atate: to {newState}");
         gameState = newState;
         OnStateChanged?.Invoke();
     }
@@ -73,21 +81,21 @@ public static class BattleInfo {
     public static void ToggleUnlimitedBanana(bool toggle) {
         unlimitedBanana = toggle;
         if(unlimitedBanana) {
-            teamDict[Team.Player].resource = 3667;
-            teamDict[Team.Enemy].resource = 3667;
+            teamDict[Team.Left].resource = 3667;
+            teamDict[Team.Right].resource = 3667;
         }
         else {
-            teamDict[Team.Player].resource = 0;
-            teamDict[Team.Enemy].resource = 0;
+            teamDict[Team.Left].resource = 0;
+            teamDict[Team.Right].resource = 0;
         }
     }
     public static void ToggleCooldown(bool toggle) {
         noCooldown = toggle;
         if(toggle) {
-            foreach(IBattleCard card in ICardContainer.Ins.GetBattleCards(Team.Player)) {
+            foreach(IBattleCard card in ICardContainer.Ins.GetBattleCards(Team.Left)) {
                 card.cooldownTimer.SetCurTime(0);
             }
-            foreach(IBattleCard card in ICardContainer.Ins.GetBattleCards(Team.Enemy)) {
+            foreach(IBattleCard card in ICardContainer.Ins.GetBattleCards(Team.Right)) {
                 card.cooldownTimer.SetCurTime(0);
             }
         }
@@ -104,9 +112,4 @@ public static class TechnicalInfo {
         controls.Enable();
         Debug.Log("Successfully  reset TechnicalInfo's variables");
     }
-}
-
-public interface IResourceCounterUI {
-    public void ResourceUpdate(int amount);
-    public static IResourceCounterUI Ins{ get; protected set; }
 }

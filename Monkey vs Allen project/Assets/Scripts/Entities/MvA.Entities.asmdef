@@ -3,10 +3,8 @@
     "rootNamespace": "",
     "references": [
         "MvA.Core",
-        "MvA.Grid",
-        "MvA.Framework",
-        "MvA.UI",
-        "MvA.Effect"
+        "MvA.Effect",
+        "MvA.Framework.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

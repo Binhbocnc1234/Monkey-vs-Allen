@@ -36,7 +36,7 @@ public class EContainer : IEntityRegistry{
     private void CreateBuilder(EntitySO tower, Vector2Int dest, Team team, int level) {
         EntitySO chosenBuilder = BattleInfo.chosenTeam == BattleInfo.monkeyInTeam ? constructionMonkey : constructionAlien;
         BuildBehaviour newBuilder = CreateEntity(
-            chosenBuilder, team == Team.Player ? -1 : GridSystem.Ins.width, dest.y, team).GetComponent<BuildBehaviour>();
+            chosenBuilder, team == Team.Left ? -1 : IGrid.Ins.width, dest.y, team).GetComponent<BuildBehaviour>();
         // BuildBehaviour newBuilder_2 = CreateEntity(
         //     chosenBuilder, team == Team.Player ? -2 : GridSystem.Ins.width + 1, dest.y, team).GetComponent<BuildBehaviour>();
         UnfinishedTower unfinishedTower = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().unfinishedTower).GetComponent<UnfinishedTower>();
@@ -74,7 +74,7 @@ public class EContainer : IEntityRegistry{
         return CreateEntity(so, gridPos.x, gridPos.y, team);
     }
     public override IEntity CreateEntity(EntitySO so, int lane, Team team, int level = 1) {
-        return CreateEntity(so, team == Team.Player ? -1 : IGrid.Ins.width, lane, team);
+        return CreateEntity(so, team == Team.Left ? -1 : IGrid.Ins.width, lane, team);
     }
     // Returns a list of all alive entities in specified lane, removing nulls
     public override IEntity[] GetEntitiesByLane(int lane, bool includeUntargetable = false) {
@@ -86,7 +86,11 @@ public class EContainer : IEntityRegistry{
             return entities[lane].ToArray<IEntity>();
         }
         else {
-            return entities[lane].Where(e => e.isTargetable).ToArray<IEntity>();
+            List<IEntity> preAns = new();
+            foreach(IEntity e in entities[lane]) {
+                if(e.isTargetable) preAns.Add(e);
+            }
+            return preAns.ToArray<IEntity>();
         }
     }
     public override IEntity[] GetEntities() {
@@ -117,7 +121,7 @@ public class EContainer : IEntityRegistry{
     public override int GetTargetCount(Team team) {
         targetEnemies.RemoveAll(e => e == null || e.IsDead());
         targetMonkeys.RemoveAll(e => e == null || e.IsDead());
-        if(team == Team.Player) {
+        if(team == Team.Left) {
             return targetMonkeys.Count;
         }
         else {

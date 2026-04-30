@@ -9,7 +9,7 @@ public class StraightBullet : CollisionBullet {
         base.Initialize(damage, owner);
         this.disappearRange = owner[ST.Range]*1.2f;
         startX = this.transform.position.x;
-        if(owner.team == Team.Player) {
+        if(owner.team == Team.Left) {
             direction = Vector3.right;
         }
         else {

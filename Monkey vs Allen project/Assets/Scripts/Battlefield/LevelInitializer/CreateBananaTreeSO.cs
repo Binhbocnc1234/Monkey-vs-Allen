@@ -4,7 +4,7 @@ using UnityEngine;
 public class CreateBananaTreeSO : LevelInitializerSO {
     [SerializeField] private EntitySO bananaTreeSO;
     public override void Execute(LevelSO so) {
-        BananaTree tree = EContainer.Ins.CreateEntity(bananaTreeSO, 2, 2, Team.Player, 1).GetComponent<BananaTree>();
+        BananaTree tree = EContainer.Ins.CreateEntity(bananaTreeSO, 2, 2, Team.Left, 1).GetComponent<BananaTree>();
         tree.bananaCount = BattleInfo.resourcePerGeneration * 2;
     }
 }

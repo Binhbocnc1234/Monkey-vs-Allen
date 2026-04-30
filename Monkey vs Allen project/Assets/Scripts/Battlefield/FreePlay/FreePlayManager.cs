@@ -34,7 +34,7 @@ public class FreePlayManager : Singleton<FreePlayManager>{
         UIManager.Ins.levelUI.InitializeFreePlay();
         UIManager.Ins.letsRockUI.gameObject.SetActive(false);
         BananaCounterUI.Ins.Initialize();
-        var hideShowManager = UIManager.Ins.hideShowManager;
+        HideAndShowUIManager hideShowManager = UIManager.Ins.hideShowManager;
         hideShowManager.ShowAll();
         SeeBattleFieldUI.Ins.gameObject.SetActive(false);
         hideShowManager.Hide("level");

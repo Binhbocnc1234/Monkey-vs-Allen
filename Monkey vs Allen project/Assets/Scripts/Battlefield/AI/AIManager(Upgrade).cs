@@ -12,7 +12,7 @@ public partial class EnemyManager {
     [ReadOnly] public int resourceSpentSinceLastUpgrade = 0;
     bool firstUpgrade = true;
     int CalculateUpgradeLeft() {
-        var cards = BattleInfo.teamDict[Team.Enemy].cards;
+        var cards = BattleInfo.teamDict[Team.Right].cards;
         
         float maxResourceConsumptionRate = 0f;
         for(int i = 0; i < cards.Count; ++i) {
@@ -41,7 +41,7 @@ public partial class EnemyManager {
         resourceSpentSinceLastUpgrade += Mathf.Max(0, cardCost);
     }
 
-    bool CanChooseUpgradeActionAt(float lookahead) {
+    internal bool CanChooseUpgradeActionAt(float lookahead) {
         if(upgradeLeft <= 0 || enemiesLeftToUpgrade != 0 || resourceM == null) {
             return false;
         }
@@ -50,7 +50,7 @@ public partial class EnemyManager {
         return expectedResource >= resourceM.costToUpgrade;
     }
 
-    float GetUpgradeActionScore(float lookahead) {
+    internal float GetUpgradeActionScore(float lookahead) {
         if (firstUpgrade){
             return 10000f;
         }
@@ -59,16 +59,32 @@ public partial class EnemyManager {
 
     void ExecuteUpgradeAction(float upgradeScore) {
         firstUpgrade = false;
-        int resourceBefore = BattleInfo.teamDict[Team.Enemy].resource;
+        int resourceBefore = BattleInfo.teamDict[Team.Right].resource;
         resourceM.Upgrade();
         history.Push(new UpgradeTrace {
             upgradeNumber = resourceM.upgradeCnt,
             actionScore = upgradeScore,
             resourceBefore = resourceBefore,
-            resourceAfter = BattleInfo.teamDict[Team.Enemy].resource,
+            resourceAfter = BattleInfo.teamDict[Team.Right].resource,
         });
         enemiesLeftToUpgrade = upgradeAfterUses;
         upgradeLeft--;
         ResetUpgradeScoreState();
+    }
+
+    internal int EstimateEnemyResourceAfter(float lookahead) {
+        int result = BattleInfo.teamDict[Team.Right].resource;
+        if(resourceM == null || resourceM.upgradeCnt <= 0 || resourceM.resourceTimer == null) {
+            return result;
+        }
+
+        float interval = resourceM.resourceTimer.totalTime;
+        float firstGainAfter = resourceM.resourceTimer.remainingTime;
+        if(lookahead < firstGainAfter) {
+            return result;
+        }
+
+        int gainTick = 1 + Mathf.FloorToInt((lookahead - firstGainAfter) / interval);
+        return result + gainTick * BattleInfo.resourcePerGeneration;
     }
 }

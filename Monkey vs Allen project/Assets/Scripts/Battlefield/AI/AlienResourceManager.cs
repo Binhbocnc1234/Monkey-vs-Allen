@@ -16,16 +16,16 @@ internal class AlienResourceManager : Singleton<AlienResourceManager> {
     }
     void Update() {
         if(BattleInfo.gameState != GameState.Fighting) { return; }
-        currentEnemyResource = BattleInfo.teamDict[Team.Enemy].resource;
+        currentEnemyResource = BattleInfo.teamDict[Team.Right].resource;
         if(upgradeCnt > 0 && resourceTimer.Count()) {
-            BattleInfo.teamDict[Team.Enemy].resource += BattleInfo.resourcePerGeneration;
+            BattleInfo.teamDict[Team.Right].resource += BattleInfo.resourcePerGeneration;
         }
     }
     public bool CanUpgrade() {
-        return BattleInfo.teamDict[Team.Enemy].resource >= costToUpgrade;
+        return BattleInfo.teamDict[Team.Right].resource >= costToUpgrade;
     }
     public void Upgrade() {
-        BattleInfo.teamDict[Team.Enemy].resource -= costToUpgrade;
+        BattleInfo.teamDict[Team.Right].resource -= costToUpgrade;
         upgradeCnt++;
         if(upgradeCnt == 1) {
             resourceTimer = new Timer(BattleInfo.resourceDelay , true);

@@ -8,13 +8,13 @@ public class Dollar : MonoBehaviour{
     Vector2 destination;
     public void Initialize(Vector2Int gridPos){
         lane = gridPos.y;
-        destination = GridSystem.Ins.GridToWorldPosition(gridPos);
+        destination = IGrid.Ins.GridToWorldPosition(gridPos);
     }
     void Update(){
         if (isFalling){
             return;
         }
-        foreach(Entity e in EContainer.Ins.GetEntitiesByLane(lane)){
+        foreach(Entity e in IEntityRegistry.Ins.GetEntitiesByLane(lane)){
             if (Mathf.Abs(e.transform.position.x - destination.x) <= 0.5f){
                 e.GetEffectable().ApplyEffect(new Greedy());
                 Destroy(this.gameObject);

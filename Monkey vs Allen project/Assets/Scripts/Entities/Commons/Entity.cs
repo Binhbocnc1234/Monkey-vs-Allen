@@ -36,7 +36,7 @@ public class Entity : IEntity {
     }
     protected virtual void Update() {
         if (BattleInfo.gameState != GameState.Fighting){ return; }
-        if((team == Team.Player && gridPos.x >= IGrid.Ins.width) || (team == Team.Enemy && gridPos.x <= -1)) {
+        if((team == Team.Left && gridPos.x >= IGrid.Ins.width) || (team == Team.Right && gridPos.x <= -1)) {
             Die();
         }
         UpdateStatTargets();
@@ -61,7 +61,7 @@ public class Entity : IEntity {
         get { return _team; }
         set {
             _team = value;
-            if(value == Team.Enemy) model.GetComponent<Rotater>().FlipX();
+            if(value == Team.Right) model.GetComponent<Rotater>().FlipX();
         }
     }
     public override float this[ST st] {
@@ -172,7 +172,7 @@ public class Entity : IEntity {
         this.team = team;
         UpdateSO(so);
         model.sortingGroup.sortingOrder = 1 - laneIndex;
-        if(team == Team.Enemy) {
+        if(team == Team.Right) {
             model.transform.FlipLocalScaleX();
         }
         if(width != 1 || height != 1) {
@@ -209,10 +209,10 @@ public class Entity : IEntity {
         return DistanceTo(this.team);
     }
     public override float DistanceToOpponentBase() {
-        return DistanceTo(EnumConverter.GetOppositeTeam(this.team));
+        return DistanceTo(EnumConverter.GetOppositeSide(this.team));
     }
-    private float DistanceTo(Team baseTeam = Team.Player) {
-        if(baseTeam == Team.Player) {
+    private float DistanceTo(Team baseTeam = Team.Left) {
+        if(baseTeam == Team.Left) {
             return gridPos.x + 1;
         }
         else {
@@ -229,11 +229,22 @@ public class Entity : IEntity {
         }
     }
     [ContextMenu("GetAssessPoint")]
-    public void OutputAssessPoint(){
+    public void OutputAssessPoint() {
         Debug.Log($"DangerPoint for {gameObject.name} is {GetAssessPoint(APType.Danger)}");
         Debug.Log($"DefendPoint for {gameObject.name} is {GetAssessPoint(APType.Defend)}");
     }
+    struct AssessmentData {
+        internal float timeStamp;
+        internal float value;
+    }
+    private UDictionary<APType, AssessmentData> assessmentCache = new();
     public override float GetAssessPoint(APType type) {
+        if (assessmentCache.ContainsKey(type)) {
+            AssessmentData data = assessmentCache[type];
+            if(BattleInfo.timeElapsed - data.timeStamp <= 0.5f) {
+                return data.value;
+            }
+        }
         List<APModifier> modifiers = new();
         if(type == APType.Defend) {
             modifiers.Add(new APModifier(Operator.Addition, APType.Defend,
@@ -263,6 +274,7 @@ public class Entity : IEntity {
                 Debug.LogError("[Entity] unhandled Operator");
             }
         }
+        assessmentCache[type] = new AssessmentData{timeStamp = BattleInfo.timeElapsed, value = finalValue};
         return finalValue;
     }
     public override float GetSkillStat(SkillSO skillSO, string name) {

@@ -1,0 +1,16 @@
+{
+    "name": "MvA.Framework.GraphicEffect",
+    "rootNamespace": "",
+    "references": [
+        "GUID:aa56d522ddacf8b45b8321ff1c9bb1ed"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

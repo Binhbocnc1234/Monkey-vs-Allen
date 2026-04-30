@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
+public enum SelectMessage {
+    InsuffientBanana,
+    Recovering,
+    CanSelect
+}
 public abstract class IBattleCard : MonoBehaviour {
-    public enum SelectMessage {
-        InsuffientBanana,
-        Recovering,
-        CanSelect
-    }
+    
     // public static 
     public bool isActive = true;
     public int cost;

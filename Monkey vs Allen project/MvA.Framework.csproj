@@ -43,70 +43,15 @@
     <UnityVersion>6000.3.11f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\binhb\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\LightRayManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\UIGradient.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\UpdateManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\BlinkEffect.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\SquaredRect.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\VerticalGroupHeightCorrector.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\ActionOriented\UAction.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\TimeScaler.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\UDictionary.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\MoveUI.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\HideAndShowUIManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\SearchAbleEnum.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\ShowIf.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\AutoSave.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\Bound.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\UnityExtension.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Animation\IHide.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\ScrollResetter.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\readonly.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Animation\HideAndShowUI.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\ObjectPool.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\HarmonicOscillation.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\UICornersGradient.cs" />
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\RayDeathHook.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\MySO\MySO.cs" />
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\LightRay.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\SingletonRegister.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Animation\ButtonEnlarge.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\GridHeightCorrector.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\Interfaces.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\MySO\SORegistry.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\WrapLayoutGroup.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Tooltip\TooltipTrigger.cs" />
+    <Compile Include="Assets\Scripts\Framework\Editor\AutoSave.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\AnimationClipResolver.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\MissingReferenceScanner.cs" />
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\ParallaxLayer.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\GeneralUM.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\RectTransformExt.cs" />
-    <Compile Include="Assets\Scripts\Framework\GraphicEffect\ParallaxManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\SceneSwitcher.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\HinterManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\Timer.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\MonoBehaviourWithContainer.cs" />
-    <Compile Include="Assets\Scripts\Framework\Editor\ExtendedMonoBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\ToggleButton.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\AdvancedTimer.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Tooltip\Tooltip.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\EventBus.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\DestroyHelper.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Animation\IShow.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\HalfWidthGrid.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\DirectionEnum.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\Animation\UIAnimationManager.cs" />
-    <Compile Include="Assets\Scripts\Framework\Other\Utility.cs" />
-    <Compile Include="Assets\Scripts\Framework\Design Pattern\EventHandler.cs" />
-    <Compile Include="Assets\Scripts\Framework\Data structures\UDictionary.cs" />
-    <Compile Include="Assets\Scripts\Framework\UI\UIGradientUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Framework\MvA.Framework.asmdef" />

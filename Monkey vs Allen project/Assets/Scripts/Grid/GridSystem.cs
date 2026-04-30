@@ -127,7 +127,7 @@ public class GridSystem : IGrid {
     {
         return IsValidGridPosition(position.x, position.y);
     }
-    public List<int> GetOpenLanes(){
+    public override List<int> GetOpenLanes(){
         List<int> openLanes = new();
         for(int i = 0; i < GridSystem.Ins.openLanes.Length; ++i) {
             if(GridSystem.Ins.openLanes[i]) {
