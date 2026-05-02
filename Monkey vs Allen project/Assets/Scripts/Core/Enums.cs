@@ -82,8 +82,8 @@ public enum Place {
 /// Nhưng ở chế độ Multiplayer, mỗi người chơi sẽ điều khiển 1 phe
 /// </summary>
 public enum Team {
-    Left,
-    Right,
+    Left, // Spawn ở bên trái, di chuyển về phía bên phải để tấn công
+    Right, // Spawn ở bên phải, di chuyển về phía bên trái để tấn công
 }
 public enum AttackType
 {

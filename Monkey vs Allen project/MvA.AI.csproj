@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(subclassess).cs" />
     <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(Upgrade).cs" />
+    <Compile Include="Assets\Scripts\Battlefield\AI\Simulator.cs" />
     <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(Editor).cs" />
     <Compile Include="Assets\Scripts\Battlefield\AI\AlienResourceManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\AI\EnemyManager.cs" />

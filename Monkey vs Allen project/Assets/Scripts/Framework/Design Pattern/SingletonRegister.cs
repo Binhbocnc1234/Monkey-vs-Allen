@@ -10,7 +10,7 @@ using UnityEngine;
 public static class SingletonRegister
 {
     // Dictionary to hold instances: Key is the Type, Value is the instance object.
-    private static readonly Dictionary<Type, object> _instanceMap = new Dictionary<Type, object>();
+    private static readonly UDictionary<Type, object> _instanceMap = new UDictionary<Type, object>();
 
     /// <summary>
     /// Registers an instance of a specific type.

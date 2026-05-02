@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Equipment\Defense\AntiqueCurias.cs" />
     <Compile Include="Assets\Scripts\Equipment\Attack\DeathSickle.cs" />
     <Compile Include="Assets\Scripts\Equipment\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Other\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\Equipment\Attack\BladeOfDespair.cs" />
     <Compile Include="Assets\Scripts\Equipment\Attack\Haas&apos; Claws.cs" />
     <Compile Include="Assets\Scripts\Equipment\Defense\AmuletOfLongevity.cs" />

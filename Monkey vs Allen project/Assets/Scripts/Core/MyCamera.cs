@@ -14,7 +14,8 @@ public class MyCamera : Singleton<MyCamera> {
     [ReadOnly] public Vector3 initPos;
     public int moveSpeed = 5, zoomSpeed = 2;
     protected Camera cam;
-    protected virtual void Start() {
+    protected override void Awake() {
+        base.Awake();
         cam = Camera.main;
         initPos = transform.position;
         initSize = cam.orthographicSize;
@@ -31,11 +32,17 @@ public class MyCamera : Singleton<MyCamera> {
         }
         if(isZoomUp) {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * zoomSpeed);
-            if (Mathf.Abs(cam.orthographicSize - targetSize) < 0.1f) {
+            if(Mathf.Abs(cam.orthographicSize - targetSize) < 0.1f) {
                 isZoomUp = false;
                 OnFinishedZoomUp?.Invoke();
             }
         }
+    }
+    public void FinishMotionImmediately() {
+        transform.position = targetPos;
+        cam.orthographicSize = targetSize;
+        isZoomUp = false;
+        isMoving = false;
     }
     public void SetTarget(Vector3 pos) {
         isMoving = true;

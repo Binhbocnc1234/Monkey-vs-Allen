@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ChooseCardUI : Singleton<ChooseCardUI>
+public class ChooseCard_LetsRockUI : Singleton<ChooseCard_LetsRockUI>
 {
     public bool isChoosingCard = true;
     public TMP_Text tmp;

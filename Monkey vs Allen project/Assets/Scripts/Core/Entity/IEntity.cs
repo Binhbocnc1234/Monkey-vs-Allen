@@ -58,6 +58,10 @@ public abstract class IEntity : MonoBehaviour {
     public abstract Animator GetAnimator();
     public abstract AnimatorEvent GetAnimatorEvent();
     public abstract EntitySO GetSO();
+    /// <summary>
+    /// Trả về tốc độ theo đơn vị Unity world unit, được sử dụng để di chuyển Entity
+    /// </summary>
+    /// <returns></returns>
     public abstract float GetRealMoveSpeed();
     public abstract void ReturnToIdleBehaviour();
     public abstract float GetSkillStat(SkillSO so, string name);

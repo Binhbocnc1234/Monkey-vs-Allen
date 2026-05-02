@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 906137763683333890, guid: 39ba3394aca414e438179875e2759756, type: 3}
       propertyPath: m_Name
-      value: HealthBar Variant
+      value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 4666480794793068384, guid: 39ba3394aca414e438179875e2759756, type: 3}
       propertyPath: m_Color.g
@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4928874513583813227, guid: 39ba3394aca414e438179875e2759756, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1.8033
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 4928874513583813227, guid: 39ba3394aca414e438179875e2759756, type: 3}
       propertyPath: m_SizeDelta.y

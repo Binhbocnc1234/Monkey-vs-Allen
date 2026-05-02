@@ -82,6 +82,7 @@
   <Project Path="Unity.RenderPipelines.Universal.2D.Editor.Overrides.csproj" />
   <Project Path="MvA.Framework.UI.csproj" />
   <Project Path="Unity.VisualScripting.State.csproj" />
+  <Project Path="MvA.Battlefield.csproj" />
   <Project Path="Unity.AI.Generators.Redux.csproj" />
   <Project Path="Unity.AI.Toolkit.Accounts.csproj" />
   <Project Path="Unity.AI.Generators.UI.csproj" />
@@ -99,7 +100,6 @@
   <Project Path="MvA.Core.csproj" />
   <Project Path="glTFast.Documentation.Examples.csproj" />
   <Project Path="MackySoft.SerializeReferenceExtensions.Editor.csproj" />
-  <Project Path="MvA.Battlefield.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.Editor.csproj" />
   <Project Path="Unity.2D.Sprite.Editor.csproj" />
   <Project Path="Unity.AppUI.Navigation.csproj" />

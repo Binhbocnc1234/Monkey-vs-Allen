@@ -15,5 +15,9 @@ public class ControlPanel : MonoBehaviour
         foreach(IEntity e in IEntityRegistry.Ins.GetEntities()) {
             e.Die();
         }
+        BattleManager.Ins.CreateTarget();
+    }
+    public void ToggleEnemyAI(bool toggle) {
+        EnemyManager.Ins.enabled = toggle;
     }
 }

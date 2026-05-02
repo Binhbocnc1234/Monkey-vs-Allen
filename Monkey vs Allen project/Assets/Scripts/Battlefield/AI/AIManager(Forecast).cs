@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public partial class EnemyManager {
@@ -6,7 +7,7 @@ public partial class EnemyManager {
     /// biến này là biến tạm để các hàm BuildTeamForecastPoint, ComputeTeamSnapshot, GetAttackPosition 
     /// có thể truy cập được đánh giá về lane hiện tại mà không cần phải truyền qua tham số
     /// </summary>
-    public LaneAssessment ansAssess = new();
+    public LaneAssessment ans = new();
     public int specifiedLane, specifiedLookAhead;
     private List<LaneAssessment> laneAssessmentDetails = new();
     [ContextMenu("GetAssessment")]
@@ -31,148 +32,158 @@ public partial class EnemyManager {
             }
         }
 
-        ansAssess = new();
+        ans = new() {
+            lane = lane,
+            lookAhead = lookAhead
+        };
 
         var entities = IEntityRegistry.Ins.GetEntitiesByLane(lane);
+
         foreach(IEntity e in entities) {
-            ansAssess[e.team].unitCount++;
+            ans[e.team].unitCount++;
         }
 
-        BuildTeamForecastPoint(entities, Team.Left);
-        BuildTeamForecastPoint(entities, Team.Right);
+        BuildTeamFocusPosition(entities, Team.Left);
+        BuildTeamFocusPosition(entities, Team.Right);
+        EstimateTimeToFirstContact();
 
-        ComputeTeamSnapshotFromFocus(entities);
-
-        float timeToFirstContact = EstimateTimeToFirstContact(lane, ansAssess[ourTeam].attackFocusPoint, ansAssess[o_Team].attackFocusPoint);
-        bool willFightBeforeLookAhead = ansAssess[o_Team].unitCount > 0 && timeToFirstContact <= lookAhead;
-        float combatDuration = Mathf.Max(0f, lookAhead - timeToFirstContact);
+        bool willFightBeforeLookAhead = ans[ourTeam].unitCount > 0 && ans[o_Team].unitCount > 0 && ans.firstTimeToContact <= lookAhead;
+        float combatDuration = Mathf.Max(0f, lookAhead - ans.firstTimeToContact);
         float opponentAliveRatio = 0, ourAliveRatio = 0;
+
+        ComputeTeamSnapshotFromFocus(entities, Mathf.Min(lookAhead, ans.firstTimeToContact));
 
         if(willFightBeforeLookAhead) {
             
-            float projectedDamageToOur = ansAssess[o_Team].danger * combatDuration * ansAssess[o_Team].GetUnitCountDebuff();
-            float projectedDamageToOppo = ansAssess[ourTeam].danger * combatDuration * ansAssess[o_Team].GetUnitCountDebuff();
+            float projectedDamageToOur = ans[o_Team].danger * combatDuration/6.6f;
+            float projectedDamageToOppo = ans[ourTeam].danger * combatDuration/6.6f;
 
-            float afterCombatSur = Mathf.Max(0f, ansAssess[ourTeam].survivability - projectedDamageToOur);
-            float afterCombatOpponentSur = Mathf.Max(0f, ansAssess[o_Team].survivability - projectedDamageToOppo);
+            float afterCombatSur = Mathf.Max(0f, ans[ourTeam].survivability - projectedDamageToOur);
+            float afterCombatOpponentSur = Mathf.Max(0f, ans[o_Team].survivability - projectedDamageToOppo);
 
-            opponentAliveRatio = afterCombatOpponentSur / ansAssess[o_Team].survivability;
-            ourAliveRatio = afterCombatSur / ansAssess[ourTeam].survivability;
-            ansAssess[o_Team].danger *= opponentAliveRatio;
-            ansAssess[ourTeam].danger *= ourAliveRatio;
-            ansAssess[o_Team].survivability *= opponentAliveRatio;
-            ansAssess[ourTeam].survivability *= ourAliveRatio;
+            opponentAliveRatio = afterCombatOpponentSur / ans[o_Team].survivability;
+            ourAliveRatio = afterCombatSur / ans[ourTeam].survivability;
+            ans[o_Team].danger *= Mathf.Lerp(1f, opponentAliveRatio, 0.4f);
+            ans[ourTeam].danger *= Mathf.Lerp(1f, ourAliveRatio, 0.4f);
+            ans[o_Team].survivability *= opponentAliveRatio;
+            ans[ourTeam].survivability *= ourAliveRatio;
         }
 
         for(int i = 0; i < entities.Length; ++i) {
             IEntity e = entities[i];
             float projectedHpRatio = e.GetHealthPercentage() * (e.team == ourTeam ? ourAliveRatio : opponentAliveRatio);
             float hpWeight = 1f + (1f - projectedHpRatio) * 4f;
-            ansAssess[e.team].totalNeedProtection += e.GetAssessPoint(APType.NeedProtection) * hpWeight;
+            ans[e.team].totalNeedProtection += e.GetAssessPoint(APType.NeedProtection) * hpWeight;
         }
         // float projectedEnemyHpRatio = snapshot[ourTeam].survivability > 0f ? enemySurvivability / snapshot[ourTeam].survivability : 0f;
         // float hpWeight = 1f + (1f - projectedEnemyHpRatio) * 4f;
-        laneAssessmentDetails.Add(ansAssess);
-        return ansAssess;
+        laneAssessmentDetails.Add(ans);
+        return ans;
     }
 
     /// <summary>
     /// Build weighted focus points for one team.
     /// Weight = danger * survivability so stronger units pull focus more.
     /// </summary>
-    internal void BuildTeamForecastPoint(IEntity[] entities, Team team) {
-        TeamSnapshot snapshotRef = ansAssess[team];
-        float actualWeightedSum = 0f;
-        float attackWeightedSum = 0f;;
-        float weightSum = 0f;
+    internal void BuildTeamFocusPosition(IEntity[] entities, Team team) {
+        TeamSnapshot snapshotRef = ans[team];
+        float attackWeightedSum = 0f;
+        float defensiveWeightedSum = 0f;
+
+        float attackSum = 0f, defensiveSum = 0f;
 
         for(int i = 0; i < entities.Length; ++i) {
-            IEntity entity = entities[i];
-            if(entity.team != team) {
+            IEntity e = entities[i];
+            if(e.team != team) {
                 continue;
             }
 
-            float danger = Mathf.Max(0f, entity.GetAssessPoint(APType.Danger));
-            float survivability = Mathf.Max(0f, entity.GetAssessPoint(APType.Defend));
+            float danger = Mathf.Max(0f, e.GetAssessPoint(APType.Danger));
+            float survivability = Mathf.Max(0f, e.GetAssessPoint(APType.Defend));
             float power = Mathf.Max(1f, danger * survivability);
-            float actualPosition = entity.gridPos.x;
-            float attackPosition = GetAttackPosition(entity);
 
-            actualWeightedSum += actualPosition * power;
-            attackWeightedSum += attackPosition * power;
-            weightSum += power;
+            attackWeightedSum += GetAttackPosition(e) * danger;
+            defensiveWeightedSum += e.gridPos.x * survivability;
+            attackSum += danger;
+            defensiveSum += survivability;
         }
-
-        if(weightSum > 0f) {
-            snapshotRef.actualFocusPoint = actualWeightedSum / weightSum;
-            snapshotRef.attackFocusPoint = attackWeightedSum / weightSum;
-        }
-        else {
-            snapshotRef.actualFocusPoint = float.NaN;
-            snapshotRef.attackFocusPoint = float.NaN;
-        }
+        
+        snapshotRef.attackFocusPoint = attackWeightedSum / attackSum;
+        snapshotRef.defensiveFocusPoint = defensiveWeightedSum / defensiveSum;
     }
 
-    internal void ComputeTeamSnapshotFromFocus(IEntity[] entities)
+    internal void ComputeTeamSnapshotFromFocus(IEntity[] entities, float timeTillContact)
     {
         for (int i = 0; i < entities.Length; ++i)
         {
             IEntity e = entities[i];
-            float attackPosition = GetAttackPosition(e);
-            float distanceToFocus = Mathf.Abs(attackPosition - ansAssess[e.team].attackFocusPoint);
-            float speedSafe = Mathf.Max(e[ST.MoveSpeed], 0.1f);
-            float distanceFactor = 1f - distanceToFocus / speedSafe / 4f;
-            if (distanceFactor < 0f)
-            {
+            float defensiveFocus = ans[e.team].defensiveFocusPoint;
+            if(float.IsNaN(defensiveFocus)) {
                 continue;
             }
-            ansAssess[e.team].danger += e.GetAssessPoint(APType.Danger) * distanceFactor;
-            ansAssess[e.team].survivability += e.GetAssessPoint(APType.Defend) * distanceFactor;
+
+            float attackPosition = GetAttackPosition(e) + timeTillContact * e.GetRealMoveSpeed() * 0.7f;
+            float diff = Mathf.Abs(attackPosition - defensiveFocus);
+            bool isBehindTank = e.team == Team.Left
+                ? attackPosition <= defensiveFocus
+                : attackPosition >= defensiveFocus;
+
+            float dangerDistanceFactor;
+            if(diff <= 1f) {
+                dangerDistanceFactor = 1f;
+            }
+            else if(isBehindTank) {
+                dangerDistanceFactor = Mathf.Clamp01(1f - diff / (IGrid.Ins.width * 2f));
+            }
+            else {
+                dangerDistanceFactor = Mathf.Pow(Mathf.Clamp01(1f - diff / (IGrid.Ins.width * 1.2f)), 2f);
+            }
+
+            float defendDistanceFactor = Mathf.Lerp(1f, dangerDistanceFactor, 0.35f);
+            ans[e.team].danger += e.GetAssessPoint(APType.Danger) * dangerDistanceFactor;
+            ans[e.team].survivability += e.GetAssessPoint(APType.Defend) * defendDistanceFactor;
         }
     }
-    
-    internal static float GetAttackPosition(IEntity entity) {
-        float range = Mathf.Max(0f, entity[ST.Range]);
-        return entity.team == Team.Left ? entity.gridPos.x + range*2/3 : entity.gridPos.x - range*2/3;
-    }
 
-    internal float EstimateTimeToFirstContact(int lane, float o_attackPoint, float attackFocusPoint) {
-        if(float.IsNaN(attackFocusPoint) || float.IsNaN(o_attackPoint)) {
-            return float.PositiveInfinity;
-        }
-
-        IEntity[] entities = IEntityRegistry.Ins.GetEntitiesByLane(lane);
+    internal void EstimateTimeToFirstContact() {
+        IEntity[] entities = IEntityRegistry.Ins.GetEntitiesByLane(ans.lane);
         float ourSpeedSum = 0f;
-        int ourCount = ansAssess[ourTeam].unitCount;
+        int ourCount = ans[ourTeam].unitCount;
         float opponentSpeedSum = 0f;
-        int opponentCount = ansAssess[o_Team].unitCount;
+        int opponentCount = ans[o_Team].unitCount;
 
         for(int i = 0; i < entities.Length; ++i) {
-            IEntity entity = entities[i];
-            float moveSpeed = Mathf.Max(0f, entity[ST.MoveSpeed]);
-            if(entity.team == Team.Left) {
+            IEntity e = entities[i];
+            float moveSpeed = e.GetRealMoveSpeed();
+            if(e.team == ourTeam) {
                 ourSpeedSum += moveSpeed;
             }
-            else if(entity.team == Team.Right) {
+            else if(e.team == o_Team) {
                 opponentSpeedSum += moveSpeed;
             }
         }
 
         if(ourCount == 0 || opponentCount == 0) {
-            return float.PositiveInfinity;
+            return;
         }
 
         float ourAverageSpeed = ourSpeedSum / ourCount;
         float opponentAverageSpeed = opponentSpeedSum / opponentCount;
-        ansAssess[o_Team].avgMoveSpeed = opponentAverageSpeed;
-        ansAssess[ourTeam].avgMoveSpeed = ourAverageSpeed;
+        ans[o_Team].avgMoveSpeed = opponentAverageSpeed;
+        ans[ourTeam].avgMoveSpeed = ourAverageSpeed;
         float approachingSpeed = ourAverageSpeed + opponentAverageSpeed;
         if(approachingSpeed <= 0f) {
-            return float.PositiveInfinity;
+            return;
         }
 
-        float distance = Mathf.Abs(o_attackPoint - attackFocusPoint);
-        return distance / approachingSpeed;
+        float distanceFromOppo = Mathf.Abs(ans[o_Team].attackFocusPoint - ans[ourTeam].defensiveFocusPoint);
+        float distanceFromOur = Mathf.Abs(ans[ourTeam].attackFocusPoint - ans[o_Team].defensiveFocusPoint);
+
+        ans.firstTimeToContact = Mathf.Min(distanceFromOppo, distanceFromOur) / approachingSpeed;
+    }
+    internal static float GetAttackPosition(IEntity entity) {
+        float range = Mathf.Max(0f, entity[ST.Range]);
+        return entity.team == Team.Left ? entity.gridPos.x + range : entity.gridPos.x - range;
     }
     IEntity FindLaneLeader(IEntity[] entities, Team team) {
         float farthest = float.MinValue;
@@ -220,7 +231,7 @@ public partial class EnemyManager {
         return closeDistance / moveSpeed;
     }
     float EstimateApproachTime(TeamSnapshot o_assessment, IEntity target) {
-        float closeDistance = Mathf.Abs(o_assessment.attackFocusPoint - target.gridPos.x);
+        float closeDistance = Mathf.Abs(o_assessment.defensiveFocusPoint - target.gridPos.x);
         return closeDistance / o_assessment.avgMoveSpeed;
     }
 }

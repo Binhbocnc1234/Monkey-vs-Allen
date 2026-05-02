@@ -1,0 +1,5 @@
+có 3 loại action:
+
+Upgrade action: gồm 1 tham số duy nhất là lookahead
+
+BundleDecision: gồm 3 tham số là lookahead, lane và usedCards: List<IBattleCard>

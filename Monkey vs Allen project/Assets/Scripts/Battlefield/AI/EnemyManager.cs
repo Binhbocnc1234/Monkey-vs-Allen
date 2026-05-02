@@ -76,8 +76,8 @@ public partial class EnemyManager : Singleton<EnemyManager> {
         int usedCount = 0;
         int usedCost = 0;
         List<string> usedCardNames = new();
-        for(int i = 0; i < nowBundle.actions.Count; ++i) {
-            IBattleCard card = nowBundle.actions[i];
+        for(int i = 0; i < nowBundle.usedCards.Count; ++i) {
+            IBattleCard card = nowBundle.usedCards[i];
             Vector2Int spawnPos = new Vector2Int(grid.width - 1, nowBundle.lane);
             // Re-validate at execution time because board/resource state can change during this frame.
             if(card.CanUseCard(spawnPos) == false) { continue; }
@@ -113,7 +113,7 @@ public partial class EnemyManager : Singleton<EnemyManager> {
             float lookahead = LOOKAHEAD_SECONDS[i];
             int futureResource = EstimateEnemyResourceAfter(lookahead);
             BundleDecision candidate = FindBestUseCardBundle(lookahead, futureResource, false);
-            if(candidate.actions.Count > 0) {
+            if(candidate.usedCards.Count > 0) {
                 bundleCandidates.Add(candidate);
             }
 
@@ -176,8 +176,8 @@ public partial class EnemyManager : Singleton<EnemyManager> {
                 float score = EvaluateBundle(picked, GetAssessment(lane, lookahead));
                 if(score <= best.score) { continue; }
 
-                best.actions.Clear();
-                best.actions.AddRange(picked);
+                best.usedCards.Clear();
+                best.usedCards.AddRange(picked);
                 best.cost = totalCost;
                 best.score = score;
                 best.lane = lane;
@@ -195,7 +195,7 @@ public partial class EnemyManager : Singleton<EnemyManager> {
         foreach(IBattleCard card in pickeds) {
             totalBundleDanger += card.GetSO().entitySO.prefab.GetComponent<IEntity>().GetAssessPoint(APType.Danger);
         }
-        float distanceFactor = Mathf.Abs(EnumConverter.GetBasePosition(ourTeam) - assessment[ourTeam].attackFocusPoint) / IGrid.Ins.width;
+        float distanceFactor = Mathf.Abs(EnumConverter.GetBasePosition(ourTeam) - assessment[ourTeam].defensiveFocusPoint) / IGrid.Ins.width;
         float ourPower = totalBundleDanger * totalBundleDefend * TeamSnapshot.GetUnitCountDebuff(pickeds.Count);
         ourPower += assessment[ourTeam].power * distanceFactor;
         float correlation = assessment[o_Team].power / ourPower;
@@ -274,7 +274,11 @@ public partial class EnemyManager : Singleton<EnemyManager> {
         }
         return true;
     }
-
+    /// <summary>
+    /// Tính toán thiệt hại do việc chờ quá lâu
+    /// </summary>
+    /// <param name="lookAhead"></param>
+    /// <returns></returns>
     float GetUrgency(float lookAhead) {
         // Aggregate lane pressure and weighted protection demand into one anti-wait scalar.
         float urgency = 0f;

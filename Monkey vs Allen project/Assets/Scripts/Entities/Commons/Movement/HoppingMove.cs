@@ -16,7 +16,7 @@ public class HoppingMove : Move, IInitialize {
     public void Initialize() {
         startPos = e.gridPos;
         groundY = startPos.y;
-        hopDistance = e.GetRealMoveSpeed() * (hopDuration + pauseBetweenHops);
+        hopDistance = GetUnityMoveSpeed(e) * (hopDuration + pauseBetweenHops);
         pauseTimer = new Timer(pauseBetweenHops, true);
         pauseTimer.Reset(); // start initial pause
         jumping = false;

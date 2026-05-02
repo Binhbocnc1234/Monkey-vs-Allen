@@ -9,6 +9,7 @@ public abstract class IGrid : Singleton<IGrid>{
     public ICell[,] cells;
     public Bound bounds;
     public bool[] openLanes;
+    public abstract void Initialize(int width, bool[] openLanes);
     public abstract bool IsValidGridPosition(float x, float y);
     public abstract Vector2 GridToWorldPosition(Vector2 gridPos);
     public abstract Vector2 GridToWorldPosition(float x, float y);

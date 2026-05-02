@@ -49,7 +49,7 @@
     <Analyzer Include="D:\UnityEditor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Battlefield\CardManager.cs" />
+    <Compile Include="Assets\Scripts\Battlefield\BattleCardManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\InsuffientBananaTutorial.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\Cloud.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\CloudManager.cs" />
@@ -62,8 +62,6 @@
     <Compile Include="Assets\Scripts\Battlefield\GameConfig.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Prize.cs" />
     <Compile Include="Assets\Scripts\Battlefield\Tutorial\TextTutorial.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\LoadingSceneManager.cs" />
-    <Compile Include="Assets\Scripts\Battlefield\SOAdjuster.cs" />
     <Compile Include="Assets\Scripts\Battlefield\LevelInitializer\PrimalBreachEnviroment.cs" />
     <Compile Include="Assets\Scripts\Battlefield\EventManager.cs" />
     <Compile Include="Assets\Scripts\Battlefield\GameManager.cs" />

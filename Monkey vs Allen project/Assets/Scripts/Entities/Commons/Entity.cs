@@ -25,7 +25,7 @@ public class Entity : IEntity {
     public override AnimatorEvent GetAnimatorEvent() => model.Event;
     public override EntitySO GetSO() => SORegistry.Get<EntitySO>(soId);
     public override float GetHealthPercentage() => Stats[ST.Health] / Stats[ST.MaxHealth];
-    public override float GetRealMoveSpeed() => Stats[ST.MoveSpeed] * IGrid.CELL_SIZE / 4;
+    public override float GetRealMoveSpeed() => this[ST.MoveSpeed] / 4;
     protected virtual void Awake() { //Không gọi khi chưa vào màn chơi
         tribes = new();
         model.entity = this;

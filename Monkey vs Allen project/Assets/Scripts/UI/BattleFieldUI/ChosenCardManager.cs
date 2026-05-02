@@ -8,25 +8,31 @@ using UnityEngine;
 public class ChosenCardManager : CardUIManager<BattleCardUI>
 {
     [ReadOnly] public int lastActiveCardIndex = -1;
-    protected override void Awake(){
-        SingletonRegister.Register(this);
+    protected override void Awake() {
         base.Awake();
+        SingletonRegister.Register(this);
+
     }
-    public CardUI AddCard(CardSO so){
+    /// <summary>
+    /// Hàm này chỉ có mỗi OwnedCardManager sử dụng
+    /// </summary>
+    internal CardUI AddCard(CardSO so) {
         lastActiveCardIndex++;
         cardUIs[lastActiveCardIndex].ApplyCardSO(so);
         return cardUIs[lastActiveCardIndex];
     }
+
     public override void SetReferencedList(List<CardSO> cardSOs) {
         base.SetReferencedList(cardSOs);
         lastActiveCardIndex = cardSOs.Count - 1;
     }
-    protected override void OnCardClicked(CardUI _chosenCardUI) {
+    protected override void OnCardClicked(BattleCardUI _chosenCardUI) {
         BattleCardUI chosenCardUI = _chosenCardUI.GetComponent<BattleCardUI>();
-        if (BattleInfo.gameState == GameState.ChoosingCard){
+        if(BattleInfo.gameState == GameState.ChoosingCard) {
+            if(BattleInfo.levelSO.choosenCardsBySystem.Contains(_chosenCardUI.so)) return;
             BattleInfo.GetChosenCardSOs().Remove(_chosenCardUI.so);
             CardUI correspondingOwnedCardUI = SingletonRegister.Get<OwnedCardManager>().FindCardUIBySO(chosenCardUI.so);
-            correspondingOwnedCardUI.RemoveGreyOut(); 
+            correspondingOwnedCardUI.RemoveGreyOut();
             chosenCardUI.RemoveCardSO();
             //If removed card is from middle, push the CardUIs behind forward 1 step to fill the gap
             for(int i = chosenCardUI.index + 1; i <= lastActiveCardIndex; ++i) {
@@ -34,6 +40,16 @@ public class ChosenCardManager : CardUIManager<BattleCardUI>
             }
             cardUIs[lastActiveCardIndex].RemoveCardSO();
             lastActiveCardIndex--;
+        }
+    }
+    /// <summary>
+    /// Called after enter gamestate: Fighting
+    /// </summary>
+    public void SetControlTeam(Team team) {
+        int i = 0;
+        foreach(IBattleCard battleCard in BattleInfo.teamDict[team].cards) {
+            cardUIs[i].SetBattleCard(battleCard);
+            i++;
         }
     }
 }

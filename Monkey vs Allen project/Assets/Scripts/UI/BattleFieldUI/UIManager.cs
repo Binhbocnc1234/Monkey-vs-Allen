@@ -22,7 +22,27 @@ public class UIManager : Singleton<UIManager>
         tryAgainUI.gameObject.SetActive(false);
     }
     public void InitChoosingCard(){
+        if(CustomSceneManager.isFreePlay) {
+            InitChoosingCardImmediately();
+            return;
+        }
         StartCoroutine(InitChoosingCardCoroutine());
+    }
+    void InitChoosingCardImmediately(){
+        freePlayUI.gameObject.SetActive(true);
+        BananaCounterUI.Ins.Initialize();
+        levelUI.InitializeFreePlay();
+        PrepareUI.Ins.gameObject.SetActive(false);
+        selectedCardScrollbar.value = 0;
+        SlidingCamera.Ins.enable = false;
+        GridCamera.Ins.MoveTowardEnemyHouse();
+        // GridCamera.Ins.FinishMotionImmediately();
+        foreach(Transform child in hideShowManager.GetObject("rightPanel").transform) {
+            if (child.GetComponent<SeeBattleFieldUI>() != null) {
+                child.gameObject.SetActive(false);
+            }
+        }
+        hideShowManager.ShowAll();
     }
     public IEnumerator InitChoosingCardCoroutine(){
         freePlayUI.gameObject.SetActive(false);

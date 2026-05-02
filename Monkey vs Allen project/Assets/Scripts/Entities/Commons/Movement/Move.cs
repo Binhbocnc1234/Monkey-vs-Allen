@@ -47,5 +47,6 @@ public abstract class Move : IBehaviour, IInterruptable, IOnApply {
         }
         return false;
     }
+    protected static float GetUnityMoveSpeed(IEntity e) => e.GetRealMoveSpeed() * IGrid.CELL_SIZE;
     public override int GetPriority() => 1;
 }

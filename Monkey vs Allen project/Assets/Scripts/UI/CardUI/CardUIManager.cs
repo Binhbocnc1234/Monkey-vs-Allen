@@ -11,9 +11,7 @@ public abstract class CardUIManager<T> : MonoBehaviour where T : CardUI {
         if(container == null) {
             container = this.transform;
         }
-        foreach(Transform tr in container) {
-            tr.gameObject.SetActive(false);
-        }
+        container.DestroyAllChildren();
         for(int i = 0; i < 10; ++i){
             cardUIs.Add(Instantiate(prefab, transform.position, Quaternion.identity, container));
             int index = i;
@@ -25,7 +23,6 @@ public abstract class CardUIManager<T> : MonoBehaviour where T : CardUI {
         if(cardSOs.Count == 0) {
             Debug.Log("SetReferencedList: Warning: cardSO has no elements!");
         }
-        prefab.gameObject.SetActive(false);
         int i = 0;
         foreach(CardSO cardSO in cardSOs){
             cardUIs[i].ApplyCardSO(cardSO);
@@ -45,7 +42,7 @@ public abstract class CardUIManager<T> : MonoBehaviour where T : CardUI {
         Debug.LogError($"Cannot find CardUI with so : {so.name}");
         return null;
     }
-    protected virtual void OnCardClicked(CardUI cardUI) { }
+    protected virtual void OnCardClicked(T cardUI) { }
 }
 
 public class CardUIManager : CardUIManager<CardUI>{

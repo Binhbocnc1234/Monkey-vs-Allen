@@ -10,8 +10,12 @@ public class ChangeFactionUI : Singleton<ChangeFactionUI> {
     public void OnClick() {
         isMonkey = !isMonkey;
         factionTMP.text = isMonkey ? "Monkey" : "Alien";
-        BattleInfo.chosenTeam = isMonkey ? Team.Left : Team.Right;
+        Team chosenTeam = isMonkey ? Team.Left : Team.Right;
+        BattleInfo.chosenTeam = chosenTeam;
+        SingletonRegister.Get<ChosenCardManager>().SetReferencedList(BattleInfo.teamDict[chosenTeam].chosenCardSOs);
         SingletonRegister.Get<OwnedCardManager>().SetReferencedList(PlayerData.GetOwnedCard(isMonkey));
-        SingletonRegister.Get<ChosenCardManager>().SetReferencedList(BattleInfo.GetChosenCardSOs());
+        if (BattleInfo.gameState == GameState.Fighting) {
+            SingletonRegister.Get<ChosenCardManager>().SetControlTeam(BattleInfo.chosenTeam);
+        }
     }
 }

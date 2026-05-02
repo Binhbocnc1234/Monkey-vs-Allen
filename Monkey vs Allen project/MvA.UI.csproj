@@ -64,7 +64,6 @@
     <Compile Include="Assets\Scripts\UI\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\SpeedUpUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\SkillUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChooseCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\StatUIPool.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIAppearance.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI\BattleCardUI.cs" />
@@ -73,6 +72,7 @@
     <Compile Include="Assets\Scripts\UI\MyButton.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\BattleCardUI\PointerUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChooseCard_LetsRockUI.cs" />
     <Compile Include="Assets\Scripts\UI\Arrow.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUIEditor.cs" />
     <Compile Include="Assets\Scripts\UI\CardUI\CardUI.cs" />
@@ -89,7 +89,6 @@
     <Compile Include="Assets\Scripts\UI\Almanac\AlmanacCardUI.cs" />
     <Compile Include="Assets\Scripts\UI\BattleFieldUI\ChosenCardManager.cs" />
     <Compile Include="Assets\Scripts\UI\DeckUI.cs" />
-    <Compile Include="Assets\Scripts\UI\BattleFieldUI\LetsRockUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\TraitUI.cs" />
     <Compile Include="Assets\Scripts\UI\NewCard\DescriptionHook.cs" />
   </ItemGroup>

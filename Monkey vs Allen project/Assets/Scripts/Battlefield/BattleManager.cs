@@ -14,17 +14,10 @@ public class BattleManager : Singleton<BattleManager> {
     [SerializeField] private EntitySO targetMonkey, targetAllen;
     public Entity targetMonkeyPrefab, targetAllenPrefab;
     public UIManager uiManager;
-    public GameObject freePlayUI;
-    private GridSystem grid;
+    private IGrid grid;
     private List<Entity> demoEnemies = new List<Entity>();
     void Start() {
-        if(CustomSceneManager.isFreePlay) {
-            this.enabled = false;
-            FreePlayManager.Ins.Initialize();
-        }
-        else {
-            Initialize();
-        }
+        Initialize();
     }
     void Update() {
         if (BattleInfo.gameState == GameState.Fighting) {
@@ -37,9 +30,10 @@ public class BattleManager : Singleton<BattleManager> {
             Debug.Log("[BattleManager] Using defaultLevelSO");
             BattleInfo.Initialize(defaultLevelSO);
             levelSO = defaultLevelSO;
+            if(levelSO.name == "Free Play Config") CustomSceneManager.isFreePlay = true;
         }
 
-        grid = GridSystem.Ins;
+        grid = IGrid.Ins;
         grid.Clear();
         grid.Initialize(levelSO.gridWidth, levelSO.openLanes);
 
@@ -50,23 +44,17 @@ public class BattleManager : Singleton<BattleManager> {
         // Initialize enviroment
         PlaceInitializerMapSO placeMap = SORegistry.Get<PlaceInitializerMapSO>()[0];
         placeMap.initializers[levelSO.place].Execute(levelSO);
-        // Place targetMonkeys, targetAliens, and set win/lose condition
-        for(int y = 0; y < IGrid.Ins.height; ++y) {
-            if(IGrid.Ins.openLanes[y] == false) continue;
-            IEntity tM = EContainer.Ins.CreateEntity(targetMonkey, 0, y, Team.Left, 1);
-            tM.OnEntityDeath += () => CheckLose(tM);
-            IEntity tA = EContainer.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 1, y, Team.Right, 1);
-            tA.OnEntityDeath += () => CheckWin(tA);
-        }
+
+        CreateTarget();
 
         foreach(LevelInitializerSO initializerSO in levelSO.levelInitializerSOs) {
             initializerSO.Execute(levelSO);
         }
 
-        if (levelSO.modifier != null) {
+        if(levelSO.modifier != null) {
             Instantiate(levelSO.modifier);
         }
-    
+
         //Prize: reward after finishing level
         Prize.Ins.gameObject.SetActive(false);
         ShowEnemy();
@@ -77,10 +65,22 @@ public class BattleManager : Singleton<BattleManager> {
         BattleInfo.OnStateChanged += () => ChangeState(BattleInfo.gameState);
         BattleInfo.ChangeState(GameState.ChoosingCard);
     }
+    /// <summary>
+    /// // Place targetMonkeys, targetAliens, and set win/lose condition
+    /// </summary>
+    public void CreateTarget() {
+        for(int y = 0; y < IGrid.Ins.height; ++y) {
+            if(IGrid.Ins.openLanes[y] == false) continue;
+            IEntity tM = IEntityRegistry.Ins.CreateEntity(targetMonkey, 0, y, Team.Left, 1);
+            if (!CustomSceneManager.isFreePlay) tM.OnEntityDeath += () => CheckLose(tM);
+            IEntity tA = IEntityRegistry.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 1, y, Team.Right, 1);
+            if (!CustomSceneManager.isFreePlay) tA.OnEntityDeath += () => CheckWin(tA);
+        }
+    }
     public void ChangeState(GameState state){
         if (state == GameState.Fighting){
-            GetComponent<CardManager>().Initialize();
-            GetComponent<CardManager>().SetControlTeam(Team.Left);
+            BattleCardManager.Ins.CreateBattleCard();
+            SingletonRegister.Get<ChosenCardManager>().SetControlTeam(BattleInfo.chosenTeam);
             EnemyManager.Ins.Initialize();
             ClearDemoEnemy();
             SlidingCamera.Ins.enable = true;

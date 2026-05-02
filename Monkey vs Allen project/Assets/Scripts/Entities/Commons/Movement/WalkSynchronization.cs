@@ -12,7 +12,7 @@ public class WalkSynchronization : Move, IInitialize {
     }
     public override void UpdateBehaviour() {
         base.UpdateBehaviour();
-        e.model.animator.SetFloat("MoveSpeed", e.GetRealMoveSpeed() / originalSpeed);
+        e.model.animator.SetFloat("MoveSpeed", GetUnityMoveSpeed(e) / originalSpeed);
     }
 }
 

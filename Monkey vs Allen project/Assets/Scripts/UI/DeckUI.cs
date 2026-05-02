@@ -21,7 +21,7 @@ public class DeckUI : Singleton<DeckUI> {
     [SerializeField] private DeckDisplay deckDisplayPrefab;
     public event Action OnDeckNameDeselected;
     void Start() {
-        ownedCardManager.SetReferencedList(PlayerData.GetOwnedCard().ToList<CardSO>());
+        ownedCardManager.SetReferencedList(PlayerData.GetOwnedCard());
         SetState(State.DeckPreview);
         foreach(Deck deck in PlayerData.decks) {
             DeckDisplay newDisplay = Instantiate(deckDisplayPrefab, deckPreviewsContainer);

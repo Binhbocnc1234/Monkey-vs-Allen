@@ -7,49 +7,51 @@ using System.Collections;
 
 public class BattleCardUI : CardUI {
     public Image cooldownMask;
-    public IBattleCard card;
+    [SerializeField] private IBattleCard battleCard;
     protected RectTransform cooldownMaskRect;
     protected float initialCooldownHeight;
-    [SerializeField] private Button button;
     protected override void Start() {
         base.Start();
         cooldownMask.gameObject.SetActive(false);
         cooldownMaskRect = cooldownMask.rectTransform;
         initialCooldownHeight = cooldownMaskRect.rect.height;
-        button.interactable = false;
         BattleInfo.OnStateChanged += () => {
-            if(BattleInfo.gameState == GameState.Fighting) {
-                button.interactable = true;
-                cooldownMask.gameObject.SetActive(true);
-            }
+            cooldownMask.gameObject.SetActive(BattleInfo.gameState == GameState.Fighting);
         };
-        OnClickEvent += GetCardAvailability;
+        OnClickEvent += () => {
+            if (BattleInfo.gameState == GameState.Fighting && battleCard != null)   GetCardAvailability();
+        };
     }
     void GetCardAvailability() {
-        SelectMessage selectMessage = card.CanSelectCard();
+        SelectMessage selectMessage = battleCard.CanSelectCard();
         if(selectMessage == SelectMessage.InsuffientBanana) {
             CostInsuffientAnimation.Instantiate(this);
         }
         else if(selectMessage == SelectMessage.CanSelect) {
-            PointerUI.Ins.Initialize(card);
+            PointerUI.Ins.Initialize(battleCard);
         }
     }
     void Update() {
-        if (card != null)
+        if (BattleInfo.gameState == GameState.Fighting && battleCard != null)
         {
             UpdateBattleCard();
         }
     }
     void UpdateBattleCard() {
-        RectTransformExtensions.SetTop(cooldownMaskRect, initialCooldownHeight * card.cooldownTimer.GetPercent());
-        if(card.originalCost == card.cost) {
+        float percent = battleCard.cooldownTimer.GetPercent();
+        RectTransformExtensions.SetTop(cooldownMaskRect, initialCooldownHeight * percent);
+        if(battleCard.originalCost == battleCard.cost) {
             appearance.cost.color = Color.white;
         }
-        else if(card.cost > card.originalCost) {
+        else if(battleCard.cost > battleCard.originalCost) {
             appearance.cost.color = Color.red;
         }
         else {
             appearance.cost.color = Color.green;
         }
+    }
+    public void SetBattleCard(IBattleCard battleCard) {
+        this.battleCard = battleCard;
+        ApplyCardSO(battleCard.GetSO());
     }
 }

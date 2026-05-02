@@ -5,14 +5,23 @@ using UnityEngine;
 
 public class GridCamera : MyCamera
 {
-    public static new GridCamera Ins { get; private set; }
-    private GridSystem grid;
-    protected new void Awake() {
-        Ins = this;
+    private static GridCamera _Ins;
+    public static new GridCamera Ins {
+        get {
+            if (_Ins == null)
+            {
+                _Ins = FindObjectOfType<GridCamera>();
+                if (_Ins == null){
+                    Debug.LogError($"Not found singleton of {typeof(GridCamera)}");
+                }
+            }
+            return _Ins;
+        }
     }
-    protected override void Start() {
-        base.Start();
-        grid = GridSystem.Ins;
+    private IGrid grid;
+    protected override void Awake() {
+        base.Awake();
+        grid = IGrid.Ins;
     }
     public void MoveTowardPlayerHouse() {
         SetTarget(new Vector3(3, 5, -10));

@@ -47,7 +47,7 @@ public class GridSystem : IGrid {
     /// <summary>
     /// Hàm này chỉ tạo cell trống, không thực sự tạo battlefield bài bản cho từng level
     /// </summary>
-    public void Initialize(int width, bool[] openLanes)
+    public override void Initialize(int width, bool[] openLanes)
     {
         Ins = this;
         this.width = width;

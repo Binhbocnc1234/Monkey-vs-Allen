@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class CardManager : Singleton<CardManager>, ICardContainer
+public class BattleCardManager : Singleton<BattleCardManager>, ICardContainer
 {
     public Transform container;
     public Transform enemyContainer;
     protected override void Awake() {
         base.Awake();
         ICardContainer.Ins = this;
-        BattleInfo.OnChosenTeamChanged += () => {
-            if (BattleInfo.gameState == GameState.Fighting) {
-                SetControlTeam(BattleInfo.chosenTeam);
-            }
-        };
     }
-    public void Initialize() {
+    public void CreateBattleCard() {
         container.DestroyAllChildren();
         enemyContainer.DestroyAllChildren();
+        BattleInfo.teamDict[Team.Left].cards.Clear();
+        BattleInfo.teamDict[Team.Right].cards.Clear();
         foreach(CardSO so in BattleInfo.teamDict[Team.Left].chosenCardSOs) {
             GameObject newObj = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().emptyGameObject, container);
             newObj.name = $"Battle Card - {so.name}";
@@ -32,12 +29,6 @@ public class CardManager : Singleton<CardManager>, ICardContainer
             BattleCard battleCard = newObj.AddComponent<BattleCard>();
             battleCard.Initialize(so, Team.Right, PlayerData.GetCardDataById(so.id).level);
             BattleInfo.teamDict[Team.Right].cards.Add(battleCard);
-        }
-    }
-    public void SetControlTeam(Team team) {
-        foreach(Transform tr in GetContainer(team)) {
-            BattleCard card = tr.GetComponent<BattleCard>();
-            SingletonRegister.Get<ChosenCardManager>().FindCardUIBySO(card.GetSO()).card = card;
         }
     }
     Transform GetContainer(Team team) {

@@ -18,7 +18,7 @@ public class CardUI : MonoBehaviour,
     [HideInInspector] public RectTransform rect;
     public bool haveAppearanceIfEmpty;
     [SerializeField] private bool isGreyOut = false;
-    public CardSO so;
+    public CardSO so{ get; private set; }
     public CardUIAppearance appearance;
     [ShowIf("haveAppearanceIfEmpty")] public RectTransform emptyRect;
     // public TMP_Text cost;

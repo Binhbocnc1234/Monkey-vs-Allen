@@ -4,13 +4,13 @@ using UnityEngine;
 
 [System.Serializable]
 public class TeamSnapshot {
-    public float actualFocusPoint;
-    public float attackFocusPoint;
-    public float danger;
-    public float survivability;
-    public int unitCount;
+    public float attackFocusPoint = float.NaN;
+    public float defensiveFocusPoint = float.NaN;
+    public float danger = 0;
+    public float survivability = 0;
+    public int unitCount = 0;
     public float totalNeedProtection = 0;
-    public float avgMoveSpeed;
+    public float avgMoveSpeed = 0;
     private float _power = -1;
     public float power {
         get {
@@ -31,6 +31,7 @@ public class TeamSnapshot {
 public class LaneAssessment {
     public int lane;
     public float lookAhead;
+    public float firstTimeToContact = float.PositiveInfinity, contactPos = float.NaN;
     public TeamSnapshot leftSide = new(), rightSide = new();
     public TeamSnapshot this[Team team] {
         get {
@@ -56,19 +57,19 @@ public abstract class AIAction{
 }
 
 public class BundleDecision : AIAction {
-    public List<IBattleCard> actions = new();
+    public List<IBattleCard> usedCards = new();
     public int lane;
     public void CopyFrom(List<IBattleCard> src, float score) {
-        actions.Clear();
-        actions.AddRange(src);
+        usedCards.Clear();
+        usedCards.AddRange(src);
         this.score = score;
         this.cost = 0;
-        foreach(var cardAction in actions) {
+        foreach(var cardAction in usedCards) {
             this.cost += cardAction.cost;
         }
     }
     protected override void Execute() {
-        foreach(var battleCard in actions) {
+        foreach(var battleCard in usedCards) {
             battleCard.UseCard(new Vector2Int(-1, lane));
         }
     }

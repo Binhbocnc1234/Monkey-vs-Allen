@@ -296,8 +296,8 @@
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\AssemblyInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\RenderGraph\Debug\RenderGraphDebugParams.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\Debugging\IDebugDisplaySettings.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\Common\CommonStructs.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\Utilities\DelegateUtility.cs" />
+    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\Common\CommonStructs.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\RenderGraph\Debug\RenderGraph.DebugData.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\Utilities\GPUSort\GPUSort.Data.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@84bf82d10e47\Runtime\RenderGraph\RenderGraphObjectPool.cs" />
