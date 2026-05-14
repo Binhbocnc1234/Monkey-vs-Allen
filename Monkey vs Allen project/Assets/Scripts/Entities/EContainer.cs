@@ -4,18 +4,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
-public class EContainer : IEntityRegistry{
-    public new static EContainer Ins{ get; private set; }
+public interface IPrefabRegistry {
+    public void CreatePrefab(IEntity e);
+}
+public class EContainer : IEntityRegistry {
+    public new static EContainer Ins { get; private set; }
     public Transform holder;
     public EntitySO constructionMonkey, constructionAlien;
+    private IPrefabRegistry prefabRegistry;
     // List of entities for each lane (lane count: GameConstants.GRID_HEIGHT)
     private List<List<Entity>> entities = new List<List<Entity>>();
     private List<Entity> targetMonkeys = new List<Entity>(), targetEnemies = new List<Entity>();
     protected override void Awake() {
-        Ins = this;
         base.Awake();
+        Ins = this;
     }
-    public void Initialize() {
+    public void Initialize(IPrefabRegistry prefabRegistry) {
         // Initialize the list for each lane
         for(int i = 0; i < IGrid.Ins.height; i++) {
             entities.Add(new List<Entity>());
@@ -49,7 +53,7 @@ public class EContainer : IEntityRegistry{
             Debug.LogError("[EContainer] parameter 'so' is null!");
             return null;
         }
-        else if (so.prefab == null) {
+        else if(so.prefab == null) {
             Debug.LogError("[EContainer] so.prefab is null!");
             return null;
         }
@@ -57,6 +61,13 @@ public class EContainer : IEntityRegistry{
         Entity e = Instantiate(so.prefab.GetComponent<Entity>(), worldPos, Quaternion.identity, holder);
         // List<string> unlockedSkills = so.unlockedSkillInFirstLevel.Select(e => e.name).ToList();
         e.Initialize(so, team, x, lane, level);
+        // if (prefabRegistry != null) {
+        //     prefabRegistry.CreatePrefab(e);
+        // }
+        foreach(Transform tr in e.transform)
+        {
+            if (tr.GetComponent<IModel>() != null) Destroy(tr.gameObject);
+        }
         entities[lane].Add(e);
         if(e.GetSO().tribes.Contains(Tribe.Target)) {
             if(e.GetSO().tribes.Contains(Tribe.Monkey)) {
@@ -95,9 +106,9 @@ public class EContainer : IEntityRegistry{
     }
     public override IEntity[] GetEntities() {
         var result = new List<IEntity>();
-        foreach (var group in entities)
-            foreach (var e in group)
-                if (e != null)
+        foreach(var group in entities)
+            foreach(var e in group)
+                if(e != null)
                     result.Add(e);
         return result.ToArray();
     }
@@ -142,7 +153,7 @@ public class EContainer : IEntityRegistry{
     //     IEntity result = entity;
     //     foreach(IEntity e in entities[entity.lane]) {
     //         if(e.Distance(entity) < result.Distance) {
-                
+
     //         }
     //     }
     //     return result;

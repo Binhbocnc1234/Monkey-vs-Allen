@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Entity))]
-public class BasicAlienAppearance : MonoBehaviour
+public class BasicAlienAppearance : EntityAppearance
 {
     public DropBodyPart arm;
     public SpriteRenderer reaction;
@@ -11,9 +10,7 @@ public class BasicAlienAppearance : MonoBehaviour
     public bool enableHandDrop = false;
     private Sprite old_reaction;
     private bool isFirstTimeHalfHealth = false;
-    Entity e;
-    protected void Awake(){
-        e = GetComponent<Entity>();
+    void Awake(){
         old_reaction = reaction.sprite;
     }
     void Update(){

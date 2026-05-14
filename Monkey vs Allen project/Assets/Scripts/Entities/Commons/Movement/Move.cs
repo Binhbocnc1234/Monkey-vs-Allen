@@ -2,14 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 
-public abstract class Move : IBehaviour, IInterruptable, IOnApply {
-    public virtual void OnApply() {
-        e.model.PlayAnimation("Walk");
-    }
+public abstract class Move : IBehaviour, IInterruptable {
     protected int GetNormalizedDirection() {
         return e.team == Team.Left ? 1 : -1;
     }
-    public override void UpdateBehaviour() {
+    public override void UpdateBehaviour(float deltaTime) {
         if(CheckNearbyAllies()) e.ReturnToIdleBehaviour();
     }
     public override List<APModifier> GetAssessPoint() {
@@ -47,6 +44,7 @@ public abstract class Move : IBehaviour, IInterruptable, IOnApply {
         }
         return false;
     }
-    protected static float GetUnityMoveSpeed(IEntity e) => e.GetRealMoveSpeed() * IGrid.CELL_SIZE;
+    public static float GetUnityMoveSpeed(IEntity e) => e.GetRealMoveSpeed() * IGrid.CELL_SIZE;
     public override int GetPriority() => 1;
+    public override string GetAnimatorStateName() => "Walk"; 
 }

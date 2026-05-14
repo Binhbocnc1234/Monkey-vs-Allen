@@ -7,7 +7,7 @@ public abstract class CollisionBullet : Bullet {
         foreach(IEntity e in EContainer.Ins.GetEntitiesByLane(this.lane)) {
             if(e.team == this.team) continue;
             // distanceToTarget = GetDiffToBounds(transform.position, e.model.boxCollider.bounds);
-            if(IsCollidedWith(transform.position, e.model.boxCollider.bounds)) {
+            if(IsCollidedWith(transform.position, e.model.GetBound())) {
                 OnHit(e);
                 break;
             }

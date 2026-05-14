@@ -3,3 +3,86 @@ có 3 loại action:
 Upgrade action: gồm 1 tham số duy nhất là lookahead
 
 BundleDecision: gồm 3 tham số là lookahead, lane và usedCards: List<IBattleCard>
+
+WaitForFuture: thực thi khi thấy action trong tương lai có nhiều điểm hơn
+
+
+*Hệ thống simulation "tạm bợ"
+Ngữ cảnh: trên battlefield tồn tại nhiều lane, mỗi lane có nhiều FakeEntity, Mỗi FakeEntity chỉ có gridPos(gridPos.x, gridPos.y), moveSpeed, range(tầm bắn), danger, survivability. Tất nhiên rằng đánh giá Entity bằng 1 vài con số thì không đủ, nhưng cứ tạm bợ vậy đi
+Thực thi: cứ mỗi một vòng lặp, ở mỗi lane, nếu entity nào mà đủ tầm tấn công thì tấn công kẻ địch gần nhất bằng cách lấy target.survivability - attacker.attackPower/7
+Mỗi một vòng lặp đại diện cho 1 giây trôi qua
+
+Các bước ngắn trước khi trả lời:
+
+Liệt kê các thuật toán search truyền thống phù hợp với bài toán: spawn card + lane + resource/time.
+Cho mỗi thuật toán: mô tả ngắn, khi dùng, lợi/hại, yêu cầu triển khai.
+Kết luận đề xuất và next-step.
+Đề xuất thuật toán (tóm tắt ngắn)
+
+*Thuật toán recommended by AI
+Monte‑Carlo Tree Search (MCTS / UCT)
+
+Mô tả: xây cây các hành động (spawn, wait, upgrade), dùng rollout bằng simulator để ước lượng giá trị, chọn hành động theo UCT.
+Khi dùng: ngành nhiều ngẫu nhiên / không biết chính xác hành vi đối thủ; branching lớn nhưng rollout cheap.
+Ưu: xử lý tốt không chắc chắn, dễ dùng simulator hiện tại làm rollout.
+Nhược: tốn sim; cần giới hạn playouts / thời gian; cần move‑generation và policy để thu hẹp.
+Expectimax / Minimax (với pruning / alpha‑beta)
+
+Mô tả: cây minimax (our move / enemy move), expectimax nếu đối thủ stochastic.
+Khi dùng: nếu có mô hình tốt cho hành động đối thủ (hoặc giả định đối thủ rational).
+Ưu: quyết định có lý trí theo lý thuyết game.
+Nhược: branching * depth bùng nổ; cần reduce action space và định nghĩa state transition nhanh.
+Beam Search (best‑k expansion) + simulation
+
+Mô tả: mỗi bước mở rộng chỉ giữ top‑k node theo heuristic hoặc simulation ngắn; tiếp tục vài bước.
+Khi dùng: cần trade-off giữa breadth và depth trong thời gian giới hạn.
+Ưu: nhẹ, dễ tích hợp với simulator để đánh giá các node.
+Nhược: có thể bỏ qua đường đi tốt nếu beam quá nhỏ.
+Greedy / Best‑First with Local Search (hill‑climbing, simulated annealing)
+
+Mô tả: chọn hành động tốt nhất theo heuristic/sim; thử neighbor (thay một lá bài, thay lane); lặp vài bước.
+Khi dùng: yêu cầu latency rất thấp, cần cải tiến nhanh.
+Ưu: đơn giản, ít tính toán.
+Nhược: dễ mắc local optimum.
+Knapsack / Dynamic Programming (budgeted selection) + per‑lane simulation
+
+Mô tả: coi bài là bài toán knapsack (với cost = mana/time) để shortlist combos tối ưu theo cost; sau đó simulate shortlist.
+Khi dùng: khi muốn nhanh tìm tổ hợp hợp lệ theo tài nguyên.
+Ưu: cắt giảm mạnh không gian tổ hợp; tiết kiệm simulations.
+Nhược: không mô tả tương tác thời gian phức tạp (cooldown, spawn timing) nếu không mở rộng trạng thái.
+Monte‑Carlo (flat sampling / rollouts)
+
+Mô tả: sinh ngẫu nhiên nhiều kịch bản (kết hợp card + timing), simulate, chọn best average.
+Khi dùng: khi action space quá lớn cho cây, và rollout nhanh.
+Ưu: đơn giản, tốt cho parallelism.
+Nhược: cần nhiều rollouts để ổn định.
+Genetic / Evolutionary Algorithms (GA) cho combo tìm kiếm
+
+Mô tả: đại diện combo là cá thể; crosover/mutate; fitness = simulation score.
+Khi dùng: tối ưu dài hơi (offline) cho deck/tactic discovery.
+Ưu: tốt cho tìm không gian lớn, offline tuning.
+Nhược: chậm cho realtime; cần population lớn.
+Branch‑and‑Bound / A* style (sử dụng bound heuristics)
+
+Mô tả: mở rộng theo priority; dùng upper bound (ví dụ tổng sức mạnh tối đa có thể đạt) để prune.
+Khi dùng: khi có cách tính bound nhanh.
+Ưu: prune mạnh nếu bound chặt.
+Nhược: cần bound tốt; khó thiết kế.
+Kết hợp thực tế (khuyến nghị)
+
+Hybrid (practical): 1) knapsack/heuristic để shortlist candidate combos per lane → 2) dùng MCTS hoặc beam search trên không gian rút gọn, với rollout = current Simulator. Đây là balance tốt giữa chất lượng và chi phí.
+Nếu latency rất thấp: dùng greedy/beam với small beam (k=3..10) và cache results.
+Nếu muốn robust vs uncertain opponent: MCTS with opponent model / rollout policy.
+Công việc triển khai & tối ưu (ngắn)
+
+Giảm branching: macro‑actions (spawn bundle at once, “wait Xs” discrete), chỉ xem top‑N cards per lane.
+State copy cheap: dùng FakeEntity (đã có) và pooling. Tránh Instantiate trong rollout.
+Parallelize rollouts (Jobs / ThreadPool) nếu nhiều rollout.
+Caching transposition: hash state → cached score.
+Iterative deepening / time‑budgeted search: chạy search trong X ms per decision.
+Gợi ý tiếp theo — bạn muốn tôi:
+
+A) Cài MCTS skeleton dùng Simulator làm rollout (tôi implement).
+B) Cài Beam Search + knapsack shortlist pipeline.
+C) Viết benchmark so sánh Beam vs MCTS trên vài kịch bản.
+Chọn một phương án tôi sẽ bắt tay implement.

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class WalkSynchronization : Move, IInitialize {
+public class WalkSynchronization : EntityAppearance {
     public float strideLength; // in world unit
     public AnimationClip walkClip;
     private float originalSpeed;
-    public void Initialize() {
+    public override void Initialize() {
+        base.Initialize();
         originalSpeed = strideLength / walkClip.length;
     }
-    public override void UpdateBehaviour() {
-        base.UpdateBehaviour();
-        e.model.animator.SetFloat("MoveSpeed", GetUnityMoveSpeed(e) / originalSpeed);
+    void Update() {
+        GetComponent<Model>().animator.SetFloat("MoveSpeed", Move.GetUnityMoveSpeed(e) / originalSpeed);
     }
 }
 

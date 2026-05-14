@@ -11,10 +11,10 @@ using System.Linq;
 /// <summary>
 /// Position of model is adjusted so that it align well with grid system. Do not change model's position at runtime <br/>
 /// </summary>
-public class Model : MonoBehaviour {
+public class Model : MonoBehaviour, IModel {
     [Range(0f, 1f)]
     public float transitionTime;
-    [ReadOnly] public IEntity entity;
+    [ReadOnly] public IEntity e;
     public SortingGroup sortingGroup;
     public Animator animator;
     public AnimatorEvent Event;
@@ -24,9 +24,40 @@ public class Model : MonoBehaviour {
     public bool isFadeOut = false;
     public string currentStateName { get; private set; }
     private Vector3 initPosition;
-    void Awake() {
+    void Awake()
+    {
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         initPosition = transform.position;
+    }
+    public void AssignEntity(IEntity e) {
+        this.e = e;
+        this.sortingGroup.sortingOrder = 1 - e.lane;
+        if(e.team == Team.Right) {
+            transform.FlipLocalScaleX();
+        }
+        e.OnHealthChanged += (changedAmount) => {
+            if(changedAmount < 0) {
+                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                float weight = 0;
+                if(stateInfo.IsName("Attack")) {
+                    weight = 0.5f;
+                }
+                else if(stateInfo.IsName("Idle") || stateInfo.IsName("Walk")) {
+                    weight = 1f;
+                }
+                animator.SetLayerWeight(1, weight);
+                PlayAnimation("Hurt Layer.Hurt");
+            }
+        };
+        e.OnBehaviorActive += (behav) => {
+            PlayAnimation(behav.GetAnimatorStateName());
+            if(behav.GetAnimatorStateName() == "Attack") {
+                animator.SetFloat("AttackSpeed", e[ST.AttackSpeed] / e.GetSO().attackSpeed);
+            }
+        };
+        foreach(EntityAppearance appearance in GetComponents<EntityAppearance>()) {
+            appearance.Initialize();
+        }
     }
     public void SetColor(Color color) {
         foreach(var s in sprites) {
@@ -66,10 +97,14 @@ public class Model : MonoBehaviour {
             s.material = material;
         }
     }
-    public SpriteRenderer[] GetSprites() {
+    public SpriteRenderer[] GetSprites()
+    {
         sprites.RemoveAll(s => s == null);
         return sprites.ToArray();
     }
+    public Vector2 GetPosition() => transform.position;
+    public void SetPosition(Vector2 pos){ transform.position = pos; }
+    public Bounds GetBound() => boxCollider.bounds;
     void OnValidate() {
         
     }

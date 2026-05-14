@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TargetAppearance : MonoBehaviour
+public class TargetAppearance : EntityAppearance
 {
     public SpriteRenderer sign;
     public List<Sprite> targetSprites;
-    Entity e;
-    protected virtual void Awake() {
-        e = GetComponent<Entity>();
+    public override void Initialize() {
+        base.Initialize();
         e.OnHealthChanged += UpdateSign;
     }
     void UpdateSign(float healthAmount){

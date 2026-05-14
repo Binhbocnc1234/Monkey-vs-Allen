@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LobBullet : CollisionBullet{
     private float upwardVec;
-    public void Initialize(float damage, Entity owner, float upwardVec) {
+    public void Initialize(float damage, IEntity owner, float upwardVec) {
         base.Initialize(damage, owner);
         this.upwardVec = upwardVec;
     }

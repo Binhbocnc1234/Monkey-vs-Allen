@@ -6,7 +6,7 @@ public class RangedAttack : Attack {
     [Header("Range fields")]
     public StraightBullet bulletPrefab;
     public Transform firePoint;
-    protected Entity target;
+    protected IEntity target;
     protected override void MakeDamageInstantly() {
         StraightBullet newBullet = Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
         Debug.Log($"Bullet spawned at {newBullet.transform.position}");

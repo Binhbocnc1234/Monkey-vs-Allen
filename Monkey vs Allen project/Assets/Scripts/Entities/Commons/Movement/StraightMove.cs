@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Entity))]
 public class StraightMove : Move
 {
-    public override void UpdateBehaviour() {
-        base.UpdateBehaviour();
-        e.model.transform.Translate(new Vector2(GetUnityMoveSpeed(e) * Time.deltaTime * GetNormalizedDirection(), 0));
+    public override void UpdateBehaviour(float deltaTime) {
+        e.model.SetPosition(e.model.GetPosition() + new Vector2(GetUnityMoveSpeed(e) * deltaTime * GetNormalizedDirection(), 0));
     }
 }

@@ -5535,7 +5535,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1345870921}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6778,7 +6778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.105125, y: 0}
   m_AnchorMax: {x: 0.58453125, y: 0.9193303}
-  m_AnchoredPosition: {x: -177.7762, y: -24.684555}
+  m_AnchoredPosition: {x: -177.77621, y: -24.684555}
   m_SizeDelta: {x: 568.8593, y: 569.2817}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1241389425
@@ -9718,11 +9718,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41d96659236b4c418dba30ed5704da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ansAssess:
+  ans:
     lane: 0
     lookAhead: 0
+    firstTimeToContact: Infinity
+    contactPos: NaN
     leftSide:
-      actualFocusPoint: 0
+      attackFocusPoint: NaN
       defensiveFocusPoint: NaN
       danger: 0
       survivability: 0
@@ -9730,7 +9732,7 @@ MonoBehaviour:
       totalNeedProtection: 0
       avgMoveSpeed: 0
     rightSide:
-      actualFocusPoint: 0
+      attackFocusPoint: NaN
       defensiveFocusPoint: NaN
       danger: 0
       survivability: 0
@@ -9748,7 +9750,6 @@ MonoBehaviour:
   thinkingDelay: 2
   o_Team: 0
   ourTeam: 1
-  urgencies: []
   history: {fileID: 1786328011}
 --- !u!114 &1786328013
 MonoBehaviour:

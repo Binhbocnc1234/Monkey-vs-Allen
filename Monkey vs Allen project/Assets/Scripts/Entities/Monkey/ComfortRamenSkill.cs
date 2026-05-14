@@ -7,14 +7,17 @@ public class ComfortRamenSkill : Skill
 {
     public ComfortRamen bullet;
     public Transform firePoint;
+    public AnimationClip clip;
     private IEntity bestCandidate;
+    private Timer skillDuration;
     public override void Initialize() {
         base.Initialize();
-        e.GetAnimatorEvent().OnAnimationFinished += (info) => {
-            if (info.IsName("Skill 1")) {
-                OnAnimationFinished();
-            }
-        };
+        skillDuration = new Timer(clip.length, false);
+    }
+    public override void UpdateBehaviour(float deltaTime) {
+        if(skillDuration.Count(deltaTime)) {
+            OnAnimationFinished();
+        }
     }
     public override bool CanActive() {
         List<IEntity> candidates = new();

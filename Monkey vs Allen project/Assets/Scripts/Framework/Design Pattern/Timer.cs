@@ -16,11 +16,15 @@ public class Timer {
         SetCurTime(remainingTime - Time.deltaTime);
         return isEnd;
     }
+    public bool Count(float deltaTime) {
+        SetCurTime(remainingTime - deltaTime);
+        return isEnd;
+    }
     public void SetCurTime(float amount) {
         remainingTime = amount;
         if(remainingTime <= 0) {
             if(isReset) {
-                remainingTime = totalTime;
+                remainingTime += totalTime;
             }
             else {
                 remainingTime = 0;

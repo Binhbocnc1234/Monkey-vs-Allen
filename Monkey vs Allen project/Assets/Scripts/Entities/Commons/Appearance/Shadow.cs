@@ -17,6 +17,6 @@ public class Shadow : MonoBehaviour
     // Di chuyển Shadow bám theo Entity, chỉ thay đổi tọa độ x, tọa độ y giữ nguyên
     void Update()
     {
-        transform.position = new Vector2(linkedEntity.model.transform.position.x, transform.position.y);
+        transform.position = new Vector2(linkedEntity.model.GetPosition().x, transform.position.y);
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Battlefield\AI\AIManager(Forecast).cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\Battlefield\AI\AI document.txt" />
     <None Include="Assets\Scripts\Battlefield\AI\OldEnemyManager.txt" />
     <None Include="Assets\Scripts\Battlefield\AI\MvA.AI.asmdef" />
   </ItemGroup>

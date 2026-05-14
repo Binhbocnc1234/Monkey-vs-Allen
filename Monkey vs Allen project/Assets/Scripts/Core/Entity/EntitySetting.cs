@@ -4,4 +4,5 @@ public class EntitySetting {
     public float x;
     public Team team = Team.Left;
     public int level = 1;
+    public bool isCreatePrefab = true;
 }

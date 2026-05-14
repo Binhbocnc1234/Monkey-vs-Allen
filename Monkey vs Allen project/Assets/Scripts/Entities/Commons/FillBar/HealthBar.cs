@@ -8,7 +8,7 @@ public class HealthBar : FillBar {
     }
     void Update() {
         SetValue(e.GetHealthPercentage());
-        this.transform.position = new Vector2(e.model.transform.position.x,
-            e.model.boxCollider.bounds.max.y + 0.25f);
+        this.transform.position = new Vector2(e.model.GetPosition().x,
+            e.model.GetBound().max.y + 0.25f);
     }
 }

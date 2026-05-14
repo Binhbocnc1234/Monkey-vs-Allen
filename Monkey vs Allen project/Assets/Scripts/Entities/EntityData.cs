@@ -28,13 +28,3 @@ public class EntityData {
     }
     public EntitySO GetSO() => SORegistry.Get<EntitySO>(soId);
 }
-public abstract class BehaviourData {
-    public string id = "noId";
-    public float remainingTime;
-}
-public class YornInfinityArrowData : BehaviourData {
-    public int shotIndex;
-}
-public class MeleeAttackData : BehaviourData {
-    
-}

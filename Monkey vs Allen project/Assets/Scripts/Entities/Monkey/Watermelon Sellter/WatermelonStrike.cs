@@ -18,12 +18,12 @@ public class WatermelonStrike : Skill {
     }
     public override void Initialize() {
         base.Initialize();
-        e.model.Event.OnAnimationFinished += (info) => {
-            if (info.IsName($"Skill {skillIndex}")) {
-                // Create Watermelon bullet
-                GeneralPurposeContainer.Ins.CreateInstance(bigWatermelon, firePoint.position);
+        // e.model.Event.OnAnimationFinished += (info) => {
+        //     if (info.IsName($"Skill {skillIndex}")) {
+        //         // Create Watermelon bullet
+        //         GeneralPurposeContainer.Ins.CreateInstance(bigWatermelon, firePoint.position);
                 
-            }
-        };
+        //     }
+        // };
     }
 }

@@ -31,7 +31,7 @@ public class BananaTree : IBehaviour, IOnApply
     public override bool CanActive() {
         return true;
     }
-    public override void UpdateBehaviour() {
+    public override void UpdateBehaviour(float deltaTime) {
         if(state == State.Growing) { //Growing
             bananaRenderer.transform.localScale = Vector3.one * cooldownTimer.GetPercent();
             if(cooldownTimer.Count()) {
@@ -48,12 +48,6 @@ public class BananaTree : IBehaviour, IOnApply
     void ChangeState(State state) {
         this.state = state;
         OnStateChanged?.Invoke(state);
-        if(state == State.Growing) {
-            e.model.PlayAnimation("Idle");
-        }
-        else if (state == State.Generating) {
-            e.model.PlayAnimation("Shake");
-        }
     }
     public void CreateBananas() {
         Banana bananaBunch = GeneralPurposeContainer.Ins.CreateInstance(SingletonRegister.Get<PrefabRegisterSO>().bananaBunch.GetComponent<Banana>(), transform.position);
@@ -61,6 +55,7 @@ public class BananaTree : IBehaviour, IOnApply
         bananaBunch.SetBananaCount(bananaCount);
     }
     public override int GetPriority() => 1;
+    public override string GetAnimatorStateName() => "Shake";
     public override List<APModifier> GetAssessPoint() {
         return new(){new APModifier(Operator.Addition, APType.NeedProtection, 50)};
     }

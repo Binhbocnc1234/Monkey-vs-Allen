@@ -1,18 +1,15 @@
 using UnityEngine;
 
 
-public class Idle : IBehaviour, IOnApply, IInterruptable {
-
+public class Idle : IBehaviour, IInterruptable {
     public override bool CanActive() {
         return true;
     }
-    public override void UpdateBehaviour() {
+    public override void UpdateBehaviour(float deltaTime) {
         
-    }
-    public void OnApply() {
-        e.model.PlayAnimation("Idle");
     }
     public override int GetPriority() {
         return 0;
     }
+    public override string GetAnimatorStateName() => "Idle";
 }

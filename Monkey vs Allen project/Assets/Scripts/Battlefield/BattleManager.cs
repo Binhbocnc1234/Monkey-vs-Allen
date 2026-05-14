@@ -14,6 +14,7 @@ public class BattleManager : Singleton<BattleManager> {
     [SerializeField] private EntitySO targetMonkey, targetAllen;
     public Entity targetMonkeyPrefab, targetAllenPrefab;
     public UIManager uiManager;
+    public IPrefabRegistry prefabRegistry;
     private IGrid grid;
     private List<Entity> demoEnemies = new List<Entity>();
     void Start() {
@@ -37,7 +38,7 @@ public class BattleManager : Singleton<BattleManager> {
         grid.Clear();
         grid.Initialize(levelSO.gridWidth, levelSO.openLanes);
 
-        EContainer.Ins.Initialize();
+        EContainer.Ins.Initialize(prefabRegistry);
         EContainer.Ins.ClearEntity();
 
         uiManager = UIManager.Ins;

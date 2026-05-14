@@ -21,10 +21,7 @@ public class HoppingMove : Move, IInitialize {
         pauseTimer.Reset(); // start initial pause
         jumping = false;
     }
-    public override void OnApply() {
-        
-    }
-    public override void UpdateBehaviour() { //pauseTimer null reference vi initialize() chua duoc goi
+    public override void UpdateBehaviour(float deltaTime) { //pauseTimer null reference vi initialize() chua duoc goi
         // waiting (pause) state
         if (!jumping) {
             if (!pauseTimer.Count()) return; // still pausing
@@ -47,7 +44,6 @@ public class HoppingMove : Move, IInitialize {
         }
         float x = startPos.x + hopDistance * GetNormalizedDirection() * t;
         float y = groundY + hopHeight * 4f * t * (1f - t); //parabolic jump path
-        Debug.Log("adjust pos");
-        e.model.transform.position = new Vector2(x, y);
+        e.model.SetPosition(new Vector2(x, y));
     }
 }

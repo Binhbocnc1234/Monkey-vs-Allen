@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Framework\Editor\AutoSave.cs" />
+    <Compile Include="Assets\Tests\Editor\SimulatorTests.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\AnimationClipResolver.cs" />
     <Compile Include="Assets\Scripts\Framework\Editor\MissingReferenceScanner.cs" />
   </ItemGroup>

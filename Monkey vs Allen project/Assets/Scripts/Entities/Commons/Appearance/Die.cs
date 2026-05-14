@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Entity))]
-public class Die : MonoBehaviour{
+public class Die : EntityAppearance{
     public float duration;
     public Material defaultMaterial;
-    Entity e;
-    void Awake(){
-        e = GetComponent<Entity>();
-        e.OnEntityDeath += OnEntityDeath;
-    }
-    void OnEntityDeath() {
-        e.StartCoroutine(DeathCoroutine());
+    public override void Initialize(){
+        base.Initialize();
+        model.e.OnEntityDeath += () => StartCoroutine(DeathCoroutine());
     }
     IEnumerator DeathCoroutine()
     {
@@ -20,7 +15,7 @@ public class Die : MonoBehaviour{
 
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + (e.team == Team.Left ? Vector3.left : Vector3.right) * 2f; // move left by 2 units
-        foreach(var renderer in e.model.GetSprites()){
+        foreach(var renderer in model.GetSprites()){
             renderer.material = defaultMaterial;
         }
         Color startColor = Color.white;
@@ -36,13 +31,13 @@ public class Die : MonoBehaviour{
             // Fade alpha
             Color c = startColor;
             c.a = Mathf.Lerp(1f, 0f, t);
-            foreach(var renderer in e.model.GetSprites()){
+            foreach(var renderer in model.GetSprites()){
                 renderer.color = c;
             }
 
             yield return null;
         }
-        Destroy(e.gameObject);
+        Destroy(this.gameObject);
     }
 
 }

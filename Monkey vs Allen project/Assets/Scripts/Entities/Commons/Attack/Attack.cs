@@ -16,17 +16,14 @@ public class Attack : IBehaviour, IOnApply, IInitialize
         EntitySO so = e.so;
         attackTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
         animationTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
-        e.GetAnimatorEvent().OnMakeDamage += MakeDamageInstantly;
-        e.OnHealthChanged += (diff) => {
-            if(diff >= 0) return;
-            // if ()
-        };
+        // e.GetAnimatorEvent().OnMakeDamage += MakeDamageInstantly;
     }
     void Update() {
         attackTimer.Count();
     }
-    public override void UpdateBehaviour() {
+    public override void UpdateBehaviour(float deltaTime) {
         if(animationTimer.Count()) {
+            MakeDamageInstantly();
             e.ReturnToIdleBehaviour();
         }
     }
@@ -42,8 +39,6 @@ public class Attack : IBehaviour, IOnApply, IInitialize
         animationTimer.totalTime = attackTimer.totalTime;
         attackTimer.Reset();
         animationTimer.Reset();
-        e.model.PlayAnimation("Attack");
-        e.GetAnimator().SetFloat("AttackSpeed", e[ST.AttackSpeed] / e.GetSO().attackSpeed);
     }
     protected virtual void MakeDamageInstantly(){
         if (e == null || e.IsDead() || defender == null || defender.IsDead()){ return; }
@@ -77,4 +72,5 @@ public class Attack : IBehaviour, IOnApply, IInitialize
         // Ví dụ với Basic Alien thì giá trị này sẽ khoảng 30
     }
     public override int GetPriority() => 3;
+    public override string GetAnimatorStateName() => "Attack";
 }

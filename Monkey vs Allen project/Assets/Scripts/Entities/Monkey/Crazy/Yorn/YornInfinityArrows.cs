@@ -1,4 +1,4 @@
-public class YornInfinityArrow : PreciseRangedAttack {
+public class YornInfinityArrow : RangedAttack {
     public enum State { Normal, Enhanced }
     public float maxHealthPercent = 5;
     public State state;
@@ -6,9 +6,10 @@ public class YornInfinityArrow : PreciseRangedAttack {
     private Timer infinityArrowsTimer;
     public override void Initialize() {
         base.Initialize();
+        state = State.Normal;
         infinityArrowsTimer = new Timer(2, reset: true);
     }
-    public override void UpdateBehaviour() {
+    public override void UpdateBehaviour(float deltaTime) {
         if(state == State.Enhanced) {
             if(infinityArrowsTimer.Count()) {
                 shotIndex++;
@@ -20,7 +21,7 @@ public class YornInfinityArrow : PreciseRangedAttack {
             }
         }
         else if (state == State.Normal){
-            base.UpdateBehaviour();
+            base.UpdateBehaviour(deltaTime);
         }
     }
     protected override void MakeDamageInstantly() {
@@ -28,14 +29,16 @@ public class YornInfinityArrow : PreciseRangedAttack {
         shotIndex++;
         if (shotIndex == 5) {
             state = State.Enhanced;
-            e.model.PlayAnimation("InfinityArrow");
         }
     }
     void MakeDamageByInfinityArrow() {
         foreach(IEntity entity in EContainer.Ins.GetEntitiesByLane(e.lane)) {
-            if (e.DistanceTo(entity) <= e[ST.Range]) {
+            if(e.DistanceTo(entity) <= e[ST.Range]) {
                 target.TakeDamage(new DamageContext(entity.Stats[ST.MaxHealth] * maxHealthPercent / 100f, e, entity, false));
             }
         }
+    }
+    public override string GetAnimatorStateName() {
+        return state == State.Normal ? base.GetAnimatorStateName() : "Skill 1";
     }
 }

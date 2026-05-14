@@ -21,14 +21,11 @@ public class Entity : IEntity {
     private readonly List<ST> completedStatTargets = new();
     private bool isPaused = true;
     public override bool IsDead() => isDead;
-    public override Animator GetAnimator() => model.animator;
-    public override AnimatorEvent GetAnimatorEvent() => model.Event;
     public override EntitySO GetSO() => SORegistry.Get<EntitySO>(soId);
     public override float GetHealthPercentage() => Stats[ST.Health] / Stats[ST.MaxHealth];
     public override float GetRealMoveSpeed() => this[ST.MoveSpeed] / 4;
     protected virtual void Awake() { //Không gọi khi chưa vào màn chơi
         tribes = new();
-        model.entity = this;
         initializes = GetComponents<IInitialize>();
         assessables = GetComponents<IAssessable>();
         behaviours = GetComponents<IBehaviour>().OrderBy(b => -b.GetPriority()).ToArray();
@@ -54,14 +51,15 @@ public class Entity : IEntity {
                 }
             }
         }
-        activeBehavior.UpdateBehaviour();
+        activeBehavior.UpdateBehaviour(Time.deltaTime);
     }
     public override IEffectable GetEffectable() => effectController;
     public override Team team {
         get { return _team; }
         set {
             _team = value;
-            if(value == Team.Right) model.GetComponent<Rotater>().FlipX();
+            // Need adjustment
+            // if(value == Team.Right) model.GetComponent<Rotater>().FlipX();
         }
     }
     public override float this[ST st] {
@@ -134,16 +132,6 @@ public class Entity : IEntity {
         ctx.attacker.GetComponent<EffectController>().ProcessDamageOutput(ctx);
         effectController.ProcessDamageInput(ctx);
         if(ctx.amount <= 0) { return; }
-        AnimatorStateInfo stateInfo = GetAnimator().GetCurrentAnimatorStateInfo(0);
-        float weight = 0;
-        if(stateInfo.IsName("Attack")) {
-            weight = 0.5f;
-        }
-        else if(stateInfo.IsName("Idle") || stateInfo.IsName("Walk")) {
-            weight = 1f;
-        }
-        model.animator.SetLayerWeight(1, weight);
-        model.animator.Play("Hurt Layer.Hurt");
         Stats[ST.Health] = Mathf.Max(Stats[ST.Health] - ctx.amount, 0);
         effectController.ProcessDamageTaken(ctx);
         OnHealthChanged?.Invoke(-ctx.amount);
@@ -161,6 +149,7 @@ public class Entity : IEntity {
         if(IsDead()) { return; }
         isDead = true;
         OnEntityDeath?.Invoke();
+        Destroy(this.gameObject);
     }
 
     /// <summary>
@@ -171,10 +160,6 @@ public class Entity : IEntity {
         this.lane = laneIndex;
         this.team = team;
         UpdateSO(so);
-        model.sortingGroup.sortingOrder = 1 - laneIndex;
-        if(team == Team.Right) {
-            model.transform.FlipLocalScaleX();
-        }
         if(width != 1 || height != 1) {
             //Adjust transform.position so the tower appear behind 
             // transform.position += (new Vector2(width / 2 - grid.cellSize / 2, height / 2 - grid.cellSize / 2));
@@ -223,10 +208,7 @@ public class Entity : IEntity {
         isPaused = toggle;
     }
     public override void BecomeInActive() {
-        model.PlayAnimation("Idle");
-        foreach(IBehaviour behav in behaviours) {
-            behav.enabled = false;
-        }
+        ChangeBehaviour(GetComponent<InactiveBehaviour>());
     }
     [ContextMenu("GetAssessPoint")]
     public void OutputAssessPoint() {
@@ -283,7 +265,7 @@ public class Entity : IEntity {
     public override void ReturnToIdleBehaviour() {
         ChangeBehaviour(idleBehaviour);
     }
-    public IBehaviour GetActiveBehaviour() {
+    public override IBehaviour GetActiveBehaviour() {
         return activeBehavior;
     }
     private void ChangeBehaviour(IBehaviour behav) {
@@ -295,5 +277,6 @@ public class Entity : IEntity {
         if(activeBehavior is IOnApply onApply) {
             onApply.OnApply();
         }
+        OnBehaviorActive?.Invoke(activeBehavior);
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 
 public abstract class IEntity : MonoBehaviour {
+    public Action<IBehaviour> OnBehaviorActive;
     public float yAxisAdjustment;
     public EntitySO so;
     [Header("Statistics")]
@@ -19,15 +20,11 @@ public abstract class IEntity : MonoBehaviour {
     }
     public bool isDead;
     public float actionElapsedTime;
-    public Vector2 gridPos {
-        get {
-            return IGrid.Ins.WorldToGridPos(model.transform.position);
-        }
-    }
+    public Vector2 gridPos;
     [SerializeField] public UDictionary<ST, float> Stats = new();
     public Action OnEntityDeath;
     public Action<float> OnHealthChanged;
-    public Model model;
+    public IModel model;
     public abstract float this[ST st] { get; set; }
     public abstract IEffectable GetEffectable();
     /// <summary>
@@ -52,11 +49,7 @@ public abstract class IEntity : MonoBehaviour {
     /// Defend là 30 có nghĩa là nó có thể sống sót được trong 20/3, hoặc 6.6 giây 
     /// khi đấu với đội hình có tổng Danger là 30
     /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
     public abstract float GetAssessPoint(APType type);
-    public abstract Animator GetAnimator();
-    public abstract AnimatorEvent GetAnimatorEvent();
     public abstract EntitySO GetSO();
     /// <summary>
     /// Trả về tốc độ theo đơn vị Unity world unit, được sử dụng để di chuyển Entity
@@ -64,5 +57,6 @@ public abstract class IEntity : MonoBehaviour {
     /// <returns></returns>
     public abstract float GetRealMoveSpeed();
     public abstract void ReturnToIdleBehaviour();
+    public abstract IBehaviour GetActiveBehaviour();
     public abstract float GetSkillStat(SkillSO so, string name);
 }

@@ -67,7 +67,7 @@
     <Compile Include="Assets\Scripts\Core\Entity\EntitySetting.cs" />
     <Compile Include="Assets\Scripts\Core\SO\SkillSO.cs" />
     <Compile Include="Assets\Scripts\Core\SaveAndLoad\LevelProgress.cs" />
-    <Compile Include="Assets\Scripts\Core\Entity\Model.cs" />
+    <Compile Include="Assets\Scripts\Core\Entity\IModel.cs" />
     <Compile Include="Assets\Scripts\Core\SaveAndLoad\PlayerDataEditor.cs" />
     <Compile Include="Assets\Scripts\Core\SO\EnemyCardSO.cs" />
     <Compile Include="Assets\Scripts\Core\Effect\CardEffect.cs" />
@@ -84,6 +84,8 @@
     <Compile Include="Assets\Scripts\Core\SO\MySOReloader.cs" />
     <Compile Include="Assets\Scripts\Core\IAssessable.cs" />
     <Compile Include="Assets\Scripts\Core\SO\CardFrameSO.cs" />
+    <Compile Include="Assets\Scripts\Core\Entity\IBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Core\Entity\EntityBehaviour.cs" />
     <Compile Include="Assets\Scripts\Core\Entity\EntityStat.cs" />
     <Compile Include="Assets\Scripts\Core\SO\LevelSO.cs" />
     <Compile Include="Assets\Scripts\Core\Input\MvA main control.cs" />

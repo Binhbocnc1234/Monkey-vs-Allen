@@ -5,14 +5,14 @@ public class Frozen : Effect, IOnApply, IOnDestroy {
 
     }
     public void OnApply() {
-        owner.GetAnimator().speed = 0;
+        // owner.GetAnimator().speed = 0;
         owner.TogglePause(true);
         // foreach(SpriteRenderer renderer in owner.GetSprites()) {
         //     renderer.color = Color.
         // }
     }
     public void OnDestroy() {
-        owner.GetAnimator().speed = 1;
+        // owner.GetAnimator().speed = 1;
         owner.TogglePause(false);
     }
 }

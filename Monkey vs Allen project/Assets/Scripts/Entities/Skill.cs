@@ -12,15 +12,16 @@ public abstract class Skill : IBehaviour, IOnApply, IInitialize{
     public SkillSO so;
     public int skillIndex = 1;
     protected Timer cooldownTimer;
-    public StunImmunity stunImmunity; 
+    public Timer skillDuration;
+    public StunImmunity stunImmunity;
     public virtual void Initialize() {
         cooldownTimer = new Timer(e.GetSkillStat(so, "Cooldown"), reset: false);
-        e.model.Event.OnAnimationFinished += (info) => {
-            if (info.IsName($"Skill {skillIndex}")) {
-                e.GetEffectable().RemoveEffect(stunImmunity);
-                e.ReturnToIdleBehaviour();
-            }
-        };
+        // e.model.Event.OnAnimationFinished += (info) => {
+        //     if (info.IsName($"Skill {skillIndex}")) {
+        //         e.GetEffectable().RemoveEffect(stunImmunity);
+        //         e.ReturnToIdleBehaviour();
+        //     }
+        // };
         stunImmunity = new StunImmunity();
     }
     void Update() {
@@ -28,11 +29,8 @@ public abstract class Skill : IBehaviour, IOnApply, IInitialize{
     }
     public virtual void OnApply() {
         cooldownTimer.Reset();
-        e.model.PlayAnimation($"Skill {skillIndex}");
         e.GetEffectable().ApplyEffect(stunImmunity);
     }
-    // public virtual void AfterFinishAnimation() {
-        
-    // }
+    public override string GetAnimatorStateName() => $"Skill {skillIndex}";
     public override int GetPriority() => 4;
 }
