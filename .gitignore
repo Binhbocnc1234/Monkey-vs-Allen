@@ -1,26 +1,31 @@
 # Ignore Unity-generated folders
-/Monkey vs Allen project/Library/
-/Monkey vs Allen project/Logs/
-/Monkey vs Allen project/Temp/
-/Monkey vs Allen project/Obj/
-/Monkey vs Allen project/Build/
-/Monkey vs Allen project/Builds/
-/Monkey vs Allen project/UserSettings/
+/Library/
+/Logs/
+/Temp/
+/Obj/
+/Build/
+/Builds/
+/UserSettings/
 
 # Ignore crash and log files
-/Monkey vs Allen project/*.pidb
-/Monkey vs Allen project/*.booproj
-/Monkey vs Allen project/*.svd
-/Monkey vs Allen project/*.user
-/Monkey vs Allen project/*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.user
+*.userprefs
 
 # Ignore local cache
-/Monkey vs Allen project/.vs/
-/Monkey vs Allen project/.idea/
-/Monkey vs Allen project/.gradle/
+/.vs/
+/.idea/
+/.gradle/
 
 # Ignore auto-generated asset bundles
-/Monkey vs Allen project/Assets/AssetStoreTools*
+/Assets/AssetStoreTools*
+
+# Ignore Unity auto-generated project files
+*.csproj
+*.sln
+*.slnx
 
 # OS-specific
 .DS_Store

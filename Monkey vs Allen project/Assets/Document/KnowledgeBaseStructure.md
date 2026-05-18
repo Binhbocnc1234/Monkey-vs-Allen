@@ -1,4 +1,0 @@
-Document:
-Resources: 
-Scenes
-Scripts

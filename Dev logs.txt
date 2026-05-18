@@ -1,5 +1,0 @@
-vì các behaviour sử dụng đa hình, mỗi behaviour có lượng data cần lưu khác nhau nnê 
-
-my problem is
-- in the past I use two dictionary for actual stat and stat's multiplier because of its versatile, convenient. A lot of scripts use that dictionary so I don't want to refactor two dictionaries, it's so costly
-- now, I also want to save that dictionary with newtonsoft json and display it to Inspector. I think newtonsoft
