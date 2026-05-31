@@ -30,6 +30,7 @@ public static class SORegistry {
         Type t = typeof(T);
         _instanceMap[t] = new();
         foreach(var so in Resources.LoadAll<T>("Data")) {
+            if(!so.IsCompleted()) continue;
             _instanceMap[t].Add(so);
         }
     }

@@ -17,6 +17,6 @@ public class FeetAligner : MonoBehaviour {
             lowest_y = Mathf.Min(lowest_y, foot.transform.position.y);
         }
         float diff1 = lowest_y - groundY;
-        model.transform.AssignYPos(model.transform.position.y - diff1);
+        // model.transform.AssignYPos(model.transform.position.y - diff1);
     }
 }

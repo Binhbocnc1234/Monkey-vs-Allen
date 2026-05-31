@@ -1,6 +1,10 @@
-public class Farmer : EntityBehaviour, IInitialize {
+public class Farmer : IInitialize {
+    private readonly IEntity entity;
+    public Farmer(IEntity entity) {
+        this.entity = entity;
+    }
     public void Initialize() {
-        e.GetEffectable().ApplyEffect(new BountifulHarvest(e));
+        entity.GetEffectable().ApplyEffect(new BountifulHarvest(entity));
     }
 }
 

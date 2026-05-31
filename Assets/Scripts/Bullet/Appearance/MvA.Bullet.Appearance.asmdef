@@ -1,0 +1,17 @@
+{
+    "name": "MvA.Bullet.Appearance",
+    "rootNamespace": "",
+    "references": [
+        "MvA.Bullet",
+        "MvA.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

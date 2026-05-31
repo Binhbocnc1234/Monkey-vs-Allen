@@ -24,8 +24,12 @@ MonoBehaviour:
   otherStats: []
   traits: 
   prefab: {fileID: 7966354690378935760, guid: f4452dad8c5107c4e85f6e1052a7276a, type: 3}
+  behaviourTemplates:
+  - rid: 143221967485403218
   unlockedSkillInFirstLevel:
   - {fileID: 11400000, guid: c5855a0c2a828904880cf17ab4a65483, type: 2}
+  upgrades: []
+  usingOldUpgradeSystem: 1
   level_2:
     stat: 5
     amount: 10
@@ -34,3 +38,12 @@ MonoBehaviour:
     stat: 10
     amount: 15
   upgradedSkillAtLv5: {fileID: 11400000, guid: d77bfadbbdcd67341917c5e4ff80e7bb, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 143221967485403218
+      type: {class: RangedAttack, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+        bulletPrefab: {fileID: 2919409746725350324, guid: d2beeddfbd5ea774cb2b3f9f41e6726a, type: 3}
+        firePoint: {fileID: 0}

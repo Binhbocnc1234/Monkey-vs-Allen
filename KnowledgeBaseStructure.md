@@ -14,6 +14,7 @@ Two categories, two languages.
 |--------|---------|----------|
 | `gameplay/` | Game rules, systems, mechanics, modes. What the game IS. | Player and Creative agent |
 | `technical/` | Architecture, AI system, design decisions, migration plans. | Developer and Reasoning agent |
+| `technical/how-to/` | Step-by-step guides for developers (testing, documentation, workflows) | Developer |
 
 ```
 Document/
@@ -26,7 +27,9 @@ Document/
 │   │   ├── UpgradeSystem.md
 │   │   ├── GameModes.md
 │   │   └── Grid.md (reserved)
-│   └── technical/         (reserved for future Vietnamese technical docs)
+│   └── technical/
+│       └── how-to/
+│           └── How-to-documentation.md
 ├── en/
 │   ├── gameplay/
 │   │   ├── GameRules.md
@@ -36,6 +39,7 @@ Document/
 │   │   ├── UpgradeSystem.md
 │   │   └── GameModes.md
 │   └── technical/
+        ├── How-to-test.md
 │       ├── DesignPrinciples.md
 │       ├── Architecture-to-be.md
 │       ├── Architecture-as-is.md
@@ -50,8 +54,10 @@ Document/
 Key rules:
 - `gameplay/` = user-facing. No dev jargon. Any player can read.
 - `technical/` = developer-facing. Architecture, algorithms, migration.
+- `technical/how-to/` = step-by-step guides for developers (testing, documentation, workflows).
 - Vietnamese first, English mirror. New docs in `vi/` first.
 - All docs have YAML frontmatter for AI-parsable metadata (type, module, audience, related).
+- How-to docs use `type: technical`, `audience: developer` in YAML frontmatter, plus `module: how_to_<subject>` (snake_case).
 
 ---
 
@@ -84,32 +90,9 @@ Fields:
 | `audience` | yes | `user` or `developer`. Matches the folder. |
 | `related` | no | array of module names. Only list direct, important crosslinks. |
 
-### 2. Markdown Style
+### 2. Markdown Style, Writing Conventions, File Naming
 
-- **Headings**: `#` H1 for top-level sections, `##` H2 for subsections, `###` H3 for sub-subsections if needed. Use headings hierarchically — never skip a level.
-- **Bold** for UI labels, key terms, button names.
-- `Inline code` for file paths, module names, identifiers (e.g. `EntitySO`, `MvA.Core`).
-- Code blocks for examples, diagrams (text), configuration. Always specify language: ```csharp, ```text, ```yaml.
-- Lists: dashes `-` not asterisks. One space after `-`.
-- Tables for structured comparisons, attribute lists.
-- Horizontal rules `---` to separate major sections (but not between every paragraph).
-- No HTML unless absolutely necessary (tables with complex cell merges).
-- No emojis unless the content explicitly calls for them (e.g. a fun tutorial) — keep gameplay/technical docs neutral.
-
-### 3. Writing Conventions
-
-- **Tone**: neutral, informative. No marketing, no hype, no "you'll love this".
-- **Audience-awareness**: `gameplay/` docs never mention `ScriptableObject`, `EntitySO`, `assembly`, or any Unity-internal concept. Describe the game rule, not the implementation. `technical/` docs can use technical terms but should explain acronyms on first use.
-- **Brevity**: prefer a short sentence over a long one. Prefer a table over a paragraph.
-- **Cross-references**: link to related docs by filename (without extension) in the `related` frontmatter field. In the body, write e.g. `Xem [EntitySystem](EntitySystem.md)` or `See [EntitySystem](../gameplay/EntitySystem.md)`.
-- **Vietnamese docs**: author in Vietnamese first. English docs are a mirror — same structure, same headings, same YAML fields. Content is translated, not rewritten.
-- **Placeholder docs**: if a doc is reserved but not yet written, keep the file empty (0 lines) — the folder structure alone signals intent.
-
-### 4. File Naming
-
-- PascalCase. One concept = one word or compound word. Examples: `GameRules.md`, `EntitySystem.md`, `UpgradeSystem.md`.
-- Avoid abbreviations. `EntitySystem.md` not `EntitySys.md`. Exception: well-known acronyms like `AI`.
-- Hyphens only if the name would be unreadable without them (avoid if possible).
+See [How-to-documentation](vi/technical/how-to/How-to-documentation.md) for Markdown style, writing conventions, and file naming rules.
 
 ---
 
@@ -127,11 +110,13 @@ Location: `Assets/Scenes/`
 
 Battlefield: [Write here]
 Lobby: [Write here]
-
+...
 ---
 
 ## Scripts
 
 Location: `Assets/Scripts/`
 
-(reserved)
+Read `Architecture-as-is.md`
+
+## Tests

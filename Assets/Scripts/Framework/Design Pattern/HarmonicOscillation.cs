@@ -16,10 +16,10 @@ public class HarmonicOscillation
     }
 
     // Call every frame
-    public void Update()
+    public void Update(float deltaTime)
     {
         // Debug.Log("Update oscillation");
-        elapsedTime += Time.deltaTime;
+        elapsedTime += deltaTime;
     }
 
     // Returns the current oscillating value

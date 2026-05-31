@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Kế hoạch: toàn bộ hàm ưới đây sẽ di chuyển lại vào Entity
-public class EffectController : UpdateManager<Effect>, IEffectable, IAssessable {
-    private Entity _e;
-    protected Entity e {
-        get {
-            if(_e == null) _e = GetComponent<Entity>();
-            return _e;
-        }
-    }
-    Dictionary<IEntity, float> damageContributors = new();
-    void Awake() {
+// Kế hoạch: toàn bộ hàm dưới đây sẽ di chuyển lại vào Entity
+public class EffectController : IEffectable, IAssessable {
+    private readonly List<Effect> container = new();
+    private readonly List<Effect> pendingRemoved = new();
+    private readonly List<Effect> pendingAdded = new();
+    private readonly Entity e;
+    private readonly Dictionary<IEntity, float> damageContributors = new();
+    public EffectController(Entity entity) {
+        e = entity;
         e.OnEntityDeath += NotifyAttacker;
     }
     public void ApplyEffect(Effect addedEffect) {
@@ -34,13 +32,13 @@ public class EffectController : UpdateManager<Effect>, IEffectable, IAssessable 
         if(addedEffect is IOnApply onApplyEffect) {
             onApplyEffect.OnApply();
         }
-        base.AddElement(addedEffect);
+        AddElement(addedEffect);
         // container.Sort((a, b) => {
 
         // });
     }
     public void RemoveEffect(Effect element) {
-        base.RemoveElement(element);
+        RemoveElement(element);
     }
     public bool HaveEffect(Type type) {
         foreach(Effect eff in container) {
@@ -100,7 +98,7 @@ public class EffectController : UpdateManager<Effect>, IEffectable, IAssessable 
         foreach(var pair in damageContributors) {
             if(pair.Key == null) continue;
             if (pair.Value/totalDamage >= 0.7f) {
-                pair.Key.GetComponent<EffectController>().NotifyOnAssistOrKill();
+                pair.Key.GetEffectable().NotifyOnAssistOrKill();
             }
         }
     }
@@ -141,5 +139,43 @@ public class EffectController : UpdateManager<Effect>, IEffectable, IAssessable 
             ans.AddRange(eff.GetAssessPoint());
         }
         return ans;
+    }
+
+    public void Update(float deltaTime) {
+        container.RemoveAll(u => u == null || pendingRemoved.Contains(u));
+        pendingRemoved.Clear();
+        container.AddRange(pendingAdded);
+        pendingAdded.Clear();
+        foreach(Effect element in container) {
+            element.Update(deltaTime);
+            if(element is IDestroyable destroyable && destroyable.IsDead()) {
+                pendingRemoved.Add(element);
+            }
+        }
+    }
+    public void Flush() {
+        container.RemoveAll(u => u == null || pendingRemoved.Contains(u));
+        pendingRemoved.Clear();
+        container.AddRange(pendingAdded);
+        pendingAdded.Clear();
+    }
+    public void Reset() {
+        foreach(Effect element in container) {
+            if (element is IOnDestroy destroy) {
+                destroy.OnDestroy();
+            }
+        }
+        container.Clear();
+        pendingAdded.Clear();
+        pendingRemoved.Clear();
+    }
+    void AddElement(Effect element){
+        pendingAdded.Add(element);
+    }
+    void RemoveElement(Effect element) {
+        if(element is IOnDestroy destroy) {
+            destroy.OnDestroy();
+        }
+        pendingRemoved.Add(element);
     }
 }

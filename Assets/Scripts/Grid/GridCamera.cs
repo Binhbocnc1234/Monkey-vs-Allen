@@ -10,7 +10,7 @@ public class GridCamera : MyCamera
         get {
             if (_Ins == null)
             {
-                _Ins = FindObjectOfType<GridCamera>();
+                _Ins = FindFirstObjectByType<GridCamera>();
                 if (_Ins == null){
                     Debug.LogError($"Not found singleton of {typeof(GridCamera)}");
                 }

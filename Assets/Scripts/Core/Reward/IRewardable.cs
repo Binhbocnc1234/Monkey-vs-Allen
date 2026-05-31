@@ -27,8 +27,12 @@ public class CardShardReward : Rewardable {
                 data.shards += count;
                 return;
             }
-            
+            Object obj = new Object();
         }
     }
 }
-
+public class DummyReward : Rewardable {
+    public override void Reward(int count) {
+        
+    }
+}

@@ -1,31 +1,32 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-
+[System.Serializable]
 public abstract class IEntity {
     public Action<IBehaviour> OnBehaviorActive;
     public float yAxisAdjustment;
     public EntitySO so;
-    [Header("Statistics")]
     public int lane;
     public bool isTargetable = true;
     public float width = 1, height = 1;
     public List<Tribe> tribes { get; protected set; }
     public string soId;
     public int level;
-    [SerializeField, ReadOnly] protected Team _team;
+    protected Team _team;
+    public Action<Team> OnTeamSwapped;
     public abstract Team team {
         get; set;
     }
     public bool isDead;
     public float actionElapsedTime;
     public Vector2 gridPos;
-    [SerializeField] public UDictionary<ST, float> Stats = new();
+    public UDictionary<ST, float> Stats = new();
     public Action OnEntityDeath;
     public Action<float> OnHealthChanged;
-    public IModel model;
-    [HideInInspector] public IBehaviour[] behaviours;
+    public Model model;
+    public IBehaviour[] behaviours;
+    public bool isSimulated{ get; protected set; }
     public abstract float this[ST st] { get; set; }
     public abstract IEffectable GetEffectable();
     /// <summary>
@@ -60,4 +61,7 @@ public abstract class IEntity {
     public abstract void ReturnToIdleBehaviour();
     public abstract IBehaviour GetActiveBehaviour();
     public abstract float GetSkillStat(SkillSO so, string name);
+    public abstract T GetBehaviour<T>() where T : class;
+    public abstract IEnumerable<T> GetBehaviours<T>() where T : class;
+    public abstract void SetBehaviours(IEnumerable<IBehaviour> behaviourList);
 }

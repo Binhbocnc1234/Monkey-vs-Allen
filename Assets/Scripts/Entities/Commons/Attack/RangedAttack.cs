@@ -1,14 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class RangedAttack : Attack {
-    [Header("Range fields")]
-    public StraightBullet bulletPrefab;
-    public Transform firePoint;
-    protected override void MakeDamageInstantly() {
-        StraightBullet newBullet = Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
-        Debug.Log($"Bullet spawned at {newBullet.transform.position}");
-        newBullet.Initialize(e[ST.Strength], e);
+[System.Serializable]
+public class RangedAttack : AttackBase {
+    public GameObject bulletPrefab;
+    [NonSerialized] public Transform firePoint;
+    protected override void WhenAttackReady() {
+        if(bulletPrefab == null) {
+            Debug.LogError($"[RangedAttack] bulletPrefab is null");
+            return;
+        }
+
+        var request = new BulletSpawnRequest {
+            prefab = bulletPrefab,
+            position = firePoint.position,
+            rotation = Quaternion.identity,
+            owner = e,
+            target = null,
+            damage = e[ST.Strength],
+            lane = e.lane
+        };
+        IBulletSpawner.Ins.Spawn(request);
     }
 }

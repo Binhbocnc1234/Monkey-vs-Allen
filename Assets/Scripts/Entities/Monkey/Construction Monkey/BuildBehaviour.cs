@@ -14,7 +14,7 @@ public class BuildBehaviour : IBehaviour {
         else {
             diff = e.team == Team.Left ? -1 : 1;
         }
-        this.dest = unfinishedTower.transform.position / IGrid.CELL_SIZE;
+        this.dest = unfinishedTower.GridPos;
         buildDelay = new Timer(1, reset: true);
         e.GetEffectable().ApplyEffect(new StunImmunity());
     }

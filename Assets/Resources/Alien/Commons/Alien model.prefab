@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8094191814503027447}
   - component: {fileID: 840138483508900976}
   - component: {fileID: 2957180376135803069}
+  - component: {fileID: 8058329276882464073}
   m_Layer: 0
   m_Name: Alien model
   m_TagString: Untagged
@@ -90,14 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9044e8fc1f42d144a87002ec346ce986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MvA.Entities::Model
-  transitionTime: 0.212
-  e: {fileID: 0}
+  transitionTime: 0.25
   sortingGroup: {fileID: 5854702160726120709}
   animator: {fileID: 3999576519316077688}
-  Event: {fileID: 8209866605759855830}
   boxCollider: {fileID: 1879354802610999183}
-  speedMultiplier: -1
-  isFadeOut: 0
 --- !u!114 &8209866605759855830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,8 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8e096abd81cb842bce8a1e5a971302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MvA.Entities::Die
-  duration: 0
-  defaultMaterial: {fileID: 0}
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &840138483508900976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +183,28 @@ MonoBehaviour:
   anten1: {fileID: 3097667064987789684}
   anten2: {fileID: 3536684560309855758}
   S_anten: {fileID: -1373786509, guid: 0dc66af9eade02a4eae86b28668a906a, type: 3}
+--- !u!114 &8058329276882464073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585643502995953436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b83ba86b1cef4fd4c814c958b47b2eb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MvA.Entities::EntityDebugView
+  entityName: 
+  health: 0
+  maxHealth: 0
+  healthPercentage: 0
+  team: 0
+  lane: 0
+  gridPosX: 0
+  gridPosY: 0
+  activeBehaviourName: 
+  isDead: 0
 --- !u!1 &829975035511180673
 GameObject:
   m_ObjectHideFlags: 0

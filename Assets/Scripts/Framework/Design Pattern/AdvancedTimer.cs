@@ -13,8 +13,8 @@ public class AdvancedTimer : IUpdatePerFrame, IDestroyable {
         this.destroyWhenTimeUp = destroyWhenTimeUp;
         this.action = actionWhenTimeUp;
     }
-    public void Update() {
-        SetCurTime(curTime + Time.deltaTime);
+    public void Update(float deltaTime) {
+        SetCurTime(curTime + deltaTime);
     }
     public void SetCurTime(float amount) {
         curTime = amount;

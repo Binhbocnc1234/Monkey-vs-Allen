@@ -1,17 +1,13 @@
-using UnityEngine;
-
+// [Wrapper] Phase 4: wrapper handles Instantiate and prefab references
 public class SlimzAttack : RangedAttack {
-    [SerializeField] private Poke pokePrefab;
-    [SerializeField] private SkillSO skillSO;
     public bool isNextTimeIsPoke = false;
-    protected override void MakeDamageInstantly() {
+    protected override void WhenAttackReady() {
         if(isNextTimeIsPoke) {
-            Poke newBullet = Instantiate(pokePrefab, firePoint.transform.position, Quaternion.identity);
-            newBullet.Initialize(e, e[ST.Strength],
-            e.GetSkillStat(skillSO, "StunDuration"), isDebuffApplied: e.level >= 3);
+            // [Wrapper] Phase 4: wrapper creates Poke bullet
+            isNextTimeIsPoke = false;
         }
         else {
-            base.MakeDamageInstantly();
+            base.WhenAttackReady();
         }
     }
     public void NextAttackBecomePoke() {

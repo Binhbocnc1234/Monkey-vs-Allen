@@ -24,6 +24,10 @@ MonoBehaviour:
   otherStats: []
   traits: 
   prefab: {fileID: 6003875014940790109, guid: d8bec621024f55f4985f1f80e1fde03b, type: 3}
+  behaviourTemplates:
+  - rid: 143221976712085594
+  - rid: 143221976712085595
+  - rid: 143221976712085596
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -37,4 +41,18 @@ MonoBehaviour:
   upgradedSkillAtLv5: {fileID: 11400000, guid: 043eaa471ae93774d9c62f529d8fc20e, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 143221976712085594
+      type: {class: LobAttack, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+        bulletPrefab: {fileID: 0}
+        firePoint: {fileID: 0}
+    - rid: 143221976712085595
+      type: {class: Idle, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+    - rid: 143221976712085596
+      type: {class: StraightMove, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1

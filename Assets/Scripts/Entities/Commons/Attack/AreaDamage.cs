@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class AreaDamage {
     public enum Range{Low, Medium, High}
@@ -25,7 +25,7 @@ public class AreaDamage {
             _ => 0
         };
         foreach(IEntity otherE in IEntityRegistry.Ins.GetEntities()) {
-            if (Mathf.Abs(x - otherE.gridPos.x) <= maxDiffX && otherE.team == attacker.team) {
+            if (Math.Abs(x - otherE.gridPos.x) <= maxDiffX && otherE.team == attacker.team) {
                 otherE.TakeDamage(new DamageContext(damage, attacker, otherE, false));
             }
         }

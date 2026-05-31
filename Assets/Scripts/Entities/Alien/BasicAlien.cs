@@ -1,11 +1,13 @@
-using UnityEngine;
-
-public class BasicAlien : MonoBehaviour, IInitialize {
-    public SkillSO skillSO;
+public class BasicAlien : IInitialize {
+    private readonly IEntity entity;
+    private readonly SkillSO skillSO;
+    public BasicAlien(IEntity entity, SkillSO skillSO) {
+        this.entity = entity;
+        this.skillSO = skillSO;
+    }
     public void Initialize() {
-        IEntity e = GetComponent<IEntity>();
-        if(e.level >= 3) {
-            e.GetEffectable().ApplyEffect(new AlienSolidarity(skillSO));
+        if(entity.level >= 3) {
+            entity.GetEffectable().ApplyEffect(new AlienSolidarity(skillSO));
         }
     }
 }

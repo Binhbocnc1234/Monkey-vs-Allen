@@ -14,7 +14,7 @@ public class UpdateManager<T> : MonoBehaviour where T : IUpdatePerFrame
         container.AddRange(pendingAdded);
         pendingAdded.Clear();
         foreach(T element in container) {
-            element.Update();
+            element.Update(Time.deltaTime);
             if(element is IDestroyable destroyable && destroyable.IsDead()) {
                 pendingRemoved.Add(element);
             }

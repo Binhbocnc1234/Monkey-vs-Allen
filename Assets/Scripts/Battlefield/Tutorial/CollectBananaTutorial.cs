@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
@@ -8,11 +6,11 @@ public class CollectBananaTutorial : Tutorial
 {
     private BananaTree tree;
     void Awake() {
-        foreach (Entity e in EContainer.Ins.GetEntitiesByLane(2))
+        foreach (IEntity e in EContainer.Ins.GetEntitiesByLane(2))
         {
-            tree = e.GetComponent<BananaTree>();
+            tree = e.GetBehaviour<BananaTree>();
             if(tree != null) {
-                tree.enabled = false;
+                tree.isEnable = false;
                 e.ReturnToIdleBehaviour();
                 break;
             }
@@ -20,7 +18,8 @@ public class CollectBananaTutorial : Tutorial
     }
     public override void Initialize() {
         base.Initialize();
-        tree.enabled = true;
+        if(tree == null) return;
+        tree.isEnable = true;
         tree.cooldownTimer.SetCurTime(tree.cooldownTimer.totalTime * 0.1f);
         tree.OnStateChanged += (state) => {
             if (this == null || state == BananaTree.State.Growing) return;
@@ -36,5 +35,4 @@ public class CollectBananaTutorial : Tutorial
         base.CompleteTutorial();
         BattleInfo.teamDict[Team.Left].OnResourceChange -= CompleteTutorial;
     }
-
 }

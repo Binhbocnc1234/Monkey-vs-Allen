@@ -1,0 +1,26 @@
+{
+  "name": "Tests",
+  "references": [
+    "NUnit.Framework",
+    "MvA.Framework.Core",
+    "MvA.Core",
+    "MvA.Entities",
+    "MvA.Effect"
+  ],
+  "optionalUnityReferences": [],
+  "includeArchitectures": [],
+  "excludePlatforms": [
+    "Android",
+    "iOS",
+    "WebGL",
+    "WSA",
+    "tvOS"
+  ],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ]
+}

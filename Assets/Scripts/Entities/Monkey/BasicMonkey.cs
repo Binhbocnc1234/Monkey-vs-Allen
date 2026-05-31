@@ -1,11 +1,24 @@
-using UnityEngine;
+[System.Serializable]
+public class BasicMonkey : IBehaviour, IInitialize {
+    public SkillSO solidaritySkill;
+    public EntitySO monkeySO;
 
-public class BasicMonkey : MonoBehaviour, IInitialize {
-    SkillSO solidaritySkill;
+    public override bool CanActive() {
+        return false;
+    }
+
+    public override string GetAnimatorStateName() {
+        throw new System.NotImplementedException();
+    }
+
+    public override int GetPriority() {
+        return -1;
+    }
+
+
     public void Initialize() {
-        IEntity e = GetComponent<IEntity>();
         if(e.level >= 3) {
-            e.GetEffectable().ApplyEffect(new MonkeySolidarity(solidaritySkill));
+            e.GetEffectable().ApplyEffect(new MonkeySolidarity(solidaritySkill, monkeySO));
         }
     }
 }

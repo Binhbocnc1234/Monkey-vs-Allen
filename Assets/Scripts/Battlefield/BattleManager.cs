@@ -14,7 +14,6 @@ public class BattleManager : Singleton<BattleManager> {
     [SerializeField] private EntitySO targetMonkey, targetAllen;
     public Entity targetMonkeyPrefab, targetAllenPrefab;
     public UIManager uiManager;
-    public IPrefabRegistry prefabRegistry;
     private IGrid grid;
     private List<Entity> demoEnemies = new List<Entity>();
     void Start() {
@@ -38,7 +37,7 @@ public class BattleManager : Singleton<BattleManager> {
         grid.Clear();
         grid.Initialize(levelSO.gridWidth, levelSO.openLanes);
 
-        EContainer.Ins.Initialize(prefabRegistry);
+        EContainer.Ins.Initialize();
         EContainer.Ins.ClearEntity();
 
         uiManager = UIManager.Ins;
@@ -72,9 +71,9 @@ public class BattleManager : Singleton<BattleManager> {
     public void CreateTarget() {
         for(int y = 0; y < IGrid.Ins.height; ++y) {
             if(IGrid.Ins.openLanes[y] == false) continue;
-            IEntity tM = IEntityRegistry.Ins.CreateEntity(targetMonkey, 0, y, Team.Left, 1);
+            IEntity tM = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetMonkey, x = 0, lane = y, team = Team.Left, level = 1 });
             if (!CustomSceneManager.isFreePlay) tM.OnEntityDeath += () => CheckLose(tM);
-            IEntity tA = IEntityRegistry.Ins.CreateEntity(targetAllen, IGrid.Ins.width - 1, y, Team.Right, 1);
+            IEntity tA = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetAllen, x = IGrid.Ins.width - 1, lane = y, team = Team.Right, level = 1 });
             if (!CustomSceneManager.isFreePlay) tA.OnEntityDeath += () => CheckWin(tA);
         }
     }
@@ -113,7 +112,9 @@ public class BattleManager : Singleton<BattleManager> {
     void CheckWin(IEntity e){
         if(EContainer.Ins.GetTargetCount(Team.Right) == 0){
             BattleInfo.ChangeState(GameState.Victory);
-            Prize.Ins.Initialize(e.transform.position);
+            Vector3 prizePos = IGrid.Ins.GridToWorldPosition(e.gridPos.x, e.lane);
+            // Try to get actual world position from model/wrapper if available
+            Prize.Ins.Initialize(e.model.GetPosition());
             uiManager.gameObject.SetActive(false);
             // PlayerData handling
             LevelSO so = BattleInfo.levelSO;
@@ -135,10 +136,12 @@ public class BattleManager : Singleton<BattleManager> {
         // const float minDemoEnem
         foreach(IBattleCard card in BattleInfo.teamDict[Team.Right].cards) {
             for(int i = 0; i < 2; ++i) {
-                IEntity e = EContainer.Ins.CreateEntity(card.GetSO().entitySO,
-                    Random.Range(leftBound, rightBound), Random.Range(0, IGrid.Ins.width), Team.Right, 1);
+                IEntity e = EContainer.Ins.CreateEntity(new EntitySetting {
+                    so = card.GetSO().entitySO, x = Random.Range(leftBound, rightBound),
+                    lane = Random.Range(0, IGrid.Ins.width), team = Team.Right, level = 1
+                });
                 e.BecomeInActive();
-                demoEnemies.Add(e.GetComponent<Entity>());
+                if(e is Entity entity) demoEnemies.Add(entity);
             }
         }
     }

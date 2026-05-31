@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class MonkeySolidarity : PassiveSkill, IOnApply {
     Timer bonusTimer;
-    public MonkeySolidarity(SkillSO skillSO) : base(skillSO) {
-
+    private EntitySO monkeySO;
+    public MonkeySolidarity(SkillSO skillSO, EntitySO monkeySO) : base(skillSO) {
+        this.monkeySO = monkeySO;
     }
-    public override void Update() {
-        base.Update();
-        if(bonusTimer != null && bonusTimer.Count()) {
+    public override void Update(float deltaTime) {
+        base.Update(deltaTime);
+        if(bonusTimer != null && bonusTimer.Count(deltaTime)) {
             bonusTimer = null;
-            IEntityRegistry.Ins.CreateEntity(EntitySO.GetSOByName("Basic Monkey"),
-                owner.lane, owner.team);
+            IEntityRegistry.Ins.CreateEntity(new EntitySetting {
+                so = monkeySO, x = owner.team == Team.Left ? -1 : IGrid.Ins.width, lane = owner.lane, team = owner.team
+            });
         }
     }
     public override void OnApply() {

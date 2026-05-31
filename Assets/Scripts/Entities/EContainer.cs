@@ -1,17 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
-public interface IPrefabRegistry {
-    public void CreatePrefab(IEntity e);
+public abstract class IEntityModelRegistry : MonoBehaviour {
+    public static IEntityModelRegistry Ins{ get; protected set; }
+    public abstract Model CreateInstance(IEntity e);
 }
 public class EContainer : IEntityRegistry {
     public new static EContainer Ins { get; private set; }
-    public Transform holder;
     public EntitySO constructionMonkey, constructionAlien;
-    private IPrefabRegistry prefabRegistry;
     // List of entities for each lane (lane count: GameConstants.GRID_HEIGHT)
     private List<List<Entity>> entities = new List<List<Entity>>();
     private List<Entity> targetMonkeys = new List<Entity>(), targetEnemies = new List<Entity>();
@@ -19,56 +19,54 @@ public class EContainer : IEntityRegistry {
         base.Awake();
         Ins = this;
     }
-    public void Initialize(IPrefabRegistry prefabRegistry) {
+    public void Initialize() {
         // Initialize the list for each lane
         for(int i = 0; i < IGrid.Ins.height; i++) {
             entities.Add(new List<Entity>());
         }
     }
-    void Update() {
+    /// <summary>
+    /// Processes all entity updates: removes dead entities and calls UpdateBehaviours on alive ones.
+    /// Extracted from Update() to allow direct testing without entering PlayMode.
+    /// </summary>
+    public void TickEntities(float deltaTime) {
         for(int i = entities.Count - 1; i >= 0; i--) {
             var list = entities[i];
             entities[i].RemoveAll(e => e == null || e.IsDead());
+            foreach(Entity entity in list) {
+                entity.UpdateBehaviours(deltaTime);
+            }
         }
     }
+    void Update() {
+        TickEntities(Time.deltaTime);
+    }
     public override void CreateBuilder(EntitySetting set) {
-        CreateBuilder(set.so, new Vector2Int((int)set.x, set.lane), set.team, set.level);
+        EntitySO chosenBuilder = BattleInfo.chosenTeam == BattleInfo.monkeyInTeam ? constructionMonkey : constructionAlien;
+        float builderX = set.team == Team.Left ? -1 : IGrid.Ins.width;
+        BuildBehaviour newBuilder = CreateEntity(new EntitySetting {
+            so = chosenBuilder, x = builderX, lane = set.lane, team = set.team, level = set.level
+        }).GetBehaviour<BuildBehaviour>();
+        UnfinishedTower unfinishedTower = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().unfinishedTower).GetComponent<UnfinishedTower>();
+        unfinishedTower.Initialize(set);
+        newBuilder?.Initialize(unfinishedTower, false);
     }
     public override IEntity CreateEntity(EntitySetting set) {
-        return CreateEntity(set.so, set.x, set.lane, set.team, set.level);
-    }
-    private void CreateBuilder(EntitySO tower, Vector2Int dest, Team team, int level) {
-        EntitySO chosenBuilder = BattleInfo.chosenTeam == BattleInfo.monkeyInTeam ? constructionMonkey : constructionAlien;
-        BuildBehaviour newBuilder = CreateEntity(
-            chosenBuilder, team == Team.Left ? -1 : IGrid.Ins.width, dest.y, team).GetComponent<BuildBehaviour>();
-        // BuildBehaviour newBuilder_2 = CreateEntity(
-        //     chosenBuilder, team == Team.Player ? -2 : GridSystem.Ins.width + 1, dest.y, team).GetComponent<BuildBehaviour>();
-        UnfinishedTower unfinishedTower = Instantiate(SingletonRegister.Get<PrefabRegisterSO>().unfinishedTower).GetComponent<UnfinishedTower>();
-        unfinishedTower.Initialize(new EntitySetting { so = tower, lane = dest.y, x = dest.x, level = level });
-        newBuilder.Initialize(unfinishedTower, false);
-        // newBuilder_2.Initialize(unfinishedTower, true);
-    }
-    public override IEntity CreateEntity(EntitySO so, float x, int lane, Team team, int level = 1) {
-        if(so == null) {
+        if(set.so == null) {
             Debug.LogError("[EContainer] parameter 'so' is null!");
             return null;
         }
-        else if(so.prefab == null) {
+        else if(set.so.prefab == null) {
             Debug.LogError("[EContainer] so.prefab is null!");
             return null;
         }
-        Vector3 worldPos = IGrid.Ins.GridToWorldPosition(x, lane);
-        Entity e = Instantiate(so.prefab.GetComponent<Entity>(), worldPos, Quaternion.identity, holder);
-        // List<string> unlockedSkills = so.unlockedSkillInFirstLevel.Select(e => e.name).ToList();
-        e.Initialize(so, team, x, lane, level);
-        // if (prefabRegistry != null) {
-        //     prefabRegistry.CreatePrefab(e);
-        // }
-        foreach(Transform tr in e.transform)
-        {
-            if (tr.GetComponent<IModel>() != null) Destroy(tr.gameObject);
+        Vector3 worldPos = IGrid.Ins.GridToWorldPosition(set.x, set.lane);
+        Entity e = new Entity(set.so, set.team, set.x, set.lane, set.level, set.isSimulated);
+        if(!set.isSimulated) {
+            e.model = IEntityModelRegistry.Ins.CreateInstance(e);
         }
-        entities[lane].Add(e);
+
+        entities[set.lane].Add(e);
         if(e.GetSO().tribes.Contains(Tribe.Target)) {
             if(e.GetSO().tribes.Contains(Tribe.Monkey)) {
                 targetMonkeys.Add(e);
@@ -77,15 +75,7 @@ public class EContainer : IEntityRegistry {
                 targetEnemies.Add(e);
             }
         }
-        Instantiate(SingletonRegister.Get<PrefabRegisterSO>().alienSpawningEffect, worldPos, Quaternion.identity, GeneralPurposeContainer.Ins.transform);
-        SingletonRegister.Get<ShadowContainer>().Get().Initialize(e, e.lane);
         return e;
-    }
-    public override IEntity CreateEntity(EntitySO so, Vector2Int gridPos, Team team, int level = 1) {
-        return CreateEntity(so, gridPos.x, gridPos.y, team);
-    }
-    public override IEntity CreateEntity(EntitySO so, int lane, Team team, int level = 1) {
-        return CreateEntity(so, team == Team.Left ? -1 : IGrid.Ins.width, lane, team);
     }
     // Returns a list of all alive entities in specified lane, removing nulls
     public override IEntity[] GetEntitiesByLane(int lane, bool includeUntargetable = false) {

@@ -1,31 +1,41 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class AlienWithHelmentInitializer : EntityBehaviour, IInitialize {
-    public Transform helmet;
+public class AlienWithHelmentInitializer : IBehaviour, IInitialize {
+    private IEntity entity;
     public SkillSO helmetSO;
-    public Shield shield;
+    [NonSerialized] public Shield shield;
     private List<APModifier> points;
+    public void Initialize(IEntity e) {
+        entity = e;
+    }
     public void Initialize() {
-        shield = new Shield(-1, (int)e.GetSkillStat(helmetSO, "Shield"));
-        e.GetEffectable().ApplyEffect(shield);
+        shield = new Shield(-1, (int)entity.GetSkillStat(helmetSO, "Shield"));
+        entity.GetEffectable().ApplyEffect(shield);
         points = new();
         points.AddRange(shield.GetAssessPoint());
         shield.OnDeath += () => {
-            // var dropBodyPart = helmet.gameObject.AddComponent<DropBodyPart>();
-            // dropBodyPart.Initialize(e.lane, 3);
-            if(e.level >= 3) {
-                // Create shock wave
-                CreateShockWave();
+            if(entity.level >= 3) {
+                // [Wrapper] Create shock wave
+                // Also need logic
             }
         };
-        shield.OnDamageTaken += (amount) => StartCoroutine(FlashWhite.FlashRoutine(new SpriteRenderer[] { helmet.GetComponent<SpriteRenderer>() }, amount));
     }
-    void CreateShockWave() {
+    public override List<APModifier> GetAssessPoint() {
+        return new(){new APModifier(Operator.Addition, APType.Defend, entity.GetSkillStat(helmetSO, "Shield"))};
+    }
 
+    public override bool CanActive() {
+        return false;
     }
-    public List<APModifier> GetAssessPoint() {
-        return new(){new APModifier(Operator.Addition, APType.Defend, e.GetSkillStat(helmetSO, "Shield"))};
+
+    public override int GetPriority() {
+        return -1;
     }
+
+    public override string GetAnimatorStateName() {
+        throw new NotImplementedException();
+    }
+
 }

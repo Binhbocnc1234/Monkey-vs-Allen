@@ -1,6 +1,3 @@
-using UnityEngine;
-
-
 public class InactiveBehaviour : IBehaviour {
     public override bool CanActive() {
         return true;

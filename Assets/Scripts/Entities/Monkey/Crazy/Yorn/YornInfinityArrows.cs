@@ -11,7 +11,7 @@ public class YornInfinityArrow : RangedAttack {
     }
     public override void UpdateBehaviour(float deltaTime) {
         if(state == State.Enhanced) {
-            if(infinityArrowsTimer.Count()) {
+            if(infinityArrowsTimer.Count(deltaTime)) {
                 shotIndex++;
                 MakeDamageByInfinityArrow();
             }
@@ -24,17 +24,17 @@ public class YornInfinityArrow : RangedAttack {
             base.UpdateBehaviour(deltaTime);
         }
     }
-    protected override void MakeDamageInstantly() {
-        base.MakeDamageInstantly();
+    protected override void WhenAttackReady() {
+        base.WhenAttackReady();
         shotIndex++;
         if (shotIndex == 5) {
             state = State.Enhanced;
         }
     }
     void MakeDamageByInfinityArrow() {
-        foreach(IEntity entity in EContainer.Ins.GetEntitiesByLane(e.lane)) {
-            if(e.DistanceTo(entity) <= e[ST.Range]) {
-                target.TakeDamage(new DamageContext(entity.Stats[ST.MaxHealth] * maxHealthPercent / 100f, e, entity, false));
+        foreach(IEntity target in EContainer.Ins.GetEntitiesByLane(e.lane)) {
+            if(e.DistanceTo(target) <= e[ST.Range]) {
+                target.TakeDamage(new DamageContext(target.Stats[ST.MaxHealth] * maxHealthPercent / 100f, e, target, false));
             }
         }
     }

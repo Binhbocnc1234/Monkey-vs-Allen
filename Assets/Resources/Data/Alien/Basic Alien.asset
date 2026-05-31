@@ -23,7 +23,10 @@ MonoBehaviour:
   moveSpeed: 1
   otherStats: []
   traits: 
-  prefab: {fileID: 4243784536699012920, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+  prefab: {fileID: 2371316042020976928, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
+  behaviourTemplates:
+  - rid: 143221967485403216
+  - rid: 143221989729632340
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -37,4 +40,10 @@ MonoBehaviour:
   upgradedSkillAtLv5: {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 143221967485403216
+      type: {class: Attack, ns: , asm: MvA.Entities}
+      data: 
+    - rid: 143221989729632340
+      type: {class: SyncWithAnimationMove, ns: , asm: MvA.Entities}
+      data: 

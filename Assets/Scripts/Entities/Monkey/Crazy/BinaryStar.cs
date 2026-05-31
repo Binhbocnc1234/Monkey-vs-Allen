@@ -1,9 +1,9 @@
-using UnityEngine;
-
-
-public class BinaryStar : MonoBehaviour, IInitialize {
+public class BinaryStar : IInitialize {
+    private readonly IEntity entity;
+    public BinaryStar(IEntity entity) {
+        this.entity = entity;
+    }
     public void Initialize() {
-        IEntity e = GetComponent<IEntity>();
-        e.GetEffectable().ApplyEffect(new DoubleDamageEffect());
+        entity.GetEffectable().ApplyEffect(new DoubleDamageEffect());
     }
 }

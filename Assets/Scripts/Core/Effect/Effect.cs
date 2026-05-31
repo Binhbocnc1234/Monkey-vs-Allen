@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEngine;
 
 public enum CardEffectType {
     None,
@@ -67,8 +66,8 @@ public abstract class Effect : IUpdatePerFrame, IDestroyable, IAssessable {
             HaveDuration = false;
         }
     }
-    public virtual void Update() {
-        if(HaveDuration && lifeTimer.Count()) {
+    public virtual void Update(float deltaTime) {
+        if(HaveDuration && lifeTimer.Count(deltaTime)) {
             DestroyThis();
         }
     }

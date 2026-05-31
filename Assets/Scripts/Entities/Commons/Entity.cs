@@ -1,20 +1,46 @@
-using UnityEngine;
-using UnityEngine.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using UnityEngine;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 
-public class Entity : IEntity {
+public sealed class Entity : IEntity {
+    // private sealed class PublicValueMembersOnlyResolver : DefaultContractResolver {
+    //     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization) {
+    //         JsonProperty property = base.CreateProperty(member, memberSerialization);
+    //         bool isPublicMember = member switch {
+    //             FieldInfo fieldInfo => fieldInfo.IsPublic,
+    //             PropertyInfo propertyInfo =>
+    //                 (propertyInfo.GetMethod != null && propertyInfo.GetMethod.IsPublic)
+    //                 || (propertyInfo.SetMethod != null && propertyInfo.SetMethod.IsPublic),
+    //             _ => false
+    //         };
+
+    //         bool isValueLike = IsValueLike(property.PropertyType);
+    //         if(!isPublicMember || !isValueLike) {
+    //             property.Ignored = true;
+    //         }
+
+    //         return property;
+    //     }
+
+    //     private static bool IsValueLike(Type type) {
+    //         return type.IsPrimitive || type.IsEnum || type == typeof(string) || type.IsValueType;
+    //     }
+    // }
+
+    // private static readonly JsonSerializerSettings PublicValueCloneSettings = new JsonSerializerSettings {
+    //     ContractResolver = new PublicValueMembersOnlyResolver(),
+    //     Formatting = Formatting.None,
+    // };
+
     private IBehaviour activeBehavior;
-    private EntitySO previousAssignedSO;
-    [ReadOnly] public string activeBehaviourName;
-    [Header("References")]
-    // private IInitialize[] initializes;
-    // private IAssessable[] assessables;
-    [SerializeField] private EffectController effectController;
-    [SerializeField, Min(0f)] private float statLerpSpeed = 10f;
+    public string activeBehaviourName;
+    private EffectController effectController;
+    private float statLerpSpeed = 10f;
     private IBehaviour idleBehaviour;
     private readonly Dictionary<ST, float> statTargets = new();
     private readonly List<ST> completedStatTargets = new();
@@ -23,42 +49,66 @@ public class Entity : IEntity {
     public override EntitySO GetSO() => SORegistry.Get<EntitySO>(soId);
     public override float GetHealthPercentage() => Stats[ST.Health] / Stats[ST.MaxHealth];
     public override float GetRealMoveSpeed() => this[ST.MoveSpeed] / 4;
-    protected virtual void Awake() { //Không gọi khi chưa vào màn chơi
-        tribes = new();
-        // initializes = GetComponents<IInitialize>();
-        // assessables = GetComponents<IAssessable>();
-        behaviours = GetComponents<IBehaviour>().OrderBy(b => -b.GetPriority()).ToArray();
-        idleBehaviour = GetComponent<Idle>();
-    }
-    protected virtual void Update() {
-        if (BattleInfo.gameState != GameState.Fighting){ return; }
-        if((team == Team.Left && gridPos.x >= IGrid.Ins.width) || (team == Team.Right && gridPos.x <= -1)) {
-            Die();
+
+    // Public value-like data is copied via JSON; reference fields stay shallow via MemberwiseClone.
+    public static List<IBehaviour> CloneBehaviourTemplates(List<IBehaviour> templates) {
+        if(templates == null || templates.Count == 0) {
+            return new List<IBehaviour>();
         }
-        UpdateStatTargets();
-        if(isPaused) { return; }
-        if(activeBehavior is IInterruptable || activeBehavior.CanActive() == false) {
-            foreach(IBehaviour behav in behaviours) {
-                if(activeBehavior == behav) { break; }
-                if(behav.enabled && behav.CanActive()) {
-                    activeBehavior = behav;
-                    activeBehaviourName = behav.GetType().ToString();
-                    if(activeBehavior is IOnApply onApply) {
-                        onApply.OnApply();
-                    }
-                    break;
-                }
+        List<IBehaviour> clones = new(templates.Count);
+        foreach(IBehaviour template in templates) {
+            if(template == null) {
+                continue;
             }
+            clones.Add(template.GetClone());
         }
-        activeBehavior.UpdateBehaviour(Time.deltaTime);
+        return clones;
+    }
+
+    // private static IBehaviour ShallowCopy(IBehaviour source) {
+    //     MethodInfo memberwiseClone = typeof(object).GetMethod("MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
+    //     return (IBehaviour)memberwiseClone.Invoke(source, null);
+    // }
+
+    // private static void ResetPrivateFields(object target) {
+    //     Type currentType = target.GetType();
+    //     while(currentType != null && currentType != typeof(object)) {
+    //         FieldInfo[] fields = currentType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+    //         foreach(FieldInfo field in fields) {
+    //             if(!field.IsPrivate || field.IsInitOnly) {
+    //                 continue;
+    //             }
+
+    //             object defaultValue = field.FieldType.IsValueType ? Activator.CreateInstance(field.FieldType) : null;
+    //             field.SetValue(target, defaultValue);
+    //         }
+
+    //         currentType = currentType.BaseType;
+    //     }
+    // }
+    public Entity(EntitySO so, Team team, float x, int laneIndex, int level, bool isSimulated = false) {
+        this.effectController = new EffectController(this);
+        this.level = level;
+        this.lane = laneIndex;
+        this.team = team;
+        this.isSimulated = isSimulated;
+        tribes = so.tribes;
+        var clonedBehaviours = CloneBehaviourTemplates(so.behaviourTemplates);
+        clonedBehaviours.Add(new Idle());
+        clonedBehaviours.Add(new InactiveBehaviour());
+        SetBehaviours(clonedBehaviours);
+        gridPos = new Vector2(x, laneIndex);
+        UpdateSO(so);
+        isPaused = false;
     }
     public override IEffectable GetEffectable() => effectController;
     public override Team team {
         get { return _team; }
         set {
+            if (value != _team){
+                OnTeamSwapped?.Invoke(value);
+            }
             _team = value;
-            // Need adjustment
-            // if(value == Team.Right) model.GetComponent<Rotater>().FlipX();
         }
     }
     public override float this[ST st] {
@@ -128,11 +178,11 @@ public class Entity : IEntity {
     }
     public override void TakeDamage(DamageContext ctx) {
         if(IsDead()) return;
-        ctx.attacker.GetComponent<EffectController>().ProcessDamageOutput(ctx);
-        effectController.ProcessDamageInput(ctx);
+        ctx.attacker.GetEffectable()?.ProcessDamageOutput(ctx);
+        effectController?.ProcessDamageInput(ctx);
         if(ctx.amount <= 0) { return; }
         Stats[ST.Health] = Mathf.Max(Stats[ST.Health] - ctx.amount, 0);
-        effectController.ProcessDamageTaken(ctx);
+        effectController?.ProcessDamageTaken(ctx);
         OnHealthChanged?.Invoke(-ctx.amount);
         if(Stats[ST.Health] == 0) {
             Die();
@@ -148,43 +198,43 @@ public class Entity : IEntity {
         if(IsDead()) { return; }
         isDead = true;
         OnEntityDeath?.Invoke();
-        Destroy(this.gameObject);
+        // [Wrapper] Wrapper should handle destruction of Unity GameObject
     }
 
-    /// <summary>
-    /// Tranfer data from SO to this Entity
-    /// </summary>
-    public virtual void Initialize(EntitySO so, Team team, float x, int laneIndex, int level) {
-        this.level = level;
-        this.lane = laneIndex;
-        this.team = team;
-        UpdateSO(so);
-        if(width != 1 || height != 1) {
-            //Adjust transform.position so the tower appear behind 
-            // transform.position += (new Vector2(width / 2 - grid.cellSize / 2, height / 2 - grid.cellSize / 2));
+    public void UpdateBehaviours(float deltaTime) {
+        if (BattleInfo.gameState != GameState.Fighting){ return; }
+        if((team == Team.Left && gridPos.x >= IGrid.Ins.width) || (team == Team.Right && gridPos.x <= -1)) {
+            Die();
         }
-        if(CustomSceneManager.isFreePlay) {
-            FillBarManager.Ins.CreateHealthBar(this);
+        effectController.Update(deltaTime);
+        UpdateStatTargets();
+        if(isPaused) { return; }
+        if(activeBehavior == null) { return; }
+        if(activeBehavior is IInterruptable || activeBehavior.CanActive() == false) {
+            foreach(IBehaviour behav in behaviours) {
+                if(activeBehavior == behav || behav.GetPriority() == -1) { break; }
+                if(behav.isEnable && behav.CanActive()) {
+                    ChangeBehaviour(behav);
+                    break;
+                }
+            }
         }
-        isPaused = false;
-        ChangeBehaviour(idleBehaviour);
-        transform.Translate(new Vector2(0, yAxisAdjustment + UnityEngine.Random.Range(-0.2f, 0.2f)));
+        activeBehavior.UpdateBehaviour(deltaTime);
     }
     internal void UpdateSO(EntitySO so) {
         this.so = so;
         this.soId = so.id;
         tribes = so.tribes;
         Stats = new();
-        effectController.Reset();
-        //gg
+        effectController?.Reset();
         foreach(var stat in so.GetEntityStats(level)) {
             Stats.Add(stat.Key, stat.Value);
         }
         Stats.Add(ST.Health, Stats[ST.MaxHealth]);
-        foreach(IInitialize init in GetComponents<IInitialize>()) {
+        foreach(IInitialize init in GetBehaviours<IInitialize>()) {
             init.Initialize();
         }
-        effectController.Flush();
+        effectController?.Flush();
     }
     public override float DistanceTo(IEntity other) {
         return Mathf.Abs(this.gridPos.x - other.gridPos.x);
@@ -207,7 +257,7 @@ public class Entity : IEntity {
         isPaused = toggle;
     }
     public override void BecomeInActive() {
-        ChangeBehaviour(GetComponent<InactiveBehaviour>());
+        ChangeBehaviour(GetBehaviour<InactiveBehaviour>());
     }
     [ContextMenu("GetAssessPoint")]
     public void OutputAssessPoint() {
@@ -218,7 +268,7 @@ public class Entity : IEntity {
         internal float timeStamp;
         internal float value;
     }
-    private UDictionary<APType, AssessmentData> assessmentCache = new();
+    private Dictionary<APType, AssessmentData> assessmentCache = new();
     public override float GetAssessPoint(APType type) {
         if (assessmentCache.ContainsKey(type)) {
             AssessmentData data = assessmentCache[type];
@@ -234,7 +284,7 @@ public class Entity : IEntity {
         else if (type == APType.NeedProtection) {
             return GetAssessPoint(APType.Danger);
         }
-        foreach(IAssessable behav in GetComponents<IAssessable>()) {
+        foreach(IAssessable behav in GetBehaviours<IAssessable>()) {
             var point = behav.GetAssessPoint().FirstOrDefault(a => a.type == type);
             if(point != null) { modifiers.Add(point); }
         }
@@ -266,6 +316,26 @@ public class Entity : IEntity {
     }
     public override IBehaviour GetActiveBehaviour() {
         return activeBehavior;
+    }
+    public override T GetBehaviour<T>() where T : class {
+        foreach(IBehaviour behaviour in behaviours) {
+            if(behaviour is T typed) {
+                return typed;
+            }
+        }
+        return null;
+    }
+    public override IEnumerable<T> GetBehaviours<T>() where T : class {
+        foreach(IBehaviour behaviour in behaviours) {
+            if(behaviour is T typed) {
+                yield return typed;
+            }
+        }
+    }
+    public override void SetBehaviours(IEnumerable<IBehaviour> behaviourList) {
+        behaviours = behaviourList.OrderBy(b => -b.GetPriority()).ToArray();
+        idleBehaviour = GetBehaviour<Idle>();
+        ChangeBehaviour(idleBehaviour);
     }
     private void ChangeBehaviour(IBehaviour behav) {
         if(activeBehavior is IOnDestroy onDestroy) {

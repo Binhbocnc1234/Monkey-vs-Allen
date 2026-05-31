@@ -13,12 +13,12 @@ public class CostInsuffientAnimation : IUpdatePerFrame {
         shrinkingTimer = new Timer(duration, false);
         text.color = Color.red;
     }
-    public void Update() {
-        if(!amplifyingTimer.Count()) {
-            text.fontSize += Time.deltaTime * sizeMultiplier;
+    public void Update(float deltaTime) {
+        if(!amplifyingTimer.Count(deltaTime)) {
+            text.fontSize += deltaTime * sizeMultiplier;
         }
-        else if(!shrinkingTimer.Count()) {
-            text.fontSize -= Time.deltaTime * sizeMultiplier;
+        else if(!shrinkingTimer.Count(deltaTime)) {
+            text.fontSize -= deltaTime * sizeMultiplier;
         }
         else {
             text.color = Color.white;

@@ -74,7 +74,7 @@ public class BattleCard : IBattleCard
             // e = EContainer.Ins.CreateEntity(so.entitySO, gridPos.x, gridPos.y, team);
         }
         else {
-            e = IEntityRegistry.Ins.CreateEntity(so.entitySO, startX, gridPos.y, team);
+            e = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = so.entitySO, x = startX, lane = gridPos.y, team = team });
         }
         PlayerData.GetCardDataById(so.id).discovered = true;
         if (!BattleInfo.noCooldown) cooldownTimer.Reset();

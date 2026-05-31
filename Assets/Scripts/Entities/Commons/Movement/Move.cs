@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-// 
+[System.Serializable]
 public abstract class Move : IBehaviour, IInterruptable {
     protected int GetNormalizedDirection() {
         return e.team == Team.Left ? 1 : -1;
@@ -46,5 +45,5 @@ public abstract class Move : IBehaviour, IInterruptable {
     }
     public static float GetUnityMoveSpeed(IEntity e) => e.GetRealMoveSpeed() * IGrid.CELL_SIZE;
     public override int GetPriority() => 1;
-    public override string GetAnimatorStateName() => "Walk"; 
+    public override string GetAnimatorStateName() => "Walk";
 }

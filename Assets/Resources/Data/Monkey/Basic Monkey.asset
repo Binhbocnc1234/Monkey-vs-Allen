@@ -23,7 +23,11 @@ MonoBehaviour:
   moveSpeed: 2
   otherStats: []
   traits: 
-  prefab: {fileID: 1898314983252595580, guid: df2739313617f0e4c8e0bd5335889ea6, type: 3}
+  prefab: {fileID: 843304347767724812, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
+  behaviourTemplates:
+  - rid: 143221976712085586
+  - rid: 143221976712085587
+  - rid: 143221976712085770
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -37,4 +41,18 @@ MonoBehaviour:
   upgradedSkillAtLv5: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 143221976712085586
+      type: {class: Attack, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+    - rid: 143221976712085587
+      type: {class: StraightMove, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+    - rid: 143221976712085770
+      type: {class: BasicMonkey, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+        solidaritySkill: {fileID: 11400000, guid: dcd76b42fc1c308468f22468921afab4, type: 2}
+        monkeySO: {fileID: 11400000}

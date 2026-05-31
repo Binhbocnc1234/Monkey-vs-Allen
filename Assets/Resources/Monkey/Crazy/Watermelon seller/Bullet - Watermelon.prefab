@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8413180021990266549}
   - component: {fileID: 1650582900140319901}
-  - component: {fileID: 8156957529114826402}
-  - component: {fileID: 676437627654902835}
   - component: {fileID: 4423808338023855008}
+  - component: {fileID: 6260697372402769141}
+  - component: {fileID: 5595688598529733189}
+  - component: {fileID: 5703787091396818241}
+  - component: {fileID: 3708207107656117702}
   m_Layer: 0
   m_Name: Bullet - Watermelon
   m_TagString: Untagged
@@ -37,6 +39,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1650582900140319901
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -52,6 +55,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,9 +81,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fef848b1419f41943a3eb76d2673709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -85,16 +95,34 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &8156957529114826402
-CircleCollider2D:
+--- !u!114 &4423808338023855008
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9208581898013326666}
-  m_Enabled: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df4bd694de3e28848853025fa832080f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 3708207107656117702}
+  speed: 10
+  damage: 10
+  lane: 0
+  team: 0
+  isFading: 0
+--- !u!61 &6260697372402769141
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208581898013326666}
+  m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -118,11 +146,56 @@ CircleCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.019151568, y: 0.026812136}
-  serializedVersion: 2
-  m_Radius: 0.8065184
---- !u!114 &676437627654902835
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.02577734, y: 0.0073845387}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.8565217, y: 1.9347826}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.4473083, y: 1.3447554}
+  m_EdgeRadius: 0
+--- !u!210 &5595688598529733189
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208581898013326666}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
+--- !u!95 &5703787091396818241
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9208581898013326666}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3708207107656117702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,27 +204,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9208581898013326666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d52e747c21ffd4d9860503cfe4c228, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e974595867b8484891b9b2cbb10986e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  sprites: []
-  speedMultiplier: 0
-  isFadeOut: 0
---- !u!114 &4423808338023855008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9208581898013326666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4bd694de3e28848853025fa832080f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  model: {fileID: 676437627654902835}
-  speed: 10
-  damage: 10
-  lane: 0
-  team: 0
-  owner: {fileID: 0}
+  m_EditorClassIdentifier: MvA.Bullet.Appearance::BulletModel
+  sortingGroup: {fileID: 0}
+  animator: {fileID: 0}
+  boxCollider: {fileID: 6260697372402769141}

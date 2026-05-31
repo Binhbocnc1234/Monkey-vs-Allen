@@ -9,7 +9,7 @@ public class ParallaxManager : MonoBehaviour
     void Awake()
     {
         if (!cam) cam = Camera.main;
-        layers = FindObjectsOfType<ParallaxLayer>();
+        layers = FindObjectsByType<ParallaxLayer>(FindObjectsSortMode.None);
         lastCamPos = cam.transform.position;
 
         foreach (var l in layers)

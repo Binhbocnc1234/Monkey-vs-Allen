@@ -23,7 +23,8 @@ MonoBehaviour:
   moveSpeed: 2
   otherStats: []
   traits: 
-  prefab: {fileID: 2211719451317403175, guid: 56f46dc2cfaa030488b551133dfbedc2, type: 3}
+  prefab: {fileID: 2266832890626495243, guid: 7be8345956a57ae499cbdd59a864c3bd, type: 3}
+  behaviourTemplates: []
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1

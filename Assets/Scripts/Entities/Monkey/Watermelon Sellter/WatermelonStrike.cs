@@ -1,9 +1,6 @@
-using UnityEngine;
-
+// [Wrapper] Phase 4: firePoint, bigWatermelon are Unity visual references
 public class WatermelonStrike : Skill {
     IEntity lowestHealthEntity = null;
-    public Transform firePoint;
-    public GameObject bigWatermelon;
     public override bool CanActive() {
         lowestHealthEntity = null;
         foreach(IEntity otherE in IEntityRegistry.Ins.GetEntities()) {
@@ -18,12 +15,5 @@ public class WatermelonStrike : Skill {
     }
     public override void Initialize() {
         base.Initialize();
-        // e.model.Event.OnAnimationFinished += (info) => {
-        //     if (info.IsName($"Skill {skillIndex}")) {
-        //         // Create Watermelon bullet
-        //         GeneralPurposeContainer.Ins.CreateInstance(bigWatermelon, firePoint.position);
-                
-        //     }
-        // };
     }
 }

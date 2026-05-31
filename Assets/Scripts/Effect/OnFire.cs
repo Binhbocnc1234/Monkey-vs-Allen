@@ -4,9 +4,9 @@ public class OnFire : Effect {
         isDebuff = true;
         delayTimer = new Timer(1, true);
     }
-    public override void Update() {
-        base.Update();
-        if(delayTimer.Count()) {
+    public override void Update(float deltaTime) {
+        base.Update(deltaTime);
+        if(delayTimer.Count(deltaTime)) {
             owner.TakeDamage(new DamageContext(3, null, owner, false));
         }
     }

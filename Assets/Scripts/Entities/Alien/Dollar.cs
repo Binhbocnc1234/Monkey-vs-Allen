@@ -14,8 +14,8 @@ public class Dollar : MonoBehaviour{
         if (isFalling){
             return;
         }
-        foreach(Entity e in IEntityRegistry.Ins.GetEntitiesByLane(lane)){
-            if (Mathf.Abs(e.transform.position.x - destination.x) <= 0.5f){
+        foreach(IEntity e in IEntityRegistry.Ins.GetEntitiesByLane(lane)){
+            if (Mathf.Abs(e.gridPos.x - destination.x) <= 0.5f){
                 e.GetEffectable().ApplyEffect(new Greedy());
                 Destroy(this.gameObject);
             }

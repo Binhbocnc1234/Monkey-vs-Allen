@@ -32,7 +32,7 @@ public class HoppingMove : Move, IInitialize {
         }
 
         // jumping state
-        jumpTimer += Time.deltaTime;
+        jumpTimer += deltaTime;
         float t = jumpTimer / hopDuration;
         
         if (t >= 1f) { //The moment Allen landed on the ground was also the time parabolic path is ended
@@ -44,6 +44,6 @@ public class HoppingMove : Move, IInitialize {
         }
         float x = startPos.x + hopDistance * GetNormalizedDirection() * t;
         float y = groundY + hopHeight * 4f * t * (1f - t); //parabolic jump path
-        e.model.SetPosition(new Vector2(x, y));
+        e.gridPos = new Vector2(x, y);
     }
 }

@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class StatueOfLiberty : MonoBehaviour, IInitialize
-{
+public class StatueOfLiberty : IInitialize {
+    private readonly IEntity entity;
     private DoubleDamageEffect globalEffect;
+    public StatueOfLiberty(IEntity entity) {
+        this.entity = entity;
+    }
     public void Initialize() {
+        // [Wrapper] hook global effect visuals in wrapper if needed
         // globalEffect = new DoubleDamageEffect();
         // GlobalEffectManager.Ins.AddEffect(globalEffect);
-        // GetComponent<IEntity>().OnEntityDeath += () => GlobalEffectManager.Ins.RemoveEffect(globalEffect);
+        // entity.OnEntityDeath += () => GlobalEffectManager.Ins.RemoveEffect(globalEffect);
     }
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4425310893160224611}
   - component: {fileID: 1088582753958378714}
-  - component: {fileID: 1510227903713982160}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -35,6 +34,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &1088582753958378714
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -50,6 +50,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -71,9 +76,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4a41417f6410b794585fa6ff0c50e2d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,28 +90,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1510227903713982160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8332962156998062053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d52e747c21ffd4d9860503cfe4c228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transitionTime: 0
-  entity: {fileID: 0}
-  sortingGroup: {fileID: 0}
-  animator: {fileID: 0}
-  Event: {fileID: 0}
-  boxCollider: {fileID: 0}
-  speedMultiplier: -1
-  isFadeOut: 0
 --- !u!1001 &7000165489558323805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,10 +99,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7577518260805009647, guid: 5c9e564334d08234a9202254dc3002b5, type: 3}
-      propertyPath: model
-      value: 
-      objectReference: {fileID: 1510227903713982160}
     - target: {fileID: 686183514890436268, guid: 5c9e564334d08234a9202254dc3002b5, type: 3}
       propertyPath: m_Size.x
       value: 0.6302662

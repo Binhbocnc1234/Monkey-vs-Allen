@@ -15,8 +15,8 @@ public class HinterManager : UpdateManager<HinterManager.Hinter>
             this.target = target;
             renderers = target.GetComponentsInChildren<SpriteRenderer>();
         }
-        public void Update() {
-            harmonicOscillation.Update();
+        public void Update(float deltaTime) {
+            harmonicOscillation.Update(deltaTime);
             float rgbVal = harmonicOscillation.GetValue() / 255f;
             color.r = rgbVal;
             color.g = rgbVal;

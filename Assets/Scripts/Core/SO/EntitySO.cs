@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 
 [CreateAssetMenu(fileName = "NewEntitySO", menuName = "ScriptableObject/Entity")]
 public class EntitySO : MySO {
-    public GameClass gameClass;
+    public GameClass gameClass = GameClass.None;
     public List<Tribe> tribes;
     public int health = 10;
     public bool canAttack = true;
@@ -19,6 +18,7 @@ public class EntitySO : MySO {
     [SerializeField] private List<EntityStat> otherStats;
     public List<EffectType> traits;
     public GameObject prefab;
+    [SubclassSelector, SerializeReference] public List<IBehaviour> behaviourTemplates = new();
     public List<SkillSO> unlockedSkillInFirstLevel;
     [SubclassSelector, SerializeReference] private List<Upgrade> upgrades;
     [Header("Obsolete Upgrade System")]
@@ -27,6 +27,13 @@ public class EntitySO : MySO {
     public SkillSO unlockedSkillInLevel3;
     public StatUpgrade level_4;
     public SkillSO upgradedSkillAtLv5;
+    public override List<string> GetCompletionMessage() {
+        List<string> messages = new();
+        if(prefab == null) { messages.Add("Missing prefab"); }
+        if(gameClass == GameClass.None) { messages.Add("gameClass is None"); }
+        if(tribes == null || tribes.Count == 0) { messages.Add("tribes is empty"); }
+        return messages;
+    }
     public bool IsContainTribes(List<Tribe> requiredTribes) {
         foreach(Tribe tribe in requiredTribes) {
             if(tribes.Contains(tribe) == false) {
@@ -97,6 +104,18 @@ public class EntitySO : MySO {
         Debug.LogError($"[EntitySO] Cannot find EntitySO with name : {name}");
         return null;
     }
+    void OnValidate() {
+        if(prefab != null && prefab.GetComponent<Model>() == null) {
+            Debug.LogError("[EntitySO] Prefab root doesn't have Model component");
+            prefab = null;
+        }
+        if(health < 0) { health = 0; }
+        if(damage < 0) { damage = 0; }
+        if(attackSpeed < 0) { attackSpeed = 0; }
+        if(attackRange < 1) { attackRange = 1; }
+        if(moveSpeed < 0) { moveSpeed = 0; }
+    }
+    
 }
 
 

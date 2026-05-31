@@ -23,7 +23,9 @@ MonoBehaviour:
   moveSpeed: 1
   otherStats: []
   traits: 
-  prefab: {fileID: 2943976062345127126, guid: ecb058feb335a1b498dc47de429f6e89, type: 3}
+  prefab: {fileID: 6410456944335761279, guid: 4173b22a1851cc249878c53d0c81b5c2, type: 3}
+  behaviourTemplates:
+  - rid: 143221976712085589
   unlockedSkillInFirstLevel:
   - {fileID: 11400000, guid: 553f494774af2034cbc4b1e6851cf381, type: 2}
   upgrades:
@@ -42,6 +44,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 143221976712085589
+      type: {class: BananaTree, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+        growProgress: 0
     - rid: 7729647089681170435
       type: {class: StatUpgrade, ns: , asm: MvA.Core}
       data:

@@ -12,8 +12,8 @@ public abstract class CardEffect : IUpdatePerFrame, IDestroyable {
             lifeTimer = new Timer(duration, false);
         }
     }
-    public virtual void Update() {
-        if(lifeTimer.Count()) {
+    public virtual void Update(float deltaTime) {
+        if(lifeTimer.Count(deltaTime)) {
             DestroyThis();
         }
     }

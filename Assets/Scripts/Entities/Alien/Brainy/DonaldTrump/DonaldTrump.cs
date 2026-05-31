@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-public class DonaldTrump : Allen
-{
+/// <summary>
+/// DonaldTrump specific data and initialization.
+/// [Wrapper] Phase 4: dollar prefab visual handled by wrapper.
+/// </summary>
+public class DonaldTrump {
     public float gunCooldown, embargoCooldown, summonCooldown;
     public Dollar dollarPrefab;
-    protected override void Update(){
-        base.Update();
-    }
 }
-

@@ -1,158 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4243784536699012920
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4835022742594733043}
-  - component: {fileID: 8178116233779810405}
-  - component: {fileID: 4355747680425163997}
-  - component: {fileID: 4831466468473858848}
-  - component: {fileID: 6071985966265643834}
-  - component: {fileID: -3223705281946765534}
-  m_Layer: 0
-  m_Name: Basic Alien
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4835022742594733043
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.48, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8932923076511771393}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8178116233779810405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78aef684f72d0df4a81c9ed9bb8a73f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yAxisAdjustment: -0.48
-  so: {fileID: 11400000, guid: 7c8dbbb86002b984597700da909c9c98, type: 2}
-  lane: 0
-  isTargetable: 1
-  width: 1
-  height: 1
-  soId: 214ef9f9-3658-42f5-890e-5cf9346410e5
-  level: 0
-  _team: 0
-  isDead: 0
-  actionElapsedTime: 0
-  gridPos: {x: 0, y: 0}
-  Stats:
-    keys: 010000000200000005000000040000000600000000000000
-    values:
-    - 200
-    - 30
-    - 1
-    - 1
-    - 1
-    - 200
-  activeBehaviourName: 
-  effectController: {fileID: 4355747680425163997}
-  statLerpSpeed: 10
---- !u!114 &4355747680425163997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a333032aa3c669b45a8fd57f3846d2aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  container: []
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &4831466468473858848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a7ed9748608df4cb4ec6befa442ed9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canActive: 0
-  attackTimer:
-    remainingTime: 1.35
-    totalTime: 1.35
-    isEnd: 0
-    isReset: 0
-  animationTimer:
-    remainingTime: 1.35
-    totalTime: 1.35
-    isEnd: 0
-    isReset: 0
---- !u!114 &6071985966265643834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47780f8d9aa21964baa3d38a25bd557a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canActive: 0
---- !u!114 &-3223705281946765534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4243784536699012920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f307e3f5900564283dd939e6d71669, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: e970604f62b86c94cba04fb177fed60e, type: 2}
 --- !u!1001 &2938604020875308604
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4835022742594733043}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 585643502995953436, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
       propertyPath: m_Name
-      value: Model
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999576519316077688, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
+      value: Basic Alien
       objectReference: {fileID: 0}
     - target: {fileID: 5873585340087997116, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
       propertyPath: walkClip
@@ -202,29 +60,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8607506620341692899, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-      propertyPath: m_Size.x
-      value: 1.5190719
-      objectReference: {fileID: 0}
-    - target: {fileID: 8607506620341692899, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-      propertyPath: m_Size.y
-      value: 1.9525394
-      objectReference: {fileID: 0}
-    - target: {fileID: 8607506620341692899, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.18753332
-      objectReference: {fileID: 0}
-    - target: {fileID: 8607506620341692899, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-      propertyPath: m_Offset.y
-      value: 1.3170781
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
---- !u!4 &8932923076511771393 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5994320773707269437, guid: 10d45b4bf96fd0943a7ade1944fcd4a4, type: 3}
-  m_PrefabInstance: {fileID: 2938604020875308604}
-  m_PrefabAsset: {fileID: 0}

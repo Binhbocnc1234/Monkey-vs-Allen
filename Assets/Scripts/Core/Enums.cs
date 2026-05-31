@@ -97,6 +97,7 @@ public enum GameClass {
     Brainy,
     Swarmy,
     Sneaky,
+    None,
 }
 public enum Faction {
     Alien, Monkey, Tower

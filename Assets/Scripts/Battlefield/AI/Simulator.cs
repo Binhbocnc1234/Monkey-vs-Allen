@@ -6,9 +6,9 @@ public static class Simulator {
 	private const float SimulationStep = 1f;
 	private const float MaxPostSpawnSeconds = 20f;
 	private const float ResolveEpsilon = 0.0001f;
-	private static List<FakeEntity> world = new();
+	private static List<SimEntity> world = new();
 
-	public sealed class FakeEntity {
+	private sealed class SimEntity {
 		public Team team;
 		public float x;
 		public float moveSpeed;
@@ -20,24 +20,24 @@ public static class Simulator {
 	}
 
 	public static float EvaluateBundle(IEntity[] laneEntities, IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
-		List<FakeEntity> laneFakes = ConvertIEntitiesToFake(laneEntities);
-		List<FakeEntity> spawnedFakes = ConvertCardsToFake(spawnedCards, ourTeam, gridWidth);
-		return EvaluateBundle_2(laneFakes, spawnedFakes, ourTeam, enemyTeam, gridWidth, lookahead);
+		List<SimEntity> laneSnapshots = SnapshotEntities(laneEntities);
+		List<SimEntity> spawnedSnapshots = SnapshotCards(spawnedCards, ourTeam, gridWidth);
+		return EvaluateBundle_2(laneSnapshots, spawnedSnapshots, ourTeam, enemyTeam, gridWidth, lookahead);
 	}
 
-	private static List<FakeEntity> ConvertIEntitiesToFake(IEntity[] laneEntities) {
+	private static List<SimEntity> SnapshotEntities(IEntity[] laneEntities) {
 		if(laneEntities == null || laneEntities.Length == 0) {
-			return new List<FakeEntity>(0);
+			return new List<SimEntity>(0);
 		}
 
-		List<FakeEntity> list = new(laneEntities.Length);
+		List<SimEntity> list = new(laneEntities.Length);
 		for(int i = 0; i < laneEntities.Length; ++i) {
 			IEntity entity = laneEntities[i];
 			if(entity == null) {
 				continue;
 			}
 
-			list.Add(new FakeEntity {
+			list.Add(new SimEntity {
 				team = entity.team,
 				x = entity.gridPos.x,
 				moveSpeed = Mathf.Max(0f, entity.GetRealMoveSpeed()),
@@ -50,38 +50,48 @@ public static class Simulator {
 		return list;
 	}
 
-	private static List<FakeEntity> ConvertCardsToFake(IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, int gridWidth) {
+	private static List<SimEntity> SnapshotCards(IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, int gridWidth) {
 		if(spawnedCards == null || spawnedCards.Count == 0) {
-			return new List<FakeEntity>(0);
+			return new List<SimEntity>(0);
 		}
 
 		float spawnX = ourTeam == Team.Left ? 0f : gridWidth - 1;
-		List<FakeEntity> list = new(spawnedCards.Count);
+		List<SimEntity> list = new(spawnedCards.Count);
 		for(int i = 0; i < spawnedCards.Count; ++i) {
 			IBattleCard card = spawnedCards[i];
 			if(card == null) {
 				continue;
 			}
 
-			IEntity prefab = card.GetSO()?.entitySO?.prefab?.GetComponent<IEntity>();
-			if(prefab == null) {
+			EntitySO entitySO = card.GetSO()?.entitySO;
+			// [Wrapper] Phase 4: read from prefab EntityWrapper for more accurate assess points
+			if(entitySO == null) {
 				continue;
 			}
 
-			list.Add(new FakeEntity {
+			// Estimate SimEntity values from SO (rough approximation — equivalent to level 1 with no effects)
+			float moveSpeed = entitySO.moveSpeed / 4f;
+			float range = entitySO.attackRange;
+			float damage = entitySO.damage;
+			float attackSpeed = entitySO.attackSpeed;
+			float health = entitySO.health;
+			float dangerEstimate = (0.9f + range / 10f) * attackSpeed * damage;
+			float survivabilityEstimate = health / 7f + (dangerEstimate * 0f /* lifeSteal */ / 100f);
+
+			list.Add(new SimEntity {
 				team = ourTeam,
 				x = spawnX,
-				moveSpeed = Mathf.Max(0f, prefab.GetRealMoveSpeed()),
-				range = Mathf.Max(0f, prefab[ST.Range]),
-				danger = Mathf.Max(0f, prefab.GetAssessPoint(APType.Danger)),
-				survivability = Mathf.Max(0f, prefab.GetAssessPoint(APType.Defend)),
+				moveSpeed = Mathf.Max(0f, moveSpeed),
+				range = Mathf.Max(0f, range),
+				danger = Mathf.Max(0f, dangerEstimate),
+				survivability = Mathf.Max(0f, survivabilityEstimate),
 			});
 		}
 
 		return list;
 	}
 
-	public static float EvaluateBundle_2(List<FakeEntity> laneEntities, List<FakeEntity> spawnedCards, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
+	private static float EvaluateBundle_2(List<SimEntity> laneEntities, List<SimEntity> spawnedCards, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
 		ResetWorld();
 		if(laneEntities != null) {
 			world.AddRange(CloneEntities(laneEntities));
@@ -116,7 +126,7 @@ public static class Simulator {
 		}
 
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity entity = world[i];
+			SimEntity entity = world[i];
 			if(!entity.IsAlive) {
 				continue;
 			}
@@ -127,7 +137,7 @@ public static class Simulator {
 
 		float[] pendingDamage = new float[world.Count];
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity attacker = world[i];
+			SimEntity attacker = world[i];
 			if(!attacker.IsAlive) {
 				continue;
 			}
@@ -137,7 +147,7 @@ public static class Simulator {
 				continue;
 			}
 
-			FakeEntity target = world[targetIndex];
+			SimEntity target = world[targetIndex];
 			float distance = Mathf.Abs(attacker.x - target.x);
 			if(distance > attacker.range) {
 				continue;
@@ -147,7 +157,7 @@ public static class Simulator {
 		}
 
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity entity = world[i];
+			SimEntity entity = world[i];
 			if(!entity.IsAlive) {
 				continue;
 			}
@@ -158,11 +168,11 @@ public static class Simulator {
 		world.RemoveAll(entity => entity.survivability <= ResolveEpsilon);
 	}
 
-	private static List<FakeEntity> CloneEntities(List<FakeEntity> source) {
-		List<FakeEntity> cloned = new(source.Count);
+	private static List<SimEntity> CloneEntities(List<SimEntity> source) {
+		List<SimEntity> cloned = new(source.Count);
 		for(int i = 0; i < source.Count; ++i) {
-			FakeEntity entity = source[i];
-			cloned.Add(new FakeEntity {
+			SimEntity entity = source[i];
+			cloned.Add(new SimEntity {
 				team = entity.team,
 				x = entity.x,
 				moveSpeed = entity.moveSpeed,
@@ -175,12 +185,12 @@ public static class Simulator {
 		return cloned;
 	}
 
-	private static int FindNearestEnemy(List<FakeEntity> world, FakeEntity attacker) {
+	private static int FindNearestEnemy(List<SimEntity> world, SimEntity attacker) {
 		int bestIndex = -1;
 		float bestDistance = float.PositiveInfinity;
 
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity candidate = world[i];
+			SimEntity candidate = world[i];
 			if(candidate.team == attacker.team || !candidate.IsAlive) {
 				continue;
 			}
@@ -195,12 +205,12 @@ public static class Simulator {
 		return bestIndex;
 	}
 
-	private static bool IsResolved(List<FakeEntity> world) {
+	private static bool IsResolved(List<SimEntity> world) {
 		bool hasOurTeam = false;
 		bool hasEnemyTeam = false;
 
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity entity = world[i];
+			SimEntity entity = world[i];
 			if(!entity.IsAlive) {
 				continue;
 			}
@@ -237,13 +247,13 @@ public static class Simulator {
 		return score;
 	}
 
-	private static float CalculateTeamPower(List<FakeEntity> world, Team team) {
+	private static float CalculateTeamPower(List<SimEntity> world, Team team) {
 		float dangerSum = 0f;
 		float survivabilitySum = 0f;
 		int unitCount = 0;
 
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity entity = world[i];
+			SimEntity entity = world[i];
 			if(entity.team != team || !entity.IsAlive) {
 				continue;
 			}
@@ -260,14 +270,14 @@ public static class Simulator {
 		return dangerSum * survivabilitySum * TeamSnapshot.GetUnitCountDebuff(unitCount);
 	}
 
-	public static List<FakeEntity> GetWorldSnapshot() {
+	private static List<SimEntity> GetWorldSnapshot() {
 		return CloneEntities(world);
 	}
 
-	private static int CountAlive(List<FakeEntity> world, Team team) {
+	private static int CountAlive(List<SimEntity> world, Team team) {
 		int count = 0;
 		for(int i = 0; i < world.Count; ++i) {
-			FakeEntity entity = world[i];
+			SimEntity entity = world[i];
 			if(entity.team == team && entity.IsAlive) {
 				count++;
 			}

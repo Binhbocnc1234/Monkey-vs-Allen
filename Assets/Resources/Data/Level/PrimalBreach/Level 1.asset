@@ -17,8 +17,9 @@ MonoBehaviour:
   place: 1
   thumbnail: {fileID: 1903562048, guid: 201aa13f474ac9841b196fe0bff7f5fc, type: 3}
   initialBanana: 3
-  allenanaSpawnDelay: 3.8
   gridWidth: 9
+  alienMaximumUpgradeCnt: -1
+  alienWaitingTime: 0
   openLanes: 0000010000
   enemies:
   - {fileID: 11400000, guid: 528605dba04758b40a04ab2f062ad11d, type: 2}

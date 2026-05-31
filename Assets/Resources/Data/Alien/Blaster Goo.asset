@@ -23,7 +23,9 @@ MonoBehaviour:
   moveSpeed: 1
   otherStats: []
   traits: 
-  prefab: {fileID: 6810458493571691711, guid: 8ca0c9714b3b7644ea0d9b8325e19480, type: 3}
+  prefab: {fileID: 5565146355260433290, guid: f21ea6cb3359bf44a9e21e70794dd01d, type: 3}
+  behaviourTemplates:
+  - rid: 143221976712085591
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -37,4 +39,10 @@ MonoBehaviour:
   upgradedSkillAtLv5: {fileID: 11400000, guid: bc12d975a1d6a9144916715e5732cf6f, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 143221976712085591
+      type: {class: RangedAttack, ns: , asm: MvA.Entities}
+      data:
+        _isEnable: 1
+        bulletPrefab: {fileID: 8717432115871045510, guid: be087b809d021394a8e8f1cceaa3e35a, type: 3}
+        firePoint: {fileID: 0}

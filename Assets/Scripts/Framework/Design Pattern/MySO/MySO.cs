@@ -17,6 +17,8 @@ public abstract class MySO : ScriptableObject {
 #endif
         }
     }
+    public bool IsCompleted() => GetCompletionMessage().Count == 0;
+    public virtual List<string> GetCompletionMessage() => new();
 }
 // public abstract class NameIndexedSO : MySO{
 //     protected override void Awake() {

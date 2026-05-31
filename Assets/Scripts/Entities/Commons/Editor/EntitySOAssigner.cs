@@ -10,7 +10,8 @@ public static class EntitySOAssigner {
                 continue;
             }
             Debug.Log(so.name);
-            so.prefab.GetComponent<Entity>().UpdateSO(so);
+            // [Wrapper] Phase 4: so.prefab.GetComponent<EntityWrapper>()?.model.UpdateSO(so);
+            Debug.LogWarning($"[EntitySOAssigner] Skipped UpdateSO for {so.name} — Entity is plain C# now. Use wrapper in Phase 4.");
         }
     } 
 }

@@ -5,10 +5,10 @@ public class AnimatorEvent : MonoBehaviour
 {
     public Action OnMakeDamage, EndDeathClip;
     public Action<AnimatorStateInfo> OnAnimationFinished;
-    private Animator animator;
-    [Range(0f, 1f), SerializeField] private float completionPercent;
+    // private Animator animator;
+    // private const float completionPercent = 0.8f;
     void Awake() {
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
         OnMakeDamage = null;
         EndDeathClip = null;
         OnAnimationFinished = null;

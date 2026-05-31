@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using System;
-using UnityEngine;
-using Unity.IO.LowLevel.Unsafe;
 /// <summary>
 /// Skill is owned by only one type of Entity and its signature of that Enttiy <br/>
 /// Skill is executed after timer is end
 /// </summary>
-[RequireComponent(typeof(Entity))]
 public abstract class Skill : IBehaviour, IOnApply, IInitialize{
     protected float cooldown;
     public SkillSO so;
@@ -23,9 +20,6 @@ public abstract class Skill : IBehaviour, IOnApply, IInitialize{
         //     }
         // };
         stunImmunity = new StunImmunity();
-    }
-    void Update() {
-        cooldownTimer.Count();
     }
     public virtual void OnApply() {
         cooldownTimer.Reset();
