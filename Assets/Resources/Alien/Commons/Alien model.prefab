@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 840138483508900976}
   - component: {fileID: 2957180376135803069}
   - component: {fileID: 8058329276882464073}
+  - component: {fileID: 6440724014475387455}
   m_Layer: 0
   m_Name: Alien model
   m_TagString: Untagged
@@ -91,10 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9044e8fc1f42d144a87002ec346ce986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MvA.Entities::Model
-  transitionTime: 0.25
   sortingGroup: {fileID: 5854702160726120709}
   animator: {fileID: 3999576519316077688}
   boxCollider: {fileID: 1879354802610999183}
+  firePoint: {fileID: 0}
 --- !u!114 &8209866605759855830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 108a73f2e08397e4daceac1c45bedc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  completionPercent: 0.8
 --- !u!114 &2566938867196236414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +205,19 @@ MonoBehaviour:
   gridPosY: 0
   activeBehaviourName: 
   isDead: 0
+--- !u!114 &6440724014475387455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585643502995953436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0163816955b6c448810aa7d5a4e4f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MvA.Entities.Appearance::FlashWhite
+  material: {fileID: 2100000, guid: 0cfcc9d17ec407c428df3ae06d4a2348, type: 2}
 --- !u!1 &829975035511180673
 GameObject:
   m_ObjectHideFlags: 0

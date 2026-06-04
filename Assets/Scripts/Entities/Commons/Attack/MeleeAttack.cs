@@ -1,5 +1,5 @@
 [System.Serializable]
-public class Attack : AttackBase {
+public class MeleeAttack : AttackBase {
     protected override void WhenAttackReady() {
         ApplyDirectDamage();
     }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 12c5d8b3-6baf-4763-9f43-bf0e8335dc78
   gameClass: 1
-  tribes: 
+  tribes: 0a000000
   health: 120
   canAttack: 1
   attackRange: 5
@@ -24,7 +24,9 @@ MonoBehaviour:
   otherStats: []
   traits: 
   prefab: {fileID: 2266832890626495243, guid: 7be8345956a57ae499cbdd59a864c3bd, type: 3}
-  behaviourTemplates: []
+  behaviourTemplates:
+  - rid: 4338881874046484480
+  - rid: 4338881874046484481
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -38,4 +40,11 @@ MonoBehaviour:
   upgradedSkillAtLv5: {fileID: 11400000, guid: 2e36518a9f19fd2488345fa67d10501a, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4338881874046484480
+      type: {class: RangedAttack, ns: , asm: MvA.Entities}
+      data:
+        bulletPrefab: {fileID: 8948419271275381153, guid: 53ce9b9035c39e3489669c1050e0dc9e, type: 3}
+    - rid: 4338881874046484481
+      type: {class: StraightMove, ns: , asm: MvA.Entities}
+      data: 

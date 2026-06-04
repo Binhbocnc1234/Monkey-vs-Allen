@@ -113,7 +113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 843304347767724812, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_Name
-      value: Model Variant
+      value: Model - Target Monkey
       objectReference: {fileID: 0}
     - target: {fileID: 1483744545845802059, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_Enabled
@@ -125,7 +125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1557848736211449974, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1557848736211449974, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
       propertyPath: m_LocalPosition.z

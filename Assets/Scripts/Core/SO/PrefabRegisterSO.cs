@@ -14,5 +14,6 @@ public class PrefabRegisterSO : MySO {
     public GameObject bananaBunch;
     public GameObject emptyGameObject;
     public GameObject alienSpawningEffect;
+    public Material flashMaterial;
     public UDictionary<ST, Sprite> statIconMap;
 }

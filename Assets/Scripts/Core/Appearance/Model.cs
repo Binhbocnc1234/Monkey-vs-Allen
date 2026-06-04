@@ -45,6 +45,21 @@ public abstract class Model : MonoBehaviour {
         // }
     }
     public void PlayAnimation(string name) {
+        if(animator == null) {
+            Debug.LogError("[Model] Animator is null");
+            return;
+        }
+        if(string.IsNullOrWhiteSpace(name)) {
+            Debug.LogWarning("[Model] Animation state name is empty");
+            return;
+        }
+
+        int stateHash = Animator.StringToHash(name);
+        if(!animator.HasState(0, stateHash)) {
+            Debug.LogWarning($"[Model] Animator state not found: {name}");
+            return;
+        }
+        
         currentStateName = name;
         animator.CrossFade(name, transitionTime, 0, 0);
     }

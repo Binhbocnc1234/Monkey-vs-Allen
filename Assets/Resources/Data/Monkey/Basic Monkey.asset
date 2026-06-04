@@ -25,7 +25,7 @@ MonoBehaviour:
   traits: 
   prefab: {fileID: 843304347767724812, guid: 8f1d2e44758871a4cba0524598d862da, type: 3}
   behaviourTemplates:
-  - rid: 143221976712085586
+  - rid: 143221989729632343
   - rid: 143221976712085587
   - rid: 143221976712085770
   unlockedSkillInFirstLevel: []
@@ -42,17 +42,14 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 143221976712085586
-      type: {class: Attack, ns: , asm: MvA.Entities}
-      data:
-        _isEnable: 1
     - rid: 143221976712085587
       type: {class: StraightMove, ns: , asm: MvA.Entities}
-      data:
-        _isEnable: 1
+      data: 
     - rid: 143221976712085770
       type: {class: BasicMonkey, ns: , asm: MvA.Entities}
       data:
-        _isEnable: 1
         solidaritySkill: {fileID: 11400000, guid: dcd76b42fc1c308468f22468921afab4, type: 2}
         monkeySO: {fileID: 11400000}
+    - rid: 143221989729632343
+      type: {class: MeleeAttack, ns: , asm: MvA.Entities}
+      data: 

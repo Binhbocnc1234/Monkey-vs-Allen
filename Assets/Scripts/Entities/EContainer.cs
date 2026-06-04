@@ -31,9 +31,8 @@ public class EContainer : IEntityRegistry {
     /// </summary>
     public void TickEntities(float deltaTime) {
         for(int i = entities.Count - 1; i >= 0; i--) {
-            var list = entities[i];
             entities[i].RemoveAll(e => e == null || e.IsDead());
-            foreach(Entity entity in list) {
+            foreach(Entity entity in entities[i]) {
                 entity.UpdateBehaviours(deltaTime);
             }
         }
@@ -60,7 +59,7 @@ public class EContainer : IEntityRegistry {
             Debug.LogError("[EContainer] so.prefab is null!");
             return null;
         }
-        Vector3 worldPos = IGrid.Ins.GridToWorldPosition(set.x, set.lane);
+
         Entity e = new Entity(set.so, set.team, set.x, set.lane, set.level, set.isSimulated);
         if(!set.isSimulated) {
             e.model = IEntityModelRegistry.Ins.CreateInstance(e);

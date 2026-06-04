@@ -25,7 +25,7 @@ MonoBehaviour:
   traits: 
   prefab: {fileID: 2371316042020976928, guid: a879afdfabd3996448bebd4f7259ced7, type: 3}
   behaviourTemplates:
-  - rid: 143221967485403216
+  - rid: 143221989729632344
   - rid: 143221989729632340
   unlockedSkillInFirstLevel: []
   upgrades: []
@@ -41,9 +41,9 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 143221967485403216
-      type: {class: Attack, ns: , asm: MvA.Entities}
-      data: 
     - rid: 143221989729632340
       type: {class: SyncWithAnimationMove, ns: , asm: MvA.Entities}
+      data: 
+    - rid: 143221989729632344
+      type: {class: MeleeAttack, ns: , asm: MvA.Entities}
       data: 

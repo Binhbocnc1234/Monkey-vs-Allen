@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public abstract class IEntity {
     public Action<IBehaviour> OnBehaviorActive;
-    public float yAxisAdjustment;
     public EntitySO so;
     public int lane;
     public bool isTargetable = true;
@@ -54,7 +53,7 @@ public abstract class IEntity {
     public abstract float GetAssessPoint(APType type);
     public abstract EntitySO GetSO();
     /// <summary>
-    /// Trả về tốc độ theo đơn vị Unity world unit, được sử dụng để di chuyển Entity
+    /// Trả về tốc độ theo đơn vị Cell unit, được sử dụng để di chuyển Entity
     /// </summary>
     /// <returns></returns>
     public abstract float GetRealMoveSpeed();

@@ -10,6 +10,9 @@ public class RangedAttack : AttackBase {
             Debug.LogError($"[RangedAttack] bulletPrefab is null");
             return;
         }
+        if (firePoint == null) {
+            Debug.LogError("[RangedAttack] firePoint is null");
+        }
 
         var request = new BulletSpawnRequest {
             prefab = bulletPrefab,

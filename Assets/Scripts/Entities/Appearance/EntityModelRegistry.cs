@@ -1,7 +1,6 @@
 using UnityEngine;
 public class EntityModelRegistry : IEntityModelRegistry
 {
-    // public static IEntityModelRegistry Ins { get; protected set; }
     public Transform holder;
     void Awake() {
         Ins = this;

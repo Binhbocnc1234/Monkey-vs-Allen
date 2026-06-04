@@ -8,35 +8,6 @@ using Newtonsoft.Json.Serialization;
 
 
 public sealed class Entity : IEntity {
-    // private sealed class PublicValueMembersOnlyResolver : DefaultContractResolver {
-    //     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization) {
-    //         JsonProperty property = base.CreateProperty(member, memberSerialization);
-    //         bool isPublicMember = member switch {
-    //             FieldInfo fieldInfo => fieldInfo.IsPublic,
-    //             PropertyInfo propertyInfo =>
-    //                 (propertyInfo.GetMethod != null && propertyInfo.GetMethod.IsPublic)
-    //                 || (propertyInfo.SetMethod != null && propertyInfo.SetMethod.IsPublic),
-    //             _ => false
-    //         };
-
-    //         bool isValueLike = IsValueLike(property.PropertyType);
-    //         if(!isPublicMember || !isValueLike) {
-    //             property.Ignored = true;
-    //         }
-
-    //         return property;
-    //     }
-
-    //     private static bool IsValueLike(Type type) {
-    //         return type.IsPrimitive || type.IsEnum || type == typeof(string) || type.IsValueType;
-    //     }
-    // }
-
-    // private static readonly JsonSerializerSettings PublicValueCloneSettings = new JsonSerializerSettings {
-    //     ContractResolver = new PublicValueMembersOnlyResolver(),
-    //     Formatting = Formatting.None,
-    // };
-
     private IBehaviour activeBehavior;
     public string activeBehaviourName;
     private EffectController effectController;
@@ -65,27 +36,6 @@ public sealed class Entity : IEntity {
         return clones;
     }
 
-    // private static IBehaviour ShallowCopy(IBehaviour source) {
-    //     MethodInfo memberwiseClone = typeof(object).GetMethod("MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
-    //     return (IBehaviour)memberwiseClone.Invoke(source, null);
-    // }
-
-    // private static void ResetPrivateFields(object target) {
-    //     Type currentType = target.GetType();
-    //     while(currentType != null && currentType != typeof(object)) {
-    //         FieldInfo[] fields = currentType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-    //         foreach(FieldInfo field in fields) {
-    //             if(!field.IsPrivate || field.IsInitOnly) {
-    //                 continue;
-    //             }
-
-    //             object defaultValue = field.FieldType.IsValueType ? Activator.CreateInstance(field.FieldType) : null;
-    //             field.SetValue(target, defaultValue);
-    //         }
-
-    //         currentType = currentType.BaseType;
-    //     }
-    // }
     public Entity(EntitySO so, Team team, float x, int laneIndex, int level, bool isSimulated = false) {
         this.effectController = new EffectController(this);
         this.level = level;
@@ -128,53 +78,8 @@ public sealed class Entity : IEntity {
             }
         }
         set {
-            // if(!Stats.ContainsKey(st)) {
-            //     Stats[st] = value;
-            //     statTargets.Remove(st);
-            //     return;
-            // }
-
-            // if(Mathf.Approximately(Stats[st], value)) {
-            //     Stats[st] = value;
-            //     statTargets.Remove(st);
-            //     return;
-            // }
-
             Stats[st] = value;
         }
-    }
-    private void UpdateStatTargets() {
-        return;
-        // if(statTargets.Count == 0) {
-        //     return;
-        // }
-
-        // completedStatTargets.Clear();
-
-        // foreach(var entry in statTargets) {
-        //     ST stat = entry.Key;
-        //     float target = entry.Value;
-
-        //     if(!Stats.ContainsKey(stat)) {
-        //         completedStatTargets.Add(stat);
-        //         continue;
-        //     }
-
-        //     float current = Stats[stat];
-        //     float next = Mathf.Lerp(current, target, statLerpSpeed * Time.deltaTime);
-
-        //     if(Mathf.Abs(target - next) <= 0.01f) {
-        //         Stats[stat] = target;
-        //         completedStatTargets.Add(stat);
-        //     }
-        //     else {
-        //         Stats[stat] = next;
-        //     }
-        // }
-
-        // foreach(ST stat in completedStatTargets) {
-        //     statTargets.Remove(stat);
-        // }
     }
     public override void TakeDamage(DamageContext ctx) {
         if(IsDead()) return;
@@ -198,7 +103,6 @@ public sealed class Entity : IEntity {
         if(IsDead()) { return; }
         isDead = true;
         OnEntityDeath?.Invoke();
-        // [Wrapper] Wrapper should handle destruction of Unity GameObject
     }
 
     public void UpdateBehaviours(float deltaTime) {
@@ -207,9 +111,7 @@ public sealed class Entity : IEntity {
             Die();
         }
         effectController.Update(deltaTime);
-        UpdateStatTargets();
         if(isPaused) { return; }
-        if(activeBehavior == null) { return; }
         if(activeBehavior is IInterruptable || activeBehavior.CanActive() == false) {
             foreach(IBehaviour behav in behaviours) {
                 if(activeBehavior == behav || behav.GetPriority() == -1) { break; }
@@ -217,6 +119,11 @@ public sealed class Entity : IEntity {
                     ChangeBehaviour(behav);
                     break;
                 }
+            }
+        }
+        foreach(IBehaviour behav in behaviours){
+            if (behav is IUpdatePerFrame updatePerFrame){
+                updatePerFrame.Update(deltaTime);
             }
         }
         activeBehavior.UpdateBehaviour(deltaTime);
@@ -334,6 +241,9 @@ public sealed class Entity : IEntity {
     }
     public override void SetBehaviours(IEnumerable<IBehaviour> behaviourList) {
         behaviours = behaviourList.OrderBy(b => -b.GetPriority()).ToArray();
+        foreach(IBehaviour behaviour in behaviours) {
+            behaviour.SetEntity(this);
+        }
         idleBehaviour = GetBehaviour<Idle>();
         ChangeBehaviour(idleBehaviour);
     }

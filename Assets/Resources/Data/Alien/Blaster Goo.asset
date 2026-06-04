@@ -26,6 +26,7 @@ MonoBehaviour:
   prefab: {fileID: 5565146355260433290, guid: f21ea6cb3359bf44a9e21e70794dd01d, type: 3}
   behaviourTemplates:
   - rid: 143221976712085591
+  - rid: 143221989729632342
   unlockedSkillInFirstLevel: []
   upgrades: []
   usingOldUpgradeSystem: 1
@@ -43,6 +44,7 @@ MonoBehaviour:
     - rid: 143221976712085591
       type: {class: RangedAttack, ns: , asm: MvA.Entities}
       data:
-        _isEnable: 1
         bulletPrefab: {fileID: 8717432115871045510, guid: be087b809d021394a8e8f1cceaa3e35a, type: 3}
-        firePoint: {fileID: 0}
+    - rid: 143221989729632342
+      type: {class: SyncWithAnimationMove, ns: , asm: MvA.Entities}
+      data: 

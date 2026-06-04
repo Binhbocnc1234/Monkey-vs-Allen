@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public abstract class AttackBase : IBehaviour, IOnApply, IInitialize {
-    /// <summary>
-    /// Chỉ định thời gian để hành động tấn công kết thúc và chuyển sang hành động khác, không ảnh hưởng tới thời gian của animation
-    /// </summary>
+/// <summary>
+/// Base attack behaviour that handles timing, target selection, and the transition back to idle
+/// </summary>
+public abstract class AttackBase : IBehaviour, IOnApply, IInitialize, IUpdatePerFrame {
     public const float speedMultiplier = 1.35f;
     protected Timer attackTimer;
     protected Timer animationTimer;
     protected IEntity defender;
     public virtual void Initialize() {
-        EntitySO so = e.so;
         attackTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
         animationTimer = new Timer(1 / e[ST.AttackSpeed] * speedMultiplier, false);
     }
@@ -25,13 +24,17 @@ public abstract class AttackBase : IBehaviour, IOnApply, IInitialize {
             e.ReturnToIdleBehaviour();
         }
     }
+    public void Update(float deltaTime){
+        attackTimer.Count();
+        animationTimer.Count();
+    }
     protected virtual void ApplyDirectDamage() {
         if(e == null || e.IsDead() || defender == null || defender.IsDead()) { return; }
         defender.TakeDamage(new DamageContext(e[ST.Strength], e, defender));
     }
     public override bool CanActive() {
         if(!attackTimer.isEnd) return false;
-        if(defender == null || e.DistanceTo(defender) > e[ST.Range] + 0.1f) {
+        if(defender == null || defender.IsDead() || e.DistanceTo(defender) > e[ST.Range] + 0.1f) {
             defender = GetNearestPreyInRange();
         }
         return defender != null;

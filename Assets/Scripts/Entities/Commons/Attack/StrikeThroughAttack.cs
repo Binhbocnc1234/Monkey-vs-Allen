@@ -1,5 +1,5 @@
 
-public class StrikethroughAttack : Attack {
+public class StrikethroughAttack : MeleeAttack {
     protected override void WhenAttackReady() {
 
     }

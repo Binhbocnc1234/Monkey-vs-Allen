@@ -69,19 +69,21 @@ public class BattleManager : Singleton<BattleManager> {
     /// // Place targetMonkeys, targetAliens, and set win/lose condition
     /// </summary>
     public void CreateTarget() {
-        for(int y = 0; y < IGrid.Ins.height; ++y) {
-            if(IGrid.Ins.openLanes[y] == false) continue;
-            IEntity tM = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetMonkey, x = 0, lane = y, team = Team.Left, level = 1 });
-            if (!CustomSceneManager.isFreePlay) tM.OnEntityDeath += () => CheckLose(tM);
-            IEntity tA = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetAllen, x = IGrid.Ins.width - 1, lane = y, team = Team.Right, level = 1 });
-            if (!CustomSceneManager.isFreePlay) tA.OnEntityDeath += () => CheckWin(tA);
-        }
+        // for(int y = 0; y < IGrid.Ins.height; ++y) {
+        //     if(IGrid.Ins.openLanes[y] == false) continue;
+        //     IEntity tM = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetMonkey, x = 0, lane = y, team = Team.Left, level = 1 });
+        //     if (!CustomSceneManager.isFreePlay) tM.OnEntityDeath += () => CheckLose(tM);
+        //     IEntity tA = IEntityRegistry.Ins.CreateEntity(new EntitySetting { so = targetAllen, x = IGrid.Ins.width - 1, lane = y, team = Team.Right, level = 1 });
+        //     if (!CustomSceneManager.isFreePlay) tA.OnEntityDeath += () => CheckWin(tA);
+        // }
     }
     public void ChangeState(GameState state){
         if (state == GameState.Fighting){
             BattleCardManager.Ins.CreateBattleCard();
             SingletonRegister.Get<ChosenCardManager>().SetControlTeam(BattleInfo.chosenTeam);
-            EnemyManager.Ins.Initialize();
+            // if(!CustomSceneManager.isFreePlay) {
+                EnemyManager.Ins.Initialize();
+            // }
             ClearDemoEnemy();
             SlidingCamera.Ins.enable = true;
             TutorialManager.Ins.Initialize();

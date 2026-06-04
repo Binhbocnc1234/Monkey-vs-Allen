@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class FlashWhite : EntityAppearance
 {               
     SpriteRenderer[] sprites;
-    public Material material;
+    private Material material;
     public static Color flashColor = new Color(1, 1, 1, 0.6f), healColor = new Color(0, 0.7f, 0, 0.6f);
     public const float flashDuration = 0.1f;
-    void Start()
-    {
+    public override void Initialize(EntityModel model) {
+        base.Initialize(model);
         sprites = model.GetSprites();
+        material = SingletonRegister.Get<PrefabRegisterSO>().flashMaterial;
         for (int i = 0; i < sprites.Length; i++){
             sprites[i].color = new Color(0, 0, 0, 0);
             sprites[i].material = material;
