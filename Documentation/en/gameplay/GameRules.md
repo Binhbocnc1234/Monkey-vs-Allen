@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: game-rules
-version: 1.0
-audience: user
-related: [entity-system, card-system, grid-system, economy-system, game-modes]
+
+audience: [player]
+status: active
+language: en
+description: Defines core gameplay rules, battle flow, entity interactions, card usage, and game-mode relationships.
+related:
+  - entity-system
+  - card-system
+  - game-modes
 ---
 
 # Overview

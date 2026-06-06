@@ -17,6 +17,12 @@ public static class AutoSaveEditor
     [InitializeOnLoadMethod]
     private static void InitializeAutoSave()
     {
+        // Do not run autosave in headless/batch runs (e.g., CI test execution)
+        if (Application.isBatchMode)
+        {
+            return;
+        }
+
         // Gán event handler chỉ một lần
         if (!isAutoSaveEnabled)
         {

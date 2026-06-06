@@ -1,9 +1,14 @@
-﻿---
+---
 type: gameplay
 module: effect
-version: 1.0
-audience: user
-related: [entity-system, combat-system, card-system]
+
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for effects, entity interactions, card interactions, and combat behavior.
+related:
+  - entity-system
+  - card-system
 ---
 
 # Định nghĩa

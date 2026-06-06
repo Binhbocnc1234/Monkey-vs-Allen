@@ -1,3 +1,14 @@
+---
+type: gameplay
+module: legacy_game_modes
+
+audience: [developer]
+status: deprecated
+language: en
+description: Legacy game-mode documentation kept for historical reference only.
+related: []
+---
+
 # Thông tin về các màn chơi trong MvA
 
 ## Campain

@@ -1,9 +1,14 @@
 ---
 type: technical
 module: architecture-as-is
-version: 1.0
-audience: developer
-related: [design-principles, architecture-to-be]
+
+audience: [developer]
+status: active
+language: en
+description: Describes the current project architecture, assembly layout, dependency boundaries, and existing implementation constraints.
+related:
+  - design-principles
+  - architecture-to-be
 ---
 
 # Current Folder Structure

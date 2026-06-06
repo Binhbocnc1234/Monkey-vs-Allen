@@ -1,11 +1,15 @@
-﻿---
+---
 type: gameplay
 module: progression
-version: 1.0
-audience: user
-related: [card-system, economy-system, game-modes]
----
 
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for upgrades, progression, card improvement, and game-mode relationships.
+related:
+  - card-system
+  - game-modes
+---
 
 # Tổng quan
 

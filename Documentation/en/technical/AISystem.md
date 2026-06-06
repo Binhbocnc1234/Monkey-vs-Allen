@@ -1,9 +1,15 @@
 ---
 type: technical
 module: ai-system
-version: 1.0
-audience: developer
-related: [architecture-as-is, design-principles, execution-paths]
+
+audience: [developer]
+status: active
+language: en
+description: Explains the AI system architecture, behavior flow, dependencies, and its relationship to execution paths and design principles.
+related:
+  - architecture-as-is
+  - design-principles
+  - execution-paths
 ---
 
 # AI System Overview

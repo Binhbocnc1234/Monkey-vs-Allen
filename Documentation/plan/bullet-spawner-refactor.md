@@ -1,3 +1,14 @@
+---
+type: technical
+module: bullet_spawner_refactor
+
+audience: [developer]
+status: draft
+language: en
+description: Draft refactor plan for bullet spawner architecture and implementation changes.
+related: []
+---
+
 # Refactor Bullet Spawning — New MvA.Bullet Assembly + Centralized Spawner
 
 ## TL;DR

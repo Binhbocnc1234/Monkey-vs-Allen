@@ -1,3 +1,15 @@
+---
+type: technical
+module: design-principles
+
+audience: [developer]
+status: active
+language: vi
+description: Defines Vietnamese design principles for modularity, readability, compile-time reduction, and assembly dependencies.
+related:
+  - architecture
+---
+
 # Design purposes
 
 - Reduce compile time. A assembly (.asmdef) that other assembly depend on should be stable.

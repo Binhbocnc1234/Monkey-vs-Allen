@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: game-modes
-version: 1.0
-audience: user
-related: [game-rules, card-system, progression-system]
+
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for game modes, win conditions, rewards, and progression relationships.
+related:
+  - game-rules
+  - card-system
+  - upgrade-system
 ---
 
 # Campaign

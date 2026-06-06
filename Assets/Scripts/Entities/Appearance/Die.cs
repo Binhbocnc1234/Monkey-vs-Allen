@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Die : EntityAppearance{
     public const float duration = 0.5f;
-    public Material defaultMaterial;
+    private Material defaultMaterial;
     public override void Initialize(EntityModel model){
         base.Initialize(model);
+        defaultMaterial = SingletonRegister.Get<PrefabRegisterSO>().defaultMaterial;
         model.e.OnEntityDeath += () => StartCoroutine(DeathCoroutine());
     }
     IEnumerator DeathCoroutine()

@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: card
-version: 1.0
-audience: user
-related: [game-rules, entity-system, economy-system, progression-system]
+
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for card types, ownership, battle usage, upgrades, and related systems.
+related:
+  - game-rules
+  - entity-system
+  - upgrade-system
 ---
 
 # Lá bài là gì?

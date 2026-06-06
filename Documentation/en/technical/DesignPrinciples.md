@@ -1,9 +1,15 @@
 ---
 type: technical
 module: design-principles
-version: 1.0
-audience: developer
-related: [architecture-to-be, architecture-as-is, execution-paths]
+
+audience: [developer]
+status: active
+language: en
+description: Defines technical design principles for modularity, readability, dependency direction, and Unity assembly organization.
+related:
+  - architecture-to-be
+  - architecture-as-is
+  - execution-paths
 ---
 
 # Design Purposes

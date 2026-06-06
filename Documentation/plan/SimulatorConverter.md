@@ -1,3 +1,14 @@
+---
+type: technical
+module: simulator_converter_plan
+
+audience: [developer]
+status: draft
+language: en
+description: Draft implementation plan for simulator converter work.
+related: []
+---
+
 # Simulator — generic converter design
 
 ## Goal

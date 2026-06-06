@@ -1,9 +1,14 @@
-﻿---
+---
 type: gameplay
 module: progression
-version: 1.0
-audience: user
-related: [card-system, economy-system, game-modes]
+
+audience: [player]
+status: active
+language: en
+description: Defines card and progression upgrades, upgrade effects, and relationships with game modes and card ownership.
+related:
+  - card-system
+  - game-modes
 ---
 
 # Overview

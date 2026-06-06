@@ -1,8 +1,13 @@
 ---
 type: technical
-module: how-to
-version: 1.0
-audience: agent, developer
+module: how_to_comment
+
+audience: [agent, developer]
+status: active
+language: en
+description: Defines the allowed XML documentation comment format and when agents should use summary and line-break tags.
+related:
+  - how_to_documentation
 ---
 
 Only use two element: <summary> and <br/>

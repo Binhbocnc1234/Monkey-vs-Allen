@@ -1,3 +1,15 @@
+---
+type: technical
+module: software_development_process
+
+audience: [developer]
+status: draft
+language: en
+description: Draft notes for the project's software development process and future workflow decisions.
+related:
+  - design-principles
+---
+
 principles: depend heavily on project architecture. 
 A process usually contain four activities:
 - Base on evolutionary process flow: [Write here]

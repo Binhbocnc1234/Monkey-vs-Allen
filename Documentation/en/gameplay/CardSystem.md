@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: card
-version: 1.0
-audience: user
-related: [game-rules, entity-system, economy-system, progression-system]
+
+audience: [player]
+status: active
+language: en
+description: Defines card types, ownership, battle usage, upgrades, and relationships with other gameplay systems.
+related:
+  - game-rules
+  - entity-system
+  - upgrade-system
 ---
 
 # What is a Card?

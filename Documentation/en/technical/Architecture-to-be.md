@@ -1,9 +1,15 @@
 ---
 type: technical
 module: architecture-to-be
-version: 1.0
-audience: developer
-related: [design-principles, architecture-as-is, execution-paths]
+
+audience: [developer]
+status: active
+language: en
+description: Describes the intended project architecture, target module boundaries, and migration direction from the current architecture.
+related:
+  - design-principles
+  - architecture-as-is
+  - execution-paths
 ---
 
 # Project Architecture (System-to-Be)

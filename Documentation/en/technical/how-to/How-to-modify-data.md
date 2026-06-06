@@ -1,9 +1,15 @@
 ---
 type: technical
 module: modify_data
-version: 1.0
-audience: agent
-related: [architecture-as-is, design-principles, how-to-test]
+
+audience: [agent]
+status: active
+language: en
+description: Explains how agents should modify project data while respecting architecture, design principles, and validation workflow.
+related:
+  - architecture-as-is
+  - design-principles
+  - testing
 ---
 
 # How to Modify Data

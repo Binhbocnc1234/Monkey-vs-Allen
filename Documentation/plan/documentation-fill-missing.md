@@ -1,3 +1,14 @@
+---
+type: technical
+module: documentation_fill_missing
+
+audience: [developer, agent]
+status: draft
+language: en
+description: Draft plan for identifying and filling missing project documentation.
+related: []
+---
+
 # Plan: Complete missing documentation
 
 Create a short, high-level plan to finish the missing documentation in `Document/vi/technical/how-to/How-to-documentation.md` and update `KnowledgeBaseStructure.md`, focusing on feasibility, correctness, consistency, rationale, and workload.

@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: entity
-version: 1.0
-audience: user
-related: [game-rules, card-system, effect-system, combat-system]
+
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for entities, stats, combat roles, cards, and effects.
+related:
+  - game-rules
+  - card-system
+  - effect
 ---
 
 # Entity là gì?

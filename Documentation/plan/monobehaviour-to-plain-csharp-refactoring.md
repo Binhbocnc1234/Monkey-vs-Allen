@@ -1,9 +1,14 @@
 ---
 type: technical
 module: ai-system-architecture
-version: 3.0
-audience: developer
-related: [architecture-to-be, design-principles]
+
+audience: [developer]
+status: draft
+language: en
+description: Draft refactoring plan for moving MonoBehaviour-dependent logic toward plain C# architecture.
+related:
+  - architecture-to-be
+  - design-principles
 ---
 
 # Plan: MonoBehaviour → Plain C# Refactoring (Entity + IBehaviour)

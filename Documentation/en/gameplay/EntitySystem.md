@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: entity
-version: 1.0
-audience: user
-related: [game-rules, card-system, effect-system, combat-system]
+
+audience: [player]
+status: active
+language: en
+description: Defines gameplay entities, their stats, ownership, combat role, and relationships with cards and effects.
+related:
+  - game-rules
+  - card-system
+  - effect
 ---
 
 # What is an Entity?

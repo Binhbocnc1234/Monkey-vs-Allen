@@ -1,3 +1,14 @@
+---
+type: technical
+module: old_general
+
+audience: [developer]
+status: deprecated
+language: en
+description: Archived general documentation kept for historical reference only.
+related: []
+---
+
 Thông tin về game Monkey vs Allen
 
 Đây là tài liệu phục vụ cho các developer

@@ -1,9 +1,15 @@
-﻿---
+---
 type: gameplay
 module: game-modes
-version: 1.0
-audience: user
-related: [game-rules, card-system, progression-system]
+
+audience: [player]
+status: active
+language: en
+description: Defines available game modes, their win conditions, rewards, and relationships with cards and progression.
+related:
+  - game-rules
+  - card-system
+  - upgrade-system
 ---
 
 # Campaign

@@ -1,9 +1,16 @@
-﻿---
+---
 type: gameplay
 module: game-rules
-version: 1.0
-audience: user
-related: [entity-system, card-system, grid-system, economy-system, game-modes]
+
+audience: [player]
+status: active
+language: vi
+description: Defines Vietnamese gameplay documentation for core game rules, battle flow, entity interactions, and card usage.
+related:
+  - entity-system
+  - card-system
+  - game-modes
+  - grid
 ---
 
 # Tổng quan

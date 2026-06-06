@@ -1,9 +1,13 @@
-﻿---
+---
 type: gameplay
 module: effect
-version: 1.0
-audience: user
-related: [entity-system, combat-system, card-system]
+audience: [player]
+status: active
+language: en
+description: Defines gameplay effects, how effects interact with entities and cards, and their role in combat behavior.
+related:
+  - entity-system
+  - card-system
 ---
 
 # Definition

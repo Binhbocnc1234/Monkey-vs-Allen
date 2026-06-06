@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 6237545221667142145}
   - component: {fileID: 8593315615365487358}
   - component: {fileID: 1338341610939201831}
+  - component: {fileID: 2976767262646640125}
   m_Layer: 0
   m_Name: Model - Basic Monkey
   m_TagString: Untagged
@@ -276,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8e096abd81cb842bce8a1e5a971302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MvA.Entities::Die
-  defaultMaterial: {fileID: 0}
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1338341610939201831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +294,18 @@ MonoBehaviour:
   animator: {fileID: 4980069509646407542}
   boxCollider: {fileID: 1483744545845802059}
   firePoint: {fileID: 0}
+--- !u!114 &2976767262646640125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843304347767724812}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0163816955b6c448810aa7d5a4e4f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MvA.Entities.Appearance::FlashWhite
 --- !u!1 &1005399432317277834
 GameObject:
   m_ObjectHideFlags: 0
