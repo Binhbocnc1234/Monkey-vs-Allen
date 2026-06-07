@@ -4,7 +4,8 @@
     "MvA.Framework.Core",
     "MvA.Core",
     "MvA.Entities",
-    "MvA.Effect"
+    "MvA.Effect",
+    "MvA.AI"
   ],
   "optionalUnityReferences": [],
   "includePlatforms": [

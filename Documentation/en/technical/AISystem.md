@@ -12,51 +12,51 @@ related:
 
 # AI System Overview
 
-The AI system lives under `Assets/Scripts/Battlefield/AI/` in the `MvA.AI` assembly. It evaluates battle states and recommends actions by simulating outcomes using a lightweight model (`FakeEntity`) rather than full Unity objects.
+The AI system lives under `Assets/Scripts/Battlefield/AI/` in the `MvA.AI` assembly. It evaluates battle states and recommends actions by simulating outcomes using real C# `Entity` objects running in simulation mode (`isSimulated = true`) without Unity GameObject overhead.
 
 # Goals
 
 - Provide fast, deterministic evaluation for AI decisions.
-- Avoid Unity runtime overhead during prediction (no `MonoBehaviour`, no `Transform`).
+- Avoid Unity runtime overhead during prediction (no `MonoBehaviour` gameobject creation, no `Transform`).
 - Keep simulation generic and independent of concrete entity types.
 
 # Core Components
 
 ## Simulator.cs
 
-`Simulator` is a static, pure C# simulation engine. It converts real entities into `FakeEntity` snapshots and runs a simplified battle model.
+`Simulator` is a static, pure C# simulation engine. It clones the real entities from the battlefield with `isSimulated = true` (which bypasses Unity's GameObject creation) and runs a pure C# simulation.
 
 **Key ideas:**
-- `FakeEntity` is a POCO: `team`, `x`, `moveSpeed`, `range`, `danger`, `survivability`.
-- Conversion from `IEntity` is generic; no concrete-entity branching.
+- Uses real `Entity` objects to ensure simulation logic (behaviors, stats) matches actual gameplay.
+- Cloned entities run pure C# logic without game loop overhead.
 - Simulation steps in fixed time slices (`SimulationStep = 1f`).
 
 **Important methods:**
 - `EvaluateBundle(...)` — public entry point. Converts inputs and evaluates score.
 - `EvaluateBundle_2(...)` — runs two-phase sim (pre-spawn + post-spawn).
-- `GetWorldSnapshot()` — returns simulated state for debugging/tests.
 
 ## AIManager
 
-AI behavior is split into multiple files for responsibilities:
+AI behavior is split into multiple files:
 
 - `AIManager(Editor).cs` — Editor tooling / debug helpers.
-- `AIManager(Forecast).cs` — prediction logic and forecast evaluation.
-- `AIManager(Upgrade).cs` — upgrade-related decision logic.
-- `AIManager(subclassess).cs` — AI behavior variants (strategy overrides).
+- `AIManager(Upgrade).cs` — Upgrade-related decision logic.
+- `AIManager(subclassess).cs` — Data classes and actions for AI.
 
 ## EnemyManager.cs
 
-High-level orchestration for AI-controlled enemies. Coordinates with the simulator to select actions and spawning decisions.
+High-level orchestration for AI-controlled enemies. Coordinates with the simulator to select actions and spawning decisions. Exposes parameters such as `costPenaltyFactor` and `upgradeThreshold`.
 
 # Data Flow
 
 ```
 Current Battle State (IEntity[] + IBattleCard[])
-    ↓ convert to FakeEntity snapshots
+    ↓ clone to simulated Entity objects
 Simulator.EvaluateBundle(...)
-    ↓ returns numeric score
-AI Manager chooses best action based on score
+    ↓ returns numeric score (SimulationResult)
+EnemyManager calculates Net Improvement & compares options
+    ↓
+Chosen AI Action (Bundle spawn, Upgrade, or Wait)
 ```
 
 # Unity Integration
@@ -91,11 +91,32 @@ The AI operates on three action types:
 
 # Simulation Details
 
-**Context:** Each lane contains multiple `FakeEntity` instances. Each `FakeEntity` has: `gridPos` (x, y), `moveSpeed`, `range`, `danger`, `survivability`.
+**Context:** Each lane contains multiple `Entity` clones. Each simulated `Entity` uses its actual gameplay behaviors (like `MeleeAttack` and `StraightMove`) and stats.
 
 **Execution loop:**
-- Each iteration represents 1 second of simulated time.
-- Per lane, entities in range attack the nearest enemy: `target.survivability -= attacker.attackPower / 7`.
+- Each iteration represents `SimulationStep = 1f` second of simulated time.
+- Movement: Simulated entities move toward the enemy side according to their `GetRealMoveSpeed()`.
+- Combat: Entities in range deal damage to the nearest enemy based on: `damage = danger * step`, which is subtracted from `Stats[ST.Health]`.
+- Death: Entities whose health drops to or below 0 die and are removed from the simulation.
+- Scoring: After simulation, the score is computed as `OurTeamPower - EnemyTeamPower`. A team's power is computed as `dangerSum * survivabilitySum * UnitCountDebuff`, where `danger` and `survivability` are retrieved using `GetAssessPoint` (Danger and Defend/Defensive). An alive-team bonus of `1000f` is awarded if one team is completely wiped out.
+
+# Decision-Making Logic
+
+The AI makes decisions by evaluating candidate card bundles and upgrades, comparing them to a "do nothing" baseline:
+
+1. **Candidate Shortlisting**: For each open lane, candidate card combinations (bundles) are generated from the AI's hand.
+2. **Lookahead Estimation**: For each bundle, the lookahead time is calculated based on resources needed to afford it and cooldowns.
+3. **Simulation**: The simulator runs for `lookahead` seconds, spawns the bundle, and simulates the outcome for another `MaxPostSpawnSeconds = 20f`.
+4. **Baseline Evaluation**: An empty bundle (doing nothing) is also simulated for the same `lookahead` duration on the same lane.
+5. **Cost Penalty**: Bundle scores are penalized by card costs to promote resource efficiency:
+   `effectiveScore = rawScore - cost * costPenaltyFactor` (default `costPenaltyFactor = 50f`).
+6. **Net Improvement**: The decision metric is the net improvement over the baseline:
+   `netImprovement = effectiveScore - baselineScore`.
+   Bundles are only considered if `netImprovement > 0`.
+7. **Upgrade Logic**: Upgrading is rule-based:
+   - If an upgrade is available and affordable, its action score is set to `upgradeThreshold` (default `800f`).
+   - If the best bundle's `netImprovement` is less than `upgradeThreshold`, upgrading wins (no urgent defense needed).
+   - If a bundle has `netImprovement >= upgradeThreshold`, the AI prioritizes spawning/defending.
 
 > **Note:** This is an intentionally simplified evaluation — real entity behavior is more complex, but the numeric approximation is sufficient for AI ranking.
 

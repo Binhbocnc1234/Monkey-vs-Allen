@@ -27,22 +27,7 @@ public class TeamSnapshot {
     public float GetUnitCountDebuff() => Mathf.Max(1.1f - 0.1f * unitCount, 0.5f);
 }
 
-[System.Serializable]
-public class LaneAssessment {
-    public int lane;
-    public float lookAhead;
-    public float firstTimeToContact = float.PositiveInfinity, contactPos = float.NaN;
-    public TeamSnapshot leftSide = new(), rightSide = new();
-    public TeamSnapshot this[Team team] {
-        get {
-            return team == Team.Left ? leftSide : rightSide;
-        }
-        set {
-            if(team == Team.Left) leftSide = value;
-            else { rightSide = value; }
-        }
-    }
-}
+
 
 public abstract class AIAction{
     public float score = 0;

@@ -7,6 +7,7 @@ public partial class EnemyManager {
     public int upgradeWeight = 1;
     public int enemiesLeftToUpgrade = 4;
     public int upgradeLeft;
+    public float upgradeThreshold = 800f;
     private AlienResourceManager resourceM;
     // Accumulated card spending since last successful upgrade.
     [ReadOnly] public int resourceSpentSinceLastUpgrade = 0;
@@ -54,7 +55,7 @@ public partial class EnemyManager {
         if (firstUpgrade){
             return 10000f;
         }
-        return resourceSpentSinceLastUpgrade * upgradeWeight;
+        return upgradeThreshold;
     }
 
     void ExecuteUpgradeAction(float upgradeScore) {

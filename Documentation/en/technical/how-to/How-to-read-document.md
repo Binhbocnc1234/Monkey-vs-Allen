@@ -1,7 +1,7 @@
 ---
 type: technical
 
-audience: [developer, agent]
+audience: [agent]
 status: active
 language: en
 description: Explains how to use project documentation tools to query frontmatter, inspect headings, read specific ranges, validate metadata, and follow related documents.
