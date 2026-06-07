@@ -3,9 +3,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import re
+import sys
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Read a markdown line range [a,b].")
     parser.add_argument("path", help="Markdown file path.")
     parser.add_argument("range", help="Line range in [a,b] format.")

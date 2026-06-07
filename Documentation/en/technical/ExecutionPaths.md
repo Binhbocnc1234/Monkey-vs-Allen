@@ -1,6 +1,5 @@
 ---
 type: technical
-module: execution
 
 audience: [developer]
 status: active

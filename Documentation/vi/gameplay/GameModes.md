@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: game-modes
 
 audience: [player]
 status: active

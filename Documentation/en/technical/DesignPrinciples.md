@@ -1,6 +1,5 @@
 ---
 type: technical
-module: design-principles
 
 audience: [developer]
 status: active

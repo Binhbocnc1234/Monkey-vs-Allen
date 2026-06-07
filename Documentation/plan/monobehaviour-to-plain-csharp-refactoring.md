@@ -1,6 +1,5 @@
 ---
 type: technical
-module: ai-system-architecture
 
 audience: [developer]
 status: draft

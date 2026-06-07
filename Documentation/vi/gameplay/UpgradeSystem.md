@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: progression
 
 audience: [player]
 status: active

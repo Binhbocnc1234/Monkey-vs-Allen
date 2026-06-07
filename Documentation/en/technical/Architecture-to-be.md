@@ -1,6 +1,5 @@
 ---
 type: technical
-module: architecture-to-be
 
 audience: [developer]
 status: active

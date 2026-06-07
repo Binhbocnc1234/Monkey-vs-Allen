@@ -1,6 +1,5 @@
 ---
 type: technical
-module: simulator_converter_plan
 
 audience: [developer]
 status: draft

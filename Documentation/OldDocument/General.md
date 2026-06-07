@@ -1,6 +1,5 @@
 ---
 type: technical
-module: old_general
 
 audience: [developer]
 status: deprecated

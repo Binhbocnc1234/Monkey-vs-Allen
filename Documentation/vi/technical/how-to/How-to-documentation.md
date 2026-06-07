@@ -1,6 +1,5 @@
 ---
 type: technical
-module: how_to_documentation
 
 audience: [developer, agent]
 status: active
@@ -62,7 +61,7 @@ Mở Unity Editor. Vào Window > General > Test Runner.
 ### 1.3 Quy ước đặt tên và heading
 
 - Phần heading và tên file được quy định chi tiết ở phần [Chuẩn định dạng & quy ước](#chuẩn-định-dạng--quy-ước).
-- Module name vẫn dùng snake_case trong frontmatter: `how_to_documentation`.
+- Frontmatter không còn dùng field `module`; dùng tên file cho định danh tài liệu và `related`.
 
 **Ví dụ:**
 

@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: grid
 
 audience: [player]
 status: draft

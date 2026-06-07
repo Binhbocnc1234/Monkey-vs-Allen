@@ -1,6 +1,5 @@
 ---
 type: technical
-module: documentation_fill_missing
 
 audience: [developer, agent]
 status: draft
@@ -18,7 +17,7 @@ Create a short, high-level plan to finish the missing documentation in `Document
 2. **Gap analysis (missing content)**: Compare `How-to-documentation.md` against the style guide to identify missing YAML frontmatter, missing required sections (e.g., completeness section body), and any structural inconsistencies (headings, tone, examples). Note any missing references in `KnowledgeBaseStructure.md` (e.g., missing technical how-to folder listing or rules) that should be documented to keep the project map accurate.
 3. **Define additions with specific outlines**:
     - **`Document/vi/technical/how-to/How-to-documentation.md` outline (add/complete sections):**
-      1. **Frontmatter (YAML)**: `type: technical`, `module: how_to_documentation` (snake_case), `version`, `audience: developer`, `related:` (list of linked docs if any).
+      1. **Frontmatter (YAML)**: `type: technical`, `audience: developer`, `status`, `language`, `description`, and optional `related:`.
       2. **Giới thiệu/Mục tiêu**: what “how-to documentation” is in this project, its purpose (practical, step-by-step guidance), and target readers.
       3. **Quy tắc nhất quán**: required terminology, heading levels, naming conventions, cross-reference style, and consistent Vietnamese tone. **Kèm ví dụ cụ thể.**
       4. **Tiêu chí “Tính đầy đủ”**: what must be present to consider a how-to complete (preconditions, step list, expected results, edge cases, validation/verification notes). **Kèm ví dụ cụ thể.**
@@ -41,7 +40,7 @@ Create a short, high-level plan to finish the missing documentation in `Document
 - Likely sections: 1 frontmatter block + 5–6 content sections in `How-to-documentation.md`; 1 structure-map insertion + 1–2 short rule/description lines in `KnowledgeBaseStructure.md`.
 
 **Verification**
-1. Read both files to confirm YAML frontmatter exists and matches required fields (type/module/version/audience/related).
+1. Read both files to confirm YAML frontmatter exists and matches required fields (`type`, `audience`, `status`, `language`, `description`).
 2. Validate headings are hierarchical and Vietnamese tone is neutral and concise.
 3. Confirm no duplicated logic across sections and that the how-to doc explicitly defines completeness and consistency criteria.
 4. Confirm every abstract theory/rule has a concrete example accompanying it.

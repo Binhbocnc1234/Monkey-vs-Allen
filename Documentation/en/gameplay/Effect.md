@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: effect
 audience: [player]
 status: active
 language: en

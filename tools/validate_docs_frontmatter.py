@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import sys
 
 from docs_tool_lib import (
     VALID_AUDIENCES,
@@ -17,10 +18,13 @@ from docs_tool_lib import (
 )
 
 
-REQUIRED_FIELDS = ("type", "module", "version", "audience", "status", "language", "description")
+REQUIRED_FIELDS = ("type", "audience", "status", "language", "description")
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Validate markdown YAML frontmatter.")
     parser.add_argument("--root", default="./Documentation", help="Documentation root or subdirectory.")
     args = parser.parse_args()

@@ -2,13 +2,17 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import sys
 
 from docs_tool_lib import doc_identifiers, load_docs, normalize_doc_id, value_list
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Find outgoing and incoming related-document links.")
-    parser.add_argument("--id", required=True, help="Document id, module, or file stem.")
+    parser.add_argument("--id", required=True, help="Document id or file stem.")
     parser.add_argument("--root", default="./Documentation", help="Documentation root.")
     args = parser.parse_args()
 

@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: card
 
 audience: [player]
 status: active

@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: game-rules
 
 audience: [player]
 status: active

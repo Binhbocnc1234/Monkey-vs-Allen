@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: entity
 
 audience: [player]
 status: active

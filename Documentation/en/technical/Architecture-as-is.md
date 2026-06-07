@@ -1,7 +1,5 @@
 ---
 type: technical
-module: architecture-as-is
-
 audience: [developer]
 status: active
 language: en

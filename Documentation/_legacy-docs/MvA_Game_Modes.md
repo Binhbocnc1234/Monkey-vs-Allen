@@ -1,6 +1,5 @@
 ---
 type: gameplay
-module: legacy_game_modes
 
 audience: [developer]
 status: deprecated

@@ -1,6 +1,5 @@
 ---
 type: technical
-module: agent_testing_playbook
 
 audience: [developer, agent]
 status: active

@@ -1,6 +1,5 @@
 ---
 type: technical
-module: how_to_documentation
 
 audience: [developer, agent]
 status: active
@@ -62,7 +61,7 @@ Open Unity Editor. Go to Window > General > Test Runner.
 ### 1.3 Naming and heading rules
 
 - Heading and file name rules are defined in [Format and conventions](#format-and-conventions).
-- Module names still use snake_case in frontmatter: `how_to_documentation`.
+- Frontmatter no longer uses a `module` field; use file names for document identity and `related` references.
 
 **Example:**
 
@@ -89,7 +88,6 @@ Every official markdown file in `Documentation/` must start with YAML frontmatte
 ```yaml
 ---
 type: gameplay | technical
-module: <snake_case_name>
 audience: player | developer | agent
 status: draft | active | deprecated
 language: en | vi
@@ -102,7 +100,6 @@ description: <one sentence covering the entire document>
 | Field | Rule | Why |
 |-------|------|-----|
 | `type` | Use `gameplay` for player-facing game rules or `technical` for implementation and workflow documentation. | Lets agents filter by document category before reading content. |
-| `module` | Use a stable snake_case module name. | Lets agents query by subsystem even when file names or headings differ. |
 | `audience` | Use only `player`, `developer`, or `agent`. For multiple audiences, use a YAML list, such as `[developer, agent]`. | Lets agents prefer documents written for the current task role. |
 | `status` | Use `active` by default. Use `draft` for incomplete documents and `deprecated` for documents that should not be the primary source. | Helps agents avoid treating draft or deprecated documents as authoritative sources. |
 | `language` | Use `en` for English documents or `vi` for Vietnamese documents. | Lets agents query the correct language and validate `related` links within the same language. |
@@ -129,7 +126,7 @@ description: <one sentence covering the entire document>
 
 | Field | Format | Reason |
 |-------|--------|--------|
-| `related` | `[<related-modules>]` | Lets agents discover connected documents when the current document does not contain enough context. Each item must match a markdown file or `module` in the same language. |
+| `related` | `[<related-documents>]` | Lets agents discover connected documents when the current document does not contain enough context. Each item must match a markdown file name in the same language. |
 | `updated` | `YYYY-MM-DD` | Helps agents compare freshness when multiple documents conflict. |
 
 Do not add `owner`, `tags`, or `priority` unless the project has a clear maintenance process for those fields. Otherwise, they create metadata noise.

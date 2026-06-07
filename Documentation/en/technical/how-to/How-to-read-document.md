@@ -1,6 +1,5 @@
 ---
 type: technical
-module: how_to_read_document
 
 audience: [developer, agent]
 status: active
@@ -29,7 +28,7 @@ Use the `.py` tools as the cross-platform default. The older `.ps1` tools are ke
 | Tool | Use it for | Gap it fills |
 |------|------------|--------------|
 | `get_markdown_headers.py` | List H1 and H2 headings with line ranges. | `rg` finds matching text but does not show section boundaries. |
-| `query_docs_frontmatter.py` | Filter documents by YAML fields such as `type`, `audience`, `status`, `language`, `module`, and `description`. | Plain text search does not reliably combine YAML field filters. |
+| `query_docs_frontmatter.py` | Filter documents by YAML fields such as `type`, `audience`, `status`, `language`, and `description`. | Plain text search does not reliably combine YAML field filters. |
 | `read_markdown_section.py` | Read a file slice by range `[a,b]`. | `Get-Content` can slice lines, but this tool gives a stable interface paired with header ranges. |
 | `validate_docs_frontmatter.py` | Check required YAML fields, allowed enum values, and same-language `related` targets. | `rg` can show likely issues but cannot prove every file follows the schema. |
 | `find_related_docs.py` | Find outgoing and incoming `related` links for a document id. | Plain search cannot distinguish documents that point to an id from documents only mentioning it. |
@@ -69,7 +68,6 @@ python .\tools\query_docs_frontmatter.py --audience agent --status active --lang
 | `--audience agent` | Show documents intended for agents. |
 | `--status active` | Show documents that can be treated as current sources. |
 | `--language en` | Show documents in one language. |
-| `--module testing` | Show documents for one module. |
 | `--description-contains testing` | Search document-level descriptions. |
 
 **Why this exists:**
@@ -140,12 +138,12 @@ python .\tools\validate_docs_frontmatter.py --root .\Documentation\en\technical\
 ```
 
 **Checks:**
-- Required fields: `type`, `module`, `version`, `audience`, `status`, `language`, `description`.
+- Required fields: `type`, `audience`, `status`, `language`, `description`.
 - `type` is `gameplay` or `technical`.
 - `audience` uses `player`, `developer`, or `agent`.
 - `status` uses `draft`, `active`, or `deprecated`.
 - `language` uses `en` or `vi`.
-- Optional `related` entries point to a markdown file or `module` in the same language.
+- Optional `related` entries point to a markdown file in the same language.
 - Frontmatter starts and ends with `---`.
 
 **Why this exists:**
@@ -156,7 +154,7 @@ python .\tools\validate_docs_frontmatter.py --root .\Documentation\en\technical\
 
 # Follow Related Documents
 
-Use `find_related_docs.py` when a document references another module or when the current document is not enough.
+Use `find_related_docs.py` when a document references another document or when the current document is not enough.
 
 **Command:**
 

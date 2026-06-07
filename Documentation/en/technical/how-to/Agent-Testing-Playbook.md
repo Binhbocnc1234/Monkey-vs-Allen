@@ -1,27 +1,14 @@
 ---
 type: technical
-module: agent_testing_playbook
-
 audience: [developer, agent]
 status: deprecated
 language: en
 description: Companion guide for automated agent execution; translates the canonical testing strategy into a PowerShell-driven workflow for compile, EditMode, and PlayMode runs.
 related:
-  - testing
+  - Testing-workflow
   - how-to-run-test-manually
 ---
 
-<!-- ---
-type: technical
-module: agent_testing_playbook
-
-audience: developer, agent
-description: Companion guide for automated agent execution; translates the canonical testing strategy into a PowerShell-driven workflow for compile, EditMode, and PlayMode runs.
-related:
-  - testing
-  - how_to_documentation
-  - software-development-process
----
 
 # Agent Testing Playbook
 
@@ -119,4 +106,4 @@ Failure handling:
 3. A full run also produces PlayMode results when requested.
 
 ## Cross-reference
-See [How-to-test](How-to-test.md) for the testing strategy, tier definitions, and when to use each tier. -->
+See [Testing-workflow](Testing-workflow.md) for the testing strategy, tier definitions, and when to use each tier.

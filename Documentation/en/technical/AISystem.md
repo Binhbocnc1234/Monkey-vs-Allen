@@ -1,7 +1,5 @@
 ---
 type: technical
-module: ai-system
-
 audience: [developer]
 status: active
 language: en

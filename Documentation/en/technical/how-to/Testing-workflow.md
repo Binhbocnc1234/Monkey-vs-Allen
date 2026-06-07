@@ -1,8 +1,7 @@
 ---
 type: technical
-module: testing
 
-audience: [developer, agent]
+audience: [agent]
 status: active
 language: en
 description: Canonical testing strategy for developers and agents; defines the tiered testing model, when to use each tier, and how the project should be validated.

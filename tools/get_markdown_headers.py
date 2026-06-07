@@ -3,9 +3,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import re
+import sys
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="List H1 and H2 headings with line ranges.")
     parser.add_argument("path", help="Markdown file path.")
     args = parser.parse_args()

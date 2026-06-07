@@ -1,6 +1,5 @@
 ---
 type: technical
-module: software_development_process
 
 audience: [developer]
 status: draft

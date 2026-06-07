@@ -1,6 +1,5 @@
 ---
 type: technical
-module: modify_data
 
 audience: [agent]
 status: active
@@ -9,7 +8,7 @@ description: Explains how agents should modify project data while respecting arc
 related:
   - architecture-as-is
   - design-principles
-  - testing
+  - Testing-workflow
 ---
 
 # How to Modify Data

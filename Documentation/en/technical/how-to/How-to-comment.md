@@ -1,6 +1,5 @@
 ---
 type: technical
-module: how_to_comment
 
 audience: [agent, developer]
 status: active

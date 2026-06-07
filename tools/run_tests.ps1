@@ -16,7 +16,7 @@ param(
     [string]$scope = "fast", # fast = Tier1+Tier2, full = Tier1+Tier2+Tier3
     [int]$unityTimeoutMinutes = 10,
     [string]$projectPath = $env:PROJECT_PATH,
-    [string]$unityPath = $env:UNITY_EDITOR_PATH,
+    [string]$unityPath = "D:\UnityEditor\6000.3.11f1\Editor\Unity.exe",
     [string]$logsDir = $env:LOGS_DIR,
     [string[]]$tier1Projects = @()
 )
@@ -37,7 +37,7 @@ function Assert-UnityTestPreconditions {
         exit 10
     }
     if (-not $unityPath) {
-        Write-Host 'Error: UNITY_EDITOR_PATH is not set. Set the environment variable or pass -unityPath.'
+        Write-Host 'Error: Unity Editor path is empty. Pass -unityPath.'
         exit 11
     }
     if (-not (Test-Path $unityPath)) {

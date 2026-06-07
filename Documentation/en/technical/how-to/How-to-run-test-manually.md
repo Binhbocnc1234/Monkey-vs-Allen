@@ -1,13 +1,12 @@
 ---
 type: technical
-module: how_to_run_test_manually
 
 audience: [developer]
 status: active
 language: en
 description: Explains how to run Unity tests manually through the Unity Test Runner during development.
 related:
-  - testing
+  - Testing-workflow
 ---
 
 ### How to run tests manually (for development)

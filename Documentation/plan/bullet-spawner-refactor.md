@@ -1,6 +1,5 @@
 ---
 type: technical
-module: bullet_spawner_refactor
 
 audience: [developer]
 status: draft

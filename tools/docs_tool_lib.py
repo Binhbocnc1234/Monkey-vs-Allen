@@ -79,6 +79,8 @@ def value_list(value: object) -> list[str]:
 
 
 def iter_markdown_docs(root: Path) -> list[Path]:
+    if root.is_file():
+        return [root] if root.suffix.lower() == ".md" else []
     return sorted(root.rglob("*.md"))
 
 
@@ -107,9 +109,6 @@ def doc_identifiers(doc: MarkdownDoc) -> set[str]:
         normalize_doc_id(doc.path.stem.replace("-vn", "")),
         normalize_doc_id(doc.path.stem.replace("_vn", "")),
     }
-    module = doc.frontmatter.get("module")
-    if module:
-        ids.add(normalize_doc_id(str(module)))
     return {item for item in ids if item}
 
 

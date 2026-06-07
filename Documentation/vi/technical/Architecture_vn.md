@@ -1,6 +1,5 @@
 ---
 type: technical
-module: architecture
 
 audience: [developer]
 status: draft
