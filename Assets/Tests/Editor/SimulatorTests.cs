@@ -1,69 +1,113 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
-// [Obsolete] Simulator API has been refactored (FakeEntity ? SimEntity, EvaluateBundle_2 ? merged, etc.)
-// Original test code preserved as reference below.
-// Uncomment [Test] and update API calls when reworking Simulator tests.
+[TestFixture]
 public class SimulatorTests {
-	// [Test]
-	public void Simulator_EmptyWorld_Logs() {
-		Assert.Ignore("Simulator API changed — needs test rework.");
-		/* Original code for reference:
-		List<Simulator.FakeEntity> lane = new List<Simulator.FakeEntity>();
-		List<Simulator.FakeEntity> spawned = new List<Simulator.FakeEntity>();
-		float score = Simulator.EvaluateBundle_2(lane, spawned, Team.Left, Team.Right, 12, 0f);
-		Debug.Log("[EmptyWorld] Score: " + score);
-		var final = Simulator.GetWorldSnapshot();
-		Debug.Log("[EmptyWorld] Final world count: " + final.Count);
-		foreach(var e in final) {
-			Debug.Log($"[EmptyWorld] Entity team={e.team} x={e.x} danger={e.danger} surv={e.survivability}");
-		}
-		Assert.Pass();
-		*/
+	private EntitySO CreateMinimalEntitySO() {
+		EntitySO so = ScriptableObject.CreateInstance<EntitySO>();
+		so.id = Guid.NewGuid().ToString();
+		so.health = 100;
+		so.canAttack = true;
+		so.damage = 10;
+		so.attackSpeed = 1f;
+		so.moveSpeed = 2f;
+		so.attackRange = 1;
+		so.behaviourTemplates = new List<IBehaviour> {
+			new MeleeAttack(),
+			new StraightMove(),
+		};
+		return so;
 	}
 
-	// [Test]
-	public void Simulator_SingleSpawnVsEnemy_Logs() {
-		Assert.Ignore("Simulator API changed — needs test rework.");
-		/* Original code for reference:
-		var lane = new List<Simulator.FakeEntity> {
-			new Simulator.FakeEntity { team = Team.Right, x = 6f, moveSpeed = 1f, range = 1f, danger = 25, survivability = 30 }
-		};
-		var spawned = new List<Simulator.FakeEntity> {
-			new Simulator.FakeEntity { team = Team.Left, x = 0f, moveSpeed = 1f, range = 1f, danger = 30, survivability = 30f }
-		};
-		float score = Simulator.EvaluateBundle_2(lane, spawned, Team.Left, Team.Right, 12, 0f);
-		Debug.Log("[SingleSpawn] Score: " + score);
-		var final = Simulator.GetWorldSnapshot();
-		Debug.Log("[SingleSpawn] Final world count: " + final.Count);
-		foreach(var e in final) {
-			Debug.Log($"[SingleSpawn] Entity team={e.team} x={e.x} danger={e.danger} surv={e.survivability}");
-		}
-		Assert.Pass();
-		*/
+	private Entity CreateTestEntity(EntitySO so = null, Team team = Team.Left, float x = 0f, int lane = 0, int level = 1) {
+		if(so == null) so = CreateMinimalEntitySO();
+		return new Entity(so, team, x, lane, level, true);
 	}
 
-	// [Test]
-	public void Simulator_MultiUnitScenario_Grid15_Logs() {
-		Assert.Ignore("Simulator API changed — needs test rework.");
-		/* Original code for reference:
-		var lane = new List<Simulator.FakeEntity> {
-			new Simulator.FakeEntity { team = Team.Right, x = 10f, moveSpeed = 1.2f, range = 1f, danger = 6f, survivability = 12f },
-			new Simulator.FakeEntity { team = Team.Right, x = 11f, moveSpeed = 0.8f, range = 1f, danger = 4f, survivability = 8f }
-		};
-		var spawned = new List<Simulator.FakeEntity> {
-			new Simulator.FakeEntity { team = Team.Left, x = 0f, moveSpeed = 1f, range = 1f, danger = 7f, survivability = 9f },
-			new Simulator.FakeEntity { team = Team.Left, x = 0f, moveSpeed = 1.5f, range = 1f, danger = 3f, survivability = 6f }
-		};
-		float score = Simulator.EvaluateBundle_2(lane, spawned, Team.Left, Team.Right, 15, 0f);
-		Debug.Log("[MultiUnit] Score: " + score);
-		var final = Simulator.GetWorldSnapshot();
-		Debug.Log("[MultiUnit] Final world count: " + final.Count);
-		foreach(var e in final) {
-			Debug.Log($"[MultiUnit] Entity team={e.team} x={e.x} danger={e.danger} surv={e.survivability}");
+	private void LogResult(string testName, SimulationResult result) {
+		Debug.Log($"[SimTest] {testName}: score={result.score:F2}, remainings={result.remainings.Count}, ourPower={result.ourPower:F2}, enemyPower={result.enemyPower:F2}");
+		for(int i = 0; i < result.remainings.Count; ++i) {
+			var e = result.remainings[i];
+			Debug.Log($"  [{i}] team={e.team}, x={e.gridPos.x:F2}, hp={e.Stats[ST.Health]:F2}/{e.Stats[ST.MaxHealth]:F2}, danger={e.GetAssessPoint(APType.Danger):F2}");
 		}
-		Assert.Pass();
-		*/
+	}
+
+	[Test]
+	public void Test1_Empty_ReturnsZeroScore() {
+		var result = Simulator.EvaluateBundle(new IEntity[0], null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test1_Empty", result);
+		Assert.AreEqual(0f, result.score);
+		Assert.AreEqual(0, result.remainings.Count);
+	}
+
+	[Test]
+	public void Test2_OneEntityInOneTeam_ReturnsPositiveScore() {
+		Entity leftEntity = CreateTestEntity(null, Team.Left, 0f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity }, null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test2_OneEntity", result);
+		
+		Assert.Greater(result.score, 0f);
+		Assert.AreEqual(1, result.remainings.Count);
+		Assert.AreEqual(Team.Left, result.remainings[0].team);
+	}
+
+	[Test]
+	public void Test3_OneVsOne_Identical_ShouldBeFair() {
+		EntitySO so = CreateMinimalEntitySO();
+		Entity leftEntity = CreateTestEntity(so, Team.Left, 2f);
+		Entity rightEntity = CreateTestEntity(so, Team.Right, 7f);
+		
+		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity, rightEntity }, null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test3_1v1", result);
+		
+		// Symmetric: score should be near 0 (either both die or close result)
+		Assert.Less(Mathf.Abs(result.score), 1500f); 
+	}
+
+	[Test]
+	public void Test4_TwoVsOne_Identical_TeamAAdvantage() {
+		EntitySO so = CreateMinimalEntitySO();
+		Entity left1 = CreateTestEntity(so, Team.Left, 2f);
+		Entity left2 = CreateTestEntity(so, Team.Left, 2f);
+		Entity right1 = CreateTestEntity(so, Team.Right, 7f);
+
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1 }, null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test4_2v1", result);
+
+		// 2v1 should be positive for Left team
+		Assert.Greater(result.score, 0f, "2v1 should favor the team with more units");
+	}
+
+	[Test]
+	public void Test5_TwoVsTwo_Identical_ShouldBeFair() {
+		EntitySO so = CreateMinimalEntitySO();
+		Entity left1 = CreateTestEntity(so, Team.Left, 2f);
+		Entity left2 = CreateTestEntity(so, Team.Left, 2f);
+		Entity right1 = CreateTestEntity(so, Team.Right, 7f);
+		Entity right2 = CreateTestEntity(so, Team.Right, 7f);
+
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test5_2v2", result);
+
+		Assert.Less(Mathf.Abs(result.score), 1500f);
+	}
+
+	[Test]
+	public void Test6_TwoVsTwo_PositionAdvantage_TeamABetter() {
+		EntitySO so = CreateMinimalEntitySO();
+		// Team Left grouped
+		Entity left1 = CreateTestEntity(so, Team.Left, 1f);
+		Entity left2 = CreateTestEntity(so, Team.Left, 1.1f);
+		// Team Right staggered far apart
+		Entity right1 = CreateTestEntity(so, Team.Right, 6f);
+		Entity right2 = CreateTestEntity(so, Team.Right, 9f);
+
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, Team.Left, Team.Right, 10, 20f);
+		LogResult("Test6_2v2_pos", result);
+
+		// Left should have position advantage (grouped vs staggered)
+		Assert.Greater(result.score, 0f, "Grouped team should beat staggered team");
 	}
 }

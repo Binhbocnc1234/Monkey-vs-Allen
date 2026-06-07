@@ -6,7 +6,8 @@ Usage:
   python tools/run_tests.py --scope full
 
 Connects to the TestDaemon TCP server running inside Unity Editor (port 9876).
-If Unity is not open, start it first — the daemon auto-starts via [InitializeOnLoad].
+If UnityEdtior is not open, ask user to start it first — the daemon auto-starts via [InitializeOnLoad].
+You may need to wait for compilation before run tests
 
 Tiers:
 - Tier1: dotnet build on key projects (runs locally, no Unity needed)

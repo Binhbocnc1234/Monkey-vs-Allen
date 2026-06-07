@@ -10,6 +10,7 @@ public partial class EnemyManager : Singleton<EnemyManager> {
     [ReadOnly] public int meteorIndex = 0;
     private Timer waitingTimer, thinkingTimer;
     public float thinkingDelay = 1f;
+    public float costPenaltyFactor = 50f;
     [Header("Information")]
     // Opponent team, the team is not controlled by AI
     public Team o_Team;
@@ -133,16 +134,27 @@ public partial class EnemyManager : Singleton<EnemyManager> {
                     continue;
                 }
 
-                float score = Simulator.EvaluateBundle(laneEntities, picked, ourTeam, o_Team, grid.width, lookahead);
-                if(score <= bestScore) {
+                SimulationResult simResult = Simulator.EvaluateBundle(laneEntities, picked, ourTeam, o_Team, grid.width, lookahead);
+                float rawScore = simResult.score;
+                float effectiveScore = rawScore - totalCost * costPenaltyFactor;
+
+                // Evaluate baseline: doing nothing on this lane for the same lookahead.
+                SimulationResult baselineResult = Simulator.EvaluateBundle(laneEntities, null, ourTeam, o_Team, grid.width, lookahead);
+                float netImprovement = effectiveScore - baselineResult.score;
+
+                if(netImprovement <= 0f) {
                     continue;
                 }
 
-                bestScore = score;
+                if(netImprovement <= bestScore) {
+                    continue;
+                }
+
+                bestScore = netImprovement;
                 best = new BundleDecision {
                     lane = lane,
                     lookahead = lookahead,
-                    score = score,
+                    score = netImprovement,
                     cost = totalCost,
                     usedCards = new List<IBattleCard>(picked),
                 };
