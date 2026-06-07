@@ -7,43 +7,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  tier1-compile:
-    name: Tier 1 — Compile (dotnet)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.0.x'
-      - name: Restore
-        run: dotnet restore "Monkey vs Allen project.sln"
-      - name: Build solution
-        run: dotnet build "Monkey vs Allen project.sln" --configuration Release --no-restore
-      - name: Upload build log
-        uses: actions/upload-artifact@v4
-        with:
-          name: tier1-build-log
-          path: '**/bin/**'
-
   unity-tests:
-    name: Tier 2/3 — Unity (self-hosted)
+    name: Tier 1/2/3 - Unity self-hosted
     runs-on: [self-hosted, windows]
-    needs: tier1-compile
     steps:
       - uses: actions/checkout@v4
-      - name: Ensure UNITY path
+      - name: Ensure Unity path
+        shell: powershell
         env:
           UNITY_PATH: ${{ secrets.UNITY_PATH }}
         run: |
-          if (-not $env:UNITY_PATH) { Write-Error "Set UNITY_PATH secret to Unity editor executable path" ; exit 1 }
-      - name: Run tests via run_tests.ps1
+          if (-not $env:UNITY_PATH) {
+            Write-Error "Set UNITY_PATH secret to the Unity editor executable path."
+            exit 1
+          }
+      - name: Generate Unity project files
         shell: powershell
+        env:
+          UNITY_PATH: ${{ secrets.UNITY_PATH }}
         run: |
-          $env:UNITY_EDITOR_PATH = "${{ secrets.UNITY_PATH }}"
-          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-          .\tools\run_tests.ps1 -scope full -unityPath $env:UNITY_EDITOR_PATH -logsDir Logs
+          New-Item -ItemType Directory -Force -Path Logs | Out-Null
+          & "$env:UNITY_PATH" -batchmode -quit -projectPath "$pwd" -executeMethod TestWorkflowProjectFiles.Generate -logFile "Logs/unity-project-files.log"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Unity project file generation failed. See Logs/unity-project-files.log."
+            exit $LASTEXITCODE
+          }
+      - name: Run full test workflow
+        shell: powershell
+        env:
+          UNITY_PATH: ${{ secrets.UNITY_PATH }}
+        run: |
+          python tools/run_tests.py --scope full --unity-path "$env:UNITY_PATH" --logs-dir Logs --allow-missing-tier1-projects
       - name: Upload logs
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: unity-test-logs
           path: Logs/**

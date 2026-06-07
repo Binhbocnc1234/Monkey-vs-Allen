@@ -39,15 +39,15 @@ The solution: a **three-tier testing pyramid** that matches cost to need.
 ## Three Tiers
 
 The project uses three tiers:
-- Tier 1: `dotnet build` for compile-only checks.
+- Tier 1: Synchronous compilation check inside Unity Editor via Test Daemon.
 - Tier 2: Unity EditMode tests for fast Unity-aware logic.
 - Tier 3: Unity PlayMode tests for full runtime simulation.
 
-### Tier 1 — Compile Check (`dotnet build`)
+### Tier 1 — Compile Check (via Unity Test Daemon)
 
-**What it does:** Verifies C# compilation — syntax, type safety, reference resolution — without launching Unity at all.
+**What it does:** Verifies C# compilation — syntax, type safety, reference resolution — using Unity Editor's native compilation pipeline via the Test Daemon client (`tools/run_tests.py`).
 
-**Why this works:** Unity generates standard `.csproj` files that reference Unity DLLs from the Editor installation. The .NET SDK (`dotnet`) resolves these references just like Visual Studio does, but from the command line. Since our architecture separates pure C# logic (`IEntity`, `IBehaviour`, `IUpdatePerFrame`) from Unity `MonoBehaviour` binding, most of our code lives in assemblies like `MvA.Core.csproj` that have few Unity dependencies.
+**Why this works:** The Python runner sends a `regen` command to the Test Daemon running inside Unity Editor. The daemon executes `CodeEditor.CurrentEditor.SyncAll()` and `AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport)`. If there are any compilation errors, `EditorUtility.scriptCompilationFailed` returns `true`, and the runner reports the compile failure. If compilation succeeds, Unity performs a domain reload and the runner pings until the daemon is back online. This uses Unity's native compiler which compiles in <15 seconds and avoids file lock issues.
 
 **When to use:**
 - After every code change (habit, like saving a file)
@@ -122,7 +122,7 @@ This project splits runtime code into two groups:
 Why this helps:
 - Pure C# logic can be instantiated with `new`, exercised in EditMode, and validated without PlayMode.
 - Unity binding stays thin and mostly delegates to the pure logic layer.
-- Tier 1 (`dotnet build`) covers the core logic because the interface layer compiles independently.
+- Tier 1 (Daemon compile check) covers the core logic because any compilation errors in the codebase are immediately caught by the Unity compiler.
 
 ### EntitySO as data
 
@@ -144,4 +144,4 @@ Assert.AreEqual(100, entity.HP);
 
 ## Reference files
 
-If you need an execution-oriented companion for automation, see tools/run_tests.ps1
+If you need an execution-oriented companion for automation, command-line based, see [run_tests.py](file:///D:/Project/_Unity%20Projects/Monkey%20vs%20Allen/tools/run_tests.py)

@@ -8,19 +8,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEntitySO", menuName = "ScriptableObject/Entity")]
 public class EntitySO : MySO {
     public GameClass gameClass = GameClass.None;
-    public List<Tribe> tribes;
+    public List<Tribe> tribes = new();
     public int health = 10;
     public bool canAttack = true;
     [ShowIf("canAttack")] public int attackRange = 1; //how many cells ahead an entity can control?
     [ShowIf("canAttack")] public int damage = 1;
     [ShowIf("canAttack")] public float attackSpeed = 1f; //hits per second
     public float moveSpeed = 1;
-    [SerializeField] private List<EntityStat> otherStats;
-    public List<EffectType> traits;
+    [SerializeField] private List<EntityStat> otherStats = new();
+    public List<EffectType> traits = new();
     public GameObject prefab;
     [SubclassSelector, SerializeReference] public List<IBehaviour> behaviourTemplates = new();
-    public List<SkillSO> unlockedSkillInFirstLevel;
-    [SubclassSelector, SerializeReference] private List<Upgrade> upgrades;
+    public List<SkillSO> unlockedSkillInFirstLevel = new();
+    [SubclassSelector, SerializeReference] private List<Upgrade> upgrades = new();
     [Header("Obsolete Upgrade System")]
     public bool usingOldUpgradeSystem = true;
     public StatUpgrade level_2;
@@ -52,8 +52,10 @@ public class EntitySO : MySO {
     }
     public UDictionary<ST, float> GetEntityStats(int level) {
         UDictionary<ST, float> total = new();
-        foreach(EntityStat stat in otherStats) {
-            total.Add(stat.GetStatType(), stat.amount);
+        if (otherStats != null) {
+            foreach(EntityStat stat in otherStats) {
+                total.Add(stat.GetStatType(), stat.amount);
+            }
         }
         total.Add(ST.MaxHealth, health);
         if(canAttack) {

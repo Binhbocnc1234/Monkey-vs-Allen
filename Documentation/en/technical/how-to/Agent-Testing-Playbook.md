@@ -15,9 +15,8 @@ related:
 This document turns the canonical testing strategy into an execution guide for agents and developers. It focuses on how to run the pipeline, how to collect results, and how to react to failures.
 
 ## Preconditions
-- Windows local environment or a CI runner that can execute PowerShell.
-- `dotnet` SDK installed and available in `PATH`.
-- Unity Editor installed and the `UNITY_EDITOR_PATH` environment variable set.
+- Windows local environment or a CI runner that can execute Python 3.
+- Unity Editor installed and open with this project (the daemon auto-starts on load).
 - Valid Unity license for any runner that executes EditMode or PlayMode tests.
 - The repository root contains the Unity solution and the `Assets/Tests/` directory.
 
@@ -33,25 +32,21 @@ Run these checks before Tier 2 or Tier 3:
 - Confirm `LOGS_DIR` exists or can be created.
 - Confirm the Unity license is available on the runner.
 
-In `tools/run_tests.ps1`, this maps to the Unity preflight function before `Invoke-Tier2EditModeTests` and `Invoke-Tier3PlayModeTests`.
+In `tools/run_tests.py`, this maps to the `assert_preconditions()` function which pings the Test Daemon on port 9876.
 
 ## Workflow
-1. Run Tier 1 compile checks with `Invoke-Tier1CompileChecks`.
-2. Run Unity preflight checks with `Assert-UnityTestPreconditions` before Tier 2 or Tier 3.
-3. Run Tier 2 EditMode tests with `Invoke-Tier2EditModeTests`.
-4. Run Tier 3 PlayMode tests with `Invoke-Tier3PlayModeTests` when a full validation is required.
+1. Verify preconditions and ping the daemon.
+2. Run Tier 1 compile check via daemon's `regen` command (re-compiles natively in Unity).
+3. Run Tier 2 EditMode tests via daemon's `edit-tests` command.
+4. Run Tier 3 PlayMode tests via daemon's `play-tests` command when a full validation is required.
 5. Collect logs and XML results as artifacts.
 6. Stop at the first blocking failure and report the smallest useful summary.
 
 ## Tier 1: Compile checks
 
-In `tools/run_tests.ps1`, this is implemented by `Invoke-Tier1CompileChecks`.
+In `tools/run_tests.py`, this is implemented by `regenerate_csproj()`.
 
-By default, the runner discovers project-owned assemblies under the repo root and builds the matching `.csproj` files. If the agent already knows the affected surface, it can pass a narrower `tier1Projects` list to the runner.
-
-Typical scope:
-- Project-owned `.csproj` files relevant to the changed code
-- A narrower explicit list when the agent already knows the impacted assemblies
+This sends a command to the Test Daemon inside Unity Editor. Unity Editor synchronously compiles the codebase and the runner verifies that there are no compilation errors. If a Domain Reload occurs, the runner automatically waits and polls the ping endpoint until the daemon is back online.
 
 Expected outcome:
 - Build succeeds with exit code `0`.
@@ -65,7 +60,7 @@ Failure handling:
 
 Before this tier runs, `Assert-UnityTestPreconditions` verifies the required Unity path, project path, logs directory, and license availability.
 
-In `tools/run_tests.ps1`, this is implemented by `Invoke-Tier2EditModeTests`.
+In `tools/run_tests.py`, this is implemented by `run_tier2()`.
 
 Expected outcome:
 - The EditMode suite completes successfully.
@@ -80,7 +75,7 @@ Failure handling:
 
 Before this tier runs, `Assert-UnityTestPreconditions` verifies the same required conditions as Tier 2.
 
-In `tools/run_tests.ps1`, this is implemented by `Invoke-Tier3PlayModeTests`.
+In `tools/run_tests.py`, this is implemented by `run_tier3()`.
 
 Expected outcome:
 - The PlayMode suite completes successfully.
@@ -101,7 +96,7 @@ Failure handling:
 - Prefer a single root-cause hypothesis over a long list of guesses.
 
 ## Verification
-1. `tools/run_tests.ps1 --scope fast` returns exit code `0`.
+1. `python tools/run_tests.py --scope fast` returns exit code `0`.
 2. The logs directory contains the expected EditMode XML and log files.
 3. A full run also produces PlayMode results when requested.
 

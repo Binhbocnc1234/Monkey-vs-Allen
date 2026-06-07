@@ -1,9 +1,11 @@
 ---
 name: agent-worktree
-description: Use when Codex needs to make non-trivial edits in this repo, especially documentation changes, multi-file changes, broad refactors, generated/codegen work, or when the user's main workspace is dirty. Creates and works in a task-specific Git worktree so agent changes do not overwrite user edits in the primary workspace.
+description: Deprecated. Do not use by default in this repo; use .codex/skills/agent-branch/SKILL.md for non-trivial edits.
 ---
 
 # Agent Worktree
+
+Deprecated. The current project workflow uses shared-directory Git branches instead of worktrees. Use `.codex/skills/agent-branch/SKILL.md`.
 
 Use a dedicated Git worktree for non-trivial edits. Keep the user's main workspace developer-owned.
 

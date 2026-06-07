@@ -5,8 +5,8 @@
 - **Ignore entirely**: `Monkey vs Allen project/` (old project), `Raw assets/`, `Releases/`.
 - **Code Style**: Focus on readability. Avoid overly complex C# syntax where simpler is clearer.
 
-## Worktree Workflow
-Use project skill `.codex/skills/agent-worktree/SKILL.md` for non-trivial edits, documentation changes, multi-file changes, broad refactors, generated/codegen work, or when the user's main workspace is dirty. Keep this section short; the skill owns the detailed workflow. Full project plan: `Documentation/plan/worktree-setup.md`.
+## Branch Workflow
+Use project skill `.codex/skills/agent-branch/SKILL.md` for non-trivial edits, documentation changes, multi-file changes, broad refactors, generated/codegen work, or when an agent task needs version-control isolation. Agent and developer share the same working directory. The agent branch must regularly merge `master`, and completed agent work should be merged back into `master` after review.
 
 ## Testing Workflow
 
