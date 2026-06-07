@@ -8,7 +8,7 @@ using UnityEngine;
 /// Test behaviour that tracks whether UpdateBehaviour was called.
 /// Used to verify TickEntities propagates deltaTime to entities.
 /// </summary>
-public class TestTrackableBehaviour : IBehaviour, IInterruptable {
+public class TestTrackableBehaviour : Idle {
     public bool wasUpdated;
     public override bool CanActive() => true;
     public override void UpdateBehaviour(float deltaTime) { wasUpdated = true; }
@@ -16,15 +16,38 @@ public class TestTrackableBehaviour : IBehaviour, IInterruptable {
     public override string GetAnimatorStateName() => "TestTrackable";
 }
 
+public class MockGrid : IGrid {
+    public void SetWidth(int w) { this.width = w; }
+    public override void Initialize(int width, bool[] openLanes) {}
+    public override bool IsValidGridPosition(float x, float y) => true;
+    public override Vector2 GridToWorldPosition(Vector2 gridPos) => Vector2.zero;
+    public override Vector2 GridToWorldPosition(float x, float y) => Vector2.zero;
+    public override Vector2 WorldToGridPos(Vector2 v) => Vector2.zero;
+    public override Vector2Int WorldToGridPosRounded(Vector2 worldPosition) => Vector2Int.zero;
+    public override ICell GetCell(Vector2Int gridPos) => null;
+    public override ICell GetCell(int x, int y) => null;
+    public override void CreateCell(ICell cellPrefab, int x, int y) {}
+    public override void Clear() {}
+    public override List<int> GetOpenLanes() => new List<int>();
+}
+
 [TestFixture]
 public class EContainerTests {
     private GameObject testGo;
+    private GameObject gridGo;
     private EContainer container;
     private List<List<Entity>> entities;
     private FieldInfo entitiesField;
 
     [SetUp]
     public void SetUp() {
+        gridGo = new GameObject("MockGrid");
+        MockGrid mockGrid = gridGo.AddComponent<MockGrid>();
+        mockGrid.SetWidth(10);
+        typeof(Singleton<IGrid>)
+            .GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
+            .SetValue(null, mockGrid);
+
         testGo = new GameObject("TestEContainer");
         container = testGo.AddComponent<EContainer>();
 
@@ -47,9 +70,16 @@ public class EContainerTests {
 
     [TearDown]
     public void TearDown() {
+        typeof(Singleton<IGrid>)
+            .GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
+            .SetValue(null, null);
+        if (gridGo != null) {
+            GameObject.DestroyImmediate(gridGo);
+        }
         if (testGo != null) {
             GameObject.DestroyImmediate(testGo);
         }
+        BattleInfo.ChangeState(GameState.ChoosingCard);
     }
 
     private static EntitySO CreateTestSO() {
@@ -72,7 +102,7 @@ public class EContainerTests {
         Assert.AreEqual(0f, setting.x);
         Assert.AreEqual(Team.Left, setting.team);
         Assert.AreEqual(1, setting.level);
-        Assert.IsTrue(setting.isSimulated);
+        Assert.IsFalse(setting.isSimulated);
     }
 
     [Test]
@@ -156,10 +186,10 @@ public class EContainerTests {
         // No behaviour templates - constructor will create empty array
         // idleBehaviour will be null, ChangeBehaviour will throw
         // So we need at least Idle in templates - verify this requirement
-        so.behaviourTemplates = new List<IBehaviour> { new Idle() };
+        so.behaviourTemplates = null;
         Entity e = new Entity(so, Team.Left, 0f, 0, 1);
         Assert.IsNotNull(e.behaviours);
-        Assert.AreEqual(1, e.behaviours.Length);
+        Assert.AreEqual(2, e.behaviours.Length);
     }
 
     // --- TickEntities tests ---

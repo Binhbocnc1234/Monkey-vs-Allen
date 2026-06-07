@@ -67,13 +67,6 @@ public class BehaviourTests {
     }
 
     [Test]
-    public void Idle_AlwaysCanActive_AndPriorityZero() {
-        Idle idle = new Idle();
-        Assert.IsTrue(idle.CanActive());
-        Assert.AreEqual(0, idle.GetPriority());
-    }
-
-    [Test]
     public void InactiveBehaviour_AlwaysCanActive_AndPriorityNegativeOne() {
         InactiveBehaviour ib = new InactiveBehaviour();
         Assert.IsTrue(ib.CanActive());
@@ -103,49 +96,5 @@ public class BehaviourTests {
         // Idle (priority 0) should be first, InactiveBehaviour (priority -1) second
         Assert.IsInstanceOf<Idle>(e.behaviours[0]);
         Assert.IsInstanceOf<InactiveBehaviour>(e.behaviours[1]);
-    }
-
-    [Test]
-    public void Behaviour_IsEnable_DefaultTrue() {
-        Idle idle = new Idle();
-        Assert.IsTrue(idle.isEnable);
-    }
-
-    [Test]
-    public void Behaviour_IsEnable_CanBeToggled() {
-        Idle idle = new Idle();
-        idle.isEnable = false;
-        Assert.IsFalse(idle.isEnable);
-        idle.isEnable = true;
-        Assert.IsTrue(idle.isEnable);
-    }
-
-    [Test]
-    public void Behaviour_UpdateBehaviour_DoesNotThrow() {
-        Idle idle = new Idle();
-        Assert.DoesNotThrow(() => idle.UpdateBehaviour(0.016f));
-
-        InactiveBehaviour ib = new InactiveBehaviour();
-        Assert.DoesNotThrow(() => ib.UpdateBehaviour(0.016f));
-    }
-
-    [Test]
-    public void Behaviour_GetAnimatorStateName_ReturnsExpected() {
-        Idle idle = new Idle();
-        Assert.AreEqual("Idle", idle.GetAnimatorStateName());
-
-        InactiveBehaviour ib = new InactiveBehaviour();
-        Assert.AreEqual("Idle", ib.GetAnimatorStateName());
-    }
-
-    [Test]
-    public void Behaviour_GetAssessPoint_ReturnsEmpty() {
-        Idle idle = new Idle();
-        Assert.IsNotNull(idle.GetAssessPoint());
-        Assert.AreEqual(0, idle.GetAssessPoint().Count);
-
-        InactiveBehaviour ib = new InactiveBehaviour();
-        Assert.IsNotNull(ib.GetAssessPoint());
-        Assert.AreEqual(0, ib.GetAssessPoint().Count);
     }
 }

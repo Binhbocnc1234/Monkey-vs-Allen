@@ -33,6 +33,12 @@ public class EffectControllerTests {
             return new List<StatModifier> { new StatModifier(op, statType, value) };
         }
         public override int GetDangerPoint() => 0;
+        public override bool IsIdentical(Effect effect) {
+            if (effect is TestStatEffect other) {
+                return this.statType == other.statType && this.op == other.op && this.value == other.value;
+            }
+            return false;
+        }
     }
 
     // A damage output modifier effect
@@ -70,6 +76,7 @@ public class EffectControllerTests {
 
         TestEffect effect = new TestEffect();
         ec.ApplyEffect(effect);
+        ec.Flush();
 
         Assert.IsTrue(ec.HaveEffect(typeof(TestEffect)));
     }
@@ -81,6 +88,7 @@ public class EffectControllerTests {
 
         var effect = new TestEffect(duration: 5f);
         ec.ApplyEffect(effect);
+        ec.Flush();
         Assert.IsTrue(effect.HaveDuration);
 
         float originalRemaining = effect.lifeTimer.remainingTime;
@@ -91,6 +99,7 @@ public class EffectControllerTests {
         // Apply identical effect - should reset duration
         var effect2 = new TestEffect(duration: 5f);
         ec.ApplyEffect(effect2);
+        ec.Flush();
 
         // The original effect should have been reset to totalTime
         Assert.AreEqual(5f, effect.lifeTimer.remainingTime, 0.001f);
@@ -103,9 +112,11 @@ public class EffectControllerTests {
 
         var effect = new TestStackableEffect(strength: 1);
         ec.ApplyEffect(effect);
+        ec.Flush();
 
         var effect2 = new TestStackableEffect(strength: 2);
         ec.ApplyEffect(effect2);
+        ec.Flush();
 
         Assert.AreEqual(2, effect.stackCount);
     }
@@ -116,6 +127,7 @@ public class EffectControllerTests {
         EffectController ec = (EffectController)e.GetEffectable();
 
         ec.ApplyEffect(new TestEffect());
+        ec.Flush();
         Assert.IsTrue(ec.HaveEffect(typeof(TestEffect)));
     }
 
@@ -135,12 +147,14 @@ public class EffectControllerTests {
 
         var effect = new TestEffect(duration: 1f);
         ec.ApplyEffect(effect);
+        ec.Flush();
 
         // Fails if GetFinalStat throws when effect has IModifyStat but effect list is empty after removal
         Assert.IsTrue(ec.HaveEffect(typeof(TestEffect)));
 
         // Tick past the duration
         ec.Update(2f);
+        ec.Flush();
 
         // Effect should be removed
         Assert.IsFalse(ec.HaveEffect(typeof(TestEffect)));
@@ -153,6 +167,7 @@ public class EffectControllerTests {
 
         ec.ApplyEffect(new TestEffect());
         ec.ApplyEffect(new TestStackableEffect());
+        ec.Flush();
         Assert.IsTrue(ec.HaveEffect(typeof(TestEffect)));
 
         ec.Reset();
@@ -169,6 +184,7 @@ public class EffectControllerTests {
 
         var outputEffect = new TestDamageOutputEffect(modifierAmount: 10f);
         ec.ApplyEffect(outputEffect);
+        ec.Flush();
 
         DamageContext ctx = new DamageContext(50f, attacker, entity, false);
         ec.ProcessDamageOutput(ctx);
@@ -233,6 +249,7 @@ public class EffectControllerTests {
 
         // Add an effect that adds 5 to Strength
         ec.ApplyEffect(new TestStatEffect(ST.Strength, 5f, Operator.Addition));
+        ec.Flush();
 
         float finalValue = ec.GetFinalStat(ST.Strength);
         Assert.AreEqual(15f, finalValue);
@@ -246,6 +263,7 @@ public class EffectControllerTests {
 
         // Add an effect that multiplies Strength by 2
         ec.ApplyEffect(new TestStatEffect(ST.Strength, 2f, Operator.Multiply));
+        ec.Flush();
 
         float finalValue = ec.GetFinalStat(ST.Strength);
         Assert.AreEqual(20f, finalValue);
@@ -259,6 +277,7 @@ public class EffectControllerTests {
 
         ec.ApplyEffect(new TestStatEffect(ST.Strength, 5f, Operator.Addition));
         ec.ApplyEffect(new TestStatEffect(ST.Strength, 2f, Operator.Multiply));
+        ec.Flush();
 
         float finalValue = ec.GetFinalStat(ST.Strength);
         // (10 + 5) * 2 = 30

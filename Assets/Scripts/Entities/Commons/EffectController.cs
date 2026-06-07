@@ -16,7 +16,7 @@ public class EffectController : IEffectable, IAssessable {
     }
     public void ApplyEffect(Effect addedEffect) {
         addedEffect.owner = e;
-        foreach(Effect effect in container) {
+        foreach(Effect effect in container.Concat(pendingAdded)) {
             if(effect.IsIdentical(addedEffect)) {
                 effect.ResetDuration();
                 if(effect is IStackable stackable) {

@@ -129,7 +129,7 @@ def daemon_ping() -> bool:
 def assert_preconditions() -> None:
     if not daemon_ping():
         print("Error: TestDaemon is not running.")
-        print("       Open Unity Editor with this project — daemon starts automatically.")
+        print("       User must open Unity Editor with this project — daemon starts automatically.")
         sys.exit(20)
     logs_dir.mkdir(parents=True, exist_ok=True)
 

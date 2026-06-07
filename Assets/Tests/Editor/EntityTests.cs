@@ -5,6 +5,13 @@ using UnityEngine;
 
 [TestFixture]
 public class EntityTests {
+    private class DummyBehaviour : IBehaviour {
+        public override bool CanActive() => true;
+        public override void UpdateBehaviour(float deltaTime) {}
+        public override int GetPriority() => 0;
+        public override string GetAnimatorStateName() => "Dummy";
+    }
+
     // Helper: create a minimal EntitySO with an Idle behaviour
     private EntitySO CreateMinimalEntitySO() {
         EntitySO so = ScriptableObject.CreateInstance<EntitySO>();
@@ -193,9 +200,7 @@ public class EntityTests {
     [Test]
     public void GetBehaviour_ReturnsNull_WhenNotFound() {
         Entity e = CreateTestEntity();
-        // No InactiveBehaviour in the template
-        InactiveBehaviour ib = e.GetBehaviour<InactiveBehaviour>();
-        Assert.IsNull(ib);
+        Assert.IsNull(e.GetBehaviour<DummyBehaviour>());
     }
 
     [Test]
@@ -205,10 +210,10 @@ public class EntityTests {
         Entity e = CreateTestEntity(so);
 
         List<IBehaviour> result = new List<IBehaviour>(e.GetBehaviours<IBehaviour>());
-        Assert.AreEqual(2, result.Count);
+        Assert.AreEqual(4, result.Count);
 
         List<Idle> idles = new List<Idle>(e.GetBehaviours<Idle>());
-        Assert.AreEqual(1, idles.Count);
+        Assert.AreEqual(2, idles.Count);
     }
 
     [Test]

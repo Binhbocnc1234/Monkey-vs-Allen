@@ -66,11 +66,11 @@ public class EntitySO : MySO {
         if(moveSpeed > 0) {
             total.Add(ST.MoveSpeed, moveSpeed);
         }
-        if(level >= 2) {
-            total[level_2.stat] += level_2.amount;
+        if(level >= 2 && level_2 != null) {
+            total[level_2.stat] = total.ContainsKey(level_2.stat) ? total[level_2.stat] + level_2.amount : level_2.amount;
         }
-        if(level >= 4) {
-            total[level_4.stat] += level_4.amount;
+        if(level >= 4 && level_4 != null) {
+            total[level_4.stat] = total.ContainsKey(level_4.stat) ? total[level_4.stat] + level_4.amount : level_4.amount;
         }
         return total;
     }

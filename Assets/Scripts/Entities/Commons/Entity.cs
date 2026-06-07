@@ -107,7 +107,7 @@ public sealed class Entity : IEntity {
 
     public void UpdateBehaviours(float deltaTime) {
         if (BattleInfo.gameState != GameState.Fighting){ return; }
-        if((team == Team.Left && gridPos.x >= IGrid.Ins.width) || (team == Team.Right && gridPos.x <= -1)) {
+        if(IGrid.Ins != null && ((team == Team.Left && gridPos.x >= IGrid.Ins.width) || (team == Team.Right && gridPos.x <= -1))) {
             Die();
         }
         effectController.Update(deltaTime);
@@ -252,7 +252,7 @@ public sealed class Entity : IEntity {
             onDestroy.OnDestroy();
         }
         activeBehavior = behav;
-        activeBehaviourName = behav.GetType().ToString();
+        activeBehaviourName = behav != null ? behav.GetType().ToString() : "None";
         if(activeBehavior is IOnApply onApply) {
             onApply.OnApply();
         }
