@@ -5,8 +5,6 @@ audience: [developer, agent]
 status: active
 language: en
 description: Defines the documentation format, tone, completeness rules, and YAML frontmatter requirements for project how-to documents.
-related:
-  - how_to_read_document
 ---
 
 # Introduction
