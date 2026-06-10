@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CustomUI
 {
-    public static string pathHead = "Assets/Resources/UI/Prefab/";
+    public static string pathHead = "Assets/GameAssets/UI/Prefab/";
     [MenuItem("GameObject/UI/My Text (TMP)", false, 10)]
     static void CreateCustomText(MenuCommand command) {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(pathHead + "MyTextTMP.prefab");

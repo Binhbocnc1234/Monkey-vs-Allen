@@ -18,17 +18,17 @@ MonoBehaviour:
   m_GUID: 49f7084c07b1d23449c57e33678806af
   m_SerializeEntries:
   - m_GUID: 29f279d76b563a14e94d060b8a18fe38
-    m_Address: Assets/Resources/Data/Localization/UI_Table Shared Data.asset
+    m_Address: Assets/Localization/UI_Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2b7dadc7f3c838749838fa96311dae17
-    m_Address: Assets/Resources/Data/Localization/Skill_Table Shared Data.asset
+    m_Address: Assets/Localization/Skill_Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4839d7034626ffa40bb7220e6b5cd836
-    m_Address: Assets/Resources/Data/Localization/Entity_Table Shared Data.asset
+    m_Address: Assets/Localization/Entity_Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

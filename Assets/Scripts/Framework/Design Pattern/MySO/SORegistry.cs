@@ -26,18 +26,18 @@ using UnityEditor;
 // }
 public static class SORegistry {
     private static readonly Dictionary<Type, HashSet<MySO>> _instanceMap = new();
-    private static readonly Dictionary<Type, string[]> _resourceFolders = new() {
-        { typeof(CardSO), new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
-        { typeof(EnemyCardSO), new[] { "Data/Alien" } },
-        { typeof(MonkeyCardSO), new[] { "Data/Monkey", "Data/Tower" } },
-        { typeof(CardFrameSO), new[] { "Data/CardFrameSO" } },
-        { typeof(EffectSO), new[] { "Data/Effect" } },
-        { typeof(EntitySO), new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
-        { typeof(LevelSO), new[] { "Data/Level" } },
-        { typeof(PrefabRegisterSO), new[] { "Data/PrefabRegister" } },
-        { typeof(PlaceInitializerMapSO), new[] { "Data/PlaceInitializerMap" } },
-        { typeof(SkillSO), new[] { "Data/Skill" } },
-        { typeof(TowerSO), new[] { "Data/Tower" } },
+    private static readonly Dictionary<string, string[]> _resourceFolders = new() {
+        { "CardSO", new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
+        { "EnemyCardSO", new[] { "Data/Alien" } },
+        { "MonkeyCardSO", new[] { "Data/Monkey", "Data/Tower" } },
+        { "CardFrameSO", new[] { "Data/CardFrameSO" } },
+        { "EffectSO", new[] { "Data/Effect" } },
+        { "EntitySO", new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
+        { "LevelSO", new[] { "Data/Level" } },
+        { "PrefabRegisterSO", new[] { "Data/PrefabRegister" } },
+        { "PlaceInitializerMapSO", new[] { "Data/PlaceInitializerMap" } },
+        { "SkillSO", new[] { "Data/Skill" } },
+        { "TowerSO", new[] { "Data/Tower" } },
     };
 
     public static void Register<T>() where T : MySO {
@@ -53,7 +53,7 @@ public static class SORegistry {
 
     private static IEnumerable<T> LoadConfiguredResources<T>() where T : MySO {
         Type type = typeof(T);
-        if(!_resourceFolders.TryGetValue(type, out string[] folders)) {
+        if(!_resourceFolders.TryGetValue(type.Name, out string[] folders)) {
             Debug.LogError($"[SOContainer] No resource folder configured for Type: '{type.Name}'");
             yield break;
         }
