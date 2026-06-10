@@ -45,6 +45,23 @@ public static class Simulator {
 	}
 
 	private static SimulationResult EvaluateBundle_2(List<Entity> laneEntities, List<Entity> spawnedCards, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
+		bool hadInitialEnemies = false;
+		bool hadInitialAllies = false;
+		float initialProtection = 0f;
+
+		if (laneEntities != null) {
+			for (int i = 0; i < laneEntities.Count; i++) {
+				if (laneEntities[i].team == enemyTeam) hadInitialEnemies = true;
+				if (laneEntities[i].team == ourTeam) {
+					hadInitialAllies = true;
+					initialProtection += laneEntities[i].GetAssessPoint(APType.NeedProtection);
+				}
+			}
+		}
+		if (spawnedCards != null && spawnedCards.Count > 0) {
+			hadInitialAllies = true;
+		}
+
 		ResetWorld();
 		if(laneEntities != null) {
 			world.AddRange(laneEntities);
@@ -57,7 +74,7 @@ public static class Simulator {
 		}
 
 		Simulate(gridWidth, MaxPostSpawnSeconds, true);
-		return ScoreWorld(ourTeam, enemyTeam);
+		return ScoreWorld(ourTeam, enemyTeam, hadInitialEnemies, hadInitialAllies, gridWidth, initialProtection);
 	}
 
 	private static void ResetWorld() {
@@ -184,19 +201,42 @@ public static class Simulator {
 		return !(hasOurTeam && hasEnemyTeam);
 	}
 
-	private static SimulationResult ScoreWorld(Team ourTeam, Team enemyTeam) {
+	private static SimulationResult ScoreWorld(Team ourTeam, Team enemyTeam, bool hadInitialEnemies, bool hadInitialAllies, int gridWidth, float initialProtection) {
 		float ourPower = CalculateTeamPower(world, ourTeam);
 		float enemyPower = CalculateTeamPower(world, enemyTeam);
 		float score = ourPower - enemyPower;
 
 		int ourAlive = CountAlive(world, ourTeam);
 		int enemyAlive = CountAlive(world, enemyTeam);
-		if(ourAlive > 0 && enemyAlive == 0) {
+		if(hadInitialEnemies && ourAlive > 0 && enemyAlive == 0) {
 			score += 1000f;
 		}
-		else if(enemyAlive > 0 && ourAlive == 0) {
+		else if(hadInitialAllies && enemyAlive > 0 && ourAlive == 0) {
 			score -= 1000f;
 		}
+
+		// Proximity penalty for enemies close to our base
+		float proximityPenalty = 0f;
+		for(int i = 0; i < world.Count; ++i) {
+			Entity entity = world[i];
+			if(entity.team == enemyTeam && !entity.IsDead()) {
+				float distanceToOurBase = (enemyTeam == Team.Left) ? (gridWidth - 1 - entity.gridPos.x) : entity.gridPos.x;
+				proximityPenalty += Mathf.Max(0f, 10f - distanceToOurBase) * 50f;
+			}
+		}
+		score -= proximityPenalty;
+
+		// Protection loss penalty for our team
+		float finalProtection = 0f;
+		for(int i = 0; i < world.Count; ++i) {
+			Entity entity = world[i];
+			if(entity.team == ourTeam && !entity.IsDead()) {
+				float hpPercent = entity.GetHealthPercentage();
+				finalProtection += entity.GetAssessPoint(APType.NeedProtection) * hpPercent;
+			}
+		}
+		float protectionLoss = Mathf.Max(0f, initialProtection - finalProtection);
+		score -= protectionLoss * 10f;
 
 		return new SimulationResult {
 			score = score,

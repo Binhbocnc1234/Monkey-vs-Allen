@@ -156,8 +156,6 @@ Do not add `owner`, `tags`, or `priority` unless the project has a clear mainten
   - Example: `Click Run All.` instead of `Then you should click Run All to start everything.`
 - Cross-references must be explicit and use links in the correct context.
   - Example: `See [How-to-test](How-to-test.md)`.
-- Vietnamese documents are the primary source; English versions are mirrors when required.
-  - Example: create `vi/technical/how-to/How-to-documentation.md` first, then create the English counterpart if needed.
 - If a file is reserved, keep the content empty or only note the reserved status.
   - Example: `Grid.md (reserved)` should not contain an incomplete description.
 

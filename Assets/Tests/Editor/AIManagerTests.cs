@@ -167,10 +167,11 @@ public class AIManagerTests {
 		float lookahead = (float)method.Invoke(AIManager.Ins, new object[] { 5 });
 		Assert.AreEqual(0f, lookahead);
 
-		// Case B: not enough resources, calculate wait time
-		AlienResourceManager.Ins.resourceTimer = new Timer(5f, true);
-		AlienResourceManager.Ins.resourceTimer.remainingTime = 3f;
-		AlienResourceManager.Ins.upgradeCnt = 1;
+        // Case B: not enough resources, calculate wait time
+        AlienResourceManager.Ins.resourceTimer = new Timer(5f, true) {
+            remainingTime = 3f
+        };
+        AlienResourceManager.Ins.upgradeCnt = 1;
 		
 		BattleInfo.teamDict[Team.Right].resource = 10;
 		// missing = 15 - 10 = 5.
@@ -279,5 +280,111 @@ public class AIManagerTests {
 		var bundle = (BundleDecision)bestAction;
 		Assert.AreEqual(1, bundle.usedCards.Count);
 		Assert.AreEqual(2, bundle.usedCards[0].cost, "AI should choose the cheaper card to defend");
+	}
+
+	[Test]
+	public void Test_SpawnDecision_MultiLaneThreatPriority() {
+		AIManager.Ins.Initialize();
+		AIManager.Ins.costPenaltyFactor = 50f;
+		BattleInfo.teamDict[Team.Right].resource = 2; // only enough for 1 card
+
+		typeof(AIManager)
+			.GetField("firstUpgrade", BindingFlags.NonPublic | BindingFlags.Instance)
+			.SetValue(AIManager.Ins, false);
+
+		// Lane 0: Threat at x = 1 (far from our base at x = 9)
+		Entity attacker0 = new Entity(mockEntitySO, Team.Left, 1f, 0, 1, true);
+		entities[0].Add(attacker0);
+
+		// Lane 1: Threat at x = 7 (close to our base at x = 9, more urgent)
+		Entity attacker1 = new Entity(mockEntitySO, Team.Left, 7f, 1, 1, true);
+		entities[1].Add(attacker1);
+
+		// Give AI one card costing 2
+		var card = MockBattleCard.Create(2, mockEntitySO);
+		BattleInfo.teamDict[Team.Right].cards.Add(card);
+
+		var method = typeof(AIManager).GetMethod("FindBestAction", BindingFlags.NonPublic | BindingFlags.Instance);
+		AIAction bestAction = (AIAction)method.Invoke(AIManager.Ins, null);
+
+		Assert.IsNotNull(bestAction);
+		Assert.IsInstanceOf<BundleDecision>(bestAction);
+		var bundle = (BundleDecision)bestAction;
+		Assert.AreEqual(1, bundle.lane, "AI should prioritize Lane 1 (close threat) over Lane 0");
+	}
+
+	[Test]
+	public void Test_SpawnDecision_CriticalExpensiveDefense() {
+		AIManager.Ins.Initialize();
+		AIManager.Ins.costPenaltyFactor = 50f;
+		BattleInfo.teamDict[Team.Right].resource = 10;
+
+		typeof(AIManager)
+			.GetField("firstUpgrade", BindingFlags.NonPublic | BindingFlags.Instance)
+			.SetValue(AIManager.Ins, false);
+
+		// 1. Add strong threat on Lane 0 (at x = 7, close to base)
+		Entity attacker = new Entity(mockEntitySO, Team.Left, 7f, 0, 1, true);
+		entities[0].Add(attacker);
+
+		// 2. Give AI two cards:
+		// Card A: cheap but extremely weak (cost 2, health 10, damage 1)
+		EntitySO weakSO = CreateTestEntitySO(10, 1);
+		var cheapWeakCard = MockBattleCard.Create(2, weakSO);
+		
+		// Card B: expensive but strong enough to defend (cost 5, health 150, damage 15)
+		EntitySO strongSO = CreateTestEntitySO(150, 15);
+		var expensiveStrongCard = MockBattleCard.Create(5, strongSO);
+
+		BattleInfo.teamDict[Team.Right].cards.Add(cheapWeakCard);
+		BattleInfo.teamDict[Team.Right].cards.Add(expensiveStrongCard);
+
+		var method = typeof(AIManager).GetMethod("FindBestAction", BindingFlags.NonPublic | BindingFlags.Instance);
+		AIAction bestAction = (AIAction)method.Invoke(AIManager.Ins, null);
+
+		Assert.IsNotNull(bestAction);
+		Assert.IsInstanceOf<BundleDecision>(bestAction);
+		var bundle = (BundleDecision)bestAction;
+		Assert.AreEqual(1, bundle.usedCards.Count);
+		Assert.AreEqual(5, bundle.usedCards[0].cost, "AI should choose the expensive strong card since the cheap weak card fails to defend");
+	}
+
+	[Test]
+	public void Test_SpawnDecision_CooldownWaitOptimization() {
+		AIManager.Ins.Initialize();
+		AIManager.Ins.costPenaltyFactor = 50f;
+		BattleInfo.teamDict[Team.Right].resource = 10;
+
+		typeof(AIManager)
+			.GetField("firstUpgrade", BindingFlags.NonPublic | BindingFlags.Instance)
+			.SetValue(AIManager.Ins, false);
+
+		// 1. Add threat at x = 4 (moves toward base at x = 9)
+		Entity attacker = new Entity(mockEntitySO, Team.Left, 4f, 0, 1, true);
+		entities[0].Add(attacker);
+
+		// 2. Give AI two cards:
+		// Card A: cheap and weak, available immediately (cost 2, health 10, damage 1)
+		EntitySO weakSO = CreateTestEntitySO(10, 1);
+		var cheapWeakCard = MockBattleCard.Create(2, weakSO);
+
+		// Card B: expensive and strong, on cooldown for 2 seconds (cost 5, health 100, damage 10)
+		EntitySO strongSO = CreateTestEntitySO(100, 10);
+		var expensiveStrongCard = MockBattleCard.Create(5, strongSO);
+		expensiveStrongCard.cooldownTimer = new Timer(5f, false);
+		expensiveStrongCard.cooldownTimer.remainingTime = 2f;
+
+		BattleInfo.teamDict[Team.Right].cards.Add(cheapWeakCard);
+		BattleInfo.teamDict[Team.Right].cards.Add(expensiveStrongCard);
+
+		var method = typeof(AIManager).GetMethod("FindBestAction", BindingFlags.NonPublic | BindingFlags.Instance);
+		AIAction bestAction = (AIAction)method.Invoke(AIManager.Ins, null);
+
+		Assert.IsNotNull(bestAction);
+		Assert.IsInstanceOf<BundleDecision>(bestAction);
+		var bundle = (BundleDecision)bestAction;
+		Assert.AreEqual(1, bundle.usedCards.Count);
+		Assert.AreEqual(5, bundle.usedCards[0].cost, "AI should choose the strong card B despite the 2-second cooldown");
+		Assert.AreEqual(2f, bundle.lookahead, "Lookahead should be 2 seconds to wait for cooldown");
 	}
 }
