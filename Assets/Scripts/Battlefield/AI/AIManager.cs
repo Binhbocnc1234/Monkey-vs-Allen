@@ -1,21 +1,34 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-public partial class EnemyManager : Singleton<EnemyManager> {
+public partial class AIManager {
+    private static AIManager _instance;
+    public static AIManager Ins {
+        get {
+            if (_instance == null) {
+                _instance = new AIManager();
+            }
+            return _instance;
+        }
+    }
+    public static void ResetInstance() {
+        _instance = null;
+    }
+
     // Reused list to avoid allocating a new List<Tribe> for every tower check.
     private static readonly List<Tribe> TOWER_TRIBE = new() { Tribe.Tower };
     private const float MaxDecisionLookaheadSeconds = 30f;
     private IGrid grid;
     
-    [ReadOnly] public int meteorIndex = 0;
+    public int meteorIndex = 0;
     private Timer waitingTimer, thinkingTimer;
     public float thinkingDelay = 1f;
     public float costPenaltyFactor = 50f;
-    [Header("Information")]
+    
     // Opponent team, the team is not controlled by AI
     public Team o_Team;
     public Team ourTeam;
-    [Header("References")]
+    
     public AITraceBuffer history;
     public void Initialize() {
         grid = IGrid.Ins;
@@ -28,32 +41,36 @@ public partial class EnemyManager : Singleton<EnemyManager> {
         thinkingTimer = new Timer(thinkingDelay, reset: true);
         ourTeam = Team.Right;
         o_Team = Team.Left;
-
+        history = Object.FindFirstObjectByType<AITraceBuffer>();
     }
-    void Update() {
+    public bool enabled = true;
+    public void Update(float deltaTime) {
+        if(!enabled) return;
         if(BattleInfo.gameState != GameState.Fighting) { return; }
-        if(waitingTimer.Count() == false) return;
-        if(thinkingDelay > 0 && !thinkingTimer.Count()) return;
-
+        if(waitingTimer.Count(deltaTime) == false) return;
+        if(thinkingDelay > 0 && !thinkingTimer.Count(deltaTime)) return;
+ 
         AIAction bestAction = FindBestAction();
         if(bestAction == null) {
             return;
         }
-
+ 
         if(bestAction.lookahead > 0f) {
-            history.Push(new WaitTrace {
-                actionScore = bestAction.score,
-                futureScore = $"{bestAction.GetType().Name}: {bestAction.score:F1}",
-                bestLookahead = bestAction.lookahead,
-            });
+            if(history != null) {
+                history.Push(new WaitTrace {
+                    actionScore = bestAction.score,
+                    futureScore = $"{bestAction.GetType().Name}: {bestAction.score:F1}",
+                    bestLookahead = bestAction.lookahead,
+                });
+            }
             return;
         }
-
+ 
         if(bestAction is UpgradeAction chosenUpgrade) {
             ExecuteUpgradeAction(chosenUpgrade.score);
             return;
         }
-
+ 
         if(bestAction is BundleDecision chosenBundle) {
             ExecuteBundle(chosenBundle);
         }
@@ -249,15 +266,17 @@ public partial class EnemyManager : Singleton<EnemyManager> {
         }
 
         if(usedCount > 0) {
-            history.Push(new UseCardTrace {
-                cardName = usedCardNames,
-                lane = bundle.lane,
-                cost = usedCost,
-                actionScore = bundle.score,
-                resourceBefore = resourceBeforeBurst,
-                resourceAfter = BattleInfo.teamDict[ourTeam].resource,
-            });
-
+            if(history != null) {
+                history.Push(new UseCardTrace {
+                    cardName = usedCardNames,
+                    lane = bundle.lane,
+                    cost = usedCost,
+                    actionScore = bundle.score,
+                    resourceBefore = resourceBeforeBurst,
+                    resourceAfter = BattleInfo.teamDict[ourTeam].resource,
+                });
+            }
+ 
             enemiesLeftToUpgrade = Mathf.Max(0, enemiesLeftToUpgrade - usedCount);
         }
     }

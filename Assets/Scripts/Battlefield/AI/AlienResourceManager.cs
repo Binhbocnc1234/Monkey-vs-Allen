@@ -1,23 +1,31 @@
 using UnityEngine;
 
-internal class AlienResourceManager : Singleton<AlienResourceManager> {
+public class AlienResourceManager {
+    private static AlienResourceManager _instance;
+    public static AlienResourceManager Ins {
+        get {
+            if (_instance == null) {
+                _instance = new AlienResourceManager();
+            }
+            return _instance;
+        }
+    }
+    public static void ResetInstance() {
+        _instance = null;
+    }
+
     public Timer resourceTimer;
     public int costToUpgrade = 5;
     public int increaseAfterUpgrade = 10;
     public int upgradeCnt = 0;
-    [ReadOnly] public int currentEnemyResource = 0;
-    // private float difficultyToFactor; // difficulty càng cao thì factor thấp, khiến thời gian delay để sinh resource càng thấp
-    protected override void Awake() {
-        base.Awake();
-
-    }
+    public int currentEnemyResource = 0;
+    
     public void Initialize() {
-        // difficultyToFactor = 1 - (BattleInfo.levelSO.difficulty - 1) / 4;
     }
-    void Update() {
+    public void Update(float deltaTime) {
         if(BattleInfo.gameState != GameState.Fighting) { return; }
         currentEnemyResource = BattleInfo.teamDict[Team.Right].resource;
-        if(upgradeCnt > 0 && resourceTimer.Count()) {
+        if(upgradeCnt > 0 && resourceTimer.Count(deltaTime)) {
             BattleInfo.teamDict[Team.Right].resource += BattleInfo.resourcePerGeneration;
         }
     }

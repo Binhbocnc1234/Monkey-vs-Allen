@@ -130,12 +130,12 @@ public static class Simulator {
 		if (source == null) return new List<Entity>(0);
 		List<Entity> cloned = new();
 		foreach(var entity in source) {
-			if (entity == null) continue;
+			if(entity == null) continue;
 			Entity clone = new Entity(entity.so, entity.team, entity.gridPos.x, entity.lane, entity.level, true);
 			clone.Stats[ST.Health] = entity.Stats[ST.Health];
 			cloned.Add(clone);
 		}
-
+		
 		return cloned;
 	}
 

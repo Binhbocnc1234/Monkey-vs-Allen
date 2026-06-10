@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public partial class EnemyManager {
+public partial class AIManager {
     [Header("Upgrade")]
     public int upgradeAfterUses = 3; // tương lai bỏ biến này
     public int upgradeWeight = 1;
@@ -62,12 +62,14 @@ public partial class EnemyManager {
         firstUpgrade = false;
         int resourceBefore = BattleInfo.teamDict[Team.Right].resource;
         resourceM.Upgrade();
-        history.Push(new UpgradeTrace {
-            upgradeNumber = resourceM.upgradeCnt,
-            actionScore = upgradeScore,
-            resourceBefore = resourceBefore,
-            resourceAfter = BattleInfo.teamDict[Team.Right].resource,
-        });
+        if(history != null) {
+            history.Push(new UpgradeTrace {
+                upgradeNumber = resourceM.upgradeCnt,
+                actionScore = upgradeScore,
+                resourceBefore = resourceBefore,
+                resourceAfter = BattleInfo.teamDict[Team.Right].resource,
+            });
+        }
         enemiesLeftToUpgrade = upgradeAfterUses;
         upgradeLeft--;
         ResetUpgradeScoreState();

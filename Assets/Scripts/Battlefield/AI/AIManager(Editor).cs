@@ -1,6 +1,6 @@
 using UnityEngine; 
 
 
-public partial class EnemyManager {
+public partial class AIManager {
     
 }

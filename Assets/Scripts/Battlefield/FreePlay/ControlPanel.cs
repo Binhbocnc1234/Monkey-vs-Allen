@@ -18,6 +18,6 @@ public class ControlPanel : MonoBehaviour
         BattleManager.Ins.CreateTarget();
     }
     public void ToggleEnemyAI(bool toggle) {
-        EnemyManager.Ins.enabled = toggle;
+        AIManager.Ins.enabled = toggle;
     }
 }

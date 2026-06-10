@@ -22,6 +22,8 @@ public class BattleManager : Singleton<BattleManager> {
     void Update() {
         if (BattleInfo.gameState == GameState.Fighting) {
             BattleInfo.timeElapsed += Time.deltaTime;
+            AIManager.Ins.Update(Time.deltaTime);
+            AlienResourceManager.Ins.Update(Time.deltaTime);
         }
     }
     public void Initialize() {
@@ -82,7 +84,9 @@ public class BattleManager : Singleton<BattleManager> {
             BattleCardManager.Ins.CreateBattleCard();
             SingletonRegister.Get<ChosenCardManager>().SetControlTeam(BattleInfo.chosenTeam);
             // if(!CustomSceneManager.isFreePlay) {
-                EnemyManager.Ins.Initialize();
+                AIManager.ResetInstance();
+                AlienResourceManager.ResetInstance();
+                AIManager.Ins.Initialize();
             // }
             ClearDemoEnemy();
             SlidingCamera.Ins.enable = true;
