@@ -6,7 +6,7 @@ status: active
 language: en
 description: Canonical testing strategy for developers and agents; defines the tiered testing model, when to use each tier, and how the project should be validated.
 related:
-  - architecture-to-be
+  - architecture
   - design-principles
   - software-development-process
   - agent-testing-playbook

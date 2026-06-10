@@ -1,10 +1,6 @@
 {
-    "name": "MvA.Event",
-    "rootNamespace": "",
-    "references": [
-        "MvA.Core",
-        "MvA.Framework"
-    ],
+    "name": "MvA.Equipment",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

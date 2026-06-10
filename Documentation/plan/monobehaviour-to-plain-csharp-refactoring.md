@@ -6,7 +6,7 @@ status: draft
 language: en
 description: Draft refactoring plan for moving MonoBehaviour-dependent logic toward plain C# architecture.
 related:
-  - architecture-to-be
+  - architecture
   - design-principles
 ---
 

@@ -6,7 +6,7 @@ status: active
 language: en
 description: Explains how agents should modify project data while respecting architecture, design principles, and validation workflow.
 related:
-  - architecture-as-is
+  - architecture
   - design-principles
   - Testing-workflow
 ---

@@ -6,8 +6,7 @@ status: active
 language: en
 description: Explains execution paths across core logic and Unity wrappers, including how data and behavior flow through the architecture.
 related:
-  - architecture-as-is
-  - architecture-to-be
+  - architecture
 ---
 
 Player Click Card
@@ -126,4 +125,3 @@ Presentation Layer (MvA.UI or separate assembly):
 - ShieldBreakPresenter subscribes to OnShieldBroken
 - When triggered: animate helmet drop, play VFX, flash effect
 - Uses Transform, SpriteRenderer, Animator
-

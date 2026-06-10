@@ -5,9 +5,10 @@ status: active
 language: en
 description: Explains the AI system architecture, behavior flow, dependencies, and its relationship to execution paths and design principles.
 related:
-  - architecture-as-is
+  - architecture
   - design-principles
   - execution-paths
+  - 
 ---
 
 # AI System Overview
