@@ -26,14 +26,45 @@ using UnityEditor;
 // }
 public static class SORegistry {
     private static readonly Dictionary<Type, HashSet<MySO>> _instanceMap = new();
+    private static readonly Dictionary<Type, string[]> _resourceFolders = new() {
+        { typeof(CardSO), new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
+        { typeof(EnemyCardSO), new[] { "Data/Alien" } },
+        { typeof(MonkeyCardSO), new[] { "Data/Monkey", "Data/Tower" } },
+        { typeof(CardFrameSO), new[] { "Data/CardFrameSO" } },
+        { typeof(EffectSO), new[] { "Data/Effect" } },
+        { typeof(EntitySO), new[] { "Data/Monkey", "Data/Alien", "Data/Tower" } },
+        { typeof(LevelSO), new[] { "Data/Level" } },
+        { typeof(PrefabRegisterSO), new[] { "Data/PrefabRegister" } },
+        { typeof(PlaceInitializerMapSO), new[] { "Data/PlaceInitializerMap" } },
+        { typeof(SkillSO), new[] { "Data/Skill" } },
+        { typeof(TowerSO), new[] { "Data/Tower" } },
+    };
+
     public static void Register<T>() where T : MySO {
         Type t = typeof(T);
         _instanceMap[t] = new();
-        foreach(var so in Resources.LoadAll<T>("Data")) {
-            if(!so.IsCompleted()) continue;
+        foreach(T so in LoadConfiguredResources<T>()) {
+            if(!so.IsCompleted()) {
+                continue;
+            }
             _instanceMap[t].Add(so);
         }
     }
+
+    private static IEnumerable<T> LoadConfiguredResources<T>() where T : MySO {
+        Type type = typeof(T);
+        if(!_resourceFolders.TryGetValue(type, out string[] folders)) {
+            Debug.LogError($"[SOContainer] No resource folder configured for Type: '{type.Name}'");
+            yield break;
+        }
+
+        foreach(string folder in folders) {
+            foreach(T so in Resources.LoadAll<T>(folder)) {
+                yield return so;
+            }
+        }
+    }
+
     public static List<T> Get<T>() where T : MySO {
         Type type = typeof(T);
         if(_instanceMap.TryGetValue(type, out HashSet<MySO> returnedList)) {
