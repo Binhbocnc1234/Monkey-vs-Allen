@@ -36,7 +36,7 @@ public class SimulatorTests {
 
 	[Test]
 	public void Test1_Empty_ReturnsZeroScore() {
-		var result = Simulator.EvaluateBundle(new IEntity[0], null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[0], null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test1_Empty", result);
 		Assert.AreEqual(0f, result.score);
 		Assert.AreEqual(0, result.remainings.Count);
@@ -45,7 +45,7 @@ public class SimulatorTests {
 	[Test]
 	public void Test2_OneEntityInOneTeam_ReturnsPositiveScore() {
 		Entity leftEntity = CreateTestEntity(null, Team.Left, 0f);
-		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity }, null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity }, null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test2_OneEntity", result);
 		
 		Assert.Greater(result.score, 0f);
@@ -59,7 +59,7 @@ public class SimulatorTests {
 		Entity leftEntity = CreateTestEntity(so, Team.Left, 2f);
 		Entity rightEntity = CreateTestEntity(so, Team.Right, 7f);
 		
-		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity, rightEntity }, null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { leftEntity, rightEntity }, null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test3_1v1", result);
 		
 		// Symmetric: score should be near 0 (either both die or close result)
@@ -73,7 +73,7 @@ public class SimulatorTests {
 		Entity left2 = CreateTestEntity(so, Team.Left, 2f);
 		Entity right1 = CreateTestEntity(so, Team.Right, 7f);
 
-		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1 }, null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1 }, null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test4_2v1", result);
 
 		// 2v1 should be positive for Left team
@@ -88,7 +88,7 @@ public class SimulatorTests {
 		Entity right1 = CreateTestEntity(so, Team.Right, 7f);
 		Entity right2 = CreateTestEntity(so, Team.Right, 7f);
 
-		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test5_2v2", result);
 
 		Assert.Less(Mathf.Abs(result.score), 1500f);
@@ -104,7 +104,7 @@ public class SimulatorTests {
 		Entity right1 = CreateTestEntity(so, Team.Right, 6f);
 		Entity right2 = CreateTestEntity(so, Team.Right, 9f);
 
-		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, Team.Left, Team.Right, 10, 20f);
+		var result = Simulator.EvaluateBundle(new IEntity[] { left1, left2, right1, right2 }, null, 0, Team.Left, Team.Right, 10, 20f);
 		LogResult("Test6_2v2_pos", result);
 
 		// Left should have position advantage (grouped vs staggered)

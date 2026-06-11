@@ -105,12 +105,20 @@ The AI operates on three action types:
 
 The AI makes decisions by evaluating candidate card bundles and upgrades, comparing them to a "do nothing" baseline:
 
-1. **Candidate Shortlisting**: For each open lane, candidate card combinations (bundles) are generated from the AI's hand.
-2. **Lookahead Estimation**: For each bundle, the lookahead time is calculated based on resources needed to afford it and cooldowns.
-3. **Simulation**: The simulator runs for `lookahead` seconds, spawns the bundle, and simulates the outcome for another `MaxPostSpawnSeconds = 20f`.
-4. **Baseline Evaluation**: An empty bundle (doing nothing) is also simulated for the same `lookahead` duration on the same lane.
-5. **Cost Penalty**: Bundle scores are penalized by card costs to promote resource efficiency:
-   `effectiveScore = rawScore - cost * costPenaltyFactor` (default `costPenaltyFactor = 50f`).
+1. **Candidate Shortlisting**: Performed on a per-lane basis inside `FindBestSimulatedBundle()` in `AIManager.cs`.
+   - The AI then generates all possible subsets (combinations) of these valid cards (`laneCandidates`) using a bitmask search.
+   - Combinations whose combined lookahead (maximum of resource wait time and card cooldown) exceeds `MaxDecisionLookaheadSeconds = 30f` are discarded.
+2. **Lookahead Estimation**: For each candidate bundle, the lookahead time is the maximum of the resource generation wait (`CalculateLookaheadToAfford(totalCost)`) and the cooldown timer (`GetCardCooldownWait(card)`).
+3. **Simulation (Multi-Lane Scope)**: The simulator (`Simulator.EvaluateBundle`) operates globally across all lanes.
+   - It clones all entities present across the entire battlefield.
+   - It runs the simulation for `lookahead` seconds, spawns the candidate card bundle on its target lane, and simulates the combat outcome for another `MaxPostSpawnSeconds = 20f`.
+   - **Cross-Lane / Multi-Lane Creatures (Future Problem)**: Currently, there are no creatures that can change lanes (no multi-lane creatures), so combat and movement are isolated per lane during simulation. However, simulating all lanes globally allows the AI to make strategic trade-offs—such as launching an attack on a different lane while sacrificing another lane. If cross-lane creatures or area-of-effect abilities across adjacent lanes are introduced in the future, the simulator will naturally support them since the entire board is simulated together.
+4. **Baseline Evaluation**: An empty bundle (doing nothing) is simulated globally across all lanes for the same `lookahead` duration to compute the baseline score.
+5. **Cost Penalty & Simulator Tuning**: Raw simulation scores are adjusted to promote resource efficiency and strategic defense:
+   - **Cost Penalty**: `effectiveScore = rawScore - cost * costPenaltyFactor` (default `costPenaltyFactor = 50f` in `AIManager`).
+   - **Proximity Penalty**: Enemies close to our base deduct from the score: `penalty = Max(0, ProximityMaxDistance - distanceToBase) * ProximityPenaltyWeight` (defaults: `ProximityMaxDistance = 10f`, `ProximityPenaltyWeight = 50f` in `Simulator`).
+   - **Protection Loss Penalty**: Damage to or death of units requiring protection (like bases/towers) deducts from the score: `penalty = protectionLoss * ProtectionLossWeight` (default `ProtectionLossWeight = 10f` in `Simulator`).
+   - **Anti-Reward Hacking**: Victory (+1000f) or defeat (-1000f) wipeout bonuses are only applied if there was active combat (initial enemies/allies present), preventing the AI from spawning on empty lanes just for victory points.
 6. **Net Improvement**: The decision metric is the net improvement over the baseline:
    `netImprovement = effectiveScore - baselineScore`.
    Bundles are only considered if `netImprovement > 0`.

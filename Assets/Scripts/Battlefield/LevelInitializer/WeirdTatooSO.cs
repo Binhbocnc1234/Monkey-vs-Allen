@@ -12,6 +12,6 @@ public class WeirdTatooSO : LevelInitializerSO {
             }
         }
         int chosenInd = Random.Range(0, emptyCells.Count);
-        emptyCells[chosenInd].blockRenderer.sprite = weirdTatooSO;
+        emptyCells[chosenInd].SetSpriteOnly(weirdTatooSO);
     }
 }

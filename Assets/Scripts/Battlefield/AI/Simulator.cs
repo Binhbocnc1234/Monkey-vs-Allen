@@ -10,16 +10,19 @@ public class SimulationResult {
 
 public static class Simulator {
 	private const float SimulationStep = 1f;
-	private const float MaxPostSpawnSeconds = 20f;
+	private const float MaxPostSpawnSeconds = 10f;
+	public static float ProximityMaxDistance = 10f;
+	public static float ProximityPenaltyWeight = 50f;
+	public static float ProtectionLossWeight = 10f;
 	private static List<Entity> world = new();
 
-	public static SimulationResult EvaluateBundle(IEntity[] laneEntities, IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
-		List<Entity> laneSnapshots = CloneEntities(laneEntities);
-		List<Entity> spawnedSnapshots = SnapshotCards(spawnedCards, ourTeam, gridWidth);
+	public static SimulationResult EvaluateBundle(IEntity[] allEntities, IReadOnlyList<IBattleCard> spawnedCards, int targetLane, Team ourTeam, Team enemyTeam, int gridWidth, float lookahead) {
+		List<Entity> laneSnapshots = CloneEntities(allEntities);
+		List<Entity> spawnedSnapshots = SnapshotCards(spawnedCards, ourTeam, gridWidth, targetLane);
 		return EvaluateBundle_2(laneSnapshots, spawnedSnapshots, ourTeam, enemyTeam, gridWidth, lookahead);
 	}
 
-	private static List<Entity> SnapshotCards(IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, int gridWidth) {
+	private static List<Entity> SnapshotCards(IReadOnlyList<IBattleCard> spawnedCards, Team ourTeam, int gridWidth, int targetLane) {
 		if(spawnedCards == null || spawnedCards.Count == 0) {
 			return new List<Entity>(0);
 		}
@@ -37,7 +40,7 @@ public static class Simulator {
 				continue;
 			}
 
-			Entity clone = new Entity(entitySO, ourTeam, spawnX, 0, 1, true);
+			Entity clone = new Entity(entitySO, ourTeam, spawnX, targetLane, 1, true);
 			list.Add(clone);
 		}
 
@@ -162,7 +165,7 @@ public static class Simulator {
 
 		for(int i = 0; i < world.Count; ++i) {
 			Entity candidate = world[i];
-			if(candidate.team == attacker.team || candidate.IsDead()) {
+			if(candidate.team == attacker.team || candidate.IsDead() || candidate.lane != attacker.lane) {
 				continue;
 			}
 
@@ -206,25 +209,25 @@ public static class Simulator {
 		float enemyPower = CalculateTeamPower(world, enemyTeam);
 		float score = ourPower - enemyPower;
 
-		int ourAlive = CountAlive(world, ourTeam);
-		int enemyAlive = CountAlive(world, enemyTeam);
-		if(hadInitialEnemies && ourAlive > 0 && enemyAlive == 0) {
-			score += 1000f;
-		}
-		else if(hadInitialAllies && enemyAlive > 0 && ourAlive == 0) {
-			score -= 1000f;
-		}
+		// int ourAlive = CountAlive(world, ourTeam);
+		// int enemyAlive = CountAlive(world, enemyTeam);
+		// if(hadInitialEnemies && ourAlive > 0 && enemyAlive == 0) {
+		// 	score += 1000f;
+		// }
+		// else if(hadInitialAllies && enemyAlive > 0 && ourAlive == 0) {
+		// 	score -= 1000f;
+		// }
 
 		// Proximity penalty for enemies close to our base
-		float proximityPenalty = 0f;
-		for(int i = 0; i < world.Count; ++i) {
-			Entity entity = world[i];
-			if(entity.team == enemyTeam && !entity.IsDead()) {
-				float distanceToOurBase = (enemyTeam == Team.Left) ? (gridWidth - 1 - entity.gridPos.x) : entity.gridPos.x;
-				proximityPenalty += Mathf.Max(0f, 10f - distanceToOurBase) * 50f;
-			}
-		}
-		score -= proximityPenalty;
+		// float proximityPenalty = 0f;
+		// for(int i = 0; i < world.Count; ++i) {
+		// 	Entity entity = world[i];
+		// 	if(entity.team == enemyTeam && !entity.IsDead()) {
+		// 		float distanceToOurBase = (enemyTeam == Team.Left) ? (gridWidth - 1 - entity.gridPos.x) : entity.gridPos.x;
+		// 		proximityPenalty += Mathf.Max(0f, ProximityMaxDistance - distanceToOurBase) * ProximityPenaltyWeight;
+		// 	}
+		// }
+		// score -= proximityPenalty;
 
 		// Protection loss penalty for our team
 		float finalProtection = 0f;
@@ -236,7 +239,7 @@ public static class Simulator {
 			}
 		}
 		float protectionLoss = Mathf.Max(0f, initialProtection - finalProtection);
-		score -= protectionLoss * 10f;
+		score -= protectionLoss * ProtectionLossWeight;
 
 		return new SimulationResult {
 			score = score,
@@ -247,26 +250,15 @@ public static class Simulator {
 	}
 
 	private static float CalculateTeamPower(List<Entity> world, Team team) {
-		float dangerSum = 0f;
-		float survivabilitySum = 0f;
-		int unitCount = 0;
-
+		float answer = 0f;
 		for(int i = 0; i < world.Count; ++i) {
 			Entity entity = world[i];
 			if(entity.team != team || entity.IsDead()) {
 				continue;
 			}
-
-			unitCount++;
-			dangerSum += entity.GetAssessPoint(APType.Danger);
-			survivabilitySum += entity.GetAssessPoint(APType.Defend);
+			answer += entity.GetAssessPoint(APType.Danger) * entity.GetAssessPoint(APType.Defend);
 		}
-
-		if(unitCount == 0) {
-			return 0f;
-		}
-
-		return dangerSum * survivabilitySum * TeamSnapshot.GetUnitCountDebuff(unitCount);
+		return answer;
 	}
 
 	private static int CountAlive(List<Entity> world, Team team) {

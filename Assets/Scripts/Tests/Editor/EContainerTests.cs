@@ -26,7 +26,6 @@ public class MockGrid : IGrid {
     public override Vector2Int WorldToGridPosRounded(Vector2 worldPosition) => Vector2Int.zero;
     public override ICell GetCell(Vector2Int gridPos) => null;
     public override ICell GetCell(int x, int y) => null;
-    public override void CreateCell(ICell cellPrefab, int x, int y) {}
     public override void Clear() {}
     public override List<int> GetOpenLanes() => new List<int>();
 }
@@ -41,12 +40,9 @@ public class EContainerTests {
 
     [SetUp]
     public void SetUp() {
-        gridGo = new GameObject("MockGrid");
-        MockGrid mockGrid = gridGo.AddComponent<MockGrid>();
+        MockGrid mockGrid = new MockGrid();
         mockGrid.SetWidth(10);
-        typeof(Singleton<IGrid>)
-            .GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
-            .SetValue(null, mockGrid);
+        IGrid.Ins = mockGrid;
 
         testGo = new GameObject("TestEContainer");
         container = testGo.AddComponent<EContainer>();
@@ -70,12 +66,7 @@ public class EContainerTests {
 
     [TearDown]
     public void TearDown() {
-        typeof(Singleton<IGrid>)
-            .GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
-            .SetValue(null, null);
-        if (gridGo != null) {
-            GameObject.DestroyImmediate(gridGo);
-        }
+        IGrid.Ins = null;
         if (testGo != null) {
             GameObject.DestroyImmediate(testGo);
         }

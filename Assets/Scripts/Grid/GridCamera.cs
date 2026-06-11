@@ -27,7 +27,7 @@ public class GridCamera : MyCamera
         SetTarget(new Vector3(3, 5, -10));
     }
     public void MoveTowardEnemyHouse() {
-        SetTarget(new Vector3(grid.GetCell(grid.width-1, 0).transform.position.x, 5, -10));
+        SetTarget(new Vector3(grid.GridToWorldPosition(grid.width-1, 0).x, 5, -10));
     }
 }
 

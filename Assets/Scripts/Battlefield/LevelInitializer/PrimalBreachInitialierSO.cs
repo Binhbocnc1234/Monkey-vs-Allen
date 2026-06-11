@@ -13,10 +13,9 @@ public class PrimalBreachInitializerSO : LevelInitializerSO {
                 cell.PlaceBlock(chosen);
             }
             else {
-                cell.blockRenderer.sprite = GetRandomDirt();
+                cell.SetSpriteOnly(GetRandomDirt());
             }
         }
-        SlidingCamera.
         Instantiate(enviroment).Initialize(IGrid.Ins.width);
     }
     Sprite GetRandomDirt() {

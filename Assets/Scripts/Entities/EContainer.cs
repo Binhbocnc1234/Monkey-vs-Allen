@@ -5,10 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
-public abstract class IEntityModelRegistry : MonoBehaviour {
-    public static IEntityModelRegistry Ins{ get; protected set; }
-    public abstract Model CreateInstance(IEntity e);
-}
 public class EContainer : IEntityRegistry {
     public new static EContainer Ins { get; private set; }
     public EntitySO constructionMonkey, constructionAlien;
@@ -61,9 +57,7 @@ public class EContainer : IEntityRegistry {
         }
 
         Entity e = new Entity(set.so, set.team, set.x, set.lane, set.level, set.isSimulated);
-        if(!set.isSimulated) {
-            e.model = IEntityModelRegistry.Ins.CreateInstance(e);
-        }
+        NotifyEntityCreated(e);
 
         entities[set.lane].Add(e);
         if(e.GetSO().tribes.Contains(Tribe.Target)) {

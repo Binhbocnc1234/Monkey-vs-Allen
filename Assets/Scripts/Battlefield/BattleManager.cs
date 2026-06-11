@@ -35,9 +35,16 @@ public class BattleManager : Singleton<BattleManager> {
             if(levelSO.name == "Free Play Config") CustomSceneManager.isFreePlay = true;
         }
 
-        grid = IGrid.Ins;
-        grid.Clear();
+        grid = new GridSystem();
+        IGrid.Ins = grid;
         grid.Initialize(levelSO.gridWidth, levelSO.openLanes);
+
+        var presenter = GridPresenter.Ins ?? FindFirstObjectByType<GridPresenter>();
+        if (presenter != null) {
+            presenter.InitializeGrid(grid);
+        } else {
+            Debug.LogError("[BattleManager] GridPresenter not found in scene!");
+        }
 
         EContainer.Ins.Initialize();
         EContainer.Ins.ClearEntity();
@@ -131,7 +138,7 @@ public class BattleManager : Singleton<BattleManager> {
         uiManager.gameObject.SetActive(false);
         EContainer.Ins.InActiveAll();
         yield return new WaitForSeconds(0.5f);
-        GridCamera.Ins.SetTarget(grid.GetCell(2, 2).transform.position);
+        GridCamera.Ins.SetTarget(grid.GridToWorldPosition(2, 2));
         GridCamera.Ins.ZoomUp(1.5f);
         yield return new WaitWhile(() => GridCamera.Ins.isMoving);
         StartCoroutine(uiManager.Lose());

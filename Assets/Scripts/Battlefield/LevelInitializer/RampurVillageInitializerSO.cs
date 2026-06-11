@@ -13,7 +13,7 @@ public class RampurVillageInitializerSO : LevelInitializerSO {
                 cell.PlaceBlock(chosen);
             }
             else {
-                cell.blockRenderer.sprite = GetRandomDirt();
+                cell.SetSpriteOnly(GetRandomDirt());
             }
         }
     }

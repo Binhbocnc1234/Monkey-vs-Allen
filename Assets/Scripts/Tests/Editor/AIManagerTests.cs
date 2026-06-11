@@ -47,7 +47,6 @@ public class AIManagerMockGrid : IGrid {
 	public override Vector2Int WorldToGridPosRounded(Vector2 worldPosition) => Vector2Int.zero;
 	public override ICell GetCell(Vector2Int gridPos) => null;
 	public override ICell GetCell(int x, int y) => null;
-	public override void CreateCell(ICell cellPrefab, int x, int y) {}
 	public override void Clear() {}
 	public override List<int> GetOpenLanes() {
 		List<int> lanes = new List<int>();
@@ -94,12 +93,9 @@ public class AIManagerTests {
 	[SetUp]
 	public void SetUp() {
 		// 1. Mock Grid System
-		gridGo = new GameObject("MockGrid");
-		AIManagerMockGrid mockGrid = gridGo.AddComponent<AIManagerMockGrid>();
+		AIManagerMockGrid mockGrid = new AIManagerMockGrid();
 		mockGrid.Setup(10, 6, new bool[] { true, true, true, false, false, false }); // 3 open lanes, height 6
-		typeof(Singleton<IGrid>)
-			.GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
-			.SetValue(null, mockGrid);
+		IGrid.Ins = mockGrid;
 
 		// 2. Mock EContainer (Entity Registry)
 		containerGo = new GameObject("EContainer");
@@ -136,15 +132,12 @@ public class AIManagerTests {
 	[TearDown]
 	public void TearDown() {
 		// Clean up singletons
-		typeof(Singleton<IGrid>)
-			.GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
-			.SetValue(null, null);
+		IGrid.Ins = null;
 
 		typeof(Singleton<IEntityRegistry>)
 			.GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic)
 			.SetValue(null, null);
 
-		if (gridGo != null) GameObject.DestroyImmediate(gridGo);
 		if (containerGo != null) GameObject.DestroyImmediate(containerGo);
 
 		foreach (var go in tempGameObjects) {

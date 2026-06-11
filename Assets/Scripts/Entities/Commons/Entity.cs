@@ -189,11 +189,7 @@ public sealed class Entity : IEntity {
             this[ST.Health] / (1 - this[ST.Armor] / 100f) / 7 + (GetAssessPoint(APType.Danger) * this[ST.LifeSteal] / 100)));
         }
         else if (type == APType.NeedProtection) {
-            float baseNP = GetAssessPoint(APType.Danger);
-            if (GetSO() != null && GetSO().tribes.Contains(Tribe.Target)) {
-                baseNP += Target.NeedProtectionBonus;
-            }
-            return baseNP;
+            modifiers.Add(new APModifier(Operator.Addition, APType.NeedProtection, GetAssessPoint(APType.Danger) + GetAssessPoint(APType.Defend)/6));
         }
         foreach(IAssessable behav in GetBehaviours<IAssessable>()) {
             var point = behav.GetAssessPoint().FirstOrDefault(a => a.type == type);

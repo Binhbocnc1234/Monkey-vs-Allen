@@ -98,13 +98,13 @@ public partial class AIManager {
     BundleDecision FindBestSimulatedBundle() {
         var cards = BattleInfo.teamDict[ourTeam].cards;
         var openLanes = grid.GetOpenLanes();
+        IEntity[] allEntities = IEntityRegistry.Ins.GetEntities();
 
         BundleDecision best = null;
         float bestScore = float.MinValue;
 
         for(int laneIndex = 0; laneIndex < openLanes.Count; ++laneIndex) {
             int lane = openLanes[laneIndex];
-            IEntity[] laneEntities = IEntityRegistry.Ins.GetEntitiesByLane(lane);
 
             List<IBattleCard> laneCandidates = new();
             for(int i = 0; i < cards.Count; ++i) {
@@ -151,12 +151,12 @@ public partial class AIManager {
                     continue;
                 }
 
-                SimulationResult simResult = Simulator.EvaluateBundle(laneEntities, picked, ourTeam, o_Team, grid.width, lookahead);
+                SimulationResult simResult = Simulator.EvaluateBundle(allEntities, picked, lane, ourTeam, o_Team, grid.width, lookahead);
                 float rawScore = simResult.score;
                 float effectiveScore = rawScore - totalCost * costPenaltyFactor;
 
-                // Evaluate baseline: doing nothing on this lane for the same lookahead.
-                SimulationResult baselineResult = Simulator.EvaluateBundle(laneEntities, null, ourTeam, o_Team, grid.width, lookahead);
+                // Evaluate baseline: doing nothing on any lane (or specifically this lane for the lookahead)
+                SimulationResult baselineResult = Simulator.EvaluateBundle(allEntities, null, lane, ourTeam, o_Team, grid.width, lookahead);
                 float netImprovement = effectiveScore - baselineResult.score;
 
                 if(netImprovement <= 0f) {
