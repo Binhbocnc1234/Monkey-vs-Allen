@@ -6,6 +6,8 @@ public class GridPresenter : MonoBehaviour
 
     [SerializeField] private CellView cellViewPrefab;
 
+    private CellView[,] cellViews;
+
     private void Awake()
     {
         Ins = this;
@@ -19,6 +21,7 @@ public class GridPresenter : MonoBehaviour
 
         int width = grid.width;
         int height = grid.height;
+        cellViews = new CellView[width, height];
 
         for (int i = 0; i < width; ++i)
         {
@@ -30,6 +33,7 @@ public class GridPresenter : MonoBehaviour
                 Vector3 worldPos = grid.GridToWorldPosition(i, j);
                 CellView cellView = Instantiate(cellViewPrefab, worldPos, Quaternion.identity, transform);
                 cellView.Bind(cell);
+                cellViews[i, j] = cellView;
             }
         }
 
@@ -38,6 +42,15 @@ public class GridPresenter : MonoBehaviour
         {
             SlidingCamera.Ins.Initialize(grid.bounds.right, grid.bounds.left);
         }
+    }
+
+    public CellView GetCellView(int x, int y)
+    {
+        if (cellViews != null && x >= 0 && x < cellViews.GetLength(0) && y >= 0 && y < cellViews.GetLength(1))
+        {
+            return cellViews[x, y];
+        }
+        return null;
     }
 
     public void Clear()

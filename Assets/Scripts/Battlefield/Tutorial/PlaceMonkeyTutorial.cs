@@ -26,7 +26,10 @@ public class PlaceMonkeyTutorial : Tutorial{
                 handler = () => {
                     arrowUI.gameObject.SetActive(false);
                     for(int i = 0; i < GridSystem.Ins.width; ++i) {
-                        hinterManager.NewHinter(GridSystem.Ins.cells[i, 2].gameObject);
+                        CellView cellView = GridPresenter.Ins.GetCellView(i, 2);
+                        if (cellView != null) {
+                            hinterManager.NewHinter(cellView.gameObject);
+                        }
                     }
                     card.cooldownTimer.FinishCooldown();
                     basicMonkeyCardUI.OnClickEvent -= handler;

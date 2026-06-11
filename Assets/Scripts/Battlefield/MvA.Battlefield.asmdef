@@ -4,6 +4,7 @@
     "references": [
         "MvA.Core",
         "MvA.Grid",
+        "MvA.Grid.Appearance",
         "MvA.Entities",
         "MvA.Cards",
         "MvA.UI",

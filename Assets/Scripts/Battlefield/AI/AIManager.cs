@@ -99,6 +99,7 @@ public partial class AIManager {
         var cards = BattleInfo.teamDict[ourTeam].cards;
         var openLanes = grid.GetOpenLanes();
         IEntity[] allEntities = IEntityRegistry.Ins.GetEntities();
+        Debug.Log($"[AI DEBUG] FindBestSimulatedBundle: cards={cards.Count} openLanes={openLanes.Count} allEntities={allEntities.Length} grid={grid.GetType().Name} gridWidth={grid.width} gridHeight={grid.height}");
 
         BundleDecision best = null;
         float bestScore = float.MinValue;
@@ -158,6 +159,8 @@ public partial class AIManager {
                 // Evaluate baseline: doing nothing on any lane (or specifically this lane for the lookahead)
                 SimulationResult baselineResult = Simulator.EvaluateBundle(allEntities, null, lane, ourTeam, o_Team, grid.width, lookahead);
                 float netImprovement = effectiveScore - baselineResult.score;
+
+                Debug.Log($"[AI DEBUG] lane={lane} lookahead={lookahead} totalCost={totalCost} rawScore={rawScore} effectiveScore={effectiveScore} baseline={baselineResult.score} net={netImprovement}");
 
                 if(netImprovement <= 0f) {
                     continue;
