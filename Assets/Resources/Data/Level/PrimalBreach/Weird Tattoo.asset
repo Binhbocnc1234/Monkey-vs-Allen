@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415e1b8200a039541bc80a046b886adc, type: 3}
-  m_Name: Dick Dirt Tatoo
+  m_Name: Weird Tattoo
   m_EditorClassIdentifier: 
   weirdTatooSO: {fileID: 243156193, guid: b89e29df46af2db4596500a44ab53588, type: 3}

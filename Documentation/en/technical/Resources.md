@@ -3,97 +3,58 @@ type: technical
 audience: [developer, agent]
 status: active
 language: en
-description: Documents the Assets/Resources folder structure, current runtime loading contract, architecture flaws, and recommended cleanup direction.
+description: Documents the Assets/Resources runtime data structure, loading contract, and maintenance rules.
 ---
 
 # Resources Folder
 
-`Assets/Resources/` is the current runtime asset bucket for data, prefabs, sprites, animations, materials, localization assets, and scene-specific art.
+`Assets/Resources/` is the runtime data loading surface for ScriptableObject data.
 
 Unity includes every asset under a `Resources` folder in player builds. Treat this folder as a runtime loading surface, not as a general asset storage location.
 
-# Architecture Flaws
+# Current Architecture
 
-## `Resources` Has Too Many Responsibilities
+`Resources` is intentionally narrow:
 
-`Assets/Resources/` mixes runtime data, entity art, UI art, environment art, tutorial assets, materials, animation clips, controllers, and miscellaneous prefabs.
+- `Assets/Resources/Data/` contains runtime ScriptableObject data discovered by `SORegistry`.
+- Visual assets, prefabs, materials, sprites, controllers, animations, and miscellaneous assets live under `Assets/GameAssets/`.
+- Localization assets live under `Assets/Localization/` and are owned by Unity Localization and Addressables.
+- Config files that are not loaded through `Resources` live under `Assets/GameAssets/Config/`.
 
-This makes ownership unclear. A developer cannot tell whether an asset is loaded dynamically, referenced by GUID from another asset, or stored there only because the folder was convenient.
+## Explicit Data Loading
 
-**Fix direction:** keep only assets that need `Resources` loading under `Resources`. Move GUID-referenced visuals to feature-owned folders such as `Assets/Art/`, `Assets/Prefabs/`, or the relevant feature folder.
-
-## `SORegistry` Depends On A Broad Folder Scan
-
-`SORegistry.Register<T>()` loads ScriptableObjects with:
+`SORegistry.Register<T>()` loads each ScriptableObject type from configured folders, not from the whole `Data` tree.
 
 ```csharp
-Resources.LoadAll<T>("Data")
+Resources.LoadAll<T>(folder)
 ```
-
-This makes `Resources/Data` a hidden database. Any completed `MySO` asset under that folder can become runtime data if its type is registered.
-
-Risks:
-- accidental data enters runtime when placed under `Resources/Data`;
-- startup cost grows as data grows;
-- data ownership is folder-based instead of explicit;
-- missing or duplicate singleton assets fail late at runtime.
-
-**Fix direction:** keep `Resources/Data` as the only accepted dynamic-load area for now, but add explicit data registries later when data volume or validation needs grow.
-
-## Addressables And `Resources` Overlap
-
-Localization assets live under `Assets/Resources/Data/Localization`, while Addressables also tracks localization shared data by address.
-
-This creates two loading ownership models for the same asset family. It can confuse build size, content update rules, and runtime expectations.
-
-**Fix direction:** move localization assets to an Addressables-owned folder outside `Resources` when safe. Keep localization loading through Unity Localization and Addressables, not `Resources`.
-
-## Visual Assets Are Probably Over-Included In Builds
-
-Large visual folders such as `Monkey`, `Alien`, `Place`, `UI`, and `Lobby` are under `Resources`. Unity will include them in builds even if they are only referenced by prefabs or scenes.
-
-This defeats Unity's normal dependency-based inclusion and makes build size harder to reason about.
-
-**Fix direction:** audit visual assets by reference. Move assets that are only referenced by scenes, prefabs, or ScriptableObject fields out of `Resources`.
-
-## `Other` And Empty Folders Hide Ownership
-
-`Other` contains unrelated assets such as tutorial prefabs, chest assets, basic shapes, shadows, and empty object prefabs. Several folders under `Resources` are empty placeholders.
-
-These names do not explain the owning feature or runtime contract.
-
-**Fix direction:** move miscellaneous assets into named feature folders. Delete empty placeholders after confirming Unity references and `.meta` requirements.
-
-## Asset Names Contain Temporary Or Ambiguous Labels
-
-Some assets include labels such as `old`, `Modified`, `Test`, or duplicated `Variant`. Some names also include punctuation that is awkward for string paths.
-
-This is risky in a `Resources` folder because path-like names often become API contracts when code starts using `Resources.Load`.
-
-**Fix direction:** rename only after reference checks. Prefer stable names for assets that stay under `Resources`, because their path can become runtime API.
 
 # Current Folder Structure
 
 | Folder | Current role |
 |---|---|
-| `Data/` | ScriptableObject runtime data loaded through `SORegistry`, including cards, entities, effects, levels, localization, and singleton maps. |
-| `Monkey/`, `Alien/`, `Tower/` | Entity and tower visual assets: sprites, prefabs, animation clips, controllers, bullets, and avatars. |
-| `UI/`, `DeckBuilder/`, `FreePlay/` | UI prefabs, fonts, card art, icons, and deck/free-play UI assets. |
-| `Place/`, `Lobby/` | Environment and lobby art. |
-| `Effect/`, `Trick/`, `Materials/` | Visual effects, trick prefabs, shaders, and materials. |
-| `Commons/`, `Other/` | Shared or miscellaneous assets with unclear ownership. |
+| `Data/Alien/` | Alien entity and card ScriptableObject data. |
+| `Data/Monkey/` | Monkey entity and card ScriptableObject data. |
+| `Data/Tower/` | Tower entity and card ScriptableObject data. |
+| `Data/Skill/` | Skill ScriptableObject data. |
+| `Data/Effect/` | Effect ScriptableObject data. |
+| `Data/Level/` | Level and level-initializer ScriptableObject data. |
+| `Data/CardFrameSO/` | Card frame ScriptableObject data. |
+| `Data/PrefabRegister/` | Singleton prefab/material reference registry. |
+| `Data/PlaceInitializerMap/` | Singleton place-initializer map. |
 
 # Runtime Contract
 
 - `GameConfig.PlayModeInitialize()` registers the active ScriptableObject types before scene load.
-- `SORegistry.Register<T>()` searches under `Resources/Data`.
+- `SORegistry.Register<T>()` searches only the configured folder list for the requested type.
 - `PrefabRegisterSO` acts as a reference hub for commonly instantiated prefabs, sprites, and materials.
-- `CustomUI` editor menu loads reusable UI prefabs directly from `Assets/Resources/UI/Prefab/` with `AssetDatabase`, not runtime `Resources.Load`.
+- `CustomUI` editor menu loads reusable UI prefabs directly from `Assets/GameAssets/UI/Prefab/` with `AssetDatabase`, not runtime `Resources.Load`.
 
 # Cleanup Rules
 
 - Do not add new assets to `Resources` unless runtime string loading needs them.
 - Put new ScriptableObject data under `Resources/Data` only when it must be discovered by `SORegistry`.
+- Add a configured `SORegistry` folder entry for each new `MySO` type that is loaded at startup.
 - Prefer serialized references over `Resources.Load` paths.
 - Prefer Addressables for assets that need dynamic loading, content updates, or localization ownership.
-- Before moving existing assets, run a Unity reference scan and keep `.meta` GUIDs intact through Unity or safe filesystem moves.
+- Keep visual assets, prefabs, animation clips, controllers, sprites, fonts, shaders, and materials out of `Resources`.
